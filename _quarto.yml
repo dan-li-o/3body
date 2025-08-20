@@ -1,9 +1,10 @@
 project:
   type: book
+  output-dir: docs
 
 book:
   title: "Unlawful Laws"
-  author: "Dan Li (danlibp0913@gmail.com)"
+  author: "Dan Li (李丹)"
   description: "A Philosopher’s Footnotes to *The Three-Body Problem*"
   chapters:
     - index.qmd
