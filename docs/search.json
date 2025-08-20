@@ -60,11 +60,21 @@
     ]
   },
   {
+    "objectID": "index.html#copyright-and-license",
+    "href": "index.html#copyright-and-license",
+    "title": "Unlawful Laws",
+    "section": "1.6 📜 Copyright and License",
+    "text": "1.6 📜 Copyright and License\nThis book is free to read, adapt, and share under a Creative Commons Attribution-NonCommercial 4.0 International License.\n\nCommercial republication or resale — including reprinting, redistribution, or use in for-profit products — is prohibited without explicit written permission from the author.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Unlawful Laws</span>"
+    ]
+  },
+  {
     "objectID": "index.html#stay-involved",
     "href": "index.html#stay-involved",
     "title": "Unlawful Laws",
-    "section": "1.6 📡 Stay Involved",
-    "text": "1.6 📡 Stay Involved\nThis is a living book. All source code and future improvements are available on GitHub:\n\nProject Repository\n\nFeedback and pull requests are welcome.",
+    "section": "1.7 📡 Stay Involved",
+    "text": "1.7 📡 Stay Involved\nThis is a living book. All source code and future improvements are available on GitHub:\n\nProject Repository\n\nFeedback and pull requests are welcome.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Unlawful Laws</span>"
     ]

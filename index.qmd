@@ -82,6 +82,14 @@ Dan Li is a philosopher of science with a dual Ph.D. in Informatics and Philosop
 
 ---
 
+## 📜 Copyright and License
+
+This book is free to read, adapt, and share under a [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
+
+> **Commercial republication or resale — including reprinting, redistribution, or use in for-profit products — is prohibited without explicit written permission from the author.**
+
+---
+
 ## 📡 Stay Involved
 
 This is a living book. All source code and future improvements are available on GitHub:
@@ -89,4 +97,5 @@ This is a living book. All source code and future improvements are available on 
 - [Project Repository](https://github.com/dan-li-o/3body)
 
 Feedback and pull requests are welcome.
+
 
