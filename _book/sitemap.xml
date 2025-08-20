@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://dan-li-o.github.io/3body/intro.html</loc>
-    <lastmod>2025-08-20T17:42:50.726Z</lastmod>
+    <loc>https://dan-li-o.github.io/3body/index.html</loc>
+    <lastmod>2025-08-20T18:01:23.029Z</lastmod>
   </url>
   <url>
     <loc>https://dan-li-o.github.io/3body/chapters/part1/ch1_physics-never-existed.html</loc>
@@ -39,17 +39,5 @@
   <url>
     <loc>https://dan-li-o.github.io/3body/data/references.html</loc>
     <lastmod>2025-08-20T13:20:18.828Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dan-li-o.github.io/3body/index.html</loc>
-    <lastmod>2025-08-20T17:47:36.729Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dan-li-o.github.io/3body/chapters/part1/index.html</loc>
-    <lastmod>2025-08-20T17:21:09.282Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dan-li-o.github.io/3body/chapters/part2/index.html</loc>
-    <lastmod>2025-08-20T17:21:32.682Z</lastmod>
   </url>
 </urlset>

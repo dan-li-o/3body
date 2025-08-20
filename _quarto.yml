@@ -3,7 +3,7 @@ project:
 
 book:
   title: "Unlawful Laws"
-  author: "Dan Li"
+  author: "Dan Li (danlibp0913@gmail.com)"
   description: "A Philosopher’s Footnotes to *The Three-Body Problem*"
   chapters:
     - index.qmd

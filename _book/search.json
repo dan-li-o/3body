@@ -1,15 +1,5 @@
 [
   {
-    "objectID": "chapters/part1/ch1_physics-never-existed.html",
-    "href": "chapters/part1/ch1_physics-never-existed.html",
-    "title": "4  Introduction",
-    "section": "",
-    "text": "This is a book created from markdown and executable code.\nSee @knuth84 for additional discussion of literate programming.",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Introduction</span>"
-    ]
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Unlawful Laws",
@@ -40,11 +30,11 @@
     ]
   },
   {
-    "objectID": "index.html#interactive-features",
-    "href": "index.html#interactive-features",
+    "objectID": "index.html#interactive-features-coming-soon",
+    "href": "index.html#interactive-features-coming-soon",
     "title": "Unlawful Laws",
-    "section": "1.3 🎮 Interactive Features",
-    "text": "1.3 🎮 Interactive Features\nThis book includes embedded simulations:\n\n🎲 Coin-flip simulator with drifting probabilities\n🎯 Induction paradox visualizations\n🤖 Machine learning classifier toggles\n🌌 Ptolemaic vs. Copernican solar models\n🪐 Chaotic pendulum and three-body simulators\n🧬 Fragile vs. antifragile replication demo\n⚖️ Interactive debate toggle on Feyerabend’s thesis\n\n\nThese components are built using custom JavaScript widgets and Quarto’s interactive framework.",
+    "section": "1.3 🎮 Interactive Features Coming Soon",
+    "text": "1.3 🎮 Interactive Features Coming Soon\nThis book will include embedded simulations:\n\n🎲 Coin-flip simulator with drifting probabilities\n🎯 Induction paradox visualizations\n🤖 Machine learning classifier toggles\n🌌 Ptolemaic vs. Copernican solar models\n🪐 Chaotic pendulum and three-body simulators\n🧬 Fragile vs. antifragile replication demo\n⚖️ Interactive debate toggle on Feyerabend’s thesis\n\n\nThese components are built using custom JavaScript widgets and Quarto’s interactive framework.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Unlawful Laws</span>"
     ]
@@ -77,36 +67,6 @@
     "text": "1.6 📡 Stay Involved\nThis is a living book. All source code and future improvements are available on GitHub:\n\nProject Repository\n\nFeedback and pull requests are welcome.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Unlawful Laws</span>"
-    ]
-  },
-  {
-    "objectID": "index.html#interactive-features-coming-soon",
-    "href": "index.html#interactive-features-coming-soon",
-    "title": "Unlawful Laws",
-    "section": "1.3 🎮 Interactive Features Coming Soon",
-    "text": "1.3 🎮 Interactive Features Coming Soon\nThis book will include embedded simulations:\n\n🎲 Coin-flip simulator with drifting probabilities\n🎯 Induction paradox visualizations\n🤖 Machine learning classifier toggles\n🌌 Ptolemaic vs. Copernican solar models\n🪐 Chaotic pendulum and three-body simulators\n🧬 Fragile vs. antifragile replication demo\n⚖️ Interactive debate toggle on Feyerabend’s thesis\n\n\nThese components are built using custom JavaScript widgets and Quarto’s interactive framework.",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Unlawful Laws</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/part1/index.html",
-    "href": "chapters/part1/index.html",
-    "title": "Part I — When Laws Fail",
-    "section": "",
-    "text": "Part I — When Laws Fail\nHow science begins to crack under the weight of failed replication, unknowable futures, and machine learning dilemmas.\n\nThe illusion of stable physical laws\n\nHume’s problem of induction and modern analogues\n\nWhy some machine learning models work — but no one knows why",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Part I — When Laws Fail</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/part2/index.html",
-    "href": "chapters/part2/index.html",
-    "title": "Part II — Modeling the Unlawful",
-    "section": "",
-    "text": "Part II — Modeling the Unlawful\nCan we represent the chaotic? When simulation replaces explanation.\n\nAstronomy as allegory: from epicycles to Trisolaran chaos\n\nLimits of prediction in climate models and celestial mechanics\n\nComputability and the fundamental limits of knowledge",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Part II — Modeling the Unlawful</span>"
     ]
   }
 ]
