@@ -10,5 +10,41 @@
   },
   "references.qmd": {
     "references.html": "c380bd9e"
+  },
+  "chapters/part1/index.qmd": {
+    "index.html": "5f493c94"
+  },
+  "chapters/part1/ch1_physics-never-existed.qmd": {
+    "ch1_physics-never-existed.html": "242f5268"
+  },
+  "chapters/part1/ch2_induction-at-the-edge.qmd": {
+    "ch2_induction-at-the-edge.html": "1c194637"
+  },
+  "chapters/part1/ch3_grue-machines-predictions.qmd": {
+    "ch3_grue-machines-predictions.html": "ccad1a97"
+  },
+  "chapters/part2/index.qmd": {
+    "index.html": "9bcd4465"
+  },
+  "chapters/part2/ch4_false-heavens.qmd": {
+    "ch4_false-heavens.html": "914ecc79"
+  },
+  "chapters/part2/ch5_computability-and-chaos.qmd": {
+    "ch5_computability-and-chaos.html": "9714b9db"
+  },
+  "chapters/part3/index.qmd": {
+    "index.html": "43e58552"
+  },
+  "chapters/part3/ch6_fragile-vs-antifragile.qmd": {
+    "ch6_fragile-vs-antifragile.html": "81b52ec6"
+  },
+  "chapters/part3/ch7_defending-society.qmd": {
+    "ch7_defending-society.html": "a9325ae6"
+  },
+  "chapters/part3/ch8_strategies-for-uncertainty.qmd": {
+    "ch8_strategies-for-uncertainty.html": "b1462182"
+  },
+  "data/references.qmd": {
+    "references.html": "d22700d8"
   }
 }

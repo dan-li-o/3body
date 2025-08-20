@@ -1,5 +1,92 @@
-# Preface {.unnumbered}
+---
+title: "Unlawful Laws"
+format: html
+numbered: false
+---
 
-This is a Quarto book.
+# *Unlawful Laws*: A Philosopher’s Footnotes to *The Three-Body Problem*
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+Welcome to *Unlawful Laws*, a digital philosophy of science book told through the haunting imagination of Liu Cixin’s *The Three-Body Problem*. This book explores how modern science collapses — and sometimes revives — under the weight of unpredictability, chaos, and epistemic uncertainty.
+
+:::{.callout-note}
+**“Physics has never existed, and will never exist.”** — Yang Dong, string theorist
+:::
+
+---
+
+## 🧠 What This Book Is About
+
+Science once promised order, law, and prediction. But what if those very promises break down? Drawing on insights from statistics, philosophy, machine learning, and nonlinear systems — and guided by events in sci-fi *The Three-Body Problem* — this book journeys through:
+
+- **Epistemic breakdowns** (e.g., replication crisis, failed induction)
+- **Chaotic systems** (e.g., weather, climate, celestial mechanics)
+- **Model fragility and antifragility**
+- **New strategies to live with radical uncertainty**
+
+Each chapter includes embedded interactive components to let you simulate scientific breakdowns — from drifting coin flips to collapsing orbits to AI model failure.
+
+---
+
+## 🧭 Book Structure
+
+This book is organized into **three parts**:
+
+### **Part I — When Laws Fail**
+How science begins to crack under the weight of failed replication, unknowable futures, and machine learning dilemmas.
+
+- The illusion of stable physical laws
+- Hume's problem of induction and modern analogues
+- Why some machine learning models work — but no one knows why
+
+### **Part II — Modeling the Unlawful**
+Can we represent the chaotic? When simulation replaces explanation.
+
+- Astronomy as allegory: from epicycles to Trisolaran chaos
+- Limits of prediction in climate models and celestial mechanics
+- Computability and the fundamental limits of knowledge
+
+### **Part III — Living Beyond Law**
+What kind of science and society remain when law collapses?
+
+- Fragility and antifragility in the sciences
+- Feyerabend, pluralism, and knowledge systems beyond the lab
+- Strategies to live with radical uncertainty
+
+---
+
+## 🎮 Interactive Features Coming Soon
+
+This book will include embedded simulations:
+
+- 🎲 **Coin-flip simulator** with drifting probabilities
+- 🎯 **Induction paradox visualizations**
+- 🤖 **Machine learning classifier toggles**
+- 🌌 **Ptolemaic vs. Copernican solar models**
+- 🪐 **Chaotic pendulum and three-body simulators**
+- 🧬 **Fragile vs. antifragile replication demo**
+- ⚖️ **Interactive debate toggle** on Feyerabend's thesis
+
+> These components are built using custom JavaScript widgets and Quarto’s interactive framework.
+
+---
+
+## 🌍 Language Toggle Coming Soon
+
+We plan to support **bilingual text (English/中文)** for broader accessibility.
+
+---
+
+## 📘 About the Author
+
+Dan Li is a philosopher of science with a dual Ph.D. in Informatics and Philosophy of Science. She explores how scientific knowledge is shaped — and sometimes shaken — by uncertainty and complexity.
+
+---
+
+## 📡 Stay Involved
+
+This is a living book. All source code and future improvements are available on GitHub:
+
+- [Project Repository](https://github.com/dan-li-o/3body)
+
+Feedback and pull requests are welcome.
+

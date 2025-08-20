@@ -2,24 +2,40 @@ project:
   type: book
 
 book:
-  title: "3body"
-  author: "Norah Jones"
-  date: "8/20/2025"
+  title: "Unlawful Laws"
+  author: "Dan Li"
+  description: "A Philosopher’s Footnotes to *The Three-Body Problem*"
   chapters:
     - index.qmd
-    - intro.qmd
-    - summary.qmd
-    - references.qmd
+    ##- intro.qmd
 
-bibliography: references.bib
+    - part: "Part I - When Laws Fail"
+      chapters: 
+        - chapters/part1/ch1_physics-never-existed.qmd
+        - chapters/part1/ch2_induction-at-the-edge.qmd
+        - chapters/part1/ch3_grue-machines-predictions.qmd
+
+    - part: "Part II - Modeling the Unlawful"
+      chapters: 
+        - chapters/part2/ch4_false-heavens.qmd
+        - chapters/part2/ch5_computability-and-chaos.qmd
+
+    - part: "Part III - Living Beyond Law"
+      chapters:
+        - chapters/part3/ch6_fragile-vs-antifragile.qmd
+        - chapters/part3/ch7_defending-society.qmd
+        - chapters/part3/ch8_strategies-for-uncertainty.qmd
+
+    - data/references.qmd
+  site-url: https://dan-li-o.github.io/3body
+  repo-url: https://github.com/dan-li-o/3body
+  language: en
+  sidebar: 
+    style: "floating"
 
 format:
   html:
-    theme:
-      - cosmo
-      - brand
-  pdf:
-    documentclass: scrreprt
-
-
-
+    theme: cosmo
+    toc: true
+    number-sections: true
+    code-copy: true

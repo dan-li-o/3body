@@ -1,0 +1,15 @@
+---
+title: "Part II — Modeling the Unlawful"
+number-sections: false
+execute:
+  echo: false
+  eval: false
+---
+
+# Part II — Modeling the Unlawful
+
+Can we represent the chaotic? When simulation replaces explanation.
+
+- Astronomy as allegory: from epicycles to Trisolaran chaos  
+- Limits of prediction in climate models and celestial mechanics  
+- Computability and the fundamental limits of knowledge

@@ -1,0 +1,15 @@
+---
+title: "Part III — Living Beyond Law"
+number-sections: false
+execute:
+  echo: false
+  eval: false
+---
+
+# Part III — Living Beyond Law
+
+What kind of science and society remain when law collapses?
+
+- Fragility and antifragility in the sciences  
+- Feyerabend, pluralism, and knowledge systems beyond the lab  
+- Strategies to live with radical uncertainty

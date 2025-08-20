@@ -1,0 +1,15 @@
+---
+title: "Part I — When Laws Fail"
+number-sections: false
+execute:
+  echo: false
+  eval: false
+---
+
+# Part I — When Laws Fail
+
+How science begins to crack under the weight of failed replication, unknowable futures, and machine learning dilemmas.
+
+- The illusion of stable physical laws  
+- Hume's problem of induction and modern analogues  
+- Why some machine learning models work — but no one knows why
