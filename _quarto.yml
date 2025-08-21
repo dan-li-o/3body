@@ -2,6 +2,10 @@ project:
   type: book
   output-dir: docs
 
+resources: 
+  - js/**
+  - css/**
+
 book:
   title: "Unlawful Laws"
   author: "Dan Li (李丹)"
@@ -40,3 +44,7 @@ format:
     toc: true
     number-sections: true
     code-copy: true
+
+
+editor: 
+  render-on-save: true

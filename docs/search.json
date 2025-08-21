@@ -78,5 +78,38 @@
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Unlawful Laws</span>"
     ]
+  },
+  {
+    "objectID": "chapters/part1/ch1_physics-never-existed.html",
+    "href": "chapters/part1/ch1_physics-never-existed.html",
+    "title": "2  Physics has never existed",
+    "section": "",
+    "text": "2.1 The Suicide Note\nString theorist Yang Dong killed herself and left a suicide note,\nIt is perplexing to nano material scientist Wang Miao. How come physics, a scientific discpline that has been with us for hundreds of years, has never existed? What does it mean that it will never exist? How did this lead to Yang Dong’s suicide? Wang visited Yang’s boyfriend, Ding Yi, a theoretical physict like Yang.",
+    "crumbs": [
+      "Part I - When Laws Fail",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Physics has never existed</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/part1/ch1_physics-never-existed.html#the-suicide-note",
+    "href": "chapters/part1/ch1_physics-never-existed.html#the-suicide-note",
+    "title": "2  Physics has never existed",
+    "section": "",
+    "text": "All the evidence points to a single conclusion: Physics has never existed, and will never exist.",
+    "crumbs": [
+      "Part I - When Laws Fail",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Physics has never existed</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/part1/ch1_physics-never-existed.html#the-laws-of-physics-are-invariant-across-space-and-time",
+    "href": "chapters/part1/ch1_physics-never-existed.html#the-laws-of-physics-are-invariant-across-space-and-time",
+    "title": "2  Physics has never existed",
+    "section": "2.2 The Laws of Physics are Invariant across Space and Time",
+    "text": "2.2 The Laws of Physics are Invariant across Space and Time\nDing played pool with Yang and demonstrated that regardless of where the pool table is, if the ball is struck with equal force and angle, the trajectories after collision look identical. Their experiments should be similar to this one below (Figure 2.1).\nYou can drag the ball anywhere on the pool table. As soon as you release it, a cue will hit it with the same direction and force. You can alter friction on the left. The status of the ball, i.e., position, velocity, and acceleration, will be tracked automatically and displayed on the right panel.\n\n\n\n\n\n\n\n\n\n\n  \n  \n    Options\n\n    \n    \n      Friction\n      \n      \n        \n      \n      \n        (0.000 = no friction)\n      \n    \n\n    \n    \n      Reset\n    \n  \n\n  \n  \n    \n    \n  \n\n  \n  \n    Telemetry\n    Position (—, —)\n    Velocity (—, —)\n    Acceleration (—, —)\n    \n      • Drag the ball anywhere, then release.\n      • Cue hits with the same direction & force.\n      • Cushions are perfectly elastic.\n    \n  \n\n\n\n\n\n\nFigure 2.1: Pool simulation showing that with the same strike and friction, trajectories after collision are invariant regardless of where the ball is placed.\n\n\n\n\nNow, you can repeat the experiments as many times as you wish. But you will notice, no matter where you drop the ball, as long as the friction that you set is the same, the ball moves in the same direction with the same changes in velocity and acceleration, respectively, since the ball is hit with the same strike. In other words, as long as the relevant inital conditions of experiments stay the same, the experimental results should also stay the same regardless when and where the experiments take place.\nIn the novel, Ding Yi lit a cigarette and continued,\n\nWe ran the same expeirment five times. Four of the experiments differed in both location and time. Two of the experiments were at the same location but different times. Are you shocked by the results?\n\nDing dramatically gestured,\n\nFive times! Every colliding experiment yielded the exact same result!\n\nWang did not know how to respond. Ding said,\n\nCome on, let’s celebrate. We’ve discovered a great principle of nature: The laws of physics are invariant across space and time.",
+    "crumbs": [
+      "Part I - When Laws Fail",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Physics has never existed</span>"
+    ]
   }
 ]
