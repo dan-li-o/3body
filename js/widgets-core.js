@@ -2,6 +2,19 @@
 // Exposes: Widgets.setupHiDPI, Widgets.autosizeCanvas, Widgets.clamp,
 //          Widgets.onPointerDrag, Widgets.linkRangeNumber, Widgets.announce, Widgets.hoverCursor
 
+/**
+ * House Widget Core (v0.2)
+ * API:
+ *  - clamp(v, lo, hi) -> number
+ *  - setupHiDPI(canvas, cssW, cssH [, dpr]) -> {ctx,width,height,dpr}
+ *  - autosizeCanvas(canvas, {aspect=16/9, min=320, max=900})
+ *      -> { get ctx(), get width(), get height(), relayout(), ro }
+ *  - onPointerDrag(target, {hitTest(pt), onStart(pt,e), onMove(pt,e), onEnd(e)})
+ *  - linkRangeNumber(rangeEl, numberEl, {toModel, fromModel, onChange}) -> {set(val)}
+ *  - hoverCursor(target, {hitTest(pt), hover='grab', normal='', isDragging:()=>bool})
+ *  - announce(liveNode, text)
+ */
+
 window.Widgets = (() => {
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 

@@ -37,10 +37,10 @@ You can drag the ball anywhere on the pool table. As soon as you release it, a c
 
 ::: {#wid-pool-sim .widget}
 ```{=html}
-<div class="wgt" data-widget="pool-sim">
+<div class="wgt wgt--pool" data-widget="pool-sim">
   <!-- Canvas (top row) -->
   <div class="wgt__canvas">
-    <canvas width="640" height="360" style="background:#35654d;border:2px solid #333;border-radius:8px;"></canvas>
+    <canvas width="640" height="360"></canvas>
   </div>
 
   <!-- Controls (bottom-left) -->

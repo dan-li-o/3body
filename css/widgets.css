@@ -118,3 +118,10 @@
 .wgt__btn--ghost{
   background: transparent;
 }
+
+.wgt--pool .wgt__canvas canvas{
+  background:#35654d;
+  border:2px solid #333;
+  border-radius: var(--wgt-radius);
+}
+
