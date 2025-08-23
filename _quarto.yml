@@ -45,10 +45,11 @@ format:
     number-sections: true
     code-copy: true
     css: 
-      - /css/widgets.css
-    include-in-header: 
+      - css/widgets.css
+    include-after-body:
       - text: |
           <script src="/js/widgets-core.js"></script>
+          <script src="/js/pool-sim.js"></script>
 
 crossref:
   custom:
