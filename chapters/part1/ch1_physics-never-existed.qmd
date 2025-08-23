@@ -33,8 +33,6 @@ This was no trivial statement. It is one of the great articles of faith in scien
 Try it yourself. Ding Yi’s pool table has been reconstructed here.
 (@wid-pool-sim). 
 
-You can drag the ball anywhere on the pool table. As soon as you release it, a cue will hit it with the same direction and force. You can alter friction on the left. The status of the ball, i.e., position, velocity, and acceleration, will be tracked automatically and displayed on the right panel. 
-
 ::: {#wid-pool-sim .widget}
 ```{=html}
 <div class="wgt wgt--pool" data-widget="pool-sim">
@@ -71,49 +69,31 @@ You can drag the ball anywhere on the pool table. As soon as you release it, a c
 
 <script src="/js/pool-sim.js" defer></script>
 ```
-Pool simulation showing that with the same strike and friction, trajectories after collision are invariant regardless of where the ball is placed.
+Simple Pool Table with fixed strike and friction controls.
 :::
 
-Now, you can repeat the experiments as many times as you wish. But you will notice, no matter where you drop the ball, as long as the friction that you set is the same, the ball moves in the same direction with the same changes in velocity and acceleration, respectively, since the ball is hit with the same strike. In other words, as long as the relevant inital conditions of experiments stay the same, the experimental results should also stay the same regardless when and where the experiments take place. 
+Drag the ball anywhere you like. Release it. A cue will strike with the same direction and force each time. Watch the numbers: position, velocity, acceleration. Try it again, and again.
 
-In the novel, Ding Yi lit a cigarette and continued, 
+Notice how the experiment becomes boring. That boredom is the signature of a law.
 
-> We ran the same expeirment five times. Four of the experiments differed in both location and time. Two of the experiments were at the same location but different times. Are you shocked by the results?
+## The Seduction of Invariance
 
-Ding dramatically gestured,
+Science seduces us with boredom. That is its secret charm. We want the universe to behave, not to surprise. Every replication, every repeated experiment that yields the same result, feels like a reassurance that we live in an orderly cosmos.
 
-> Five times! Every colliding experiment yielded the exact same result!
+Philosophers gave this reassurance a name: the Principle of the Uniformity of Nature. David Hume, the great skeptic, articulated it in the 18th century: the assumption that the future will resemble the past; that nature tomorrow will behave like nature today; that "*the course of nature continues always uniformly the same*." 
 
-Wang did not know how to respond. Ding said, 
+Across cultures and centuries,  thinkers embraced the principle without hesitation. Thales sought a single element to ground the flux of the world. Aristotle believed nature’s motions could be classified because they followed regular causes. Xunzi wrote 天行有常 — “the heavens move with constancy.” The Stoics saw the cosmos ordered by logos. Aquinas and medieval scholastics  argued that God’s creation was rational and therefore reliable. Galileo, Kepler, and Newton assumed their laws applied everywhere. Bacon made nature a system governed by its own laws and the very source of knowledge. And knowledge is power.  
 
-> Come on, let's celebrate. We've discovered a great principle of nature: **The laws of physics are invariant across space and time.** 
+This conviction — that the rhythm of nature is reliable, and thus knowable — is what keeps us from superstition. However framed — through omen or through reason — the majority have trusted that the world follows patterns so that we are not at the mercy of whimsical gods.
 
+That trust is what makes science possible. Once we believed in order rather than caprice, knowledge could accumulate. Experiments became expected to repeat, results communicable, and science emerged as a shared project. This conviction, more than any single discovery, is what allowed the modern worldview to take root. 
 
+Without the Principle of Uniformity of Nature, replication collapses, prediction is impossible, and “law” becomes an empty word. With it, the modern scientific worldview takes shape: not pleasing the gods, but trusting that the world itself is knowable, and that what we learned here and now will apply tomorrow and elsewhere.
 
-## Widget Core Smoke Test
-::: {#wid-smoke .widget}
-```{=html}
-<div class="wgt" data-widget="smoke">
-  <div class="wgt__canvas">
-    <canvas id="smoke-canvas" width="640" height="360"
-            style="background:#eee;border:2px solid #333;border-radius:8px;"></canvas>
-  </div>
+Ding Yi concluded forcefully, "... a great principle of nature: The laws of physics are invariant across space and time. All the physical laws of human history, from Archimedes' principle to string theory, and all the scientific discoveries and intellectual fruits of our species are the by-products of this great law." 
 
-  <div class="wgt__panel wgt__controls">
-    <div style="font-weight:700">Options</div>
-    <label for="size-range">Ball size</label>
-    <input type="range" id="size-range" min="6" max="30" step="1" value="12">
-    <input type="number" id="size-num"   min="6" max="30" step="1" value="12">
-    <div style="margin-top:8px;">
-      <button type="button" id="reset">Reset</button>
-    </div>
-  </div>
+But here is the scandal: Hume could never prove it. No one has. The uniformity of nature is not a discovery. It is a bet. A metaphysical faith disguised as an empirical law. Even in the twentieth century, Einstein marveled that “the most incomprehensible thing about the universe is that it is comprehensible.”
 
-  <div class="wgt__panel wgt__output" id="smoke-live" aria-live="polite">
-    <div><strong>Position</strong> <span id="pos">(—, —)</span></div>
-  </div>
-</div>
+Yang Dong’s suicide note was an act of apostasy.
 
-<script src="/js/smoke.js" defer></script>
-```
-:::
+## Multiplying Variables

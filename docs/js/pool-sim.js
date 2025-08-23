@@ -1,167 +1,133 @@
 // js/pool-sim.js
 (function () {
-  function setupHiDPICanvas(canvas, widthCssPx, heightCssPx) {
-    const dpr = window.devicePixelRatio || 1;
-    canvas.style.width = widthCssPx + "px";
-    canvas.style.height = heightCssPx + "px";
-    canvas.width = Math.round(widthCssPx * dpr);
-    canvas.height = Math.round(heightCssPx * dpr);
-    const ctx = canvas.getContext("2d");
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    return { ctx, width: widthCssPx, height: heightCssPx, dpr };
-  }
+  const { autosizeCanvas, clamp, onPointerDrag, linkRangeNumber, announce, hoverCursor } = window.Widgets || {};
 
-  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+  function initOne(root, opts = {}) {
+    if (!autosizeCanvas) {
+      console.error("widgets-core.js not loaded before pool-sim.js");
+      return;
+    }
 
-  function PoolSimInit(containerId, opts = {}) {
+    // ---- Config ----
     const cfg = {
       directionDeg: 0,           // fixed cue direction (global)
-      speedPxPerFrame: 3.0,      // constant post-impact speed when no friction
+      speedPxPerFrame: 3.0,      // post-impact speed if no friction
       ballRadius: 10,
       cueLength: 120,
       cueGap: 14,
       cueAnimFrames: 18,
-      // Responsive options
-      aspect: 12 / 7,            // width : height (tweak as you like)
+      aspect: 12/7,              // canvas aspect
       minWidth: 320,
       maxWidth: 720,
-      frictionFactor: 1.000,     // per-frame multiplier when friction is ON
+      frictionFactor: 1.000,     // 1.000 = no friction (multiplier per frame)
       ...opts
     };
 
-    const container = document.getElementById(containerId);
-    if (!container) return console.error(`PoolSim: container #${containerId} not found`);
+    // ---- DOM (scoped to this widget) ----
+    const canvas = root.querySelector('canvas');
+    const posEl  = root.querySelector('[data-role="pos"]');
+    const velEl  = root.querySelector('[data-role="vel"]');
+    const accEl  = root.querySelector('[data-role="acc"]');
+    const rEl    = root.querySelector('[data-role="fric-range"]');
+    const nEl    = root.querySelector('[data-role="fric-num"]');
+    const reset  = root.querySelector('[data-role="reset"]');
+    const outPanel = root.querySelector('.wgt__output') || root;
 
-    const canvas = container.querySelector("canvas");
-    const posEl = container.querySelector(`#${containerId}-pos`);
-    const velEl = container.querySelector(`#${containerId}-vel`);
-    const accEl = container.querySelector(`#${containerId}-acc`);
-    const frictionRange = container.querySelector(`#${containerId}-friction-range`);
-    const frictionNum   = container.querySelector(`#${containerId}-friction-num`);
-    const resetBtn      = container.querySelector(`#${containerId}-reset`);
-
-    if (!canvas || !posEl || !velEl || !resetBtn) {
-      return console.error(`PoolSim: missing one or more UI elements in #${containerId}`);
+    // Dedicated live region (child) so we don't overwrite panel content
+    let liveEl = root.querySelector('[data-role="live"]');
+    if (!liveEl) {
+      liveEl = document.createElement('div');
+      liveEl.setAttribute('data-role', 'live');
+      liveEl.setAttribute('aria-live', 'polite');
+      liveEl.className = 'visually-hidden';
+      // visually hidden fallback if no CSS utility is present:
+      Object.assign(liveEl.style, {
+        position: 'absolute', width: '1px', height: '1px', padding: '0',
+        margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap'
+      });
+      outPanel.appendChild(liveEl);
     }
 
+    // ---- Layout & HiDPI via house helper ----
+    const layout = autosizeCanvas(canvas, { aspect: cfg.aspect, min: cfg.minWidth, max: cfg.maxWidth });
+    const ctx = () => layout.ctx;
 
-    // Compute fixed global cue direction
+    // ---- State ----
     const theta = (cfg.directionDeg * Math.PI) / 180;
-    const dir = { x: Math.cos(theta), y: -Math.sin(theta) }; // screen y is downward
-
-    // These will be updated on first layout()
-    let ctx, width, height;
-
+    const dir = { x: Math.cos(theta), y: -Math.sin(theta) }; // screen y down
     const state = {
       x: 0, y: 0, r: cfg.ballRadius,
       vx: 0, vy: 0,
-      dragging: false,
-      hitting: false,
-      hitFrame: 0,
-      frictionFactor: cfg.frictionFactor,          // 1.000 = none
+      dragging: false, hitting: false, hitFrame: 0,
+      frictionFactor: cfg.frictionFactor,
       get frictionOn() { return this.frictionFactor < 1.0; }
     };
 
-    // For acceleration (per second): track time between frames
-    let lastT = performance.now();
-
-    function layout() {
-      // Pick a canvas width based on container width
-      const host = container.querySelector(`.pool-canvas-wrap`) || container;
-      const hostWidth = host.clientWidth || canvas.parentElement.clientWidth || cfg.maxWidth;
-      const w = clamp(hostWidth, cfg.minWidth, cfg.maxWidth);
-      const h = Math.round(w / cfg.aspect);
-      const result = setupHiDPICanvas(canvas, w, h);
-      ctx = result.ctx; width = result.width; height = result.height;
-
-      // If ball has never been positioned, center it
-      if (state.x === 0 && state.y === 0) {
-        state.x = width * 0.5;
-        state.y = height * 0.5;
+    function placeCenter(force = false) {
+      if (force || state.x === 0 && state.y === 0) {
+        state.x = layout.width * 0.5;
+        state.y = layout.height * 0.5;
       } else {
-        // Keep ball inside after resize
-        state.x = clamp(state.x, state.r, width - state.r);
-        state.y = clamp(state.y, state.r, height - state.r);
+        state.x = clamp(state.x, state.r, layout.width  - state.r);
+        state.y = clamp(state.y, state.r, layout.height - state.r);
       }
     }
+    placeCenter(true);
 
-    // UI events
-    if (resetBtn) {
-      resetBtn.addEventListener("click", () => {
-        state.x = width * 0.5;
-        state.y = height * 0.5;
-        state.vx = 0; state.vy = 0;
-        state.dragging = false;
-        state.hitting = false;
-        state.hitFrame = 0;
-      });
-    }
-
-    function setFriction(val) {
-      // UI gives "friction amount" in [0.000, 0.100]; map to multiplier = 1 - amount
-      const userVal = Number(val);
-      const v = clamp(1.0 - userVal, 0.90, 1.00);
-      state.frictionFactor = v;
-      if (frictionRange) frictionRange.value = userVal.toFixed(3);
-      if (frictionNum)   frictionNum.value   = userVal.toFixed(3);
-    }
-    if (frictionRange) frictionRange.addEventListener('input', e => setFriction(e.target.value));
-    if (frictionNum)   frictionNum.addEventListener('input',   e => setFriction(e.target.value));
-
-
-    // Pointer handling
-    function inBall(mx, my) {
-      const dx = mx - state.x, dy = my - state.y;
-      return dx * dx + dy * dy <= state.r * state.r;
-    }
-    function getMouse(e) {
-      // Canvas has no CSS transforms; offsetX/Y are fine.
-      return { x: e.offsetX, y: e.offsetY };
-    }
-    function setCursor(style) {
-      canvas.style.cursor = style;
-    } 
-
-    canvas.addEventListener("mousedown", (e) => {
-      const m = getMouse(e);
-      if (inBall(m.x, m.y)) {
-        e.preventDefault(); // prevent text selection
-        state.dragging = true;
-        state.vx = 0; state.vy = 0;
-        state.hitting = false;
-        setCursor("grabbing");
-      }
+    // ---- Inputs: link slider <-> number (house helper) ----
+    const link = linkRangeNumber(rEl, nEl, {
+      // UI gives [0..0.100] "friction amount"; map to multiplier [0.90..1.00]
+      toModel: (ui) => clamp(1.0 - Number(ui), 0.90, 1.00),
+      fromModel: (mul) => (1.0 - mul).toFixed(3),
+      onChange: (mul) => { state.frictionFactor = mul; }
     });
-    canvas.addEventListener("mousemove", (e) => {
-      const m = getMouse(e);
-      if (state.dragging) {
-        state.x = clamp(m.x, state.r, width - state.r);
-        state.y = clamp(m.y, state.r, height - state.r);
-        setCursor("grabbing");
-      } else if (inBall(m.x, m.y)) {
-        // hover over ball -> pointer hand
-        setCursor("pointer");
-      } else {
-        //elsewhere -> default cursor
-        setCursor("default");
-      }
-      //state.x = clamp(m.x, state.r, width - state.r);
-      //state.y = clamp(m.y, state.r, height - state.r);
-    });
-    window.addEventListener("mouseup", () => {
-      if (!state.dragging) return;
-      state.dragging = false;
-      state.hitting = true;
+    link && link.set(state.frictionFactor);
+
+    // ---- Reset ----
+    function hardReset() {
+      state.vx = state.vy = 0;
+      state.dragging = state.hitting = false;
       state.hitFrame = 0;
-      setCursor("default");
-    });
-    canvas.addEventListener("mouseleave", () => {
-      if (!state.dragging) setCursor("default");
+      placeCenter(true);
+      draw();
+      updateUI(0, 0); // zeros immediately
+    }
+    reset && reset.addEventListener('click', hardReset);
+
+    // Reusable hit test (ball under pointer?)
+    const hitTest = (p) => {
+      const dx = p.x - state.x, dy = p.y - state.y;
+      return dx*dx + dy*dy <= state.r*state.r;
+    };
+
+    // House-level hover cursor (open hand over the ball)
+    hoverCursor && hoverCursor(canvas, { hitTest, hover: 'grab', normal: '', isDragging: () => state.dragging });
+
+
+    // ---- Pointer drag (mouse/touch/pen) via house helper ----
+    onPointerDrag(canvas, {
+      hitTest,
+      onStart: () => { state.dragging = true; state.vx = state.vy = 0; state.hitting = false; canvas.style.cursor = 'grabbing'; },
+      onMove:  (p) => {
+        if (!state.dragging) return;
+        state.x = clamp(p.x, state.r, layout.width  - state.r);
+        state.y = clamp(p.y, state.r, layout.height - state.r);
+        draw();
+        updateUI(0, 0); //while grabbing, velocity/accel
+      },
+      onEnd:   () => { if (state.dragging) { state.dragging = false; state.hitting = true; state.hitFrame = 0; } canvas.style.cursor=''; }
     });
 
-    // Physics
+    // ---- Update UI helper ----
+    function updateUI(ax = 0, ay = 0){
+      posEl && (posEl.textContent = `(${state.x.toFixed(1)}, ${state.y.toFixed(1)})`);
+      velEl && (velEl.textContent = `(${state.vx.toFixed(2)}, ${state.vy.toFixed(2)})`);
+      accEl && (accEl.textContent = `(${ax.toFixed(2)}, ${ay.toFixed(2)})`);
+      announce(liveEl, `Position ${state.x.toFixed(0)}, ${state.y.toFixed(0)}; Velocity ${state.vx.toFixed(1)}, ${state.vy.toFixed(1)}`);
+    }
+
+    // ---- Physics ----
     function step() {
-      // Cue animation
       if (state.hitting) {
         state.hitFrame++;
         if (state.hitFrame >= cfg.cueAnimFrames) {
@@ -170,136 +136,88 @@
           state.vy = cfg.speedPxPerFrame * dir.y;
         }
       }
-
       if (!state.dragging) {
-        state.x += state.vx;
-        state.y += state.vy;
+        state.x += state.vx; state.y += state.vy;
 
         // Cushions (perfectly elastic)
-        if (state.x - state.r < 0) {
-          state.x = state.r; state.vx = Math.abs(state.vx);
-        } else if (state.x + state.r > width) {
-          state.x = width - state.r; state.vx = -Math.abs(state.vx);
-        }
-        if (state.y - state.r < 0) {
-          state.y = state.r; state.vy = Math.abs(state.vy);
-        } else if (state.y + state.r > height) {
-          state.y = height - state.r; state.vy = -Math.abs(state.vy);
-        }
+        if (state.x - state.r < 0) { state.x = state.r;              state.vx =  Math.abs(state.vx); }
+        else if (state.x + state.r > layout.width)  { state.x = layout.width  - state.r; state.vx = -Math.abs(state.vx); }
+        if (state.y - state.r < 0) { state.y = state.r;              state.vy =  Math.abs(state.vy); }
+        else if (state.y + state.r > layout.height) { state.y = layout.height - state.r; state.vy = -Math.abs(state.vy); }
 
-        // Optional friction (simple exponential decay)
+        // Friction (exponential decay)
         if (state.frictionOn) {
           state.vx *= state.frictionFactor;
           state.vy *= state.frictionFactor;
-          // Avoid “forever crawling” at tiny speeds
-          if (Math.hypot(state.vx, state.vy) < 0.01) {
-            state.vx = 0; state.vy = 0;
-          }
+          if (Math.hypot(state.vx, state.vy) < 0.01) { state.vx = 0; state.vy = 0; }
         }
       }
     }
 
-    // Drawing
+    // ---- Draw ----
     function drawTable() {
-      // Felt background
-      ctx.fillStyle = "#35654d";
-      ctx.fillRect(0, 0, width, height);
-      // Rails
-      const rail = 8;
-      ctx.fillStyle = "#1f3a2c";
-      ctx.fillRect(0, 0, width, rail);
-      ctx.fillRect(0, height - rail, width, rail);
-      ctx.fillRect(0, 0, rail, height);
-      ctx.fillRect(width - rail, 0, rail, height);
+      const c = ctx(), w = layout.width, h = layout.height;
+      c.fillStyle = "#35654d"; c.fillRect(0,0,w,h);
+      const rail = 8; c.fillStyle = "#1f3a2c";
+      c.fillRect(0,0,w,rail); c.fillRect(0,h-rail,w,rail);
+      c.fillRect(0,0,rail,h); c.fillRect(w-rail,0,rail,h);
     }
-
     function drawBall() {
-      ctx.beginPath();
-      ctx.arc(state.x, state.y, state.r, 0, Math.PI * 2);
-      ctx.fillStyle = "#f7f7f7";
-      ctx.shadowColor = "rgba(0,0,0,0.25)";
-      ctx.shadowBlur = 4;
-      ctx.fill();
-      ctx.shadowBlur = 0;
+      const c = ctx();
+      c.beginPath(); c.arc(state.x, state.y, state.r, 0, Math.PI*2);
+      c.fillStyle = "#f7f7f7"; c.shadowColor = "rgba(0,0,0,0.25)"; c.shadowBlur = 4; c.fill(); c.shadowBlur = 0;
     }
-
     function drawCue() {
       if (!state.hitting) return;
+      const c = ctx();
       const startTipX = state.x - dir.x * (cfg.cueLength + cfg.cueGap);
       const startTipY = state.y - dir.y * (cfg.cueLength + cfg.cueGap);
-      const endTipX = state.x - dir.x * cfg.cueGap;
-      const endTipY = state.y - dir.y * cfg.cueGap;
+      const endTipX   = state.x - dir.x * cfg.cueGap;
+      const endTipY   = state.y - dir.y * cfg.cueGap;
       const t = Math.min(1, state.hitFrame / cfg.cueAnimFrames);
       const tipX = startTipX + (endTipX - startTipX) * t;
       const tipY = startTipY + (endTipY - startTipY) * t;
       const buttX = tipX - dir.x * cfg.cueLength;
       const buttY = tipY - dir.y * cfg.cueLength;
 
-      ctx.lineCap = "round";
-      ctx.lineWidth = 6;
-      ctx.strokeStyle = "#b88955";
-      ctx.beginPath();
-      ctx.moveTo(buttX, buttY);
-      ctx.lineTo(tipX, tipY);
-      ctx.stroke();
+      c.lineCap = "round";
+      c.lineWidth = 6; c.strokeStyle = "#b88955";
+      c.beginPath(); c.moveTo(buttX, buttY); c.lineTo(tipX, tipY); c.stroke();
 
-      ctx.lineWidth = 10;
-      ctx.strokeStyle = "#7a5c3a";
-      ctx.beginPath();
-      ctx.moveTo(buttX, buttY);
-      ctx.lineTo(buttX + dir.x * 18, buttY + dir.y * 18);
-      ctx.stroke();
+      c.lineWidth = 10; c.strokeStyle = "#7a5c3a";
+      c.beginPath(); c.moveTo(buttX, buttY); c.lineTo(buttX + dir.x*18, buttY + dir.y*18); c.stroke();
     }
-
     function draw() {
-      ctx.clearRect(0, 0, width, height);
-      drawTable();
-      drawBall();
-      drawCue();
+      const c = ctx(); c.clearRect(0, 0, layout.width, layout.height);
+      drawTable(); drawBall(); drawCue();
     }
 
-    function updateTelemetry(ax, ay) {
-      if (posEl) posEl.textContent = `(${state.x.toFixed(1)}, ${state.y.toFixed(1)})`;
-      if (velEl) velEl.textContent = `(${state.vx.toFixed(2)}, ${state.vy.toFixed(2)})`;
-      if (accEl) accEl.textContent = `(${(ax ?? 0).toFixed(2)}, ${(ay ?? 0).toFixed(2)})`;
-    }
-
-    // Main loop with accleration dv/dt (px/s^2)
+    // ---- Loop with acceleration readout ----
+    let lastT = performance.now();
     function loop() {
       const now = performance.now();
-      // dt in seconds; clamp to avoid huge spikes (tab backgrounded, etc.)
-      const dt = Math.max(1e-3, Math.min(0.05, (now-lastT) / 1000));
+      const dt = Math.max(1e-3, Math.min(0.05, (now - lastT) / 1000));
+      const pvx = state.vx, pvy = state.vy;
 
-      const prevVx = state.vx;
-      const prevVy = state.vy;
+      step(); draw();
 
-      step();
-      draw();
+      const ax = (state.vx - pvx) / dt, ay = (state.vy - pvy) / dt;
+      updateUI(ax, ay);
 
-      // Acceleration (px/s^2)
-      const ax = (state.vx - prevVx) / dt;
-      const ay = (state.vy - prevVy) / dt;
-
-      updateTelemetry(ax, ay);
-
-      lastT = now;
-      requestAnimationFrame(loop);
+      lastT = now; requestAnimationFrame(loop);
     }
-
-    layout();
-    // Initialize friction UI from current inputs if present; else from cfg
-    const initialUIVal =
-      (frictionRange && frictionRange.value) ||
-      (frictionNum && frictionNum.value) ||
-      (1.0 - cfg.frictionFactor).toFixed(3); // inverse mapping
-    setFriction(initialUIVal);
-
     loop();
-
-    // Re-layout on resize for responsiveness
-    const ro = new ResizeObserver(layout);
-    ro.observe(container);
   }
 
-  window.PoolSimInit = PoolSimInit;
+  // Auto-init all `.wgt[data-widget="pool-sim"]`
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.wgt[data-widget="pool-sim"]').forEach(el => initOne(el));
+  });
+
+  // Optional manual init for backwards compat (accepts id or element)
+  window.PoolSimInit = function(idOrEl, opts){
+    const el = (typeof idOrEl === 'string') ? document.getElementById(idOrEl) : idOrEl;
+    if (el) initOne(el, opts);
+  };
 })();
+// ---------- end js/pool-sim.js ----------
