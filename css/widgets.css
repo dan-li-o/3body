@@ -7,6 +7,9 @@
   --wgt-accent: #1f7a6b; /* tweak to match your book theme */
   --wgt-pad: 10px 12px;
   --wgt-panel-min-h: 120px;
+  --wgt-title-size: 0.95rem;
+  --wgt-small: 0.85rem;
+  --wgt-muted: #666;
 }
 
 .widget, .wgt { display: grid; gap: var(--wgt-gap); }
@@ -71,3 +74,47 @@
 
 /* Figure-style caption if you keep using .figure wrappers */
 .figure > p:first-of-type { margin-top: 6px; color: #555; }
+
+/* Section title inside a panel */
+.wgt__title{
+  font-weight: 700;
+  font-size: var(--wgt-title-size);
+  margin-bottom: 6px;
+}
+
+/* One labeled control block */
+.wgt__field{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+/* Horizontal row for label/value lines (telemetry) */
+.wgt__row{
+  display: flex;
+  align-items: baseline;
+  justify-content: start;
+  gap: 8px;
+}
+
+/* Subtle hint text */
+.wgt__hint{
+  color: var(--wgt-muted);
+  font-size: var(--wgt-small);
+}
+
+/* Monospace-ish numeric readout, nicely aligned */
+.wgt__out{
+  font-variant-numeric: tabular-nums;
+}
+
+/* Buttons (optional variants; base .wgt button already styled) */
+.wgt__btn--accent{
+  background: var(--wgt-accent);
+  color: #fff;
+  border-color: transparent;
+}
+.wgt__btn--ghost{
+  background: transparent;
+}

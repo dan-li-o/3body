@@ -1,6 +1,6 @@
 // ---------- widgets-core.js : House utils for all widgets ----------
 // Exposes: Widgets.setupHiDPI, Widgets.autosizeCanvas, Widgets.clamp,
-//          Widgets.onPointerDrag, Widgets.linkRangeNumber, Widgets.announce
+//          Widgets.onPointerDrag, Widgets.linkRangeNumber, Widgets.announce, Widgets.hoverCursor
 
 window.Widgets = (() => {
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
@@ -74,12 +74,26 @@ window.Widgets = (() => {
     });
   }
 
+  // Hover cursor helper: shows a cursor when hitTest is true and not dragging
+  function hoverCursor(target, { hitTest, hover='grab', normal='', isDragging=()=>false } = {}){
+    if (typeof hitTest !== 'function') return;
+    target.addEventListener('pointermove', (e) => {
+      if (isDragging()) return;
+      const r = target.getBoundingClientRect();
+      const p = { x: e.clientX - r.left, y: e.clientY - r.top };
+      target.style.cursor = hitTest(p) ? hover : normal;
+    });
+    target.addEventListener('pointerleave', () => {
+      if (!isDragging()) target.style.cursor = normal;
+    });
+  }
+
   // Announce text to an aria-live region (for telemetry)
   function announce(liveNode, text){
     if(!liveNode) return;
     liveNode.textContent = text;
   }
 
-  return { setupHiDPI, autosizeCanvas, clamp, onPointerDrag, linkRangeNumber, announce };
+  return { setupHiDPI, autosizeCanvas, clamp, onPointerDrag, linkRangeNumber, announce, hoverCursor };
 })();
 // ---------- end widgets-core.js ----------

@@ -35,85 +35,43 @@ Try it yourself. Ding Yi’s pool table has been reconstructed here.
 
 You can drag the ball anywhere on the pool table. As soon as you release it, a cue will hit it with the same direction and force. You can alter friction on the left. The status of the ball, i.e., position, velocity, and acceleration, will be tracked automatically and displayed on the right panel. 
 
-::: {.cell}
-::: {#wid-pool-sim .figure}
+::: {#wid-pool-sim .widget}
 ```{=html}
-<link rel="stylesheet" href="/css/pool-sim.css">
+<div class="wgt" data-widget="pool-sim">
+  <!-- Canvas (top row) -->
+  <div class="wgt__canvas">
+    <canvas width="640" height="360" style="background:#35654d;border:2px solid #333;border-radius:8px;"></canvas>
+  </div>
 
-<!-- Instance-specific style override: force a horizontal row -->
-<style>
-  /* Only affects this widget instance (#pool-1) */
-  #pool-1.pool-sim { display:flex; gap:20px; align-items:flex-start; flex-wrap:nowrap; }
-  #pool-1 .pool-col { display:flex; flex-direction:column; gap:10px; }
-  #pool-1 .pool-left  { flex:0 0 160px; min-width:120px; }
-  #pool-1 .pool-center{ flex:1 1 0;    min-width:400px; }
-  #pool-1 .pool-right { flex:0 0 300px; min-width:180px; }
+  <!-- Controls (bottom-left) -->
+  <div class="wgt__panel wgt__controls">
+    <div class="wgt__title">Options</div>
 
-  /* Only stack on truly small screens */
-  @media (max-width: 640px) {
-    #pool-1.pool-sim { flex-wrap:wrap; }
-    #pool-1 .pool-left, #pool-1 .pool-center, #pool-1 .pool-right { flex:1 1 100%; min-width:100%; }
-  }
-
-  /* Nice widths for the friction inputs */
-  #pool-1 .pool-ctl input[type="number"] { width:6em; }
-  #pool-1 .pool-ctl input[type="range"]  { width:100%; }
-</style>
-
-<div id="pool-1" class="pool-sim">
-  <!-- Left: controls -->
-  <div class="pool-col pool-left">
-    <div style="font-weight:700">Options</div>
-
-    <!-- Friction as per-frame multiplier -->
-    <div class="pool-ctl">
-      <label for="pool-1-friction-range" style="font-weight:600;">Friction</label>
-      <input type="range" id="pool-1-friction-range" min="0.000" max="0.100" step="0.001" value="0.000">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <input type="number" id="pool-1-friction-num" min="0.000" max="0.100" step="0.001" value="0.000">
-      </div>
-      <div>
-        <span style="color:#666;">(0.000 = no friction)</span>
-      </div>
+    <div class="wgt__field">
+      <label for="fric-range">Friction</label>
+      <input type="range"  id="fric-range"  data-role="fric-range" min="0.000" max="0.100" step="0.001" value="0.000">
+      <input type="number" id="fric-num"    data-role="fric-num"   min="0.000" max="0.100" step="0.001" value="0.000">
+      <div class="wgt__hint">(0.000 = no friction)</div>
     </div>
 
-    <!-- Rest -->
-    <div class="pool-ctl" style="margin-top:12px;">
-      <button id="pool-1-reset" type="button">Reset</button>
+    <div>
+      <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
     </div>
   </div>
 
-  <!-- Center: canvas -->
-  <div class="pool-col pool-center">
-    <div class="pool-canvas-wrap"></div>
-    <canvas
-      id="pool-1-canvas"
-      width="640" height="360"
-      style="border:2px solid #333;background:#35654d;border-radius:8px;max-width:100%;height:auto;"
-    ></canvas>
-  </div>
-
-  <!-- Right: telemetry -->
-  <div class="pool-col pool-right" id="pool-1-info" style="">
-    <div style="font-weight:700;margin-bottom:8px;">Telemetry</div>
-    <div style = "text-align: left;"><strong>Position</strong> <span id="pool-1-pos">(—, —)</span></div>
-    <div style = "text-align: left"><strong>Velocity</strong> <span id="pool-1-vel">(—, —)</span></div>
-    <div style = "text-align: left"><strong>Acceleration</strong> <span id="pool-1-acc">(—, —)</span></div>
-    <div style = "text-align: left" style="margin-top:8px;font-size:0.9em;color:#444;">
-      • Drag the ball anywhere, then release.<br>
-      • Cue hits with the same direction & force.<br>
-      • Cushions are perfectly elastic.
-    </div>
+  <!-- Output (bottom-right) -->
+  <div class="wgt__panel wgt__output" id="telemetry" aria-live="polite">
+    <div class="wgt__title">Results</div>
+    <div class="wgt__row"><strong>Position</strong>     <span data-role="pos" class="wgt__out">(—, —)</span></div>
+    <div class="wgt__row"><strong>Velocity</strong>     <span data-role="vel" class="wgt__out">(—, —)</span></div>
+    <div class="wgt__row"><strong>Acceleration</strong> <span data-role="acc" class="wgt__out">(—, —)</span></div>
+    <div class="wgt__hint">• Drag the ball anywhere, then release. • Cue hits with the same direction &amp; force. • Cushions are perfectly elastic.</div>
   </div>
 </div>
 
-<script src="/js/pool-sim.js"></script>
-<script>
-  PoolSimInit("pool-1");
-</script>
+<script src="/js/pool-sim.js" defer></script>
 ```
 Pool simulation showing that with the same strike and friction, trajectories after collision are invariant regardless of where the ball is placed.
-:::
 :::
 
 Now, you can repeat the experiments as many times as you wish. But you will notice, no matter where you drop the ball, as long as the friction that you set is the same, the ball moves in the same direction with the same changes in velocity and acceleration, respectively, since the ball is hit with the same strike. In other words, as long as the relevant inital conditions of experiments stay the same, the experimental results should also stay the same regardless when and where the experiments take place. 
