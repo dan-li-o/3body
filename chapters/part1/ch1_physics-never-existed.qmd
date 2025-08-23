@@ -2,22 +2,41 @@
 title: "Physics has never existed"
 ---
 
-## The Suicide Note
+Yang Dong was a physicist. A string theorist. And she killed herself.
 
-String theorist Yang Dong killed herself and left a suicide note, 
+Her note was only one line long:
 
-> All the evidence points to a single conclusion: Physics has never existed, and will never exist. 
+> Physics has never existed, and will never exist.
 
-It is perplexing to nano material scientist Wang Miao. How come physics, a scientific discpline that has been with us for hundreds of years, has *never* existed? What does it mean that it will never exist? How did this lead to Yang Dong's suicide? Wang visited Yang's boyfriend, Ding Yi, a theoretical physict like Yang. 
+A sentence like that does not belong in a suicide note. It belongs in the opening line of a metaphysics textbook. But Yang knew it was not philosophy. It was despair.
 
-## The Laws of Physics are Invariant across Space and Time
+For Wang Miao, a nano-material scientist, the note was incomprehensible. How could physics *never* have existed, when it is the skeleton of modern life? Lasers, satellites, GPS, semiconductors---all monuments to physical laws. What did Yang see that broke her faith so completely?
 
-Ding played pool with Yang and demonstrated that regardless of where the pool table is, if the ball is struck with equal force and angle, the trajectories after collision look identical. Their experiments should be similar to this one below (@fig-pool-sim). 
+When asked, Yang’s partner, the physicist Ding Yi, did not answer with words. He answered with a demonstration.
+
+## The Pool Table
+
+Science has always loved metaphors of colliding spheres. Newton used them to explain light, Descartes sketched them to describe celestial orbits, and Einstein invoked them in discussions of Brownian motions. Ding Yi continued the tradition---since the 19th century, billiards have been routinely used in physics textbooks for illustration.
+
+He placed the ball at one end of the table, struck it with the cue at a fixed angle and force, and watched it collide with the side cushions. The rebound was predictable. Then he placed the ball elsewhere, struck again with the same angle and force. The collisions traced out an identical pattern. He did it again. And again.
+
+Five times. Five experiments.
+
+Each yielded the same result.
+
+"Aren't you shocked by the results?" Ding asked rhetorically. Wang did not know how to respond. 
+
+“Come on, let's celebrate. We've discovered a great principle of nature: *The laws of physics are invariant across space and time*.” 
+
+This was no trivial statement. It is one of the great articles of faith in science: that laws are not local customs, but universal decrees. Strike a ball here, or there, today or tomorrow—it doesn’t matter. The physical laws remain the same.
+
+Try it yourself. Ding Yi’s pool table has been reconstructed here.
+(@wid-pool-sim). 
 
 You can drag the ball anywhere on the pool table. As soon as you release it, a cue will hit it with the same direction and force. You can alter friction on the left. The status of the ball, i.e., position, velocity, and acceleration, will be tracked automatically and displayed on the right panel. 
 
 ::: {.cell}
-::: {#fig-pool-sim .figure}
+::: {#wid-pool-sim .figure}
 ```{=html}
 <link rel="stylesheet" href="/css/pool-sim.css">
 
@@ -111,3 +130,32 @@ Wang did not know how to respond. Ding said,
 
 > Come on, let's celebrate. We've discovered a great principle of nature: **The laws of physics are invariant across space and time.** 
 
+
+
+## Widget Core Smoke Test
+::: {#wid-smoke .widget}
+```{=html}
+<div class="wgt" data-widget="smoke">
+  <div class="wgt__canvas">
+    <canvas id="smoke-canvas" width="640" height="360"
+            style="background:#eee;border:2px solid #333;border-radius:8px;"></canvas>
+  </div>
+
+  <div class="wgt__panel wgt__controls">
+    <div style="font-weight:700">Options</div>
+    <label for="size-range">Ball size</label>
+    <input type="range" id="size-range" min="6" max="30" step="1" value="12">
+    <input type="number" id="size-num"   min="6" max="30" step="1" value="12">
+    <div style="margin-top:8px;">
+      <button type="button" id="reset">Reset</button>
+    </div>
+  </div>
+
+  <div class="wgt__panel wgt__output" id="smoke-live" aria-live="polite">
+    <div><strong>Position</strong> <span id="pos">(—, —)</span></div>
+  </div>
+</div>
+
+<script src="/js/smoke.js" defer></script>
+```
+:::

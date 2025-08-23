@@ -44,7 +44,20 @@ format:
     toc: true
     number-sections: true
     code-copy: true
+    css: 
+      - /css/widgets.css
+    include-in-header: 
+      - text: |
+          <script src="/js/widgets-core.js"></script>
 
+crossref:
+  custom:
+    - kind: float
+      reference-prefix: Widget
+      key: wid
+      caption-prefix: Widget
+      caption-location: bottom
+      space-before-numbering: true
 
 editor: 
   render-on-save: true
