@@ -122,5 +122,16 @@
       "Part I - When Laws Fail",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Physics has never existed</span>"
     ]
+  },
+  {
+    "objectID": "chapters/part1/ch1_physics-never-existed.html#display-math",
+    "href": "chapters/part1/ch1_physics-never-existed.html#display-math",
+    "title": "2  Physics has never existed",
+    "section": "2.4 Display Math",
+    "text": "2.4 Display Math\nDisplay equations are rendered on their own lines using double dollar signs:\n\nE = mc^2\n\nMore complex equations can also be rendered:\n\n\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}",
+    "crumbs": [
+      "Part I - When Laws Fail",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Physics has never existed</span>"
+    ]
   }
 ]

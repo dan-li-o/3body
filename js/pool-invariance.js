@@ -71,6 +71,19 @@
     // Typeset the invariance equation (uses KaTeX/Quarto/MathJax if present)
     function setEquation() {
       if (!eqEl) return;
+      
+      // If Quarto/KaTeX already typeset math here, do nothing.
+      const alreadyTypeset = !!eqEl.querySelector('.katex');
+      if (alreadyTypeset) return;
+      
+      // If author provided inline TeX in the HTML (e.g., $...$), let Quarto handle it.
+      const hasInlineTex = /\$[^$]+\$|\\\(|\\\[/.test(eqEl.textContent || '');
+      if (hasInlineTex) {
+        if (window.Quarto?.typesetMath) window.Quarto.typesetMath(eqEl);
+        return;
+      }
+
+      // Fallback: inject TeX (for pages without authored math)
       renderLatex(eqEl, String.raw`K(t) + W_{\mathrm{fric}}(t) + W_{\mathrm{inel}}(t) = E_{\text{total}}`, { displayMode: false });
     }
     setEquation();
