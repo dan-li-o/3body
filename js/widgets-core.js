@@ -1,9 +1,10 @@
 // ---------- widgets-core.js : House utils for all widgets ----------
 // Exposes: Widgets.setupHiDPI, Widgets.autosizeCanvas, Widgets.clamp,
-//          Widgets.onPointerDrag, Widgets.linkRangeNumber, Widgets.announce, Widgets.hoverCursor
+//          Widgets.onPointerDrag, Widgets.linkRangeNumber, Widgets.announce,
+//          Widgets.hoverCursor, Widgets.ensurePanelFigure, Widgets.renderLatex
 
 /**
- * House Widget Core (v0.2)
+ * House Widget Core (v0.3)
  * API:
  *  - clamp(v, lo, hi) -> number
  *  - setupHiDPI(canvas, cssW, cssH [, dpr]) -> {ctx,width,height,dpr}
@@ -13,6 +14,9 @@
  *  - linkRangeNumber(rangeEl, numberEl, {toModel, fromModel, onChange}) -> {set(val)}
  *  - hoverCursor(target, {hitTest(pt), hover='grab', normal='', isDragging:()=>bool})
  *  - announce(liveNode, text)
+ *  - ensurePanelFigure(outPanel, { role='figure', wrapClass='wgt__chartwrap',
+ *        ensureLegend=true, ensureEq=true }) -> { wrap, canvas, legend, eq }
+ *  - renderLatex(el, tex, {displayMode=false})
  */
 
 window.Widgets = (() => {
@@ -34,7 +38,7 @@ window.Widgets = (() => {
     let ctx, width, height;
     function layout(){
       const host = canvas.parentElement;
-      const hostW = host.clientWidth || max;
+      const hostW = host?.clientWidth || max;
       const w = clamp(hostW, min, max);
       const h = Math.round(w / aspect);
       ({ctx, width, height} = setupHiDPI(canvas, w, h));
@@ -75,7 +79,7 @@ window.Widgets = (() => {
       }
       function up(ev){
         onEnd(ev);
-        target.releasePointerCapture(e.pointerId);
+        try { target.releasePointerCapture(e.pointerId); } catch {}
         target.removeEventListener('pointermove', move);
         target.removeEventListener('pointerup', up);
         target.removeEventListener('pointercancel', up);
@@ -107,6 +111,129 @@ window.Widgets = (() => {
     liveNode.textContent = text;
   }
 
-  return { setupHiDPI, autosizeCanvas, clamp, onPointerDrag, linkRangeNumber, announce, hoverCursor };
+  /**
+   * ensurePanelFigure(outPanel, opts)
+   * Creates (or reuses) a tight wrapper directly under the panel title and above generic hints,
+   * and ensures a canvas (data-role=role), a legend node, and an equation node exist inside it.
+   *
+   * @param {HTMLElement} outPanel - The '.wgt__output' element (or any panel).
+   * @param {object} opts
+   *    - role:        string data-role to assign to the canvas (default 'figure')
+   *    - wrapClass:   class name for the wrapper (default 'wgt__chartwrap')
+   *    - ensureLegend:boolean create legend node if missing (default true)
+   *    - ensureEq:    boolean create equation node if missing (default true)
+   * @returns {object} { wrap, canvas, legend, eq }
+   */
+  function ensurePanelFigure(outPanel, {
+    role = 'figure',
+    wrapClass = 'wgt__chartwrap',
+    ensureLegend = true,
+    ensureEq = true
+  } = {}){
+    if (!outPanel) throw new Error('ensurePanelFigure: outPanel is required');
+
+    // 1) Find or create the wrapper
+    let wrap = outPanel.querySelector(`.${wrapClass}`);
+    if (!wrap) {
+      wrap = document.createElement('div');
+      wrap.className = wrapClass;
+      Object.assign(wrap.style, {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '6px',
+        width: '100%'
+      });
+    }
+
+    // Insert wrapper right after the panel title, but before any generic hints
+    const titleEl = outPanel.querySelector('.wgt__title');
+    const firstNonEqHint = outPanel.querySelector('.wgt__hint:not([data-role="eq"])');
+    if (firstNonEqHint) {
+      // place wrapper above generic hint
+      if (wrap.parentNode !== outPanel || wrap.nextSibling !== firstNonEqHint) {
+        outPanel.insertBefore(wrap, firstNonEqHint);
+      }
+    } else if (titleEl) {
+      if (wrap.previousElementSibling !== titleEl) {
+        titleEl.insertAdjacentElement('afterend', wrap);
+      }
+    } else {
+      if (wrap.parentNode !== outPanel || wrap !== outPanel.firstChild) {
+        outPanel.prepend(wrap);
+      }
+    }
+
+    // 2) Ensure canvas with data-role=role exists inside wrapper (move if needed)
+    let canvas = wrap.querySelector(`canvas[data-role="${role}"]`)
+             || outPanel.querySelector(`canvas[data-role="${role}"]`);
+    if (!canvas) {
+      canvas = document.createElement('canvas');
+      canvas.setAttribute('data-role', role);
+    }
+    if (canvas.parentNode !== wrap) wrap.appendChild(canvas);
+    Object.assign(canvas.style, {
+      maxWidth: '100%',
+      height: 'auto',
+      borderRadius: 'var(--wgt-radius)',
+      touchAction: 'none',
+      userSelect: 'none'
+    });
+
+    // 3) Legend (optional)
+    let legend = wrap.querySelector('[data-role="legend"]');
+    if (!legend && ensureLegend) {
+      legend = document.createElement('div');
+      legend.setAttribute('data-role', 'legend');
+      legend.className = 'wgt__hint';
+      Object.assign(legend.style, { display: 'flex', alignItems: 'center', gap: '14px' });
+      wrap.appendChild(legend);
+    }
+
+    // 4) Equation (optional) — sits after legend
+    let eq = wrap.querySelector('[data-role="eq"]') || outPanel.querySelector('[data-role="eq"]');
+    if (!eq && ensureEq) {
+      eq = document.createElement('div');
+      eq.setAttribute('data-role', 'eq');
+      eq.className = 'wgt__hint';
+      wrap.appendChild(eq);
+    }
+    if (eq && eq.parentNode !== wrap) wrap.appendChild(eq);
+    if (eq) eq.style.marginTop = '0';
+
+    return { wrap, canvas, legend, eq };
+  }
+
+  /**
+   * renderLatex(el, tex, {displayMode=false})
+   * Minimal helper to typeset LaTeX using whichever engine is available.
+   * - KaTeX (fast), or Quarto helper, or MathJax v3; fallback = plain text.
+   */
+  function renderLatex(el, tex, {displayMode=false} = {}){
+    if (!el) return;
+    // KaTeX
+    if (window.katex && typeof window.katex.render === 'function') {
+      window.katex.render(tex, el, { throwOnError: false, displayMode });
+      return;
+    }
+    // Quarto helper (works with either engine)
+    if (window.Quarto && typeof window.Quarto.typesetMath === 'function') {
+      el.innerHTML = displayMode ? `$$${tex}$$` : `$${tex}$`;
+      window.Quarto.typesetMath(el);
+      return;
+    }
+    // MathJax v3
+    if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+      el.innerHTML = displayMode ? `\\[${tex}\\]` : `\\(${tex}\\)`;
+      window.MathJax.typesetPromise([el]);
+      return;
+    }
+    // Fallback: plain text
+    el.textContent = tex;
+  }
+
+  return {
+    setupHiDPI, autosizeCanvas, clamp, onPointerDrag, linkRangeNumber,
+    announce, hoverCursor, ensurePanelFigure, renderLatex
+  };
 })();
 // ---------- end widgets-core.js ----------
