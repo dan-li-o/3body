@@ -113,11 +113,22 @@
     ]
   },
   {
-    "objectID": "chapters/part1/ch1_physics-never-existed.html#multiplying-variables",
-    "href": "chapters/part1/ch1_physics-never-existed.html#multiplying-variables",
+    "objectID": "chapters/part1/ch1_physics-never-existed.html#the-lawful-table",
+    "href": "chapters/part1/ch1_physics-never-existed.html#the-lawful-table",
     "title": "2  Physics has never existed",
-    "section": "2.3 Multiplying Variables",
-    "text": "2.3 Multiplying Variables\nNow, physicists don’t spend their lives rolling pool balls. They juggle a zoo of variables—spin, friction, imperfections, air currents, hidden quirks of the felt, each one a potential troublemaker.\nAnd yet the promise is the same: change the knobs, keep the laws. In fact, the laws come with receipts. When a system looks the same after a shift in time, energy is conserved. When it looks the same after a shift in space, momentum is conserved. (Noether’s gift: symmetry begets conservation.)\nTry a harder table. \n👉 Widget 2: Pool Table — many knobs.\n\n\n\n\n  \n  \n    \n  \n\n  \n  \n    Options\n\n    \n      Friction\n      \n      \n      (0.000 = no friction)\n    \n\n    \n      Elasticity\n      \n      \n      (1.00 = perfectly elastic cushions)\n    \n\n    \n      Reset\n    \n  \n\n  \n  \n    Energy Ledger\n    • Drag the ball to move it. • Pull back anywhere to set direction & power, then release. • Losses appear in the ledger.\n  \n\n\n\n\n\n\nWidget 2.2: Pool Table — many knobs.",
+    "section": "2.3 The Lawful Table",
+    "text": "2.3 The Lawful Table\nNow, physicists don’t spend their lives rolling pool balls the same way over and over again. They juggle a zoo of variables—spin, friction, imperfections, air currents, hidden quirks of the felt—each one a potential troublemaker, each one an invitation for variance and disorder. \nAnd yet, beneath the clutter, the pursuit is the same: change the knobs, keep the laws. Find that invariance that stands like granite.\n\n\n\n\n  \n  \n    \n  \n\n  \n  \n    Options\n\n    \n      Friction\n      \n      \n      (0.000 = no friction)\n    \n\n    \n      Elasticity\n      \n      \n      (1.00 = perfectly elastic cushions)\n    \n\n    \n      Reset\n    \n  \n\n  \n  \n    Energy Ledger\n    • Drag the ball to move it. • Pull back anywhere to set direction & power, then release. • Losses appear in the ledger.\n  \n\n\n\n\n\n\nWidget 2.2: The Lawful Table — many knobs.\n\n\n\nSet the ball, pick an angle, choose a force, slide the friction. Watch the ball run like a wild child across the felt. Then, look to the right: the number that refuses to panic: total energy. The surface changes, the invariant doesn’t. Complexity multiplies, but the promise of invariance holds. That’s what a law feels like from the inside.\nPhysics hides its treasures in invariants. They are its balance sheets. No matter how wild the day’s trading—balls ricocheting, particles colliding—the books close clean. Energy in, energy out. Momentum tallied to the last decimal.",
+    "crumbs": [
+      "Part I - When Laws Fail",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Physics has never existed</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/part1/ch1_physics-never-existed.html#noethers-gift",
+    "href": "chapters/part1/ch1_physics-never-existed.html#noethers-gift",
+    "title": "2  Physics has never existed",
+    "section": "2.4 Noether’s Gift",
+    "text": "2.4 Noether’s Gift",
     "crumbs": [
       "Part I - When Laws Fail",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Physics has never existed</span>"

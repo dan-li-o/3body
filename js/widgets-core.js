@@ -146,20 +146,22 @@ window.Widgets = (() => {
     }
 
     // Insert wrapper right after the panel title, but before any generic hints
-    const titleEl = outPanel.querySelector('.wgt__title');
+    const titleEl = outPanel.querySelector(':scope > .wgt__title');
     const firstNonEqHint = outPanel.querySelector('.wgt__hint:not([data-role="eq"])');
-    if (firstNonEqHint) {
-      // place wrapper above generic hint
-      if (wrap.parentNode !== outPanel || wrap.nextSibling !== firstNonEqHint) {
+    
+    if (!wrap.parentNode) {
+      if (firstNonEqHint && firstNonEqHint.parentNode === outPanel) {
         outPanel.insertBefore(wrap, firstNonEqHint);
       }
-    } else if (titleEl) {
-      if (wrap.previousElementSibling !== titleEl) {
+      else if (titleEl && titleEl.parentNode === outPanel) {
         titleEl.insertAdjacentElement('afterend', wrap);
       }
-    } else {
-      if (wrap.parentNode !== outPanel || wrap !== outPanel.firstChild) {
+      else {
         outPanel.prepend(wrap);
+      } 
+    } else {
+      if (firstNonEqHint && firstNonEqHint.parentNode === outPanel && wrap.nextElementSibling !== firstNonEqHint) {
+        outPanel.insertBefore(wrap, firstNonEqHint);
       }
     }
 
