@@ -98,15 +98,11 @@ But here is the scandal: Hume could never prove it. No one has. The uniformity o
 
 Yang Dong’s suicide note was an act of apostasy.
 
-## Multiplying Variables
+## The Lawful Table
 
-Now, physicists don’t spend their lives rolling pool balls. They juggle a zoo of variables—spin, friction, imperfections, air currents, hidden quirks of the felt, each one a potential troublemaker.
+Now, physicists don’t spend their lives rolling pool balls the same way over and over again. They juggle a zoo of variables---spin, friction, imperfections, air currents, hidden quirks of the felt---each one a potential troublemaker, each one an invitation for variance and disorder. 
 
-And yet the promise is the same: change the knobs, keep the laws. In fact, the laws come with receipts. When a system looks the same after a shift in time, energy is conserved. When it looks the same after a shift in space, momentum is conserved. (Noether’s gift: symmetry begets conservation.)
-
-Try a harder table. 
-
-👉 Widget 2: Pool Table — many knobs.
+And yet, beneath the clutter, the pursuit is the same: change the knobs, keep the laws. Find that invariance that stands like granite. 
 
 ::: {#wid-pool-sim .widget}
 ```{=html}
@@ -149,6 +145,11 @@ Try a harder table. 
 <!-- Make sure widgets-core.js is included before this -->
 <script src="/js/pool-invariance.js" defer></script>
 ```
-Pool Table --- many knobs. 
+The Lawful Table --- many knobs. 
 :::
 
+Set the ball, pick an angle, choose a force, slide the friction. Watch the ball run like a wild child across the felt. Then, look to the right: the number that refuses to panic: total energy. The surface changes, the invariant doesn’t. Complexity multiplies, but the promise of invariance holds. That’s what a law feels like from the inside. 
+
+Physics *hides* its treasures in invariants. They are its balance sheets. No matter how wild the day’s trading—balls ricocheting, particles colliding—the books close clean. Energy in, energy out. Momentum tallied to the last decimal.
+
+## Noether's Gift
