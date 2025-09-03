@@ -8,7 +8,7 @@ Her note was only one line long:
 
 > Physics has never existed, and will never exist.
 
-A sentence like that does not belong in a suicide note. It belongs in the opening line of a metaphysics textbook. But Yang knew it was not philosophy. It was despair.
+A sentence like that does not belong in a suicide note. It belongs as the opening line of a metaphysics textbook. But to Yang, it was not philosophy. It was despair.
 
 For Wang Miao, a nano-material scientist, the note was incomprehensible. How could physics *never* have existed, when it is the skeleton of modern life? Lasers, satellites, GPS, semiconductors---all monuments to physical laws. What did Yang see that broke her faith so completely?
 
@@ -28,10 +28,9 @@ Each yielded the same result.
 
 “Come on, let's celebrate. We've discovered a great principle of nature: *The laws of physics are invariant across space and time*.” 
 
-This was no trivial statement. It is one of the great articles of faith in science: that laws are not local customs, but universal decrees. Strike a ball here, or there, today or tomorrow—it doesn’t matter. The physical laws remain the same.
+This was no trivial statement. It is one of the great articles of faith in science: that laws are not local customs, but universal decrees. Strike a ball here, or there, today or tomorrow---it doesn’t matter. The physical laws remain the same.
 
-Try it yourself. Ding Yi’s pool table has been reconstructed here.
-(@wid-pool-sim). 
+Try it yourself. Ding Yi’s pool table has been reconstructed here. 
 
 ::: {#wid-pool-sim .widget}
 ```{=html}
@@ -82,9 +81,9 @@ Science seduces us with boredom. That is its secret charm. We want the universe 
 
 Philosophers gave this reassurance a name: the Principle of the Uniformity of Nature. David Hume, the great skeptic, articulated it in the 18th century: the assumption that the future will resemble the past; that nature tomorrow will behave like nature today; that "*the course of nature continues always uniformly the same*." 
 
-Across cultures and centuries,  thinkers embraced the principle without hesitation. Thales sought a single element to ground the flux of the world. Aristotle believed nature’s motions could be classified because they followed regular causes. Xunzi wrote 天行有常 — “the heavens move with constancy.” The Stoics saw the cosmos ordered by logos. Aquinas and medieval scholastics  argued that God’s creation was rational and therefore reliable. Galileo, Kepler, and Newton assumed their laws applied everywhere. Bacon made nature a system governed by its own laws and the very source of knowledge. And knowledge is power.  
+Across cultures and centuries, thinkers spontaneously embraced the principle without hesitation. Thales sought a single element to ground the flux of the world. Aristotle believed nature’s motions could be classified because they followed regular causes. Xunzi wrote 天行有常---“the heavens move with constancy.” The Stoics saw the cosmos ordered by logos. Aquinas and medieval scholastics  argued that God’s creation was rational and therefore reliable. Galileo, Kepler, and Newton all assumed their laws applied everywhere. Bacon made nature a system governed by its own laws and the very source of knowledge. And knowledge is power.  
 
-This conviction — that the rhythm of nature is reliable, and thus knowable — is what keeps us from superstition. However framed — through omen or through reason — the majority have trusted that the world follows patterns so that we are not at the mercy of whimsical gods.
+This conviction---that the rhythm of nature is reliable, and thus knowable---is what keeps us from superstition. However framed---through omen or through reason---the majority have trusted that the world follows patterns so that we are not at the mercy of whimsical gods.
 
 That trust is what makes science possible. Once we believed in order rather than caprice, knowledge could accumulate. Experiments became expected to repeat, results communicable, and science emerged as a shared project. This conviction, more than any single discovery, is what allowed the modern worldview to take root. 
 
@@ -145,11 +144,105 @@ And yet, beneath the clutter, the pursuit is the same: change the knobs, keep th
 <!-- Make sure widgets-core.js is included before this -->
 <script src="/js/pool-invariance.js" defer></script>
 ```
-The Lawful Table --- many knobs. 
+The Lawful Table---many knobs. 
 :::
 
 Set the ball, pick an angle, choose a force, slide the friction. Watch the ball run like a wild child across the felt. Then, look to the right: the number that refuses to panic: total energy. The surface changes, the invariant doesn’t. Complexity multiplies, but the promise of invariance holds. That’s what a law feels like from the inside. 
 
 Physics *hides* its treasures in invariants. They are its balance sheets. No matter how wild the day’s trading—balls ricocheting, particles colliding—the books close clean. Energy in, energy out. Momentum tallied to the last decimal.
 
-## Noether's Gift
+## The Lawful Coin
+
+A curious reader might object: not all outcomes are replicable the way billiard collisions are. What about random events—like flipping a coin? Where is the invariance there?
+
+Let’s try it.
+
+👉 Widget 3: Coin Flip Device
+
+::: {#wid-coin-sim .widget}
+```{=html}
+<div class="wgt wgt--coin" data-widget="coin-flip" id="wid-coin-sim">
+  <!-- Canvas (coin area) -->
+  <div class="wgt__canvas">
+    <canvas data-role="coin" width="640" height="360" aria-label="Coin flipping simulation canvas"></canvas>
+  </div>
+
+  <!-- Controls (bottom-left) -->
+  <div class="wgt__panel wgt__controls">
+    <div class="wgt__title">Controls</div>
+    <div class="wgt__field">
+      <div class="wgt__hint">Click the coin (or use buttons) to flip. The coin animates and settles to Heads or Tails.</div>
+    </div>
+    <div class="wgt__field" role="group" aria-label="Flip actions">
+      <button type="button" data-role="flip1"  class="wgt__btn--accent">Flip</button>
+      <button type="button" data-role="flip10">Flip ×10</button>
+      <button type="button" data-role="flip100">Flip ×100</button>
+      <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
+    </div>
+  </div>
+
+  <!-- Output (bottom-right) -->
+  <div class="wgt__panel wgt__output" aria-live="polite">
+    <div class="wgt__title">Results</div>
+    <div class="wgt__row">
+      <strong>Trials</strong> <span data-role="n" class="wgt__out">0</span>
+      </div>
+    <div class="wgt__row">
+      <strong>Heads</strong>  <span data-role="h" class="wgt__out">0</span>
+      <strong>Tails</strong>  <span data-role="t" class="wgt__out">0</span>
+      <strong>H/T ratio</strong>    <span data-role="ratio" class="wgt__out">—</span>
+      </div>
+    <!--<div class="wgt__row"></div>  
+    <div class="wgt__row"></div>
+    
+    <div class="wgt__row"><strong>Heads %</strong><span data-role="p" class="wgt__out">—</span></div>-->
+    <div class="wgt__hint">• Click the coin to flip. • H/T is plotted vs. trials. • Uses high-quality randomness when available.</div>
+  </div>
+</div>
+
+<!-- Ensure widgets-core.js is included site-wide before this -->
+<script src="/js/coin-flip.js" defer></script>
+```
+Coin Flip Device — click to flip; chart shows H/T over trials.
+:::
+
+Flip the coin as many times as you like. At first, the results look noisy, even chaotic. Ten flips tell you nothing. But flip a hundred, a thousand, and something remarkable happens: the wildly fluctuating ratio between heads and tails begins to settle. Chaos turns into pattern. Noise reveals order.
+
+Pop the champagne---you’ve just discovered the **Law of Large Numbers**. It states that the average outcome of a random experiment approaches its expected value as the number of trials increases. This is the invariance of chance: the more experiments you run, the closer you get to the hidden probability of the coin. It isn't merely a statistical curiosity; it's a bedrock principle---the universe’s quiet promise of consistency, assuring us that even in the realm of chance, a hidden invariance governs.
+
+Jacob Bernoulli, who first proved this in 1713, called it his *golden theorem*. Casinos thrive on it. Insurance companies rely on it. Weather forecasts whisper it. The law promises that randomness itself contains a rhythm, and that with enough patience, averages will converge.
+
+But hidden in the proof is an often overlooked clause: each trial must be *independently* and *identically distributed*. Your previous toss must not interfere with the next toss; a toss here or there, today or tomorrow, it makes no difference, as if all these tosses are drawn from the same deck. This is Hume's Principle in disguise: uniformity all over again. The law of large numbers depends on the same bet—that nature behaves consistently, yet probabilistically, across time and space. 
+
+It looks like victory: even in randomness, invariance survives. Only when such invariance holds can statistics, probability, and the sciences built on them exist at all.
+
+## The Unlawful Table
+
+“I still don’t understand what you’re getting at,” Wang asked. How is this relevant to Yang’s suicide?
+
+Ding lit a cigarette, “Imagine another set of results. The first time, the white ball drove the black ball into the pocket. The second time, the black ball bounced away. The third time, the black ball flew onto the ceiling. The fourth time, the black ball shot around the room like a frighted sparrow, finally taking refuge in your jacket pocket. The fifth time, the black ball flew away at nearly the speed of light, breaking the edge of the pool table, shooting through the wall, and leaving the Earth and Solar system, just like Asimov once described. What would you think then?”
+
+Indeed, a demon's pool table. 
+
+After a long silence, Ding explained that physicists' expensive “pool tables”---high-energy particle accelerators–constructed on different continents, have been consistently failing to yield the same results with the same experimental setup. 
+
+Now imagine a similarly unlawful coin. When you flipped it, the first time, it gave you heads; the second time, it flew outside of the room; the third time, it hovered in midair humming like a hive of bees; the fourth time, it spun forever without landing, defying gravity’s grasp; the fifth time, it burst into flame and fizzled into ash, leaving only a scorch mark on the table. 
+
+> ... there seemed to be no pattern.
+
+In the story, the leap from a lack of pattern to Yang Dong’s last words that “physics has never existed” is too quick. In reality, physicists are never afraid of “no obvious patterns” because they know they are dealing with complex situations with many knobs and sometimes with worlds governed by probabilities, not certainties, as exemplified by quantum physics.
+
+Yang’s true crisis arises not from “no pattern” nor is it from simple replication failures, but from a fundamental betrayal of both scientific methods and their underlying principles.
+
+## Betrayal of Scientific Methods
+
+Scientific method is not a single recipe but a set of practices. We design experiments so they can be replicated. We build theories so they can predict. We subject hypotheses to conditions where they might be falsified. We rely on measurement and quantification so that results can be communicated and compared. We use statistical inference so that from noisy samples we can draw stable generalizations. And we expose findings to peer scrutiny so that knowledge accumulates collectively, not privately. All these are parts of scientific methods that allow scientists to verify findings, build consensus, and gradually construct a towering edifice of knowledge about the universe, from the smallest particles to the largest galaxies. 
+
+However, all of these methods presuppose that the world itself is stable enough for yesterday’s data to apply tomorrow---uniformity of nature. Even failures to replicate previous results should be invariant. Without invariance, replication is meaningless, prediction impossible, falsification incoherent.
+
+Yet, what Yang Dong and her peers were facing was a *complete lack of patterns*: identical setups yielded wildly different outcomes, so wild that even our best statistical tools could not capture the slight hint of invariance as if it were the demon's coin. 
+
+Yang’s despair was not about complexity or chance—it was about the collapse of this scaffolding. A scientist can live with error and with noise; she cannot live with the treachery that makes her methods useless. 
+
+## Emmy Noether's Gift
+
