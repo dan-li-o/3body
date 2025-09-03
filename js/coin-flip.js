@@ -1,6 +1,6 @@
 // ---------- js/coin-flip.js : Coin flip + H/T ratio chart ----------
 (function(){
-  const { autosizeCanvas, ensurePanelFigure, clamp, announce } = window.Widgets || {};
+  const { autosizeCanvas, ensurePanelFigure, clamp, announce, linkRangeNumber } = window.Widgets || {};
 
   function rngBit(){
     try {
@@ -13,6 +13,17 @@
     } catch {}
     // Fallback to Math.random()
     return Math.random() < 0.5 ? 1 : 0;
+  }
+
+  function rngFloat(){
+    try {
+      if (window.crypto && typeof window.crypto.getRandomValues === 'function'){
+        const u32 = new Uint32Array(1);
+        window.crypto.getRandomValues(u32);
+        return u32[0] / 4294967296; // [0,1)
+      }
+    } catch {}
+    return Math.random();
   }
 
   // No rngFloat needed for fair coin commit
@@ -30,11 +41,13 @@
     const btnFlip10  = root.querySelector('[data-role="flip10"]');
     const btnFlip100 = root.querySelector('[data-role="flip100"]');
     const btnReset   = root.querySelector('[data-role="reset"]');
+    const pRange     = root.querySelector('[data-role="p-range"]');
+    const pNum       = root.querySelector('[data-role="p-num"]');
 
     const nEl = root.querySelector('[data-role="n"]');
     const hEl = root.querySelector('[data-role="h"]');
     const tEl = root.querySelector('[data-role="t"]');
-    const rEl = root.querySelector('[data-role="ratio"]');
+    const phEl = root.querySelector('[data-role="phat"]');
     const pEl = root.querySelector('[data-role="p"]');
 
     // Chart holder inside output panel
@@ -42,7 +55,7 @@
     if (legendEl && !legendEl.hasChildNodes()){
       legendEl.innerHTML = `
         <span style="display:inline-flex;align-items:center;gap:6px;">
-          <span style="display:inline-block;width:16px;height:3px;background:#1f7a6b;border-radius:2px;"></span> H/T ratio
+          <span style="display:inline-block;width:16px;height:3px;background:#1f7a6b;border-radius:2px;"></span> p̂ (estimate)
         </span>`;
     }
 
@@ -66,7 +79,7 @@
     // State
     const state = {
       n: 0, h: 0, t: 0,
-      seriesRatio: [], // y_i = H_i / T_i (NaN if T_i==0)
+      seriesPHat: [], // y_i = H_i / n_i (NaN if n_i==0)
       isFlipping: false,
       // Flip animation
       phi0: 0, phi1: 0, t0: 0, dur: 900, // ms
@@ -80,25 +93,42 @@
       // Track current angle for redraws on resize
       phiCur: 0
     };
+    // Probability control
+    state.pHeads = 0.50;
+    let initializing = true;
+    const linkP = (pRange || pNum) ? linkRangeNumber(pRange, pNum, {
+      toModel: (ui)=> clamp(parseFloat(ui || 0) || 0, 0, 1),
+      fromModel: (val)=> (Number(val) || 0).toFixed(2),
+      onChange: (val)=> {
+        const prev = state.pHeads; state.pHeads = val;
+        if (!initializing) {
+          // Auto-reset on p change to maintain IID assumption and clear chart
+          resetAll();
+          announce(liveEl, `Heads probability set to ${val.toFixed(2)}. Run reset.`);
+        } else {
+          // Initial paint: just refresh chart to show new target line
+          drawChart();
+        }
+      }
+    }) : null;
     // Fair coin (no bias control in this commit)
 
     // Helpers
     function updateTelemetry(){
       const { n, h, t } = state;
-      const ratio = (t>0) ? (h/t) : NaN;
       const p = (n>0) ? (h/n) : NaN;
       nEl && (nEl.textContent = String(n));
       hEl && (hEl.textContent = String(h));
       tEl && (tEl.textContent = String(t));
-      rEl && (rEl.textContent = Number.isFinite(ratio) ? ratio.toFixed(3) : '—');
+      phEl && (phEl.textContent = Number.isFinite(p) ? p.toFixed(3) : '—');
       pEl && (pEl.textContent = Number.isFinite(p) ? (p*100).toFixed(2) + '%' : '—');
     }
 
     function pushSample(){
       const { n, h, t } = state;
-      const ratio = (t>0) ? (h/t) : NaN;
-      state.seriesRatio.push(ratio);
-      if (state.seriesRatio.length > 5000) state.seriesRatio.shift();
+      const ph = (n>0) ? (h/n) : NaN;
+      state.seriesPHat.push(ph);
+      if (state.seriesPHat.length > 5000) state.seriesPHat.shift();
     }
 
     function drawChart(){
@@ -111,27 +141,18 @@
       ctx.save();
       ctx.translate(L, T);
 
-      // Determine y range based on recent data (ignore NaNs). Keep within [0, 2] unless wider is needed.
-      const data = state.seriesRatio;
+      // Fixed y-range [0,1] for proportions
+      const data = state.seriesPHat;
       const n = data.length;
-      let ymin = 0, ymax = 2;
-      for (let i=0;i<n;i++){
-        const v = data[i]; if (!Number.isFinite(v)) continue;
-        ymin = Math.min(ymin, v);
-        ymax = Math.max(ymax, v);
-      }
-      // Clamp and pad
-      const pad = 0.05*(ymax - ymin || 1);
-      ymin = Math.max(0, ymin - pad);
-      ymax = Math.max(1.0, ymax + pad);
+      const ymin = 0, ymax = 1;
 
       // Axes + grid
       ctx.strokeStyle = '#ccc'; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.rect(0,0,iw,ih); ctx.stroke();
       ctx.setLineDash([3,3]);
-      // Horizontal grid at y=1 (theoretical target)
-      const y1 = ih - (1 - ymin) / (ymax - ymin) * ih;
-      ctx.beginPath(); ctx.moveTo(0,y1); ctx.lineTo(iw,y1); ctx.stroke();
+      // Dashed reference at target p
+      const yTarget = ih - (state.pHeads - ymin) / (ymax - ymin) * ih;
+      ctx.beginPath(); ctx.moveTo(0,yTarget); ctx.lineTo(iw,yTarget); ctx.stroke();
       ctx.setLineDash([]);
 
       // X ticks (5–10 ticks)
@@ -146,14 +167,14 @@
         ctx.fillText(String(k), x, ih+6);
       }
 
-      // Y labels for min/1/max
+      // Y labels for 0, 0.5, 1
       ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
       const yOf = (v)=> ih - (v - ymin)/(ymax - ymin) * ih;
-      ctx.fillText(ymax.toFixed(2), -6, yOf(ymax));
       ctx.fillText('1.00', -6, yOf(1));
-      ctx.fillText(ymin.toFixed(2), -6, yOf(ymin));
+      ctx.fillText('0.50', -6, yOf(0.5));
+      ctx.fillText('0.00', -6, yOf(0));
 
-      // Line: H/T
+      // Line: p̂ = H/n
       ctx.strokeStyle = '#1f7a6b'; ctx.lineWidth = 2; ctx.beginPath();
       let started = false;
       for (let i=0;i<N;i++){
@@ -265,7 +286,7 @@
 
     // API actions
     function flipOnce(){
-      const bit = rngBit();
+      const bit = (rngFloat() < state.pHeads) ? 1 : 0;
       state.neutral = false;
       animateToFace(bit ? 'H' : 'T');
     }
@@ -275,7 +296,7 @@
       // Bulk simulate without animating each; animate the last outcome for feedback
       let lastFace = 'H';
       for (let i=0;i<k;i++){
-        const bit = rngBit();
+        const bit = (rngFloat() < state.pHeads) ? 1 : 0;
         lastFace = bit ? 'H' : 'T';
         state.n += 1;
         if (bit) state.h += 1; else state.t += 1;
@@ -289,7 +310,7 @@
     }
     function resetAll(){
       if (state.isFlipping) return;
-      state.n=state.h=state.t=0; state.seriesRatio.length=0; state.neutral = true;
+      state.n=state.h=state.t=0; state.seriesPHat.length=0; state.neutral = true;
       updateTelemetry(); drawChart(); drawCoin(0);
       announce(liveEl, 'Reset. Click the coin to flip.');
     }
@@ -303,6 +324,9 @@
 
     // Initial state: trigger a reset and ensure subsequent redraws when layout changes
     resetAll();
+    // Finish initializing after we’ve synced the p control once
+    if (linkP) linkP.set(state.pHeads);
+    initializing = false;
     // Debounced redraw to run AFTER autosizeCanvas finishes resizing
     let redrawReq = 0;
     function scheduleRedraw(){

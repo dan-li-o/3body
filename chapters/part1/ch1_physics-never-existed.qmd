@@ -157,8 +157,6 @@ A curious reader might object: not all outcomes are replicable the way billiard 
 
 Let’s try it.
 
-👉 Widget 3: Coin Flip Device
-
 ::: {#wid-coin-sim .widget}
 ```{=html}
 <div class="wgt wgt--coin" data-widget="coin-flip" id="wid-coin-sim">
@@ -172,6 +170,12 @@ Let’s try it.
     <div class="wgt__title">Controls</div>
     <div class="wgt__field">
       <div class="wgt__hint">Click the coin (or use buttons) to flip. The coin animates and settles to Heads or Tails.</div>
+    </div>
+    <div class="wgt__field">
+      <label for="p-range">Heads probability</label>
+      <input type="range"  id="p-range" data-role="p-range" min="0.00" max="1.00" step="0.01" value="0.50">
+      <input type="number" id="p-num"   data-role="p-num"   min="0.00" max="1.00" step="0.01" value="0.50">
+      <div class="wgt__hint">Changing p resets the run. (0.50 = fair coin)</div>
     </div>
     <div class="wgt__field" role="group" aria-label="Flip actions">
       <button type="button" data-role="flip1"  class="wgt__btn--accent">Flip</button>
@@ -190,20 +194,18 @@ Let’s try it.
     <div class="wgt__row">
       <strong>Heads</strong>  <span data-role="h" class="wgt__out">0</span>
       <strong>Tails</strong>  <span data-role="t" class="wgt__out">0</span>
-      <strong>H/T ratio</strong>    <span data-role="ratio" class="wgt__out">—</span>
+    </div>
+    <div class = "wgt__row">
+      <strong>Estimate p (H/trials)</strong>    <span data-role="phat" class="wgt__out">—</span>
       </div>
-    <!--<div class="wgt__row"></div>  
-    <div class="wgt__row"></div>
-    
-    <div class="wgt__row"><strong>Heads %</strong><span data-role="p" class="wgt__out">—</span></div>-->
-    <div class="wgt__hint">• Click the coin to flip. • H/T is plotted vs. trials. • Uses high-quality randomness when available.</div>
+    <div class="wgt__hint">• Click the coin to flip. • The chart shows the running estimate p̂ = H/n with a dashed target at the chosen p. • Uses high-quality randomness when available.</div>
   </div>
 </div>
 
 <!-- Ensure widgets-core.js is included site-wide before this -->
 <script src="/js/coin-flip.js" defer></script>
 ```
-Coin Flip Device — click to flip; chart shows H/T over trials.
+Coin Flip Device — click to flip; chart shows p̂ over trials.
 :::
 
 Flip the coin as many times as you like. At first, the results look noisy, even chaotic. Ten flips tell you nothing. But flip a hundred, a thousand, and something remarkable happens: the wildly fluctuating ratio between heads and tails begins to settle. Chaos turns into pattern. Noise reveals order.
