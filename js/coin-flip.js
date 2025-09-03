@@ -15,6 +15,8 @@
     return Math.random() < 0.5 ? 1 : 0;
   }
 
+  // No rngFloat needed for fair coin commit
+
   function initOne(root){
     if (!autosizeCanvas || !ensurePanelFigure){
       console.error('widgets-core.js must load before coin-flip.js');
@@ -78,6 +80,7 @@
       // Track current angle for redraws on resize
       phiCur: 0
     };
+    // Fair coin (no bias control in this commit)
 
     // Helpers
     function updateTelemetry(){
@@ -300,13 +303,25 @@
 
     // Initial state: trigger a reset and ensure subsequent redraws when layout changes
     resetAll();
-    const ro = new ResizeObserver(() => { drawCoin(state.phiCur); drawChart(); });
+    // Debounced redraw to run AFTER autosizeCanvas finishes resizing
+    let redrawReq = 0;
+    function scheduleRedraw(){
+      if (redrawReq) cancelAnimationFrame(redrawReq);
+      redrawReq = requestAnimationFrame(() => {
+        // One more frame to ensure canvas size/ctx is finalized
+        requestAnimationFrame(() => { drawCoin(state.phiCur); drawChart(); });
+      });
+    }
+
+    const ro = new ResizeObserver(() => { scheduleRedraw(); });
     if (coinCanvas?.parentElement) ro.observe(coinCanvas.parentElement);
     if (chartCanvas?.parentElement) ro.observe(chartCanvas.parentElement);
+    window.addEventListener('resize', scheduleRedraw);
+    window.addEventListener('orientationchange', scheduleRedraw);
     if (document.readyState !== 'complete') {
-      window.addEventListener('load', () => { drawCoin(state.phiCur); drawChart(); }, { once: true });
+      window.addEventListener('load', () => { scheduleRedraw(); }, { once: true });
     } else {
-      requestAnimationFrame(() => { drawCoin(state.phiCur); drawChart(); });
+      scheduleRedraw();
     }
   }
 
