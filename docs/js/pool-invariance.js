@@ -84,7 +84,7 @@
       }
 
       // Fallback: inject TeX (for pages without authored math)
-      renderLatex(eqEl, String.raw`K(t) + W_{\mathrm{fric}}(t) + W_{\mathrm{inel}}(t) = E_{\text{total}}`, { displayMode: false });
+      //renderLatex(eqEl, String.raw`K(t) + W_{\mathrm{fric}}(t) + W_{\mathrm{inel}}(t) = E_{\text{total}}`, { displayMode: false });
     }
     setEquation();
 

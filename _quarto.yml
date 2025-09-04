@@ -5,6 +5,7 @@ project:
 resources: 
   - js/**
   - css/**
+  - assets/**
 
 book:
   title: "Unlawful Laws"
