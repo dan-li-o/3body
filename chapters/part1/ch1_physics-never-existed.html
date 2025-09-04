@@ -404,7 +404,7 @@ Widget&nbsp;2.2: The Lawful Table—many knobs.
   <div class="wgt__panel wgt__controls">
     <div class="wgt__title">Controls</div>
     <div class="wgt__field">
-      <div class="wgt__hint">Click the coin (or use buttons) to flip. The coin animates and settles to Heads or Tails.</div>
+      <div class="wgt__hint">Click the coin (or use buttons) to flip. </div>
     </div>
     <div class="wgt__field">
       <label for="p-range">Heads probability</label>
@@ -414,8 +414,10 @@ Widget&nbsp;2.2: The Lawful Table—many knobs.
     </div>
     <div class="wgt__field" role="group" aria-label="Flip actions">
       <button type="button" data-role="flip1" class="wgt__btn--accent">Flip</button>
-      <button type="button" data-role="flip10">Flip ×10</button>
-      <button type="button" data-role="flip100">Flip ×100</button>
+      <div class="wgt__row">
+        <button type="button" data-role="flip10">Flip ×10</button>
+        <button type="button" data-role="flip100">Flip ×100</button>
+      </div>
       <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
     </div>
   </div>
@@ -423,17 +425,15 @@ Widget&nbsp;2.2: The Lawful Table—many knobs.
   <!-- Output (bottom-right) -->
   <div class="wgt__panel wgt__output" aria-live="polite">
     <div class="wgt__title">Results</div>
-    <div class="wgt__row">
-      <strong>Trials</strong> <span data-role="n" class="wgt__out">0</span>
-      </div>
-    <div class="wgt__row">
-      <strong>Heads</strong>  <span data-role="h" class="wgt__out">0</span>
-      <strong>Tails</strong>  <span data-role="t" class="wgt__out">0</span>
+    <div class="wgt__row wgt__row--spread">
+      <span class="wgt__metric"><strong>Trials</strong> <span data-role="n" class="wgt__out">0</span></span>
+      <span class="wgt__metric"><strong>Heads</strong>  <span data-role="h" class="wgt__out">0</span></span>
+      <span class="wgt__metric"><strong>Tails</strong>  <span data-role="t" class="wgt__out">0</span></span>
     </div>
     <div class="wgt__row">
       <strong>Estimate p (H/trials)</strong>    <span data-role="phat" class="wgt__out">—</span>
       </div>
-    <div class="wgt__hint">• Click the coin to flip. • The chart shows the running estimate p̂ = H/n with a dashed target at the chosen p. • Uses high-quality randomness when available.</div>
+    <div class="wgt__hint">The chart shows the running estimate p̂ = H/n with a dashed target at the chosen p.</div>
   </div>
 </div>
 
@@ -537,7 +537,7 @@ Widget&nbsp;2.4: Breaking Spatial Symmetry—same table, unlawful rules.
 </figcaption>
 </figure>
 </div>
-<p>Enable size field and drag the ball across the table, you’ll notice its size alters. Hit it with a cue, watch how the kinetic energy bounces up and down as the ball moves across the table from left to right and right to left—when it is supposed to stay constant. The ball doesn’t look the same anymore when moving. Spatial symmetry is broken. Energy doesn’t conserve anymore.&nbsp;</p>
+<p>Enable the Size Field and drag the ball across the table, you’ll notice its size alters. Hit it with a cue, watch how the kinetic energy bounces up and down as the ball moves across the table from left to right and right to left—when it is supposed to stay constant. The ball doesn’t look the same anymore when moving. Spatial symmetry is broken. Energy doesn’t conserve.&nbsp;</p>
 <p>Enable transmutation, and even worse things happen. The concept of energy doesn’t even apply anymore, let alone energy conservation.&nbsp;</p>
 <p>Only in this case, you own the pool table and can control whether and how to break symmetry. But imagine what scientists of pool tables have to face!</p>
 </section>

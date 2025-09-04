@@ -50,6 +50,8 @@
       tickSec: 0.5,
       samplesMax: 2400,
 
+      
+
       ...opts
     };
 
@@ -108,6 +110,8 @@
     const tctx = () => layoutTable.ctx;
     const cctx = () => layoutChart.ctx;
 
+    
+
     // ---- State ----
     const state = {
       // Ball kinematics; we model size visually but treat mass via size^2
@@ -123,7 +127,11 @@
 
       // Symmetry breakers
       sizeField: { ...cfg.sizeField },
-      transmute: { ...cfg.transmute, _done: false, hopT: 0, creature: null, px: 0, py: 0, vx: 0, vy: 0, rot: 0, scheduledAt: null },
+      transmute: { ...cfg.transmute, _done: false, hopT: 0, creature: null, px: 0, py: 0, vx: 0, vy: 0, rot: 0, scheduledAt: null,
+        phase: 'idle', phaseT: 0,
+        bubbleMs: 900, anticipateMs: 600, hop1Ms: 1800, noteMs: 1200, noteVisible: false, noteAt: {x:0,y:0},
+        bounced: false
+      },
 
       // Energies (m depends on r)
       m0: 0, E0: 0, Etrans: 0, Wfric: 0, Winel: 0, Wext: 0,
@@ -272,18 +280,23 @@
       state.transmute._done = true; state.transmute.hopT = 0;
       state.vx = state.vy = 0;
       state.tEvent = state.t;
-      // Initialize creature and motion (vector only)
-      const kinds = ['frog','rabbit','bird','bear','lion'];
-      const k = kinds[Math.floor(Math.random()*kinds.length)];
+      // Initialize creature and motion (always white rabbit for gag)
+      const k = 'rabbit';
       state.transmute.creature = k;
       state.transmute.px = state.x; state.transmute.py = state.y;
       // Random outbound direction roughly up-right
       const ang = (-Math.PI/2) + (Math.random()*Math.PI/3 - Math.PI/6); // around upward
-      const base = (k==='frog')?1.8:(k==='rabbit')?2.0:(k==='bird')?2.2:(k==='bear')?1.5:1.7;
-      const speed = base + Math.random()*0.8;
+      // Slower base speed so the gag reads clearly
+      const base = 0.9;
+      const speed = base + Math.random()*0.4;
       state.transmute.vx = Math.cos(ang) * speed;
       state.transmute.vy = Math.sin(ang) * speed;
       state.transmute.rot = 0;
+      state.transmute.phase = 'anticipate';
+      state.transmute.phaseT = 0;
+      state.transmute.noteVisible = false; state.transmute.noteAt = {x: state.transmute.px, y: state.transmute.py};
+      state.transmute.bounced = false;
+      // Vector-only gag (no sprite)
       announce(liveEl, 'The ball transformed and left the table. Ledger halted.');
     }
 
@@ -323,46 +336,180 @@
         c.beginPath(); c.arc(state.x, state.y, state.r, 0, Math.PI*2);
         c.fillStyle="#f7f7f7"; c.shadowColor="rgba(0,0,0,0.25)"; c.shadowBlur=4; c.fill(); c.shadowBlur=0;
       } else {
-        // Draw creature as vectors (frog, rabbit, bird, bear, lion)
-        const hop = state.transmute.hopT || 0;
-        const k = state.transmute.creature || 'frog';
+        // Phased gag draw: anticipate morph, then rabbit with watch, speech bubble, sticky note
+        const k = 'rabbit';
         const px = state.transmute.px; const py = state.transmute.py;
-        c.save();
-        c.translate(px, py);
-        if (k==='frog'){
-          c.fillStyle = "#3aa34b";
-          c.beginPath(); c.ellipse(0, 0, state.r*1.2, state.r*0.9, 0, 0, Math.PI*2); c.fill();
-          c.fillStyle = "#fff"; c.beginPath(); c.arc(-state.r*0.4, -state.r*0.35, 2.4, 0, Math.PI*2); c.arc(state.r*0.4, -state.r*0.35, 2.4, 0, Math.PI*2); c.fill();
-          c.fillStyle = "#222"; c.beginPath(); c.arc(-state.r*0.4, -state.r*0.35, 1.2, 0, Math.PI*2); c.arc(state.r*0.4, -state.r*0.35, 1.2, 0, Math.PI*2); c.fill();
+        // Anticipation: squash+glow on the ball
+        if (state.transmute.phase === 'anticipate'){
+          const t = clamp(state.transmute.phaseT / (state.transmute.anticipateMs/1000), 0, 1);
+          // Two squeeze cycles before morph
+          const cycles = 2;
+          const squash = 1 + 0.20*Math.sin(t * cycles * Math.PI);
+          c.save(); c.translate(px, py);
+          c.shadowColor = 'rgba(255,255,200,0.8)'; c.shadowBlur = 12;
+          c.scale(squash, 1/squash);
+          c.beginPath(); c.arc(0,0,state.r,0,Math.PI*2); c.fillStyle = '#fdfdfd'; c.fill(); c.shadowBlur=0; c.restore();
+        } else {
+          // Rabbit body (vector, merged detailed version)
+          c.save(); c.translate(px, py);
+          const RS = 2.0; // scale up rabbit size
+          // Body (main ellipse)
+          c.fillStyle = '#f5f5f5';
+          c.beginPath();
+          c.ellipse(0, 0, RS*state.r*1.3, RS*state.r*0.95, 0, 0, Math.PI*2);
+          c.fill();
+          // Body outline
+          c.strokeStyle = '#ddd';
+          c.lineWidth = 1;
+          c.stroke();
+          // Ears outer (same color as body)
+          c.fillStyle = '#f5f5f5';
+          c.beginPath();
+          c.ellipse(-RS*state.r*0.3, -RS*state.r*1.1, RS*state.r*0.25, RS*state.r*0.6, -0.1, 0, Math.PI*2);
+          c.ellipse( RS*state.r*0.3, -RS*state.r*1.1, RS*state.r*0.25, RS*state.r*0.6,  0.1, 0, Math.PI*2);
+          c.fill();
+          // Ears inner
+          c.fillStyle = '#f7a';
+          c.beginPath();
+          c.ellipse(-RS*state.r*0.3, -RS*state.r*1.1, RS*state.r*0.12, RS*state.r*0.45, -0.1, 0, Math.PI*2);
+          c.ellipse( RS*state.r*0.3, -RS*state.r*1.1, RS*state.r*0.12, RS*state.r*0.45,  0.1, 0, Math.PI*2);
+          c.fill();
+          // Eyes (both)
+          c.fillStyle = '#222';
+          c.beginPath();
+          c.arc( RS*state.r*0.4, -RS*state.r*0.15, RS*2.8, 0, Math.PI*2); // right eye
+          c.arc(-RS*state.r*0.2, -RS*state.r*0.15, RS*2.8, 0, Math.PI*2); // left eye
+          c.fill();
+          // Eye highlights
+          c.fillStyle = '#ffffff';
+          c.beginPath();
+          c.arc( RS*state.r*0.45, -RS*state.r*0.2, RS*0.8, 0, Math.PI*2);
+          c.arc(-RS*state.r*0.15, -RS*state.r*0.2, RS*0.6, 0, Math.PI*2);
+          c.fill();
+          // Nose (smaller / lower)
+          c.fillStyle = '#ff6b9d';
+          c.beginPath();
+          c.ellipse(RS*state.r*0.1, RS*state.r*0.22, RS*1.0, RS*0.75, 0, 0, Math.PI*2);
+          c.fill();
+          // Mouth
+          c.strokeStyle = '#333';
+          c.lineWidth = RS*0.6;
+          c.beginPath();
+          c.arc(RS*state.r*0.1, RS*state.r*0.25, RS*6, 0.25, Math.PI-0.25);
+          c.stroke();
+          // Whiskers
+          c.strokeStyle = '#666';
+          c.lineWidth = RS*0.5;
+          c.beginPath();
+          // Left
+          c.moveTo(-RS*state.r*0.4, RS*state.r*0.1);
+          c.lineTo(-RS*state.r*0.8, RS*state.r*0.05);
+          c.moveTo(-RS*state.r*0.4, RS*state.r*0.2);
+          c.lineTo(-RS*state.r*0.8, RS*state.r*0.2);
+          // Right
+          c.moveTo(RS*state.r*0.6, RS*state.r*0.1);
+          c.lineTo(RS*state.r*1.0, RS*state.r*0.05);
+          c.moveTo(RS*state.r*0.6, RS*state.r*0.2);
+          c.lineTo(RS*state.r*1.0, RS*state.r*0.2);
+          c.stroke();
+          // Pocket watch + face
+          c.fillStyle = '#d4af37';
+          c.beginPath(); c.arc(-RS*state.r*0.7, RS*state.r*0.3, RS*state.r*0.4, 0, Math.PI*2); c.fill();
+          c.fillStyle = '#ffffff';
+          c.beginPath(); c.arc(-RS*state.r*0.7, RS*state.r*0.3, RS*state.r*0.3, 0, Math.PI*2); c.fill();
+          // Watch hands
+          c.strokeStyle = '#333'; c.lineWidth = RS*1.0;
+          c.beginPath();
+          c.moveTo(-RS*state.r*0.7, RS*state.r*0.3);
+          c.lineTo(-RS*state.r*0.7, RS*state.r*0.1);
+          c.moveTo(-RS*state.r*0.7, RS*state.r*0.3);
+          c.lineTo(-RS*state.r*0.6, RS*state.r*0.15);
+          c.stroke();
+          // Tail
+          c.fillStyle = '#f5f5f5';
+          c.beginPath(); c.arc(-RS*state.r*1.2, RS*state.r*0.3, RS*state.r*0.3, 0, Math.PI*2); c.fill();
+          c.strokeStyle = '#ddd'; c.lineWidth = 1; c.stroke();
+          c.restore();
+
+          // Speech bubble during "say" phase
+          if (state.transmute.phase === 'say' && state.transmute.phaseT <= state.transmute.bubbleMs/1000){
+            // Preferred bubble position: to the right-above of rabbit
+            let bx = px + RS*state.r*1.8, by = py - RS*state.r*1.6;
+            c.save(); c.fillStyle = '#ffffff'; c.strokeStyle='#333'; c.lineWidth=1.2;
+            const bw = 200, bh = 56, M = 6; // larger bubble
+            // Helper: clamp rect inside canvas
+            function clampRect(){
+              if (bx + bw > w - M) bx = w - M - bw;
+              if (bx < M) bx = M;
+              if (by + bh > h - M) by = h - M - bh;
+              if (by < M) by = M;
+            }
+            clampRect();
+            // Avoid overlap with rabbit bbox; try alternate sides if needed
+            const rbx = px - RS*state.r*1.4, rby = py - RS*state.r*1.9; // rabbit rough bbox
+            const rbw = RS*state.r*2.8, rbh = RS*state.r*3.8;
+            function overlaps(){ return !(bx>rbx+rbw || bx+bw<rbx || by>rby+rbh || by+bh<rby); }
+            if (overlaps()) {
+              // Try left side
+              bx = px - RS*state.r*1.8 - bw; by = py - RS*state.r*1.6; clampRect();
+              if (overlaps()) {
+                // Try above centered
+                bx = px - bw/2; by = py - RS*state.r*2.2 - bh; clampRect();
+                if (overlaps()) {
+                  // Try below
+                  bx = px - bw/2; by = py + RS*state.r*0.8; clampRect();
+                }
+              }
+            }
+            c.beginPath(); c.rect(bx,by,bw,bh); c.fill(); c.stroke();
+            // tail (simple downward tail from bottom-left area)
+            c.beginPath(); c.moveTo(bx+26, by+bh); c.lineTo(bx+18, by+bh+14); c.lineTo(bx+38, by+bh); c.closePath(); c.fill(); c.stroke();
+            c.fillStyle = '#222'; c.font = '18px system-ui, sans-serif'; c.textAlign='center'; c.textBaseline='middle';
+            c.fillText("I'm late!", bx + bw/2, by + bh/2);
+            c.restore();
+          }
+
+          // Sticky note if visible
+          if (state.transmute.noteVisible){
+            let nx = state.transmute.noteAt.x, ny = state.transmute.noteAt.y;
+            // Ensure note rect stays within canvas and avoids rabbit bbox
+            const Wn = 200, Hn = 100, M = 8;
+            const rbx = px - RS*state.r*1.4, rby = py - RS*state.r*1.9; // rabbit bbox (same as above)
+            const rbw = RS*state.r*2.8, rbh = RS*state.r*3.8;
+            function clampNote(){
+              nx = Math.max(Wn/2 + M, Math.min(w - Wn/2 - M, nx));
+              ny = Math.max(Hn/2 + M, Math.min(h - Hn/2 - M, ny));
+            }
+            function noteOverlaps(){ return !(nx-Wn/2>rbx+rbw || nx+Wn/2<rbx || ny-Hn/2>rby+rbh || ny+Hn/2<rby); }
+            clampNote();
+            if (noteOverlaps()) {
+              // Try above the rabbit
+              nx = px; ny = py - RS*state.r*2.2 - Hn/2; clampNote();
+              if (noteOverlaps()) {
+                // Try below
+                nx = px; ny = py + RS*state.r*1.2 + Hn/2; clampNote();
+                if (noteOverlaps()) {
+                  // Try right
+                  nx = px + RS*state.r*1.8 + Wn/2; ny = py; clampNote();
+                  if (noteOverlaps()) {
+                    // Try left
+                    nx = px - RS*state.r*1.8 - Wn/2; ny = py; clampNote();
+                  }
+                }
+              }
+            }
+            // Draw the note at resolved nx,ny
+            c.save();
+            c.translate(nx, ny);
+            c.fillStyle = '#fff9b1';
+            c.strokeStyle = '#d9cc7a'; c.lineWidth=1.2;
+            c.beginPath(); c.rect(-Wn/2, -Hn/2, Wn, Hn); c.fill(); c.stroke();
+            c.fillStyle = '#333'; c.font='italic 15px "Comic Sans MS", "Brush Script MT", cursive, system-ui'; c.textAlign='center';
+            c.fillText('BRB: Breaking symmetry—', 0, -10);
+            c.fillText('Ask Noether.', 0, 12);
+            c.restore();
+          }
         }
-        else if (k==='rabbit'){
-          c.fillStyle = "#ddd";
-          c.beginPath(); c.ellipse(0, 0, state.r*1.3, state.r*0.95, 0, 0, Math.PI*2); c.fill();
-          c.fillStyle = "#eee"; c.beginPath(); c.ellipse(-state.r*0.3, -state.r*1.1, state.r*0.25, state.r*0.6, 0, 0, Math.PI*2); c.ellipse(state.r*0.3, -state.r*1.1, state.r*0.25, state.r*0.6, 0, 0, Math.PI*2); c.fill();
-          c.fillStyle = "#f4a"; c.beginPath(); c.ellipse(-state.r*0.3, -state.r*1.1, state.r*0.12, state.r*0.45, 0, 0, Math.PI*2); c.ellipse(state.r*0.3, -state.r*1.1, state.r*0.12, state.r*0.45, 0, 0, Math.PI*2); c.fill();
-        }
-        else if (k==='bird'){
-          c.rotate(state.transmute.rot);
-          c.fillStyle = "#55a7ff";
-          c.beginPath(); c.ellipse(0, 0, state.r*1.2, state.r*0.8, 0, 0, Math.PI*2); c.fill();
-          c.fillStyle = "#4c96e6";
-          c.beginPath(); c.ellipse(-state.r*0.1, 0, state.r*0.3, state.r*0.7, Math.PI/2, 0, Math.PI*2); c.fill();
-          c.beginPath(); c.ellipse(state.r*0.1, 0, state.r*0.3, state.r*0.7, -Math.PI/2, 0, Math.PI*2); c.fill();
-          c.fillStyle = "#222"; c.beginPath(); c.arc(state.r*0.5, -state.r*0.15, 1.5, 0, Math.PI*2); c.fill();
-        }
-        else if (k==='bear'){
-          c.fillStyle = "#6b4f3a"; // brown body
-          c.beginPath(); c.ellipse(0, 0, state.r*1.5, state.r*1.1, 0, 0, Math.PI*2); c.fill();
-          c.fillStyle = "#5a3f2d"; c.beginPath(); c.arc(-state.r*0.7, -state.r*0.7, state.r*0.35, 0, Math.PI*2); c.arc(state.r*0.7, -state.r*0.7, state.r*0.35, 0, Math.PI*2); c.fill();
-          c.fillStyle = "#222"; c.beginPath(); c.arc(0, 0, 2, 0, Math.PI*2); c.fill();
-        }
-        else if (k==='lion'){
-          c.fillStyle = "#d9a441"; // golden body
-          c.beginPath(); c.ellipse(0, 0, state.r*1.4, state.r*1.0, 0, 0, Math.PI*2); c.fill();
-          c.fillStyle = "#a86b2f"; c.beginPath(); c.ellipse(0, -state.r*0.2, state.r*1.2, state.r*1.2, 0, 0, Math.PI*2); c.fill();
-          c.fillStyle = "#222"; c.beginPath(); c.arc(0, 0, 2, 0, Math.PI*2); c.fill();
-        }
-        c.restore();
       }
 
       // Cue + pull
@@ -441,23 +588,7 @@
       const sNow = data[i1]; const yNow = yOf(sNow.Etrans, Eref);
       c.fillStyle = "rgba(60,145,130,1.0)"; c.beginPath(); c.arc(xNow, yNow, 3.5, 0, Math.PI*2); c.fill();
 
-      // If transmuted, fade and overlay a question mark
-      if (state.mode === 'transmuted'){
-        c.save();
-        c.globalAlpha = 0.30;
-        c.fillStyle = '#fff';
-        c.fillRect(-padL, -padT, W, H);
-        c.restore();
-
-        c.save();
-        c.fillStyle = '#333';
-        c.textAlign = 'center';
-        c.font = 'bold 44px system-ui, sans-serif';
-        c.fillText('?', iw*0.5, ih*0.45);
-        c.font = '12px system-ui, sans-serif';
-        c.fillText('System ceased to be the modeled object', iw*0.5, ih*0.45 + 22);
-        c.restore();
-      }
+      // If transmuted, keep ledger frozen without overlay (table gag owns the moment)
 
       c.restore();
     }
@@ -496,25 +627,71 @@
       // Advance creature animation if transmuted (simple kinematics)
       if (state.mode==='transmuted') {
         const w = layoutTable.width, h = layoutTable.height;
-        state.transmute.hopT += 1;
-        const k = state.transmute.creature || 'frog';
-        if (k === 'frog' || k === 'rabbit' || k==='bear' || k==='lion'){
-          // Hop: piecewise parabolic bumps while moving outward
-          const t = state.transmute.hopT;
-          const hopPhase = (t % 28) / 28;
-          const amp = (k==='frog')?16:(k==='rabbit')?22:(k==='bear')?12:14;
+        const dtSec = dt;
+        // Phase machine
+        state.transmute.phaseT += dtSec;
+        const ph = state.transmute.phase;
+        if (ph === 'anticipate'){
+          if (state.transmute.phaseT >= state.transmute.anticipateMs/1000){
+            state.transmute.phase = 'say'; state.transmute.phaseT = 0;
+            announce(liveEl, "Rabbit: 'I'm late!'");
+          }
+        }
+        else if (ph === 'say' || ph === 'hop1'){
+          // During say/hop1 we move with hop bumps; bubble shows during 'say'
+          const k = 'rabbit';
+          state.transmute.hopT += dtSec * 60; // scale to frame-ish units
+          const hopPhase = (state.transmute.hopT % 28) / 28;
+          const amp = 22;
           const bump = Math.sin(hopPhase * Math.PI) * amp;
           state.transmute.px += state.transmute.vx;
           state.transmute.py += state.transmute.vy - 0.18 + (-bump*0.02);
-        } else if (k === 'bird'){
-          // Glide upward and rotate a bit
-          state.transmute.px += state.transmute.vx * 1.1;
-          state.transmute.py += state.transmute.vy * 1.1 - 0.25;
-          state.transmute.rot += 0.012;
+          if (ph === 'say' && state.transmute.phaseT >= state.transmute.hop1Ms/1000){
+            state.transmute.phase = 'note'; state.transmute.phaseT = 0;
+            state.transmute.noteVisible = true;
+            // Clamp note center so sticky note stays within table bounds
+            const Wn = 200, Hn = 100, M = 8;
+            const minX = Wn/2 + M, maxX = w - Wn/2 - M;
+            const minY = Hn/2 + M, maxY = h - Hn/2 - M;
+            const cx = Math.max(minX, Math.min(maxX, state.transmute.px));
+            const cy = Math.max(minY, Math.min(maxY, state.transmute.py - 10));
+            state.transmute.noteAt = {x: cx, y: cy};
+            announce(liveEl, 'Rabbit left a note: BRB: Breaking symmetry — Ask Noether.');
+          }
         }
-        // If fully off-canvas, keep it off; do nothing else (await Reset)
-        if (state.transmute.px < -40 || state.transmute.px > w + 40 || state.transmute.py < -60 || state.transmute.py > h + 60) {
-          // Stop updating further motion gently
+        else if (ph === 'note'){
+          // Pause and show note
+          if (state.transmute.phaseT >= state.transmute.noteMs/1000){
+            state.transmute.phase = 'hop2'; state.transmute.phaseT = 0;
+          }
+        }
+        else if (ph === 'hop2'){
+          state.transmute.hopT += dtSec * 60;
+          const hopPhase = (state.transmute.hopT % 28) / 28;
+          const amp = 22;
+          const bump = Math.sin(hopPhase * Math.PI) * amp;
+          state.transmute.px += state.transmute.vx;
+          state.transmute.py += state.transmute.vy - 0.18 + (-bump*0.02);
+          // Single bounce off table edge, then exit
+          if (!state.transmute.bounced){
+            const RS = 2.0; // rabbit scale used in draw
+            const rRadX = RS*state.r*1.3; // approx half-width
+            const rRadY = RS*state.r*1.4; // approx half-height
+            let hit = false;
+            if (state.transmute.px - rRadX < 0){ state.transmute.px = rRadX; state.transmute.vx = Math.abs(state.transmute.vx); hit = true; }
+            else if (state.transmute.px + rRadX > w){ state.transmute.px = w - rRadX; state.transmute.vx = -Math.abs(state.transmute.vx); hit = true; }
+            if (state.transmute.py - rRadY < 0){ state.transmute.py = rRadY; state.transmute.vy = Math.abs(state.transmute.vy); hit = true; }
+            else if (state.transmute.py + rRadY > h){ state.transmute.py = h - rRadY; state.transmute.vy = -Math.abs(state.transmute.vy); hit = true; }
+            if (hit) state.transmute.bounced = true;
+          } else {
+            // After bounce, gently bias outward so it exits
+            state.transmute.vx += 0.03 * (state.transmute.vx >= 0 ? 1 : -1);
+            state.transmute.vy += 0.03 * (state.transmute.vy >= 0 ? 1 : -1);
+          }
+        }
+
+        // If fully off-canvas, slow to stop
+        if (state.transmute.px < -60 || state.transmute.px > w + 60 || state.transmute.py < -80 || state.transmute.py > h + 80) {
           state.transmute.vx *= 0.98; state.transmute.vy *= 0.98;
         }
       }
