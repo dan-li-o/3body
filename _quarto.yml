@@ -52,6 +52,17 @@ format:
           <!-- Site-wide utils only; page widgets load per-chapter -->
           <script src="/js/widgets-core.js"></script>
 
+# Citations
+bibliography: data/references.bib
+# If you want Chicago notes style, add a CSL and uncomment:
+# csl: data/chicago-note-bibliography.csl
+link-citations: true
+# Put citation details in footnotes (HTML will render them as footnotes per page)
+citation-location: footnote
+# Optional: show per-chapter References sections
+# book:
+#   chapter-bibliography: true
+
 crossref:
   custom:
     - kind: float

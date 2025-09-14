@@ -1,4 +1,8 @@
-# References {.unnumbered}
+---
+title: References
+nocite: |
+  @*
+---
 
 ::: {#refs}
 :::
