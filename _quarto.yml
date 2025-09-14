@@ -54,14 +54,11 @@ format:
 
 # Citations
 bibliography: data/references.bib
-# If you want Chicago notes style, add a CSL and uncomment:
+# To get footnote-style citations, add a note-based CSL, e.g.:
 # csl: data/chicago-note-bibliography.csl
 link-citations: true
-# Put citation details in footnotes (HTML will render them as footnotes per page)
-citation-location: footnote
-# Optional: show per-chapter References sections
-# book:
-#   chapter-bibliography: true
+# citation-location supports only: document | margin (no footnote)
+# Use a note-based CSL to render citations as footnotes instead.
 
 crossref:
   custom:
