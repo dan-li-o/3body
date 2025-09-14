@@ -1,6 +1,5 @@
 project:
   type: book
-  output-dir: docs
 
 resources: 
   - js/**
@@ -50,9 +49,8 @@ format:
       - css/widgets.css
     include-after-body:
       - text: |
-          <script src="/js/widgets-core.js"></script>
-          <script src="/js/pool-sim.js"></script>
-          <script src="/js/pool-invariance.js"></script>
+          <!-- Site-wide utils only; page widgets load per-chapter -->
+          <script src="js/widgets-core.js"></script>
 
 crossref:
   custom:

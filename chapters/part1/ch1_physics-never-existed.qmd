@@ -67,7 +67,7 @@ Try it yourself. Ding Yi’s pool table has been reconstructed here.
   </div>
 </div>
 
-<script src="/js/pool-sim.js" defer></script>
+<script src="js/pool-sim.js" defer></script>
 ```
 Simple Pool Table with fixed strike and friction controls.
 :::
@@ -143,7 +143,7 @@ And yet, beneath the clutter, the pursuit is the same: change the knobs, keep th
 </div>
 
 <!-- Make sure widgets-core.js is included before this -->
-<script src="/js/pool-invariance.js" defer></script>
+<script src="js/pool-invariance.js" defer></script>
 ```
 The Lawful Table---many knobs. 
 :::
@@ -204,7 +204,7 @@ Let’s try it.
 </div>
 
 <!-- Ensure widgets-core.js is included site-wide before this -->
-<script src="/js/coin-flip.js" defer></script>
+<script src="js/coin-flip.js" defer></script>
 ```
 Coin Flip Device — click to flip; chart shows p̂ over trials.
 :::
