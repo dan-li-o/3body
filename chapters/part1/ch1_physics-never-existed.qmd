@@ -35,39 +35,7 @@ Try it yourself. Ding Yi’s pool table has been reconstructed here.
 
 ::: {#wid-pool-sim .widget}
 ```{=html}
-<div class="wgt wgt--pool" data-widget="pool-sim">
-  <!-- Canvas (top row) -->
-  <div class="wgt__canvas">
-    <canvas width="640" height="360"></canvas>
-  </div>
-
-  <!-- Controls (bottom-left) -->
-  <div class="wgt__panel wgt__controls">
-    <div class="wgt__title">Controls</div>
-
-    <div class="wgt__field">
-      <label for="fric-range">Friction</label>
-      <input type="range"  id="fric-range"  data-role="fric-range" min="0.000" max="0.100" step="0.001" value="0.000">
-      <input type="number" id="fric-num"    data-role="fric-num"   min="0.000" max="0.100" step="0.001" value="0.000">
-      <div class="wgt__hint">(0.000 = no friction)</div>
-    </div>
-
-    <div>
-      <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
-    </div>
-  </div>
-
-  <!-- Output (bottom-right) -->
-  <div class="wgt__panel wgt__output" id="telemetry" aria-live="polite">
-    <div class="wgt__title">Results</div>
-    <div class="wgt__row"><strong>Position</strong>     <span data-role="pos" class="wgt__out">(—, —)</span></div>
-    <div class="wgt__row"><strong>Velocity</strong>     <span data-role="vel" class="wgt__out">(—, —)</span></div>
-    <div class="wgt__row"><strong>Acceleration</strong> <span data-role="acc" class="wgt__out">(—, —)</span></div>
-    <div class="wgt__hint">• Drag the ball anywhere, then release. • Cue hits with the same direction &amp; force. • Cushions are perfectly elastic.</div>
-  </div>
-</div>
-
-<script src="js/pool-sim.js" defer></script>
+{{< include /partials/pool-sim.html >}}
 ```
 Simple Pool Table with fixed strike and friction controls.
 :::
@@ -106,44 +74,7 @@ And yet, beneath the clutter, the pursuit is the same: change the knobs, keep th
 
 ::: {#wid-pool-sim .widget}
 ```{=html}
-<div class="wgt wgt--pool" data-widget="pool-invariance" id="wid-pool-invariance">
-  <!-- Canvas (table) -->
-  <div class="wgt__canvas">
-    <canvas data-role="table" width="640" height="360" aria-label="Pool table simulation canvas"></canvas>
-  </div>
-
-  <!-- Controls (bottom-left) -->
-  <div class="wgt__panel wgt__controls">
-    <div class="wgt__title">controls</div>
-
-    <div class="wgt__field">
-      <label for="fric-range">Friction</label>
-      <input type="range"  id="fric-range"  data-role="fric-range" min="0.000" max="0.100" step="0.001" value="0.000">
-      <input type="number" id="fric-num"    data-role="fric-num"   min="0.000" max="0.100" step="0.001" value="0.000">
-      <div class="wgt__hint">(0.000 = no friction)</div>
-    </div>
-
-    <div class="wgt__field">
-      <label for="rest-range">Elasticity</label>
-      <input type="range"  id="rest-range"  data-role="rest-range" min="0.60" max="1.00" step="0.01"  value="1.00">
-      <input type="number" id="rest-num"    data-role="rest-num"   min="0.60" max="1.00" step="0.01"  value="1.00">
-      <div class="wgt__hint">(1.00 = perfectly elastic cushions)</div>
-    </div>
-
-    <div>
-      <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
-    </div>
-  </div>
-
-  <!-- Output (bottom-right) -->
-  <div class="wgt__panel wgt__output" aria-live="polite">
-    <div class="wgt__title">Energy Ledger</div>
-    <div class="wgt__hint">• Drag the ball to move it. • Pull back anywhere to set direction &amp; power, then release. • Losses appear in the ledger.</div>
-  </div>
-</div>
-
-<!-- Make sure widgets-core.js is included before this -->
-<script src="js/pool-invariance.js" defer></script>
+{{< include /partials/pool-invariance.html >}}
 ```
 The Lawful Table---many knobs. 
 :::
@@ -160,51 +91,7 @@ Let’s try it.
 
 ::: {#wid-coin-sim .widget}
 ```{=html}
-<div class="wgt wgt--coin" data-widget="coin-flip" id="wid-coin-sim">
-  <!-- Canvas (coin area) -->
-  <div class="wgt__canvas">
-    <canvas data-role="coin" width="640" height="360" aria-label="Coin flipping simulation canvas"></canvas>
-  </div>
-
-  <!-- Controls (bottom-left) -->
-  <div class="wgt__panel wgt__controls">
-    <div class="wgt__title">Controls</div>
-    <div class="wgt__field">
-      <div class="wgt__hint">Click the coin (or use buttons) to flip. </div>
-    </div>
-    <div class="wgt__field">
-      <label for="p-range">Heads probability</label>
-      <input type="range"  id="p-range" data-role="p-range" min="0.00" max="1.00" step="0.01" value="0.50">
-      <input type="number" id="p-num"   data-role="p-num"   min="0.00" max="1.00" step="0.01" value="0.50">
-      <div class="wgt__hint">Changing p resets the run. (0.50 = fair coin)</div>
-    </div>
-    <div class="wgt__field" role="group" aria-label="Flip actions">
-      <button type="button" data-role="flip1"  class="wgt__btn--accent">Flip</button>
-      <div class="wgt__row">
-        <button type="button" data-role="flip10">Flip ×10</button>
-        <button type="button" data-role="flip100">Flip ×100</button>
-      </div>
-      <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
-    </div>
-  </div>
-
-  <!-- Output (bottom-right) -->
-  <div class="wgt__panel wgt__output" aria-live="polite">
-    <div class="wgt__title">Results</div>
-    <div class="wgt__row wgt__row--spread">
-      <span class="wgt__metric"><strong>Trials</strong> <span data-role="n" class="wgt__out">0</span></span>
-      <span class="wgt__metric"><strong>Heads</strong>  <span data-role="h" class="wgt__out">0</span></span>
-      <span class="wgt__metric"><strong>Tails</strong>  <span data-role="t" class="wgt__out">0</span></span>
-    </div>
-    <div class = "wgt__row">
-      <strong>Estimate p (H/trials)</strong>    <span data-role="phat" class="wgt__out">—</span>
-      </div>
-    <div class="wgt__hint">The chart shows the running estimate p̂ = H/n with a dashed target at the chosen p.</div>
-  </div>
-</div>
-
-<!-- Ensure widgets-core.js is included site-wide before this -->
-<script src="js/coin-flip.js" defer></script>
+{{< include /partials/coin-flip.html >}}
 ```
 Coin Flip Device — click to flip; chart shows p̂ over trials.
 :::
@@ -267,51 +154,7 @@ Try again, but this time, on a demon’s pool table where you can choose how to 
 
 ::: {.widget #wid-pool-symmetry}
 ```{=html}
-<div class="wgt wgt--pool" data-widget="pool-symmetry">
-  <!-- Canvas (top row) -->
-  <div class="wgt__canvas">
-    <canvas width="640" height="360"></canvas>
-  </div>
-
-  <!-- Controls (bottom-left) -->
-  <div class="wgt__panel wgt__controls">
-    <div class="wgt__title">Controls</div>
-    <div class="wgt__hint">No friction, perfect elasticity. Choose how to break spatial symmetry.</div>
-
-    <!-- Symmetry breakers -->
-    <div class="wgt__field">
-      <label>
-        <input type="checkbox" data-role="sizefield-on">
-        Size Field
-      </label>
-      <div class="wgt__row">
-        <label style="font-weight:600;">Strength</label>
-        <input type="number" data-role="sizefield-amp" min="0.00" max="1.50" step="0.05" value="0.60">
-      </div>
-      <div class="wgt__hint">Energy ledger treats size as mass (area ∝ mass).</div>
-    </div>
-
-    <div class="wgt__field">
-      <label>
-        <input type="checkbox" data-role="transmute-rand-on">
-        Transmutation
-      </label>
-      <div class="wgt__hint"></div>
-    </div>
-
-    <div>
-      <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
-    </div>
-  </div>
-
-  <!-- Output (bottom-right) -->
-  <div class="wgt__panel wgt__output" aria-live="polite">
-    <div class="wgt__title">Energy Ledger</div>
-    <div class="wgt__hint">Y-axis is fixed to the maximum possible energy under current settings; dashed line marks initial E₀.</div>
-  </div>
-</div>
-
-<script src="/js/pool-symmetry.js" defer></script>
+{{< include /partials/pool-symmetry.html >}}
 ```
 Breaking Spatial Symmetry---same table, unlawful rules.
 :::

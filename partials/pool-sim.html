@@ -1,0 +1,33 @@
+<div class="wgt wgt--pool" data-widget="pool-sim">
+  <!-- Canvas (top row) -->
+  <div class="wgt__canvas">
+    <canvas width="640" height="360"></canvas>
+  </div>
+
+  <!-- Controls (bottom-left) -->
+  <div class="wgt__panel wgt__controls">
+    <div class="wgt__title">Controls</div>
+
+    <div class="wgt__field">
+      <label for="fric-range">Friction</label>
+      <input type="range"  id="fric-range"  data-role="fric-range" min="0.000" max="0.100" step="0.001" value="0.000">
+      <input type="number" id="fric-num"    data-role="fric-num"   min="0.000" max="0.100" step="0.001" value="0.000">
+      <div class="wgt__hint">(0.000 = no friction)</div>
+    </div>
+
+    <div>
+      <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
+    </div>
+  </div>
+
+  <!-- Output (bottom-right) -->
+  <div class="wgt__panel wgt__output" id="telemetry" aria-live="polite">
+    <div class="wgt__title">Results</div>
+    <div class="wgt__row"><strong>Position</strong>     <span data-role="pos" class="wgt__out">(—, —)</span></div>
+    <div class="wgt__row"><strong>Velocity</strong>     <span data-role="vel" class="wgt__out">(—, —)</span></div>
+    <div class="wgt__row"><strong>Acceleration</strong> <span data-role="acc" class="wgt__out">(—, —)</span></div>
+    <div class="wgt__hint">• Drag the ball anywhere, then release. • Cue hits with the same direction &amp; force. • Cushions are perfectly elastic.</div>
+  </div>
+</div>
+
+<script src="/js/pool-sim.js" defer></script>

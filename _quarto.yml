@@ -50,7 +50,7 @@ format:
     include-after-body:
       - text: |
           <!-- Site-wide utils only; page widgets load per-chapter -->
-          <script src="js/widgets-core.js"></script>
+          <script src="/js/widgets-core.js"></script>
 
 crossref:
   custom:

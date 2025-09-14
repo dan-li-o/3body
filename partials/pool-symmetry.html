@@ -1,0 +1,45 @@
+<div class="wgt wgt--pool" data-widget="pool-symmetry">
+  <!-- Canvas (top row) -->
+  <div class="wgt__canvas">
+    <canvas width="640" height="360"></canvas>
+  </div>
+
+  <!-- Controls (bottom-left) -->
+  <div class="wgt__panel wgt__controls">
+    <div class="wgt__title">Controls</div>
+    <div class="wgt__hint">No friction, perfect elasticity. Choose how to break spatial symmetry.</div>
+
+    <!-- Symmetry breakers -->
+    <div class="wgt__field">
+      <label>
+        <input type="checkbox" data-role="sizefield-on">
+        Size Field
+      </label>
+      <div class="wgt__row">
+        <label style="font-weight:600;">Strength</label>
+        <input type="number" data-role="sizefield-amp" min="0.00" max="1.50" step="0.05" value="0.60">
+      </div>
+      <div class="wgt__hint">Energy ledger treats size as mass (area ∝ mass).</div>
+    </div>
+
+    <div class="wgt__field">
+      <label>
+        <input type="checkbox" data-role="transmute-rand-on">
+        Transmutation
+      </label>
+      <div class="wgt__hint"></div>
+    </div>
+
+    <div>
+      <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
+    </div>
+  </div>
+
+  <!-- Output (bottom-right) -->
+  <div class="wgt__panel wgt__output" aria-live="polite">
+    <div class="wgt__title">Energy Ledger</div>
+    <div class="wgt__hint">Y-axis is fixed to the maximum possible energy under current settings; dashed line marks initial E₀.</div>
+  </div>
+</div>
+
+<script src="/js/pool-symmetry.js" defer></script>

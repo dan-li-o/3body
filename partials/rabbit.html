@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Rabbit Drawing</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        canvas {
+            border: 2px solid #333;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            background: #2196F3;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #1976D2;
+        }
+        input[type="range"] {
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript Rabbit Drawing</h1>
+    <canvas id="canvas" width="600" height="400"></canvas>
+    <div class="controls">
+        <label>Size: <input type="range" id="sizeSlider" min="0.5" max="3" step="0.1" value="2"></label>
+        <button onclick="animateRabbit()">Animate</button>
+        <button onclick="randomizeColors()">Random Colors</button>
+        <button onclick="addCarrot()">Add Carrot</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const c = canvas.getContext('2d');
+        
+        // Rabbit state
+        let state = {
+            r: 30,
+            x: 300,
+            y: 200,
+            colors: {
+                body: '#f5f5f5',
+                ears: '#fafafa',
+                earInner: '#f7a',
+                eye: '#222',
+                watch: '#d4af37',
+                chain: '#cc9'
+            },
+            animation: {
+                bounce: 0,
+                time: 0
+            },
+            carrot: null
+        };
+
+        let animationId = null;
+        
+        function drawRabbit(px, py, bounceOffset = 0) {
+            c.save();
+            c.translate(px, py + bounceOffset);
+            const RS = parseFloat(document.getElementById('sizeSlider').value);
+            
+            // Body (main ellipse)
+            c.fillStyle = state.colors.body;
+            c.beginPath();
+            c.ellipse(0, 0, RS*state.r*1.3, RS*state.r*0.95, 0, 0, Math.PI*2);
+            c.fill();
+            
+            // Add body outline
+            c.strokeStyle = '#ddd';
+            c.lineWidth = 1;
+            c.stroke();
+            
+            // Ears (outer)
+            c.fillStyle = state.colors.ears;
+            c.beginPath();
+            c.ellipse(-RS*state.r*0.3, -RS*state.r*1.1, RS*state.r*0.25, RS*state.r*0.6, -0.1, 0, Math.PI*2);
+            c.ellipse(RS*state.r*0.3, -RS*state.r*1.1, RS*state.r*0.25, RS*state.r*0.6, 0.1, 0, Math.PI*2);
+            c.fill();
+            
+            // Ears (inner)
+            c.fillStyle = state.colors.earInner;
+            c.beginPath();
+            c.ellipse(-RS*state.r*0.3, -RS*state.r*1.1, RS*state.r*0.12, RS*state.r*0.45, -0.1, 0, Math.PI*2);
+            c.ellipse(RS*state.r*0.3, -RS*state.r*1.1, RS*state.r*0.12, RS*state.r*0.45, 0.1, 0, Math.PI*2);
+            c.fill();
+            
+            // Eyes (both eyes now)
+            c.fillStyle = state.colors.eye;
+            c.beginPath();
+            c.arc(RS*state.r*0.4, -RS*state.r*0.15, RS*3.8, 0, Math.PI*2); // Right eye
+            c.arc(-RS*state.r*0.2, -RS*state.r*0.15, RS*3.8, 0, Math.PI*2); // Left eye
+            c.fill();
+            
+            // Eye highlights
+            c.fillStyle = 'white';
+            c.beginPath();
+            c.arc(RS*state.r*0.45, -RS*state.r*0.2, RS*0.8, 0, Math.PI*2);
+            c.arc(-RS*state.r*0.15, -RS*state.r*0.2, RS*0.6, 0, Math.PI*2);
+            c.fill();
+            
+            // Nose
+            c.fillStyle = '#ff6b9d';
+            c.beginPath();
+            c.ellipse(RS*state.r*0.1, RS*state.r*0.1, RS*2, RS*1.5, 0, 0, Math.PI*2);
+            c.fill();
+            
+            // Mouth
+            c.strokeStyle = '#333';
+            c.lineWidth = RS*0.8;
+            c.beginPath();
+            c.arc(RS*state.r*0.1, RS*state.r*0.25, RS*8, 0.2, Math.PI-0.2);
+            c.stroke();
+            
+            // Whiskers
+            c.strokeStyle = '#666';
+            c.lineWidth = RS*0.5;
+            c.beginPath();
+            // Left whiskers
+            c.moveTo(-RS*state.r*0.4, RS*state.r*0.1);
+            c.lineTo(-RS*state.r*0.8, RS*state.r*0.05);
+            c.moveTo(-RS*state.r*0.4, RS*state.r*0.2);
+            c.lineTo(-RS*state.r*0.8, RS*state.r*0.2);
+            // Right whiskers
+            c.moveTo(RS*state.r*0.6, RS*state.r*0.1);
+            c.lineTo(RS*state.r*1.0, RS*state.r*0.05);
+            c.moveTo(RS*state.r*0.6, RS*state.r*0.2);
+            c.lineTo(RS*state.r*1.0, RS*state.r*0.2);
+            c.stroke();
+            
+            // Pocket watch
+            c.fillStyle = state.colors.watch;
+            c.beginPath();
+            c.arc(-RS*state.r*0.7, RS*state.r*0.3, RS*state.r*0.4, 0, Math.PI*2);
+            c.fill();
+            
+            // Watch face
+            c.fillStyle = 'white';
+            c.beginPath();
+            c.arc(-RS*state.r*0.7, RS*state.r*0.3, RS*state.r*0.3, 0, Math.PI*2);
+            c.fill();
+            
+            // Watch hands
+            c.strokeStyle = '#333';
+            c.lineWidth = RS*1.0;
+            c.beginPath();
+            c.moveTo(-RS*state.r*0.7, RS*state.r*0.3);
+            c.lineTo(-RS*state.r*0.7, RS*state.r*0.1);
+            c.moveTo(-RS*state.r*0.7, RS*state.r*0.3);
+            c.lineTo(-RS*state.r*0.6, RS*state.r*0.15);
+            c.stroke();
+            
+            // Tail
+            c.fillStyle = state.colors.body;
+            c.beginPath();
+            c.arc(-RS*state.r*1.2, RS*state.r*0.3, RS*state.r*0.3, 0, Math.PI*2);
+            c.fill();
+            c.strokeStyle = '#ddd';
+            c.lineWidth = 1;
+            c.stroke();
+            
+            c.restore();
+        }
+        
+        function drawCarrot() {
+            if (!state.carrot) return;
+            
+            c.save();
+            c.translate(state.carrot.x, state.carrot.y);
+            
+            // Carrot body
+            c.fillStyle = '#ff8c00';
+            c.beginPath();
+            c.moveTo(0, 20);
+            c.lineTo(-8, -20);
+            c.lineTo(8, -20);
+            c.closePath();
+            c.fill();
+            
+            // Carrot lines
+            c.strokeStyle = '#e67e22';
+            c.lineWidth = 1;
+            for (let i = -15; i < 15; i += 5) {
+                c.beginPath();
+                c.moveTo(-6, i);
+                c.lineTo(6, i);
+                c.stroke();
+            }
+            
+            // Carrot top (leaves)
+            c.fillStyle = '#27ae60';
+            c.beginPath();
+            c.moveTo(-5, -20);
+            c.lineTo(-8, -35);
+            c.lineTo(-3, -30);
+            c.lineTo(0, -40);
+            c.lineTo(3, -30);
+            c.lineTo(8, -35);
+            c.lineTo(5, -20);
+            c.closePath();
+            c.fill();
+            
+            c.restore();
+        }
+        
+        function render() {
+            // Clear canvas
+            c.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw background pattern
+            c.fillStyle = '#f0f8ff';
+            c.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw grass
+            c.fillStyle = '#90EE90';
+            c.fillRect(0, canvas.height - 50, canvas.width, 50);
+            
+            // Draw some simple flowers
+            for (let i = 50; i < canvas.width; i += 80) {
+                c.fillStyle = '#FFB6C1';
+                c.beginPath();
+                c.arc(i, canvas.height - 30, 4, 0, Math.PI*2);
+                c.fill();
+                c.fillStyle = '#32CD32';
+                c.fillRect(i-1, canvas.height - 30, 2, 15);
+            }
+            
+            // Calculate bounce for animation
+            const bounceOffset = Math.sin(state.animation.time * 0.1) * state.animation.bounce;
+            
+            // Draw rabbit
+            drawRabbit(state.x, state.y, bounceOffset);
+            
+            // Draw carrot
+            drawCarrot();
+            
+            // Update animation
+            state.animation.time += 1;
+        }
+        
+        function animateRabbit() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+                state.animation.bounce = 0;
+                render();
+                return;
+            }
+            
+            state.animation.bounce = 10;
+            
+            function animate() {
+                render();
+                animationId = requestAnimationFrame(animate);
+            }
+            animate();
+        }
+        
+        function randomizeColors() {
+            const colors = ['#f5f5f5', '#fff0f5', '#f0f8ff', '#fffacd', '#f0fff0'];
+            const earColors = ['#f7a', '#ffc0cb', '#dda0dd', '#98fb98', '#f0e68c'];
+            const watchColors = ['#d4af37', '#cd853f', '#b8860b', '#daa520', '#ffd700'];
+            
+            state.colors.body = colors[Math.floor(Math.random() * colors.length)];
+            state.colors.earInner = earColors[Math.floor(Math.random() * earColors.length)];
+            state.colors.watch = watchColors[Math.floor(Math.random() * watchColors.length)];
+            
+            render();
+        }
+        
+        function addCarrot() {
+            if (state.carrot) {
+                state.carrot = null;
+            } else {
+                state.carrot = {
+                    x: state.x + 100,
+                    y: state.y + 20
+                };
+            }
+            render();
+        }
+        
+        // Handle size slider
+        document.getElementById('sizeSlider').addEventListener('input', render);
+        
+        // Handle mouse clicks to move rabbit
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            state.x = e.clientX - rect.left;
+            state.y = e.clientY - rect.top;
+            render();
+        });
+        
+        // Initial render
+        render();
+    </script>
+</body>
+</html>
