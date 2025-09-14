@@ -98,6 +98,21 @@
   gap: 8px;
 }
 
+/* Make action buttons fill the row width; split evenly when multiple */
+.wgt__row > button{
+  flex: 1 1 0;
+}
+
+/* Spread three metrics evenly across a row and center their contents */
+.wgt__row--spread{ align-items: center; }
+.wgt__row--spread > .wgt__metric{
+  flex: 1 1 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start; /* left-align within each third */
+  gap: 6px;
+}
+
 /* Subtle hint text */
 .wgt__hint{
   color: var(--wgt-muted);
@@ -124,4 +139,3 @@
   border:2px solid #333;
   border-radius: var(--wgt-radius);
 }
-

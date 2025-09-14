@@ -170,7 +170,7 @@ Let’s try it.
   <div class="wgt__panel wgt__controls">
     <div class="wgt__title">Controls</div>
     <div class="wgt__field">
-      <div class="wgt__hint">Click the coin (or use buttons) to flip. The coin animates and settles to Heads or Tails.</div>
+      <div class="wgt__hint">Click the coin (or use buttons) to flip. </div>
     </div>
     <div class="wgt__field">
       <label for="p-range">Heads probability</label>
@@ -180,8 +180,10 @@ Let’s try it.
     </div>
     <div class="wgt__field" role="group" aria-label="Flip actions">
       <button type="button" data-role="flip1"  class="wgt__btn--accent">Flip</button>
-      <button type="button" data-role="flip10">Flip ×10</button>
-      <button type="button" data-role="flip100">Flip ×100</button>
+      <div class="wgt__row">
+        <button type="button" data-role="flip10">Flip ×10</button>
+        <button type="button" data-role="flip100">Flip ×100</button>
+      </div>
       <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
     </div>
   </div>
@@ -189,17 +191,15 @@ Let’s try it.
   <!-- Output (bottom-right) -->
   <div class="wgt__panel wgt__output" aria-live="polite">
     <div class="wgt__title">Results</div>
-    <div class="wgt__row">
-      <strong>Trials</strong> <span data-role="n" class="wgt__out">0</span>
-      </div>
-    <div class="wgt__row">
-      <strong>Heads</strong>  <span data-role="h" class="wgt__out">0</span>
-      <strong>Tails</strong>  <span data-role="t" class="wgt__out">0</span>
+    <div class="wgt__row wgt__row--spread">
+      <span class="wgt__metric"><strong>Trials</strong> <span data-role="n" class="wgt__out">0</span></span>
+      <span class="wgt__metric"><strong>Heads</strong>  <span data-role="h" class="wgt__out">0</span></span>
+      <span class="wgt__metric"><strong>Tails</strong>  <span data-role="t" class="wgt__out">0</span></span>
     </div>
     <div class = "wgt__row">
       <strong>Estimate p (H/trials)</strong>    <span data-role="phat" class="wgt__out">—</span>
       </div>
-    <div class="wgt__hint">• Click the coin to flip. • The chart shows the running estimate p̂ = H/n with a dashed target at the chosen p. • Uses high-quality randomness when available.</div>
+    <div class="wgt__hint">The chart shows the running estimate p̂ = H/n with a dashed target at the chosen p.</div>
   </div>
 </div>
 
@@ -259,8 +259,6 @@ Her theorem reveals the astonishing consequence: every continuous symmetry guara
 
 *Symmetry is the premise; conservation the promise.*
 
-
-
 ## The Horror of Demon's Pool Table 
 
 No matter where you set the ball on the pool table, the energy conserves because there is spatial symmetry. But what if we broke the spatial symmetry?
@@ -318,7 +316,7 @@ Try again, but this time, on a demon’s pool table where you can choose how to 
 Breaking Spatial Symmetry---same table, unlawful rules.
 :::
 
-Enable size field and drag the ball across the table, you’ll notice its size alters. Hit it with a cue, watch how the kinetic energy bounces up and down as the ball moves across the table from left to right and right to left—when it is supposed to stay constant. The ball doesn’t look the same anymore when moving. Spatial symmetry is broken. Energy doesn’t conserve anymore. 
+Enable the Size Field and drag the ball across the table, you’ll notice its size alters. Hit it with a cue, watch how the kinetic energy bounces up and down as the ball moves across the table from left to right and right to left—when it is supposed to stay constant. The ball doesn’t look the same anymore when moving. Spatial symmetry is broken. Energy doesn’t conserve. 
 
 Enable transmutation, and even worse things happen. The concept of energy doesn’t even apply anymore, let alone energy conservation. 
 
@@ -330,11 +328,6 @@ Nobel Laureate, physicist Leon Lederman, and theoretical physicist Christopher H
 
 > We should add that experimentalists still often look for missing energy and momentum in their detectors in particle collisions, but this is always interpreted nowadays as evidence for a new particle, never as evidence for the breakdown of the conservation laws of energy and momentum. Our faith, or should we say confidence (as science is not faith-based), in the symmetries of the structure of space and time, and Noether’s theorem would, at this point, be very hard to shake.
 
-For Yang, who had as much faith as Lederman and Hill, this was the final betrayal. Symmetry was not just a mathematical trick but the deep covenant of nature. It was the bridge between invariance and conservation, the silent guarantor that science could still speak a coherent language. Everything that we ever know from physics, from quarks to quasars, is an illusion. To see symmetry dissolve was to see the pillars of the temple collapse.
+For Yang, who had as much faith as Lederman and Hill, this was the final betrayal. Symmetry was not just a mathematical trick but the deep covenant of nature. It was the bridge between invariance and conservation, the silent guarantor that science could still speak a coherent language. Everything that we ever know from physics, from quarks to quasars, was an illusion. To see symmetry dissolve was to see the pillars of the temple collapse.
 
 *Physics has never existed, and will never exist.*
-
-
----
-
-This document was last updated on {{< meta date-modified >}}.
