@@ -167,7 +167,7 @@ Only in this case, you own the pool table and can control whether and how to bre
 
 ## Apostasy of Symmetry
 
-Sometimes, reality is indeed stranger than fiction. In 1950s, physicists did discover a strange phenomenon: subatomic particles called kaons and taus---they appear to be identical in every way, with the same mass, charge, and lifetime---decay into different products. 
+Sometimes, reality is indeed stranger than fiction. In the 1950s, physicists did discover a strange phenomenon: subatomic particles called kaons and taus---they appear to be identical in every way, with the same mass, charge, and lifetime---decay into different products. 
 
 ... [TODO]
 
