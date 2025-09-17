@@ -139,3 +139,110 @@
   border:2px solid #333;
   border-radius: var(--wgt-radius);
 }
+
+/* Flat-rotate widget choice buttons */
+.wgt--flat-rotate .wgt__canvas{
+  position: relative;
+}
+
+.wgt--flat-rotate .gesture-hint{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 18px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  color: rgba(32, 32, 32, 0.65);
+}
+
+.wgt--flat-rotate .gesture-hint[data-visible="true"]{
+  opacity: 1;
+}
+
+.wgt--flat-rotate .gesture-hint__arrow{
+  position: relative;
+  width: 34px;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: gesturePulse 1.6s ease-in-out infinite;
+}
+
+.wgt--flat-rotate .gesture-hint__arrow > span{
+  width: 6px;
+  height: 78px;
+  background: currentColor;
+  border-radius: 3px;
+  opacity: 0.35;
+}
+
+.wgt--flat-rotate .gesture-hint__arrow::before,
+.wgt--flat-rotate .gesture-hint__arrow::after{
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-left: 3px solid currentColor;
+  border-bottom: 3px solid currentColor;
+  opacity: 0.75;
+}
+
+.wgt--flat-rotate .gesture-hint__arrow::before{
+  top: 6px;
+  transform: rotate(135deg);
+}
+
+.wgt--flat-rotate .gesture-hint__arrow::after{
+  bottom: 6px;
+  transform: rotate(-45deg);
+}
+
+.wgt--flat-rotate .gesture-hint__hand{
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.55;
+  animation: gesturePulse 1.6s ease-in-out infinite alternate;
+}
+
+.wgt--flat-rotate .gesture-hint__hand svg{
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes gesturePulse{
+  0% { transform: translateY(0); opacity: 0.65; }
+  50% { transform: translateY(-6px); opacity: 1; }
+  100% { transform: translateY(0); opacity: 0.65; }
+}
+
+.wgt--flat-rotate .wgt__choice{
+  flex: 1 1 0;
+  padding: 8px 10px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  background: #f8f8f8;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.wgt--flat-rotate .wgt__choice:hover:not(:disabled){
+  background: #ececec;
+}
+.wgt--flat-rotate .wgt__choice:disabled{
+  opacity: 0.75;
+  cursor: default;
+}
+.wgt--flat-rotate .wgt__choice[data-selected="true"]{
+  background: var(--wgt-accent);
+  color: #fff;
+  border-color: transparent;
+}
+.wgt--flat-rotate .wgt__choice[data-correct="true"]{
+  box-shadow: 0 0 0 2px rgba(31, 122, 107, 0.45);
+}
