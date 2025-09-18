@@ -25,7 +25,7 @@ Five times. Five experiments.
 
 Each yielded the same result.
 
-"Aren't you shocked by the results?" Ding asked rhetorically. Wang did not know how to respond. 
+"Aren't you shocked by the results?" Ding asked rhetorically. Wang did not know how to respond. 
 
 “Come on, let's celebrate. We've discovered a great principle of nature: *The laws of physics are invariant across space and time*.” 
 
@@ -48,13 +48,13 @@ Notice how the experiment becomes boring. That boredom is the signature of a law
 
 Science seduces us with boredom. That is its secret charm. We want the universe to behave, not to surprise. Every replication, every repeated experiment that yields the same result, feels like a reassurance that we live in an orderly cosmos.
 
-Philosophers gave this reassurance a name: the Principle of the Uniformity of Nature.David Hume, the great skeptic, articulated it in the 18th century: the assumption that the future will resemble the past; that nature tomorrow will behave like nature today; that "*the course of nature continues always uniformly the same*."^[Hume never named this principle as-is in his *Treatise*. He says, "if Reason determin'd us, it would proceed upon that principle that instances, of which we have had no experience, must resemble those, of which we have had experience, and that the course of nature continues alasy uniformly the same" [@hume2000treatise]. For convenience, philosophers refert to this claim of similarity or resemblance between observed and unobserved regularties as the "Uniformity Principle," "Resemblance Principle," or the "Principle of Uniformity of Nature." Read more in @henderson2018problem [].].  
+Philosophers gave this reassurance a name: the Principle of the Uniformity of Nature.David Hume, the great skeptic, articulated it in the 18th century: the assumption that the future will resemble the past; that nature tomorrow will behave like nature today; that "*the course of nature continues always uniformly the same*."^[Hume never named this principle as-is in his *Treatise*. He says, "if Reason determin'd us, it would proceed upon that principle that instances, of which we have had no experience, must resemble those, of which we have had experience, and that the course of nature continues always uniformly the same" [@hume2000treatise]. For convenience, philosophers refer to this claim of similarity or resemblance between observed and unobserved regularities as the "Uniformity Principle," "Resemblance Principle," or the "Principle of Uniformity of Nature." Read more in @henderson2018problem [].].  
 
-Across cultures and centuries, thinkers spontaneously embraced the principle without hesitation. Thales sought a single element to ground the flux of the world. Aristotle believed nature’s motions could be classified because they followed regular causes. Xunzi wrote 天行有常---“the heavens move with constancy.”^[Another translation: There is a constancy to the activties of Heaven, from @xunzi2015xunzi [p.175].] The Stoics saw the cosmos ordered by logos. Aquinas and medieval scholastics  argued that God’s creation was rational and therefore reliable. Galileo, Kepler, and Newton all assumed their laws applied everywhere.^[In 1638, Galileo Galilei published *Discourses and Mathematical Demonstrations Relating to Two New Sciences*[-@galilei1914discourses], his final book and a scientific testament. The first half of the book deals with the causes and mathematics of how bodies break and the acceleration of falling bodies. The second new science, described in the latter of the book, deals with the mathematical descriptions and laws of local motions---motions of all matter. See more in @machamer2021galileo []. In contrast, Kepler's attitude is more ambiguous. But at least, he believes that his laws apply to all planets as he says, in his *The Harmony of the World*, "But it is absolutely certain and exact that the proportion between the periodic times of *any two planets* is precisely the sesquialterate proportion (i.e., the ratio of 3:2) of their mean distances..."[-@kepler2021harmonies]. Lastly, Newton wrote in the preface of *The Mathematical Principles of Natural Philosophy*, "I wish we could derive the rest of the phænomena of nature by the same kind of reasoning from mechanical principles; for I am induced by many reasons to suspect that they may all depend upon certain forces by which the particles of bodies, by some causes hitherto unknown, are either mutually impelled towards each other, and cohere in regular figures, or are repelled and recede from each other..."[-@newton1846principia].] Bacon made nature a system governed by its own laws and the very source of knowledge. And knowledge is power.  
+Across cultures and centuries, thinkers spontaneously embraced the principle without hesitation. Thales sought a single element to ground the flux of the world. Aristotle believed nature’s motions could be classified because they followed regular causes. Xunzi wrote 天行有常---“the heavens move with constancy.”^[Another translation: There is a constancy to the activities of Heaven, from @xunzi2015xunzi [p.175].] The Stoics saw the cosmos ordered by logos. Aquinas and medieval scholastics  argued that God’s creation was rational and therefore reliable. Galileo, Kepler, and Newton all assumed their laws applied everywhere.^[In 1638, Galileo Galilei published *Discourses and Mathematical Demonstrations Relating to Two New Sciences*[-@galilei1914discourses], his final book and a scientific testament. The first half of the book deals with the causes and mathematics of how bodies break and the acceleration of falling bodies. The second new science, described in the latter part of the book, deals with the mathematical descriptions and laws of local motions---motions of all matter. See more in @machamer2021galileo []. In contrast, Kepler's attitude is more ambiguous. But at least, he believes that his laws apply to all planets as he says, in his *The Harmony of the World*, "But it is absolutely certain and exact that the proportion between the periodic times of *any two planets* is precisely the sesquialterate proportion (i.e., the ratio of 3:2) of their mean distances..."[-@kepler2021harmonies]. Lastly, Newton wrote in the preface of *The Mathematical Principles of Natural Philosophy*, "I wish we could derive the rest of the phænomena of nature by the same kind of reasoning from mechanical principles; for I am induced by many reasons to suspect that they may all depend upon certain forces by which the particles of bodies, by some causes hitherto unknown, are either mutually impelled towards each other, and cohere in regular figures, or are repelled and recede from each other..."[-@newton1846principia].] Bacon made nature a system governed by its own laws and the very source of knowledge. And knowledge is power.  
 
 This conviction---that the rhythm of nature is reliable, and thus knowable---is what keeps us from superstition. However framed---through omen or through reason---the majority have trusted that the world follows patterns so that we are not at the mercy of whimsical gods.
 
-That trust is what makes science possible. Once we believed in order rather than caprice, knowledge could accumulate. Experiments became expected to repeat, results communicable, and science emerged as a shared project. This conviction, more than any single discovery, is what allowed the modern worldview to take root. ^[It is extremely difficult---if not impossible---to pin down the exact date of such a naturalistic turn. Most history of science textbooks agrees that the origin of western science should at least start from natural philosophy of acient Greece, if not Egypt and Mesopotamia. See Lindberg's *The Beginnings of Western Science* [-@lindberg2010beginnings] or McClenllan III's *Science and Technology in World History* [-@mcclellan2015science]. However, the naturalistic turn does not mean that scientific naturalism is entirely free of references to God or the supernatural. See more in *Science without God?* by @harrison2019science [].]
+That trust is what makes science possible. Once we believed in order rather than caprice, knowledge could accumulate. Experiments became expected to repeat, results communicable, and science emerged as a shared project. This conviction, more than any single discovery, is what allowed the modern worldview to take root. ^[It is extremely difficult---if not impossible---to pin down the exact date of such a naturalistic turn. Most history science textbooks agree that the origin of western science should at least start from the natural philosophy of ancient Greece, if not Egypt and Mesopotamia. See Lindberg's *The Beginnings of Western Science* [-@lindberg2010beginnings] or McClellan III's *Science and Technology in World History* [-@mcclellan2015science]. However, the naturalistic turn does not mean that scientific naturalism is entirely free of references to God or the supernatural. See more in *Science without God?* by @harrison2019science [].]
 
 Without the Principle of Uniformity of Nature, replication collapses, prediction is impossible, and “law” becomes an empty word. With it, the modern scientific worldview takes shape: not pleasing the gods, but trusting that the world itself is knowable, and that what we learned here and now will apply tomorrow and elsewhere.
 
@@ -62,13 +62,13 @@ Ding Yi concluded forcefully,
 
 > ... a great principle of nature: The laws of physics are invariant across space and time. All the physical laws of human history, from Archimedes' principle to string theory, and all the scientific discoveries and intellectual fruits of our species are the by-products of this great law. 
 
-But here is the scandal: Hume could never prove it. No one has. The uniformity of nature is not a discovery. It is a bet. A metaphysical faith disguised as an empirical law.^[It is worth noting that not all philosophers agree that Principle of Uniformity of Nature (PUN) is a metaphysical postulate. For example, Mill asserts that PUN is an empirical truth where as Russell treats PUN as a postulate, a form of "wishful thinking." See @Salmon1953-SALTUO [].] Even in the twentieth century, Einstein marveled that “the most incomprehensible thing about the universe is that it is comprehensible.”^[This quote is adapted for readability. In his essay "Physics and Reality" [-@einstein1936physics], Einstein wrote, "...the production of some sort of order among sense impressions, this order being produced by the creation of general concepts, relations between these concepts, and by definite relations of some kind between the concepts and sense experience. It is in this sense that the world of our sense experiences is comprehensible. The fact that it is comprehensible is a miracle."]
+But here is the scandal: Hume could never prove it. No one has. The uniformity of nature is not a discovery. It is a bet. A metaphysical faith disguised as an empirical law.^[It is worth noting that not all philosophers agree that the Principle of Uniformity of Nature (PUN) is a metaphysical postulate. For example, Mill asserts that PUN is an empirical truth whereas Russell treats PUN as a postulate, a form of "wishful thinking." See @Salmon1953-SALTUO [].] Even in the twentieth century, Einstein marveled that “the most incomprehensible thing about the universe is that it is comprehensible.”^[This quote is adapted for readability. In his essay "Physics and Reality" [-@einstein1936physics], Einstein wrote, "...the production of some sort of order among sense impressions, this order being produced by the creation of general concepts, relations between these concepts, and by definite relations of some kind between the concepts and sense experience. It is in this sense that the world of our sense experiences is comprehensible. The fact that it is comprehensible is a miracle."]
 
 Yang Dong’s suicide note was an act of apostasy.
 
 ## The Lawful Table
 
-Now, physicists don’t spend their lives rolling pool balls the same way over and over again. They juggle a zoo of variables---spin, friction, imperfections, air currents, hidden quirks of the felt---each one a potential troublemaker, each one an invitation for variance and disorder. 
+Now, physicists don’t spend their lives rolling pool balls the same way over and over again. They juggle a zoo of variables---spin, friction, imperfections, air currents, hidden quirks of the felt---each one a potential troublemaker, each one an invitation for variance and disorder. 
 
 And yet, beneath the clutter, the pursuit is the same: change the knobs, keep the laws. Find that invariance that stands like granite. 
 
@@ -106,6 +106,62 @@ But hidden in the proof is an often overlooked clause: each trial must be *indep
 
 It looks like victory: even in randomness, invariance survives. Only when such invariance holds can statistics, probability, and the sciences built on them exist at all.
 
+## Emmy Noether's Gift
+
+Yang Dong also killed herself because the Demon’s pool table broke the promises of all branches of physics, promises that follow **Noether's Theorem**. 
+
+In 1915, Emmy Noether, German mathematician and lecturer at University of Göttingen without pay---merely because she was a woman---discovered a secret mathematical architecture beneath the laws of physics. She proved that, loosely speaking, whenever a physical system behaves the same regardless of where it is, when it is, or how it is oriented, there must exist a law of conservation.^[Read more in *Emmy Noether's Wonderful Theorem* [@neuenschwander2017emmy] and *Symmetry and the Beautiful Universe* [@lederman2011symmetry].]
+
+Physicists call this kind of sameness a *symmetry*. We know the idea from everyday life: my left hand mirrors my right. If I flip one over, it overlays the other---a transformation that demonstrates the symmetry. Physicists extended this notion beyond mirror-images: a symmetry means the property of remaining invariant under any transformation. If a system remains the same from one moment to the very immediate next, that is time symmetry. If it holds the same here as it does elsewhere---whether a nanometer or a million kilometers away, that is spatial symmetry. If it behaves the same no matter how we rotate it---even by the tiniest imperceptible angle, that is rotational symmetry. These are what physicists call continuous symmetries: sameness that holds not only in great leaps, but through every tiny shift so small that transformation is smooth. 
+
+Her theorem reveals the astonishing consequence: every continuous symmetry guarantees a conservation law. Time symmetry guarantees energy is conserved. Spatial symmetry guarantees momentum is conserved. Rotational symmetry guarantees angular momentum is conserved. 
+
+*Symmetry is the premise; conservation the promise.*
+
+## Through the Looking-Glass, and What Alice Found There
+
+Alice who adventured in Wonderland once again steps across the threshold. This time, she climbs through a large looking-glass, a mirror. The world in the mirror should look the same, only reversed. The left hand becomes right, the teacup is still a teacup, the chessboard is still a chessboard. The mirror reassures: the rules are unchanged, only inverted. 
+
+This is the promise of parity in physics. Flip space like a mirror, and the equations should hold. North and south, left and right, clockwise and counterclockwise—no preferred side, no sacred orientation. Nature, impartial, does not distinguish between her reflection and herself.
+
+For decades, physicists assumed this symmetry was absolute. It was not just an assumption, but an article of faith: nature’s mirror never lies. The very idea that the reflection could misbehave—that the rules inside the glass might be different—was unthinkable. Space, time, rotation, parity, charge—pillars of invariance. Break them and the temple of physics shakes. 
+
+But then came a puzzle that cracked the mirror.
+
+In the early 1950s, physicists noticed something strange. Two subatomic particles, known as the tau and the theta, looked identical in every measurable way—same mass, same charge, same lifetime. They should have been the same particle. But they weren’t. The tau decayed into three pions; the theta decayed into two. Their only difference lay in parity, their mirror identity, as if Nature decides mirror images should differ.  
+
+The resolution came in 1956 with the bold, yet revolutionary suggestion by Tsung-Dao Lee and Chen-Ning Yang. The young Chinese American scientists proposed that parity, the symmetry between a physical system and its mirror image, might not be conserved in weak interactions. 
+
+Theory is cheap. Experiment is king. Lee and Yang talked to experimental physicist Chien-Shiung Wu, or Madame Wu, as she is universally known. She, like Alice before her, looked into the mirror by freezing cobalt nuclei in near absolute zero, aligning them, and watching them spit electrons. If parity were sacred, the spray would be symmetric. It wasn’t. The electrons came out lopsided, as if the universe had a preferred hand. 
+
+Weak interaction violates parity. Nature is left-handed, after all. 
+
+Lee and Yang won the Nobel Prize in the same year. This discovery was a seismic event in physics, challenging a deeply held "article of faith" in the scientific community. Wolfgang Pauli wrote in a letter, “Now after the first shock is over, I begin to collect myself. Yes, it was very dramatic” [@Myneni1984ParityViolation]. Feynman who lost $50 dollars to a fellow scientist in 1956 on a bet that parity would not be violated, even in his 1985 book, still expressed disbelief and hope that “a more beautiful and, hence, more accurate understanding” of things will emerge. 
+
+This discovery was disturbing philosophically as well. Physicist A. Zee later wrote, 
+
+> The crucial idea which came to Lee and Yang is that Nature may respect parity in many of her laws, but not in the laws governing the weak interaction between particles. Imagine that one of the fundamental principles of our legal system, that the accused is presumed innocent until proven otherwise, is decreed to hold only for certain crimes, while for other crimes the opposite is to be the case. Just as judicial philosophers would surely cringe at this notion, physicists find Nature's selective violation of parity rather discomforting philosophically.^[[@zee2015fearful p. 29]]
+
+## Beyond the Mirror: CP, T, and CPT
+
+Parity was gone, but physicists clung to hope. Maybe if you combined a mirror with antimatter—charge conjugation plus parity, CP—the universe would be restored. A mirrored world of antiparticles should behave like ours. That was the creed of the 1960s.
+
+Until it wasn’t.
+
+In 1964, James Cronin and Val Fitch found that neutral kaons—particles flickering between matter and antimatter—sometimes decayed in ways forbidden by CP symmetry. Not often. Just rarely enough to unsettle faith. CP, too, was broken. This won them the Nobel Prize in 1980. 
+
+If CP fails, then by the structure of physics, time reversal (T) must fail too. Imagine a movie of particles colliding—play it backward. For most forces, the reversed movie looks physically possible. But in the weak interaction, it doesn’t. Time itself, at the microscopic level, is not fully reversible.
+
+And yet, there is one last covenant: CPT symmetry. Combine all three—charge, parity, and time—and nature holds steady. CPT means this: if you flip left and right, swap matter for antimatter, and reverse the arrow of time all at once, the world plays fair again. This is not just a guess; it is a theorem. As long as physics obeys the basic assumptions of relativity and quantum fields, CPT cannot fail. And in every experiment ever performed, CPT holds.
+
+So yes, symmetry after symmetry has fallen. Parity. Charge. CP. Time. Each one, once thought sacred, turned out to be conditional. But CPT remains unbroken.
+
+That survival is not trivial. It is what gives us hope that the laws of physics are still coherent. It is why matter and antimatter have the same mass, why conservation still feels real, why the edifice of physics hasn’t collapsed into Yang Dong’s despair.
+Just as important: these violations are reproducible. Wu’s cobalt electrons always shoot left. Kaons always betray CP at the same tiny fraction. The movie of time reversal always fails in the same way. Scandalous, yes—but scandal written into law. The mirror lies, but it lies consistently.
+This was the reassurance: nature might break her covenants, but she does so predictably. A broken law is still a law if its violations can be written down and repeated.
+Even in the ruins of symmetry, some structure endures.
+
+
 ## The Unlawful Table
 
 “I still don’t understand what you’re getting at,” Wang asked. How is this relevant to Yang’s suicide?
@@ -114,7 +170,7 @@ Ding lit a cigarette, “Imagine another set of results. The first time, the whi
 
 Indeed, a demon's pool table. 
 
-After a long silence, Ding explained that physicists' expensive “pool tables”---high-energy particle accelerators–constructed on different continents, have been consistently failing to yield the same results with the same experimental setup. 
+After a long silence, Ding explained that physicists' expensive “pool tables”---high-energy particle accelerators—constructed on different continents, have been consistently failing to yield the same results with the same experimental setup. 
 
 Now imagine a similarly unlawful coin. When you flipped it, the first time, it gave you heads; the second time, it flew outside of the room; the third time, it hovered in midair humming like a hive of bees; the fourth time, it spun forever without landing, defying gravity’s grasp; the fifth time, it burst into flame and fizzled into ash, leaving only a scorch mark on the table. 
 
@@ -134,18 +190,6 @@ Yet, what Yang Dong and her peers were facing was a *complete lack of patterns*:
 
 Yang’s despair was not about complexity or chance---it was about the collapse of this scaffolding. A scientist can live with error and with noise; she cannot live with the treachery that makes her methods useless. 
 
-## Emmy Noether's Gift
-
-Yang Dong also killed herself because the Demon’s pool table broke the promises of all branches of physics, promises that follow **Noether's Theorem**. 
-
-In 1915, Emmy Noether, German mathematician and lecturer at University of Göttingen without pay---merely because she was a woman---discovered a secret mathematical architecture beneath the laws of physics. She proved that, loosely speaking, whenever a physical system behaves the same regardless of where it is, when it is, or how it is oriented, there must exist a law of conservation.^[Read more in *Emmy Noether's Wonderful Theorem* [@neuenschwander2017emmy] and *Symmetry and the Beautiful Universe* [@lederman2011symmetry].]
-
-Physicists call this kind of sameness a *symmetry*. We know the idea from everyday life: my left hand mirrors my right. If I flip one over, it overlays the other---a transformation that demonstrates the symmetry. Physicists extended this notion beyond mirror-images: a symmetry means the property of remaining invariant under any transformation. If a system remains the same from one moment to the immediate next, that is time symmetry. If it holds the same here as it does elsewhere---whether a nanometer or a million kilometers away, that is spatial symmetry. If it behaves the same no matter how we rotate it---even by the tiniest imperceptible angle, that is rotational symmetry. These are what physicists call continuous symmetries: sameness that holds not only in great leaps, but through every tiny shift so small that transformation is smooth. 
-
-Her theorem reveals the astonishing consequence: every continuous symmetry guarantees a conservation law. Time symmetry guarantees energy is conserved. Spatial symmetry guarantees momentum is conserved. Rotational symmetry guarantees angular momentum is conserved. 
-
-*Symmetry is the premise; conservation the promise.*
-
 ## The Horror of Demon's Pool Table 
 
 No matter where you set the ball on the pool table, the energy conserves because there is spatial symmetry. But what if we broke the spatial symmetry?
@@ -159,28 +203,20 @@ Try again, but this time, on a demon’s pool table where you can choose how to 
 Breaking Spatial Symmetry---same table, unlawful rules.
 :::
 
-Enable the Size Field and drag the ball across the table, you’ll notice its size alters. Hit it with a cue, watch how the kinetic energy bounces up and down as the ball moves across the table from left to right and right to left---when it is supposed to stay constant. The ball doesn’t look the same anymore when moving. Spatial symmetry is broken. Energy doesn’t conserve. 
+Enable the Size Field and drag the ball across the table, you’ll notice its size alters. Hit it with a cue, watch how the kinetic energy bounces up and down as the ball moves across the table from left to right and right to left---when it is supposed to stay constant. The ball doesn’t look the same anymore when moving. Spatial symmetry is broken. Energy doesn’t conserve. 
 
-Enable transmutation, and even worse things happen. The concept of energy doesn’t even apply anymore, let alone energy conservation. 
+Enable transmutation, and even worse things happen. The concept of energy doesn’t even apply anymore. The conservation law does not break. It evaporates.  
 
 Only in this case, you own the pool table and can control whether and how to break symmetry. But imagine what scientists of pool tables have to face!
 
 ## Apostasy of Symmetry
 
-Sometimes, reality is indeed stranger than fiction. In the 1950s, physicists did discover a strange phenomenon: subatomic particles called kaons and taus---they appear to be identical in every way, with the same mass, charge, and lifetime---decay into different products. 
-
-... [TODO]
-
-A. Zee later wrote, 
-
-> The curcial idea which came to Lee and Yang is that Nature may respect parity in many of her laws, but not in the laws governing the weak interaction between particles. Imagine that one of the fundamental principles of our legal system, that the accused is presumed innocent until proven otherwise, is decreed to hold only for certain crimes, while for other crimes the opposite is to be the case. Just as judicial philosophers would surely cringe at this notion, physcists find Nature's selective violation of partiy rather discomforting philosophically.^[[@zee2015fearful p. 29]]
-
-... [TODO]
-
-Nobel Laureate, physicist Leon Lederman, and theoretical physicist Christopher Hill wrote, 
+Nobel Laureate, physicist Leon Lederman, and theoretical physicist Christopher Hill wrote, 
 
 > We should add that experimentalists still often look for missing energy and momentum in their detectors in particle collisions, but this is always interpreted nowadays as evidence for a new particle, never as evidence for the breakdown of the conservation laws of energy and momentum. Our faith, or should we say confidence (as science is not faith-based), in the symmetries of the structure of space and time, and Noether’s theorem would, at this point, be very hard to shake.^[*Symmetry and the Beautiful Universe* by @lederman2011symmetry]
 
-For Yang, who had as much faith as Lederman and Hill, this was the final betrayal. Symmetry was not just a mathematical trick but the deep covenant of nature. It was the bridge between invariance and conservation, the silent guarantor that science could still speak a coherent language. Everything that we ever know from physics, from quarks to quasars, was an illusion. To see symmetry dissolve was to see the pillars of the temple collapse.
+In our world, the mirrors crack but do not shatter. Even when symmetry fails, the failure repeats. Physicists can write down the fractions, build new theories, and live with scandal made consistent. In Yang Dong’s world, there is no such mercy. The experiment does not only violate symmetry—it refuses to give the same answer twice. Not scandal, but madness. Not law, but caprice. That is why she despaired.
+
+For Yang, who had as much faith as Lederman and Hill, this was the final betrayal. Symmetry was not just a mathematical trick but the deep covenant of nature. It was the bridge between invariance and conservation, the silent guarantor that science could still speak a coherent language. Everything that we ever know from physics, from quarks to quasars, was an illusion. To see symmetry dissolve was to see the pillars of the temple collapse.
 
 *Physics has never existed, and will never exist.*
