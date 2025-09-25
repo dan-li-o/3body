@@ -6,7 +6,7 @@ date-modified: last-modified
 All night long, Wang Miao dreamed of pool balls. They flew in the dark without any patterns. He woke up in a sweat and thought of the shooter hypothesis and the farmer hypothesis, something that the members of the Frontiers of Science often discussed. Both involve the fundamental nature of the laws of the universe. 
 
 > In the shooter hypothesis, a good marksman shoots at a target, creating a hole every ten centimeters. Now suppose the surface of the target is inhabited by intelligent, two-dimensional creatures. Their scientists, after observing the universe, discover a great law: "There exists a hole in the universe every ten centimeters." They have mistaken the result of the marksman's momentary whim for an unalterable law of the universe.
-
+>
 > The farmer hypothesis, on the other hand, has the flavor of a horror story: Every morning on a turkey farm, the farmer comes to feed the turkeys. A scientist turkey, having observed his pattern to hold without change for almost a year, makes the following discovery: "Every morning at eleven, food arrives." On the morning of Thanksgiving, the scientist announces this law to the other turkeys. But that morning at eleven, food doesn't arrive; instead, the farmer comes and kills the entire flock.
 
 Wang felt the ground beneath his feet shift like quicksand. Everything seemed to wobble and sway. What was it about these two hypotheses that made Wang faint?
@@ -15,7 +15,7 @@ Wang felt the ground beneath his feet shift like quicksand. Everything seemed to
 
 The farmer hypothesis borrows from Bertrand Russell’s cruel parable of chicken---fed every day until the morning it becomes dinner. The turkey scientist did nothing “wrong.” He observed, and he observed diligently. Each morning’s meal seemed to confirm the law: at eleven, food arrives. The more he recorded, the stronger his confidence grew. Until confidence itself was his undoing.
 
-This is induction in its rawest form: the animal instinct that tomorrow will echo today. The more we see, the stronger the habit grips us. A thousand sunrises persuade us of the next. A thousand billiard shots reassure us of Newton’s mechanics. A thousand experiments across every branch of physics harden our trust in Noether’s theorem—that symmetry begets conservation. All of these, fundamentally, is no different from "at eleven, food arrives." As Russell quipped, “Our instincts certainly cause us to believe that the sun will rise tomorrow, but we may be in no better a position than the chicken which unexpectedly has its neck wrung.”
+This is induction in its rawest form: the animal instinct that tomorrow will echo today. The more we see, the stronger the habit grips us. A thousand sunrises persuade us of the next. A thousand billiard shots reassure us of Newton’s mechanics. A thousand experiments across every branch of physics harden our trust in Noether’s theorem---that symmetry begets conservation. All of these, fundamentally, is no different from "at eleven, food arrives." As Russell quipped, “Our instincts certainly cause us to believe that the sun will rise tomorrow, but we may be in no better a position than the chicken which unexpectedly has its neck wrung.”
 
 At the shallowest level, the story teaches that induction is fallible: expectation built from repetition can betray. To rely on induction blindly is to live as animals do—entranced by habit, unarmed against surprise. The cruelty of the farmer is philosophy’s reminder: what feels like law may only be routine, one axe-blow away from collapse. 
 
@@ -49,15 +49,15 @@ Now, try it. Observe and describe what you have observed.
 ```{=html}
 {{< include /partials/flat-rotate.html >}}
 ```
-Imagine you are a 2D scientist. 
+Imagine you are a Flatland scientist. 
 :::
 
-Edwin Abbott wrote in Flatland (1885), 
+Edwin Abbott wrote in *Flatland* (1885), 
 
 > In such a country, you will perceive at once that it is impossible that there should be anything of what you call a ‘solid’ kind; but I dare say you will suppose that we could at least distinguish by sight of the Triangles, Squares, and other figures moving about as I have described them. On the contrary, we could see nothing of the kind, not at least so as to distinguish one figure from another. Nothing was visible, nor could be visible, to us, except straight Lines; and the necessity of this I will speedily demonstrate.
-
+>
 > Place a penny on the middle of one of your tables in Space; and leaning over it, look down upon it. It will appear a circle.
-
+>
 > But now, drawing back to the edge of the table, gradually lower your eye (thus bringing yourself more and more into the condition of the inhabitants of Flatland), and you will find the penny becoming more and more oval to your view; and at last when you have placed your eye exactly on the edge of the table (so that you are, as it were, actually a Flatland citizen) the penny will then have ceased to appear oval at all, and will have become, so far as you can see, a straight line.
 
 Flatland scientists lack words for circles or holes. Those are three‑dimensional luxuries. To them, a shooter’s hole is not a circle but an edge—an irregular boundary where things vanish. A line that swallows matter and light. 
