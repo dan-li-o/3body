@@ -1,15 +1,122 @@
-/* ---------- Widget House Style v0.1 ---------- */
-:root{
+/* ---------- Widget House Style v0.2 ---------- */
+:root,
+body.quarto-light {
+  color-scheme: light;
   --wgt-gap: 12px;
   --wgt-radius: 10px;
-  --wgt-border: 1.5px solid #0000001a;
-  --wgt-shadow: 0 1px 10px rgba(0,0,0,.06);
-  --wgt-accent: #1f7a6b; /* tweak to match your book theme */
   --wgt-pad: 10px 12px;
   --wgt-panel-min-h: 120px;
   --wgt-title-size: 0.95rem;
   --wgt-small: 0.85rem;
-  --wgt-muted: #666;
+
+  --wgt-accent: #1f7a6b;
+
+  --wgt-panel-bg: #ffffff;
+  --wgt-border-color: rgba(15, 23, 42, 0.12);
+  --wgt-shadow: 0 1px 12px rgba(15, 23, 42, 0.08);
+  --wgt-text: #1f252c;
+  --wgt-text-strong: #2c333a;
+  --wgt-muted: #5f6770;
+
+  --wgt-button-border: #c6ccd2;
+  --wgt-button-bg: #ffffff;
+  --wgt-button-bg-hover: #f2f4f7;
+  --wgt-button-color: inherit;
+
+  --wgt-canvas-border: #2d3339;
+  --wgt-card-bg: #f5f6f8;
+  --wgt-card-bg-alt: #ffffff;
+  --wgt-outline-strong: #2f353b;
+  --wgt-outline-soft: #d7dde3;
+
+  --wgt-ledger-grid: #dfe5ea;
+  --wgt-ledger-axis: #4e5964;
+  --wgt-ledger-axis-strong: #323a42;
+  --wgt-ledger-now-line: rgba(70, 76, 82, 0.55);
+  --wgt-ledger-total-ref: rgba(54, 56, 58, 0.75);
+
+  --wgt-energy-motion-line: rgba(60,145,130,1.0);
+  --wgt-energy-motion-fill: rgba(80,170,155,0.35);
+  --wgt-energy-friction-line: rgba(244,119,74,0.95);
+  --wgt-energy-friction-fill: rgba(244,119,74,0.30);
+  --wgt-energy-inelastic-line: rgba(231,188,79,0.95);
+  --wgt-energy-inelastic-fill: rgba(231,188,79,0.30);
+
+  --wgt-chart-border: #ccd3da;
+  --wgt-chart-grid: #e6ecf1;
+  --wgt-chart-axis: #374049;
+  --wgt-chart-target: rgba(31,122,107,0.45);
+
+  --wgt-pool-felt: #35654d;
+  --wgt-pool-rail: #1f3a2c;
+  --wgt-pool-ball: #f7f7f7;
+  --wgt-pool-ball-highlight: #fdfdfd;
+  --wgt-pool-cue-light: #b88955;
+  --wgt-pool-cue-dark: #7a5c3a;
+  --wgt-pool-power-text: rgba(255,255,255,0.9);
+
+  --wgt-coin-felt: #35654d;
+  --wgt-coin-rail: #1f3a2c;
+  --wgt-coin-head: #1f7a6b;
+  --wgt-coin-tail: #7a1f1f;
+
+  --wgt-symmetry-gold: #d4af37;
+  --wgt-symmetry-gold-stroke: #d9cc7a;
+}
+
+body.quarto-dark {
+  color-scheme: dark;
+  --wgt-panel-bg: #161a1f;
+  --wgt-border-color: rgba(148, 163, 184, 0.32);
+  --wgt-shadow: 0 1px 16px rgba(0, 0, 0, 0.5);
+  --wgt-text: #f1f5f9;
+  --wgt-text-strong: #f8fafc;
+  --wgt-muted: #d1d7de;
+
+  --wgt-button-border: #3b444f;
+  --wgt-button-bg: #1f252b;
+  --wgt-button-bg-hover: #28303a;
+  --wgt-button-color: #f1f5f9;
+
+  --wgt-canvas-border: rgba(255,255,255,0.28);
+  --wgt-card-bg: #20262d;
+  --wgt-card-bg-alt: #1b2027;
+  --wgt-outline-strong: rgba(229, 233, 239, 0.85);
+  --wgt-outline-soft: rgba(120, 130, 142, 0.55);
+
+  --wgt-ledger-grid: rgba(255,255,255,0.14);
+  --wgt-ledger-axis: rgba(235, 241, 247, 0.78);
+  --wgt-ledger-axis-strong: rgba(235, 241, 247, 0.92);
+  --wgt-ledger-now-line: rgba(255,255,255,0.45);
+  --wgt-ledger-total-ref: rgba(255,255,255,0.55);
+
+  --wgt-energy-motion-line: rgba(102,226,204,0.95);
+  --wgt-energy-motion-fill: rgba(102,226,204,0.28);
+  --wgt-energy-friction-line: rgba(255,161,112,0.95);
+  --wgt-energy-friction-fill: rgba(255,161,112,0.32);
+  --wgt-energy-inelastic-line: rgba(248,214,97,0.95);
+  --wgt-energy-inelastic-fill: rgba(248,214,97,0.32);
+
+  --wgt-chart-border: rgba(255,255,255,0.35);
+  --wgt-chart-grid: rgba(255,255,255,0.18);
+  --wgt-chart-axis: rgba(235,241,247,0.88);
+  --wgt-chart-target: rgba(102,226,204,0.45);
+
+  --wgt-pool-felt: #24483a;
+  --wgt-pool-rail: #10221a;
+  --wgt-pool-ball: #f0f4f8;
+  --wgt-pool-ball-highlight: #ffffff;
+  --wgt-pool-cue-light: #c89d66;
+  --wgt-pool-cue-dark: #8a643f;
+  --wgt-pool-power-text: rgba(255,255,255,0.85);
+
+  --wgt-coin-felt: #1f3a2c;
+  --wgt-coin-rail: #0f1f16;
+  --wgt-coin-head: #66e2cc;
+  --wgt-coin-tail: #ff8787;
+
+  --wgt-symmetry-gold: #f2d46b;
+  --wgt-symmetry-gold-stroke: #f9e5a6;
 }
 
 .widget, .wgt { display: grid; gap: var(--wgt-gap); }
@@ -17,31 +124,30 @@
   grid-template-areas:
     "canvas canvas"
     "controls output";
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* equal widths, no overflow */;
-  align-items: stretch; /* <-- key: make items fill the row height */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
   gap: var(--wgt-gap);
 }
 
-/* Areas */
 .wgt__canvas   { grid-area: canvas; }
 .wgt__controls { grid-area: controls; }
 .wgt__output   { grid-area: output; }
 .wgt__controls, .wgt__output { min-height: var(--wgt-panel-min-h); }
 
 .wgt__panel{
-  background: #fff;
-  border: var(--wgt-border);
+  background: var(--wgt-panel-bg);
+  border: 1.5px solid var(--wgt-border-color);
   border-radius: var(--wgt-radius);
   box-shadow: var(--wgt-shadow);
   padding: var(--wgt-pad);
   box-sizing: border-box;
-  height: 100%;                 /* <-- fill the track height */
-  display: flex; flex-direction: column; /* optional: tidy inner layout */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: var(--wgt-text);
 }
 
-@media (prefers-color-scheme: dark){
-  .wgt__panel{ background:#111; border-color:#ffffff22; }
-}
+.wgt__panel strong { color: var(--wgt-text-strong); }
 
 /* Mobile stacks to one column */
 @media (max-width: 720px){
@@ -59,30 +165,39 @@
   max-width: 100%;
   height: auto;
   border-radius: var(--wgt-radius);
-  border: 2px solid #333;
-  touch-action: none;    /* <- enables pointer events on mobile */
+  border: 2px solid var(--wgt-canvas-border);
+  touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+  transition: border-color 0.2s ease;
 }
 
 /* Forms */
 .wgt label{ font-weight: 600; display:flex; align-items:center; gap:8px; }
 .wgt input[type="number"]{ width: 6.5em; }
 .wgt input[type="range"]{ width: 100%; }
-.wgt button{ padding: 6px 10px; border-radius: 6px; border: 1px solid #ccc; cursor: pointer; }
-.wgt button:hover{ background: #f2f2f2; }
+.wgt button{
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--wgt-button-border);
+  background: var(--wgt-button-bg);
+  color: var(--wgt-button-color);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.wgt button:hover{
+  background: var(--wgt-button-bg-hover);
+}
 
-/* Figure-style caption if you keep using .figure wrappers */
-.figure > p:first-of-type { margin-top: 6px; color: #555; }
+.figure > p:first-of-type { margin-top: 6px; color: var(--wgt-muted); }
 
-/* Section title inside a panel */
 .wgt__title{
   font-weight: 700;
   font-size: var(--wgt-title-size);
   margin-bottom: 6px;
+  color: var(--wgt-text-strong);
 }
 
-/* One labeled control block */
 .wgt__field{
   display: flex;
   flex-direction: column;
@@ -90,7 +205,6 @@
   margin-bottom: 10px;
 }
 
-/* Horizontal row for label/value lines (telemetry) */
 .wgt__row{
   display: flex;
   align-items: baseline;
@@ -98,44 +212,42 @@
   gap: 8px;
 }
 
-/* Make action buttons fill the row width; split evenly when multiple */
-.wgt__row > button{
-  flex: 1 1 0;
-}
+.wgt__row > button{ flex: 1 1 0; }
 
-/* Spread three metrics evenly across a row and center their contents */
 .wgt__row--spread{ align-items: center; }
 .wgt__row--spread > .wgt__metric{
   flex: 1 1 0;
   display: flex;
   align-items: baseline;
-  justify-content: flex-start; /* left-align within each third */
+  justify-content: flex-start;
   gap: 6px;
 }
 
-/* Subtle hint text */
 .wgt__hint{
   color: var(--wgt-muted);
   font-size: var(--wgt-small);
 }
 
-/* Monospace-ish numeric readout, nicely aligned */
-.wgt__out{
-  font-variant-numeric: tabular-nums;
-}
+.wgt__out{ font-variant-numeric: tabular-nums; }
 
-/* Buttons (optional variants; base .wgt button already styled) */
 .wgt__btn--accent{
   background: var(--wgt-accent);
   color: #fff;
   border-color: transparent;
 }
+.wgt__btn--accent:hover{
+  background: color-mix(in srgb, var(--wgt-accent) 92%, #000 8%);
+}
 .wgt__btn--ghost{
   background: transparent;
 }
 
+.wgt__panel [data-role="legend"]{
+  color: var(--wgt-muted);
+}
+
 .wgt--pool .wgt__canvas canvas{
-  background:#35654d;
-  border:2px solid #333;
+  background: var(--wgt-pool-felt);
+  border: 2px solid var(--wgt-canvas-border);
   border-radius: var(--wgt-radius);
 }

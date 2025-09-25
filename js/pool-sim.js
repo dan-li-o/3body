@@ -1,6 +1,9 @@
 // js/pool-sim.js
 (function () {
-  const { autosizeCanvas, clamp, onPointerDrag, linkRangeNumber, announce, hoverCursor } = window.Widgets || {};
+  const {
+    autosizeCanvas, clamp, onPointerDrag, linkRangeNumber, announce, hoverCursor,
+    themeVar, onColorSchemeChange, currentColorScheme
+  } = window.Widgets || {};
 
   function initOne(root, opts = {}) {
     if (!autosizeCanvas) {
@@ -22,6 +25,31 @@
       frictionFactor: 1.000,     // 1.000 = no friction (multiplier per frame)
       ...opts
     };
+
+    const schemeState = { mode: null, colors: {} };
+    function getScheme(){
+      return currentColorScheme ? currentColorScheme() :
+        (document.body?.classList?.contains('quarto-dark') || document.documentElement?.classList?.contains('quarto-dark') ? 'dark' : 'light');
+    }
+    function readColors(force = false){
+      const mode = force ? null : schemeState.mode;
+      const scheme = mode ?? getScheme();
+      if (!force && scheme === schemeState.mode && schemeState.colors && Object.keys(schemeState.colors).length) {
+        return schemeState.colors;
+      }
+      const read = (name, fallback) => themeVar ? themeVar(name, fallback) : fallback;
+      schemeState.mode = scheme;
+      schemeState.colors = {
+        felt: read('--wgt-pool-felt', '#35654d'),
+        rail: read('--wgt-pool-rail', '#1f3a2c'),
+        ball: read('--wgt-pool-ball', '#f7f7f7'),
+        cueLight: read('--wgt-pool-cue-light', '#b88955'),
+        cueDark: read('--wgt-pool-cue-dark', '#7a5c3a')
+      };
+      return schemeState.colors;
+    }
+
+    readColors(true);
 
     // ---- DOM (scoped to this widget) ----
     const canvas = root.querySelector('canvas');
@@ -157,15 +185,16 @@
     // ---- Draw ----
     function drawTable() {
       const c = ctx(), w = layout.width, h = layout.height;
-      c.fillStyle = "#35654d"; c.fillRect(0,0,w,h);
-      const rail = 8; c.fillStyle = "#1f3a2c";
+      const colors = readColors();
+      c.fillStyle = colors.felt; c.fillRect(0,0,w,h);
+      const rail = 8; c.fillStyle = colors.rail;
       c.fillRect(0,0,w,rail); c.fillRect(0,h-rail,w,rail);
       c.fillRect(0,0,rail,h); c.fillRect(w-rail,0,rail,h);
     }
     function drawBall() {
       const c = ctx();
       c.beginPath(); c.arc(state.x, state.y, state.r, 0, Math.PI*2);
-      c.fillStyle = "#f7f7f7"; c.shadowColor = "rgba(0,0,0,0.25)"; c.shadowBlur = 4; c.fill(); c.shadowBlur = 0;
+      c.fillStyle = readColors().ball; c.shadowColor = "rgba(0,0,0,0.25)"; c.shadowBlur = 4; c.fill(); c.shadowBlur = 0;
     }
     function drawCue() {
       if (!state.hitting) return;
@@ -181,16 +210,23 @@
       const buttY = tipY - dir.y * cfg.cueLength;
 
       c.lineCap = "round";
-      c.lineWidth = 6; c.strokeStyle = "#b88955";
+      const colors = readColors();
+      c.lineWidth = 6; c.strokeStyle = colors.cueLight;
       c.beginPath(); c.moveTo(buttX, buttY); c.lineTo(tipX, tipY); c.stroke();
 
-      c.lineWidth = 10; c.strokeStyle = "#7a5c3a";
+      c.lineWidth = 10; c.strokeStyle = colors.cueDark;
       c.beginPath(); c.moveTo(buttX, buttY); c.lineTo(buttX + dir.x*18, buttY + dir.y*18); c.stroke();
     }
     function draw() {
       const c = ctx(); c.clearRect(0, 0, layout.width, layout.height);
       drawTable(); drawBall(); drawCue();
     }
+
+    onColorSchemeChange && onColorSchemeChange(() => {
+      schemeState.mode = null;
+      readColors(true);
+      draw();
+    });
 
     // ---- Loop with acceleration readout ----
     let lastT = performance.now();

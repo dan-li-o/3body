@@ -1,6 +1,9 @@
 // ---------- js/coin-flip.js : Coin flip + H/T ratio chart ----------
 (function(){
-  const { autosizeCanvas, ensurePanelFigure, clamp, announce, linkRangeNumber } = window.Widgets || {};
+  const {
+    autosizeCanvas, ensurePanelFigure, clamp, announce, linkRangeNumber,
+    themeVar, onColorSchemeChange, currentColorScheme
+  } = window.Widgets || {};
 
   function rngBit(){
     try {
@@ -34,6 +37,37 @@
       return;
     }
 
+    const schemeState = { mode: null, colors: {} };
+    function detectScheme(){
+      return currentColorScheme ? currentColorScheme() :
+        (document.body?.classList?.contains('quarto-dark') || document.documentElement?.classList?.contains('quarto-dark') ? 'dark' : 'light');
+    }
+    function readColors(force = false){
+      const cached = !force && schemeState.mode === detectScheme();
+      if (cached && schemeState.colors && Object.keys(schemeState.colors).length) {
+        return schemeState.colors;
+      }
+      const scheme = detectScheme();
+      const read = (name, fallback) => themeVar ? themeVar(name, fallback) : fallback;
+      schemeState.mode = scheme;
+      schemeState.colors = {
+        chartBorder: read('--wgt-chart-border', '#ccc'),
+        chartGrid: read('--wgt-chart-grid', '#eee'),
+        chartAxis: read('--wgt-chart-axis', '#444'),
+        chartTarget: read('--wgt-chart-target', 'rgba(31,122,107,0.45)'),
+        chartLine: read('--wgt-energy-motion-line', '#1f7a6b'),
+        chartBackground: read('--wgt-card-bg-alt', '#ffffff'),
+        textMuted: read('--wgt-muted', '#666'),
+        felt: read('--wgt-coin-felt', '#35654d'),
+        rail: read('--wgt-coin-rail', '#1f3a2c'),
+        coinHead: read('--wgt-coin-head', '#1f7a6b'),
+        coinTail: read('--wgt-coin-tail', '#7a1f1f')
+      };
+      return schemeState.colors;
+    }
+
+    readColors(true);
+
     // DOM
     const coinCanvas = root.querySelector('canvas[data-role="coin"]') || root.querySelector('canvas');
     const outPanel   = root.querySelector('.wgt__output') || root;
@@ -55,7 +89,7 @@
     if (legendEl && !legendEl.hasChildNodes()){
       legendEl.innerHTML = `
         <span style="display:inline-flex;align-items:center;gap:6px;">
-          <span style="display:inline-block;width:16px;height:3px;background:#1f7a6b;border-radius:2px;"></span> p̂ (estimate)
+          <span style="display:inline-block;width:16px;height:3px;background:var(--wgt-energy-motion-line);border-radius:2px;"></span> p̂ (estimate)
         </span>`;
     }
 
@@ -134,6 +168,9 @@
     function drawChart(){
       const ctx = xctx(); const W = layoutChart.width, H = layoutChart.height;
       ctx.clearRect(0,0,W,H);
+      const colors = readColors();
+      ctx.fillStyle = colors.chartBackground || '#ffffff';
+      ctx.fillRect(0,0,W,H);
 
       // Padding
       const L=36, R=12, T=14, B=30;
@@ -147,11 +184,12 @@
       const ymin = 0, ymax = 1;
 
       // Axes + grid
-      ctx.strokeStyle = '#ccc'; ctx.lineWidth = 1;
+      ctx.strokeStyle = colors.chartBorder; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.rect(0,0,iw,ih); ctx.stroke();
       ctx.setLineDash([3,3]);
       // Dashed reference at target p
       const yTarget = ih - (state.pHeads - ymin) / (ymax - ymin) * ih;
+      ctx.strokeStyle = colors.chartTarget;
       ctx.beginPath(); ctx.moveTo(0,yTarget); ctx.lineTo(iw,yTarget); ctx.stroke();
       ctx.setLineDash([]);
 
@@ -159,23 +197,24 @@
       const N = Math.max(1, state.n);
       const ticks = Math.min(10, Math.ceil(iw/80));
       const step = Math.max(1, Math.round(N / ticks));
-      ctx.fillStyle = '#444'; ctx.font = '12px system-ui, sans-serif';
+      ctx.fillStyle = colors.chartAxis; ctx.font = '12px system-ui, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'top';
       for (let k=step; k<=N; k+=step){
         const x = (k-1) / Math.max(1,N-1) * iw;
-        ctx.strokeStyle='#eee'; ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,ih); ctx.stroke();
+        ctx.strokeStyle=colors.chartGrid; ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,ih); ctx.stroke();
         ctx.fillText(String(k), x, ih+6);
       }
 
       // Y labels for 0, 0.5, 1
       ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
       const yOf = (v)=> ih - (v - ymin)/(ymax - ymin) * ih;
+      ctx.fillStyle = colors.chartAxis;
       ctx.fillText('1.00', -6, yOf(1));
       ctx.fillText('0.50', -6, yOf(0.5));
       ctx.fillText('0.00', -6, yOf(0));
 
       // Line: p̂ = H/n
-      ctx.strokeStyle = '#1f7a6b'; ctx.lineWidth = 2; ctx.beginPath();
+      ctx.strokeStyle = colors.chartLine; ctx.lineWidth = 2; ctx.beginPath();
       let started = false;
       for (let i=0;i<N;i++){
         const v = data[i]; if (!Number.isFinite(v)) { started=false; continue; }
@@ -193,12 +232,13 @@
       state.phiCur = phi;
       const ctx = cctx(); const W = layoutCoin.width, H = layoutCoin.height;
       ctx.clearRect(0,0,W,H);
+      const colors = readColors();
 
       // Felt/table background for better initial visibility
-      ctx.fillStyle = "#35654d"; // same palette as pool widgets
+      ctx.fillStyle = colors.felt;
       ctx.fillRect(0,0,W,H);
       // Rails/outliner to match pool widgets style
-      const rail = 8; ctx.fillStyle = "#1f3a2c";
+      const rail = 8; ctx.fillStyle = colors.rail;
       ctx.fillRect(0,0,W,rail); ctx.fillRect(0,H-rail,W,rail);
       ctx.fillRect(0,0,rail,H); ctx.fillRect(W-rail,0,rail,H);
 
@@ -229,7 +269,7 @@
         ctx.font = `bold ${Math.round(R*0.55)}px system-ui, sans-serif`;
         ctx.fillText('H/T', 0, 4);
       } else {
-        ctx.fillStyle = faceIsHeads ? '#1f7a6b' : '#7a1f1f';
+        ctx.fillStyle = faceIsHeads ? (colors.coinHead || '#1f7a6b') : (colors.coinTail || '#7a1f1f');
         ctx.font = `bold ${Math.round(R*0.9)}px system-ui, sans-serif`;
         ctx.fillText(faceIsHeads ? 'H' : 'T', 0, 4);
       }
@@ -245,6 +285,13 @@
       ctx.fill();
       ctx.restore();
     }
+
+    onColorSchemeChange && onColorSchemeChange(() => {
+      schemeState.mode = null;
+      readColors(true);
+      drawChart();
+      drawCoin(state.phiCur || 0);
+    });
 
     function animateToFace(finalFace){
       if (state.isFlipping) return;
