@@ -135,19 +135,24 @@ body.quarto-dark {
 .wgt__controls, .wgt__output { min-height: var(--wgt-panel-min-h); }
 
 .wgt__panel{
-  background: var(--wgt-panel-bg);
-  border: 1.5px solid var(--wgt-border-color);
-  border-radius: var(--wgt-radius);
-  box-shadow: var(--wgt-shadow);
-  padding: var(--wgt-pad);
+  background: var(--wgt-panel-bg, #ffffff);
+  border: 1.5px solid var(--wgt-border-color, rgba(15, 23, 42, 0.12));
+  border-radius: var(--wgt-radius, 10px);
+  box-shadow: var(--wgt-shadow, 0 1px 12px rgba(15, 23, 42, 0.08));
+  padding: var(--wgt-pad, 10px 12px);
   box-sizing: border-box;
   height: 100%;
   display: flex;
   flex-direction: column;
-  color: var(--wgt-text);
+  color: var(--wgt-text, #1f252c);
 }
 
-.wgt__panel strong { color: var(--wgt-text-strong); }
+body.quarto-dark .wgt__panel{
+  background: var(--wgt-panel-bg, #161a1f);
+  color: var(--wgt-text, #f1f5f9);
+}
+
+.wgt__panel strong { color: var(--wgt-text-strong, currentColor); }
 
 /* Mobile stacks to one column */
 @media (max-width: 720px){
@@ -179,23 +184,23 @@ body.quarto-dark {
 .wgt button{
   padding: 6px 10px;
   border-radius: 6px;
-  border: 1px solid var(--wgt-button-border);
-  background: var(--wgt-button-bg);
-  color: var(--wgt-button-color);
+  border: 1px solid var(--wgt-button-border, #c6ccd2);
+  background: var(--wgt-button-bg, #ffffff);
+  color: var(--wgt-button-color, inherit);
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 .wgt button:hover{
-  background: var(--wgt-button-bg-hover);
+  background: var(--wgt-button-bg-hover, #f2f4f7);
 }
 
 .figure > p:first-of-type { margin-top: 6px; color: var(--wgt-muted); }
 
 .wgt__title{
   font-weight: 700;
-  font-size: var(--wgt-title-size);
+  font-size: var(--wgt-title-size, 0.95rem);
   margin-bottom: 6px;
-  color: var(--wgt-text-strong);
+  color: var(--wgt-text-strong, currentColor);
 }
 
 .wgt__field{
@@ -224,9 +229,12 @@ body.quarto-dark {
 }
 
 .wgt__hint{
-  color: var(--wgt-muted);
-  font-size: var(--wgt-small);
+  color: var(--wgt-muted, currentColor);
+  font-size: var(--wgt-small, 0.85rem);
 }
+
+body.quarto-light .wgt__hint { color: var(--wgt-muted, #5f6770); }
+body.quarto-dark  .wgt__hint { color: var(--wgt-muted, #d1d7de); }
 
 .wgt__out{ font-variant-numeric: tabular-nums; }
 
@@ -236,6 +244,7 @@ body.quarto-dark {
   border-color: transparent;
 }
 .wgt__btn--accent:hover{
+  background: var(--wgt-accent);
   background: color-mix(in srgb, var(--wgt-accent) 92%, #000 8%);
 }
 .wgt__btn--ghost{
