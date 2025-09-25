@@ -2,7 +2,8 @@
 (function () {
   const {
     autosizeCanvas, clamp, onPointerDrag, linkRangeNumber, announce,
-    hoverCursor, ensurePanelFigure, renderLatex
+    hoverCursor, ensurePanelFigure, renderLatex,
+    themeVar, onColorSchemeChange, currentColorScheme
   } = window.Widgets || {};
 
   // No external sprite assets; use vector drawings for reliability
@@ -55,6 +56,52 @@
       ...opts
     };
 
+    const schemeState = { mode: null, colors: {} };
+    function detectScheme(){
+      return currentColorScheme ? currentColorScheme() :
+        (document.body?.classList?.contains('quarto-dark') || document.documentElement?.classList?.contains('quarto-dark') ? 'dark' : 'light');
+    }
+    function readColors(force = false){
+      const cached = !force && schemeState.mode === detectScheme();
+      if (cached && schemeState.colors && Object.keys(schemeState.colors).length) {
+        return schemeState.colors;
+      }
+      const scheme = detectScheme();
+      const read = (name, fallback) => themeVar ? themeVar(name, fallback) : fallback;
+      schemeState.mode = scheme;
+      schemeState.colors = {
+        felt: read('--wgt-pool-felt', '#35654d'),
+        rail: read('--wgt-pool-rail', '#1f3a2c'),
+        ball: read('--wgt-pool-ball', '#fdfdfd'),
+        ballAlt: read('--wgt-pool-ball-highlight', '#f5f5f5'),
+        cueLight: read('--wgt-pool-cue-light', '#b88955'),
+        cueDark: read('--wgt-pool-cue-dark', '#7a5c3a'),
+        textPrimary: read('--wgt-text', '#222'),
+        textEmphasis: read('--wgt-text-strong', '#444'),
+        textMuted: read('--wgt-muted', '#666'),
+        outlineStrong: read('--wgt-outline-strong', '#333'),
+        outlineSoft: read('--wgt-outline-soft', '#ddd'),
+        cardBg: read('--wgt-card-bg', '#f5f5f5'),
+        cardBgAlt: read('--wgt-card-bg-alt', '#ffffff'),
+        ledgerGrid: read('--wgt-ledger-grid', '#e5e5e5'),
+        ledgerAxis: read('--wgt-ledger-axis', '#666'),
+        ledgerAxisStrong: read('--wgt-ledger-axis-strong', '#444'),
+        ledgerNowLine: read('--wgt-ledger-now-line', '#bbb'),
+        ledgerTotalRef: read('--wgt-ledger-total-ref', 'rgba(70,70,70,0.8)'),
+        energyMotionLine: read('--wgt-energy-motion-line', 'rgba(60,145,130,1.0)'),
+        energyMotionFill: read('--wgt-energy-motion-fill', 'rgba(80,170,155,0.35)'),
+        energyFrictionLine: read('--wgt-energy-friction-line', 'rgba(244,119,74,0.95)'),
+        energyFrictionFill: read('--wgt-energy-friction-fill', 'rgba(244,119,74,0.30)'),
+        energyInelasticLine: read('--wgt-energy-inelastic-line', 'rgba(231,188,79,0.95)'),
+        energyInelasticFill: read('--wgt-energy-inelastic-fill', 'rgba(231,188,79,0.30)'),
+        gold: read('--wgt-symmetry-gold', '#d4af37'),
+        goldStroke: read('--wgt-symmetry-gold-stroke', '#d9cc7a')
+      };
+      return schemeState.colors;
+    }
+
+    readColors(true);
+
     // ---- DOM
     const tableCanvas = root.querySelector('canvas[data-role="table"]')
                       || root.querySelector('.wgt__canvas canvas');
@@ -66,7 +113,7 @@
     if (legendEl) {
       legendEl.innerHTML = `
         <span style="display:inline-flex;align-items:center;gap:6px;">
-          <span style="display:inline-block;width:16px;height:3px;background:rgba(60,145,130,1.0);border-radius:2px;"></span> Kinetic
+          <span style="display:inline-block;width:16px;height:3px;background:var(--wgt-energy-motion-line);border-radius:2px;"></span> Kinetic
         </span>`;
     }
 
@@ -325,8 +372,9 @@
     function drawTable(){
       const c = tctx(), w = layoutTable.width, h = layoutTable.height;
       c.clearRect(0,0,w,h);
-      c.fillStyle = "#35654d"; c.fillRect(0,0,w,h);
-      const rail=8; c.fillStyle="#1f3a2c";
+      const colors = readColors();
+      c.fillStyle = colors.felt; c.fillRect(0,0,w,h);
+      const rail=8; c.fillStyle=colors.rail;
       c.fillRect(0,0,w,rail); c.fillRect(0,h-rail,w,rail); c.fillRect(0,0,rail,h); c.fillRect(w-rail,0,rail,h);
 
       // No region marker (random transmutation only)
@@ -334,7 +382,7 @@
       // Ball or creature
       if (state.mode !== 'transmuted'){
         c.beginPath(); c.arc(state.x, state.y, state.r, 0, Math.PI*2);
-        c.fillStyle="#f7f7f7"; c.shadowColor="rgba(0,0,0,0.25)"; c.shadowBlur=4; c.fill(); c.shadowBlur=0;
+        c.fillStyle=colors.ball; c.shadowColor="rgba(0,0,0,0.25)"; c.shadowBlur=4; c.fill(); c.shadowBlur=0;
       } else {
         // Phased gag draw: anticipate morph, then rabbit with watch, speech bubble, sticky note
         const k = 'rabbit';
@@ -348,22 +396,22 @@
           c.save(); c.translate(px, py);
           c.shadowColor = 'rgba(255,255,200,0.8)'; c.shadowBlur = 12;
           c.scale(squash, 1/squash);
-          c.beginPath(); c.arc(0,0,state.r,0,Math.PI*2); c.fillStyle = '#fdfdfd'; c.fill(); c.shadowBlur=0; c.restore();
+          c.beginPath(); c.arc(0,0,state.r,0,Math.PI*2); c.fillStyle = colors.ballAlt || colors.ball; c.fill(); c.shadowBlur=0; c.restore();
         } else {
           // Rabbit body (vector, merged detailed version)
           c.save(); c.translate(px, py);
           const RS = 2.0; // scale up rabbit size
           // Body (main ellipse)
-          c.fillStyle = '#f5f5f5';
+          c.fillStyle = colors.cardBg;
           c.beginPath();
           c.ellipse(0, 0, RS*state.r*1.3, RS*state.r*0.95, 0, 0, Math.PI*2);
           c.fill();
           // Body outline
-          c.strokeStyle = '#ddd';
+          c.strokeStyle = colors.outlineSoft;
           c.lineWidth = 1;
           c.stroke();
           // Ears outer (same color as body)
-          c.fillStyle = '#f5f5f5';
+          c.fillStyle = colors.cardBg;
           c.beginPath();
           c.ellipse(-RS*state.r*0.3, -RS*state.r*1.1, RS*state.r*0.25, RS*state.r*0.6, -0.1, 0, Math.PI*2);
           c.ellipse( RS*state.r*0.3, -RS*state.r*1.1, RS*state.r*0.25, RS*state.r*0.6,  0.1, 0, Math.PI*2);
@@ -375,7 +423,7 @@
           c.ellipse( RS*state.r*0.3, -RS*state.r*1.1, RS*state.r*0.12, RS*state.r*0.45,  0.1, 0, Math.PI*2);
           c.fill();
           // Eyes (both)
-          c.fillStyle = '#222';
+          c.fillStyle = colors.textPrimary;
           c.beginPath();
           c.arc( RS*state.r*0.4, -RS*state.r*0.15, RS*2.8, 0, Math.PI*2); // right eye
           c.arc(-RS*state.r*0.2, -RS*state.r*0.15, RS*2.8, 0, Math.PI*2); // left eye
@@ -392,13 +440,13 @@
           c.ellipse(RS*state.r*0.1, RS*state.r*0.22, RS*1.0, RS*0.75, 0, 0, Math.PI*2);
           c.fill();
           // Mouth
-          c.strokeStyle = '#333';
+          c.strokeStyle = colors.outlineStrong;
           c.lineWidth = RS*0.6;
           c.beginPath();
           c.arc(RS*state.r*0.1, RS*state.r*0.25, RS*6, 0.25, Math.PI-0.25);
           c.stroke();
           // Whiskers
-          c.strokeStyle = '#666';
+          c.strokeStyle = colors.textMuted;
           c.lineWidth = RS*0.5;
           c.beginPath();
           // Left
@@ -413,12 +461,12 @@
           c.lineTo(RS*state.r*1.0, RS*state.r*0.2);
           c.stroke();
           // Pocket watch + face
-          c.fillStyle = '#d4af37';
+          c.fillStyle = colors.gold;
           c.beginPath(); c.arc(-RS*state.r*0.7, RS*state.r*0.3, RS*state.r*0.4, 0, Math.PI*2); c.fill();
           c.fillStyle = '#ffffff';
           c.beginPath(); c.arc(-RS*state.r*0.7, RS*state.r*0.3, RS*state.r*0.3, 0, Math.PI*2); c.fill();
           // Watch hands
-          c.strokeStyle = '#333'; c.lineWidth = RS*1.0;
+          c.strokeStyle = colors.outlineStrong; c.lineWidth = RS*1.0;
           c.beginPath();
           c.moveTo(-RS*state.r*0.7, RS*state.r*0.3);
           c.lineTo(-RS*state.r*0.7, RS*state.r*0.1);
@@ -426,16 +474,16 @@
           c.lineTo(-RS*state.r*0.6, RS*state.r*0.15);
           c.stroke();
           // Tail
-          c.fillStyle = '#f5f5f5';
+          c.fillStyle = colors.cardBg;
           c.beginPath(); c.arc(-RS*state.r*1.2, RS*state.r*0.3, RS*state.r*0.3, 0, Math.PI*2); c.fill();
-          c.strokeStyle = '#ddd'; c.lineWidth = 1; c.stroke();
+          c.strokeStyle = colors.outlineSoft; c.lineWidth = 1; c.stroke();
           c.restore();
 
           // Speech bubble during "say" phase
           if (state.transmute.phase === 'say' && state.transmute.phaseT <= state.transmute.bubbleMs/1000){
             // Preferred bubble position: to the right-above of rabbit
             let bx = px + RS*state.r*1.8, by = py - RS*state.r*1.6;
-            c.save(); c.fillStyle = '#ffffff'; c.strokeStyle='#333'; c.lineWidth=1.2;
+            c.save(); c.fillStyle = '#ffffff'; c.strokeStyle=colors.outlineStrong; c.lineWidth=1.2;
             const bw = 200, bh = 56, M = 6; // larger bubble
             // Helper: clamp rect inside canvas
             function clampRect(){
@@ -464,7 +512,7 @@
             c.beginPath(); c.rect(bx,by,bw,bh); c.fill(); c.stroke();
             // tail (simple downward tail from bottom-left area)
             c.beginPath(); c.moveTo(bx+26, by+bh); c.lineTo(bx+18, by+bh+14); c.lineTo(bx+38, by+bh); c.closePath(); c.fill(); c.stroke();
-            c.fillStyle = '#222'; c.font = '18px system-ui, sans-serif'; c.textAlign='center'; c.textBaseline='middle';
+            c.fillStyle = colors.textPrimary; c.font = '18px system-ui, sans-serif'; c.textAlign='center'; c.textBaseline='middle';
             c.fillText("I'm late!", bx + bw/2, by + bh/2);
             c.restore();
           }
@@ -502,9 +550,9 @@
             c.save();
             c.translate(nx, ny);
             c.fillStyle = '#fff9b1';
-            c.strokeStyle = '#d9cc7a'; c.lineWidth=1.2;
+            c.strokeStyle = colors.goldStroke; c.lineWidth=1.2;
             c.beginPath(); c.rect(-Wn/2, -Hn/2, Wn, Hn); c.fill(); c.stroke();
-            c.fillStyle = '#333'; c.font='italic 15px "Comic Sans MS", "Brush Script MT", cursive, system-ui'; c.textAlign='center';
+            c.fillStyle = colors.textPrimary; c.font='italic 15px "Comic Sans MS", "Brush Script MT", cursive, system-ui'; c.textAlign='center';
             c.fillText('BRB: Breaking symmetry—', 0, -10);
             c.fillText('Ask Noether.', 0, 12);
             c.restore();
@@ -523,8 +571,8 @@
         const tipY  = state.y + uy * (-cfg.cueGap - retract);
         const buttX = tipX - ux * cfg.cueLength;
         const buttY = tipY - uy * cfg.cueLength;
-        c.lineCap="round"; c.lineWidth=6;  c.strokeStyle="#b88955"; c.beginPath(); c.moveTo(buttX,buttY); c.lineTo(tipX,tipY); c.stroke();
-        c.lineWidth=10; c.strokeStyle="#7a5c3a"; c.beginPath(); c.moveTo(buttX,buttY); c.lineTo(buttX+ux*18,buttY+uy*18); c.stroke();
+        c.lineCap="round"; c.lineWidth=6;  c.strokeStyle=colors.cueLight; c.beginPath(); c.moveTo(buttX,buttY); c.lineTo(tipX,tipY); c.stroke();
+        c.lineWidth=10; c.strokeStyle=colors.cueDark; c.beginPath(); c.moveTo(buttX,buttY); c.lineTo(buttX+ux*18,buttY+uy*18); c.stroke();
       }
 
       if (state.mode==='aim' && L>6){
@@ -543,18 +591,19 @@
 
     function drawLedger(){
       const c = cctx(); const W = layoutChart.width, H = layoutChart.height; c.save(); c.clearRect(0,0,W,H);
+      const colors = readColors();
       const padL=42, padR=8, padT=10, padB=28; const iw=W-padL-padR, ih=H-padT-padB; c.translate(padL, padT);
-      c.fillStyle = "#fff"; c.fillRect(-padL,-padT,W,H);
-      c.strokeStyle="#ddd"; c.lineWidth=1;
+      c.fillStyle = colors.cardBgAlt || colors.cardBg || '#fff'; c.fillRect(-padL,-padT,W,H);
+      c.strokeStyle=colors.outlineSoft; c.lineWidth=1;
       // Time window
       const Tw = cfg.timeWindowSec; const f = cfg.nowFrac; const tNow = state.t; const tLeft = Math.max(0, tNow - Tw*(1-f));
       // Axes
-      c.strokeStyle="#e5e5e5"; c.lineWidth=1;
-      const S = cfg.tickSec; let tTick = Math.ceil(tLeft/S)*S; while (tTick < tNow + Tw*f){ const x = ((tTick - tLeft) / Tw) * iw; c.beginPath(); c.moveTo(x, 0); c.lineTo(x, ih); c.stroke(); c.textAlign = "center"; c.fillStyle="#666"; c.fillText(`${tTick.toFixed(1)}s`, x, ih + 16); tTick += S; }
+      c.strokeStyle=colors.ledgerGrid; c.lineWidth=1;
+      const S = cfg.tickSec; let tTick = Math.ceil(tLeft/S)*S; while (tTick < tNow + Tw*f){ const x = ((tTick - tLeft) / Tw) * iw; c.beginPath(); c.moveTo(x, 0); c.lineTo(x, ih); c.stroke(); c.textAlign = "center"; c.fillStyle=colors.textMuted; c.fillText(`${tTick.toFixed(1)}s`, x, ih + 16); tTick += S; }
       for (let j=0;j<=10;j++){ const y=(j/10)*ih; c.beginPath(); c.moveTo(0,y); c.lineTo(iw,y); c.stroke(); }
-      c.fillStyle="#444"; c.save(); c.translate(-34, ih*0.5); c.rotate(-Math.PI/2); c.textAlign="center"; c.fillText("Kinetic Energy", 0, 0); c.restore();
+      c.fillStyle=colors.textEmphasis; c.save(); c.translate(-34, ih*0.5); c.rotate(-Math.PI/2); c.textAlign="center"; c.fillText("Kinetic Energy", 0, 0); c.restore();
 
-      if (!state.E0 || state.samples.length===0){ const xNow = f*iw; c.strokeStyle="#bbb"; c.lineWidth=1.5; c.beginPath(); c.moveTo(xNow,0); c.lineTo(xNow,ih); c.stroke(); c.restore(); return; }
+      if (!state.E0 || state.samples.length===0){ const xNow = f*iw; c.strokeStyle=colors.ledgerNowLine; c.lineWidth=1.5; c.beginPath(); c.moveTo(xNow,0); c.lineTo(xNow,ih); c.stroke(); c.restore(); return; }
 
       const xOf = (t)=> ((t - tLeft) / Tw) * iw;
       const yOf = (E, Eref)=> ih - clamp(E / Math.max(1e-9, Eref), 0, 1) * ih; // fixed reference
@@ -571,22 +620,22 @@
       const m0 = state.m0 || mass();
       const Eref = state.E0 * (massMax() / (m0 > 0 ? m0 : 1.0));
       // Y tick labels (0..Eref)
-      c.fillStyle = "#666"; c.textAlign = "right";
+      c.fillStyle = colors.textMuted; c.textAlign = "right";
       for (let j=0;j<=4;j++){
         const frac = j/4; const val = Eref * frac; const y = ih - frac * ih;
         c.fillText(val.toFixed(2), -6, y+3);
       }
       // Reference line at initial E0 (grey dashed)
-      c.setLineDash([4,3]); c.strokeStyle="rgba(70,70,70,0.8)"; c.lineWidth=1.5; c.beginPath(); c.moveTo(0, yOf(state.E0, Eref)); c.lineTo(iw, yOf(state.E0, Eref)); c.stroke(); c.setLineDash([]);
+      c.setLineDash([4,3]); c.strokeStyle=colors.ledgerTotalRef; c.lineWidth=1.5; c.beginPath(); c.moveTo(0, yOf(state.E0, Eref)); c.lineTo(iw, yOf(state.E0, Eref)); c.stroke(); c.setLineDash([]);
 
       // Kinetic energy line
-      c.lineWidth=2; c.strokeStyle = "rgba(60,145,130,1.0)"; c.beginPath();
+      c.lineWidth=2; c.strokeStyle = colors.energyMotionLine; c.beginPath();
       for (let i=i0;i<=i1;i++){ const s=data[i], x=xOf(s.t), y=yOf(s.Etrans, Eref); (i===i0)?c.moveTo(x,y):c.lineTo(x,y);} c.stroke();
 
       // Now/event line + current dot
-      c.strokeStyle="#bbb"; c.lineWidth=1.5; c.beginPath(); c.moveTo(xNow,0); c.lineTo(xNow,ih); c.stroke();
+      c.strokeStyle=colors.ledgerNowLine; c.lineWidth=1.5; c.beginPath(); c.moveTo(xNow,0); c.lineTo(xNow,ih); c.stroke();
       const sNow = data[i1]; const yNow = yOf(sNow.Etrans, Eref);
-      c.fillStyle = "rgba(60,145,130,1.0)"; c.beginPath(); c.arc(xNow, yNow, 3.5, 0, Math.PI*2); c.fill();
+      c.fillStyle = colors.energyMotionLine; c.beginPath(); c.arc(xNow, yNow, 3.5, 0, Math.PI*2); c.fill();
 
       // If transmuted, keep ledger frozen without overlay (table gag owns the moment)
 
@@ -594,6 +643,12 @@
     }
 
     function drawAll(){ drawTable(); drawLedger(); }
+
+    onColorSchemeChange && onColorSchemeChange(() => {
+      schemeState.mode = null;
+      readColors(true);
+      drawAll();
+    });
 
     // Main loop
     let lastT = performance.now();

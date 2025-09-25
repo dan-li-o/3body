@@ -21,7 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -39,10 +59,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-65c2d1068c030bca59b0711570fd7680.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-65c2d1068c030bca59b0711570fd7680.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-491f3c33416ded0d3c3f5f531ae2d7a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-65c2d1068c030bca59b0711570fd7680.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -75,7 +99,169 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../../css/widgets.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -102,6 +288,7 @@ ul.task-list li input[type="checkbox"] {
       <a href="../../">Unlawful Laws</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/dan-li-o/3body" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
       </div>
@@ -202,7 +389,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../data/references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">References</span></span></a>
   </div>
 </li>
     </ul>
@@ -219,16 +406,20 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#the-seduction-of-invariance" id="toc-the-seduction-of-invariance" class="nav-link" data-scroll-target="#the-seduction-of-invariance"><span class="header-section-number">2.2</span> The Seduction of Invariance</a></li>
   <li><a href="#the-lawful-table" id="toc-the-lawful-table" class="nav-link" data-scroll-target="#the-lawful-table"><span class="header-section-number">2.3</span> The Lawful Table</a></li>
   <li><a href="#the-lawful-coin" id="toc-the-lawful-coin" class="nav-link" data-scroll-target="#the-lawful-coin"><span class="header-section-number">2.4</span> The Lawful Coin</a></li>
-  <li><a href="#the-unlawful-table" id="toc-the-unlawful-table" class="nav-link" data-scroll-target="#the-unlawful-table"><span class="header-section-number">2.5</span> The Unlawful Table</a></li>
-  <li><a href="#betrayal-of-scientific-methods" id="toc-betrayal-of-scientific-methods" class="nav-link" data-scroll-target="#betrayal-of-scientific-methods"><span class="header-section-number">2.6</span> Betrayal of Scientific Methods</a></li>
-  <li><a href="#emmy-noethers-gift" id="toc-emmy-noethers-gift" class="nav-link" data-scroll-target="#emmy-noethers-gift"><span class="header-section-number">2.7</span> Emmy Noether’s Gift</a></li>
-  <li><a href="#the-horror-of-demons-pool-table" id="toc-the-horror-of-demons-pool-table" class="nav-link" data-scroll-target="#the-horror-of-demons-pool-table"><span class="header-section-number">2.8</span> The Horror of Demon’s Pool Table</a></li>
-  <li><a href="#apostasy-of-symmetry" id="toc-apostasy-of-symmetry" class="nav-link" data-scroll-target="#apostasy-of-symmetry"><span class="header-section-number">2.9</span> Apostasy of Symmetry</a></li>
+  <li><a href="#emmy-noethers-gift" id="toc-emmy-noethers-gift" class="nav-link" data-scroll-target="#emmy-noethers-gift"><span class="header-section-number">2.5</span> Emmy Noether’s Gift</a></li>
+  <li><a href="#the-ghost-particle" id="toc-the-ghost-particle" class="nav-link" data-scroll-target="#the-ghost-particle"><span class="header-section-number">2.6</span> The Ghost Particle</a></li>
+  <li><a href="#through-the-looking-glass-and-what-alice-found-there" id="toc-through-the-looking-glass-and-what-alice-found-there" class="nav-link" data-scroll-target="#through-the-looking-glass-and-what-alice-found-there"><span class="header-section-number">2.7</span> Through the Looking-Glass, and What Alice Found There</a></li>
+  <li><a href="#beyond-the-mirror-cp-t-and-cpt" id="toc-beyond-the-mirror-cp-t-and-cpt" class="nav-link" data-scroll-target="#beyond-the-mirror-cp-t-and-cpt"><span class="header-section-number">2.8</span> Beyond the Mirror: CP, T, and CPT</a></li>
+  <li><a href="#the-unlawful-table" id="toc-the-unlawful-table" class="nav-link" data-scroll-target="#the-unlawful-table"><span class="header-section-number">2.9</span> The Unlawful Table</a></li>
+  <li><a href="#betrayal-of-scientific-methods" id="toc-betrayal-of-scientific-methods" class="nav-link" data-scroll-target="#betrayal-of-scientific-methods"><span class="header-section-number">2.10</span> Betrayal of Scientific Methods</a></li>
+  <li><a href="#the-horror-of-demons-pool-table" id="toc-the-horror-of-demons-pool-table" class="nav-link" data-scroll-target="#the-horror-of-demons-pool-table"><span class="header-section-number">2.11</span> The Horror of Demon’s Pool Table</a></li>
+  <li><a href="#apostasy-of-symmetry" id="toc-apostasy-of-symmetry" class="nav-link" data-scroll-target="#apostasy-of-symmetry"><span class="header-section-number">2.12</span> Apostasy of Symmetry</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/part1/ch1_physics-never-existed.html">Part I - When Laws Fail</a></li><li class="breadcrumb-item"><a href="../../chapters/part1/ch1_physics-never-existed.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Physics has never existed</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -244,7 +435,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 14, 2025</p>
+      <p class="date-modified">September 25, 2025</p>
     </div>
   </div>
     
@@ -265,11 +456,11 @@ ul.task-list li input[type="checkbox"] {
 <p>When asked, Yang’s partner, the physicist Ding Yi, did not answer with words. He answered with a demonstration.</p>
 <section id="the-pool-table" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="the-pool-table"><span class="header-section-number">2.1</span> The Pool Table</h2>
-<p>Science has always loved metaphors of colliding spheres. Newton used them to explain light, Descartes sketched them to describe celestial orbits, and Einstein invoked them in discussions of Brownian motions. Ding Yi continued the tradition—since the 19th century, billiards have been routinely used in physics textbooks for illustration.</p>
+<p>Science has always loved metaphors of colliding spheres. Newton used them to explain light,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Maxwell sketched them to understand Saturn’s rings,<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and Einstein invoked them in discussions of Brownian motions.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Ding Yi continued the tradition—since the 19th century, billiards have been routinely used in physics textbooks for illustration.</p>
 <p>He placed the ball at one end of the table, struck it with the cue at a fixed angle and force, and watched it collide with the side cushions. The rebound was predictable. Then he placed the ball elsewhere, struck again with the same angle and force. The collisions traced out an identical pattern. He did it again. And again.</p>
 <p>Five times. Five experiments.</p>
 <p>Each yielded the same result.</p>
-<p>“Aren’t you shocked by the results?” Ding asked rhetorically. Wang did not know how to respond.&nbsp;</p>
+<p>“Aren’t you shocked by the results?” Ding asked rhetorically. Wang did not know how to respond.</p>
 <p>“Come on, let’s celebrate. We’ve discovered a great principle of nature: <em>The laws of physics are invariant across space and time</em>.”</p>
 <p>This was no trivial statement. It is one of the great articles of faith in science: that laws are not local customs, but universal decrees. Strike a ball here, or there, today or tomorrow—it doesn’t matter. The physical laws remain the same.</p>
 <p>Try it yourself. Ding Yi’s pool table has been reconstructed here.</p>
@@ -305,9 +496,11 @@ ul.task-list li input[type="checkbox"] {
     <div class="wgt__row"><strong>Velocity</strong>     <span data-role="vel" class="wgt__out">(—, —)</span></div>
     <div class="wgt__row"><strong>Acceleration</strong> <span data-role="acc" class="wgt__out">(—, —)</span></div>
     <div class="wgt__hint">• Drag the ball anywhere, then release. • Cue hits with the same direction &amp; force. • Cushions are perfectly elastic.</div>
-  </div>
+</div>
 </div>
 
+<link rel="stylesheet" href="../../css/widgets.css">
+<script src="../../js/widgets-core.js" defer=""></script>
 <script src="../../js/pool-sim.js" defer=""></script>
 
 </div>
@@ -322,21 +515,20 @@ Widget&nbsp;2.1: Simple Pool Table with fixed strike and friction controls.
 <section id="the-seduction-of-invariance" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="the-seduction-of-invariance"><span class="header-section-number">2.2</span> The Seduction of Invariance</h2>
 <p>Science seduces us with boredom. That is its secret charm. We want the universe to behave, not to surprise. Every replication, every repeated experiment that yields the same result, feels like a reassurance that we live in an orderly cosmos.</p>
-<p>Philosophers gave this reassurance a name: the Principle of the Uniformity of Nature. David Hume, the great skeptic, articulated it in the 18th century: the assumption that the future will resemble the past; that nature tomorrow will behave like nature today; that “<em>the course of nature continues always uniformly the same</em>.”&nbsp;</p>
-<p>Across cultures and centuries, thinkers spontaneously embraced the principle without hesitation.&nbsp;Thales sought a single element to ground the flux of the world. Aristotle believed nature’s motions could be classified because they followed regular causes. Xunzi wrote 天行有常—“the heavens move with constancy.” The Stoics saw the cosmos ordered by logos. Aquinas and medieval scholastics argued that God’s creation was rational and therefore reliable. Galileo, Kepler, and Newton all assumed their laws applied everywhere. Bacon made nature a system governed by its own laws and the very source of knowledge. And knowledge is power.</p>
+<p>Philosophers gave this reassurance a name: the Principle of the Uniformity of Nature. David Hume, the great skeptic, articulated it in the 18th century: the assumption that the future will resemble the past; that nature tomorrow will behave like nature today; that “<em>the course of nature continues always uniformly the same</em>.”<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
+<p>Across cultures and centuries, thinkers spontaneously embraced the principle without hesitation. Thales sought a single element to ground the flux of the world. Aristotle believed nature’s motions could be classified because they followed regular causes. Xunzi wrote 天行有常—“the heavens move with constancy.”<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> The Stoics saw the cosmos ordered by logos. Aquinas and medieval scholastics argued that God’s creation was rational and therefore reliable. Galileo, Kepler, and Newton all assumed their laws applied everywhere.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> Bacon made nature a system governed by its own laws and the very source of knowledge. And knowledge is power.</p>
 <p>This conviction—that the rhythm of nature is reliable, and thus knowable—is what keeps us from superstition. However framed—through omen or through reason—the majority have trusted that the world follows patterns so that we are not at the mercy of whimsical gods.</p>
-<p>That trust is what makes science possible. Once we believed in order rather than caprice, knowledge could accumulate. Experiments became expected to repeat, results communicable, and science emerged as a shared project. This conviction, more than any single discovery, is what allowed the modern worldview to take root.&nbsp;</p>
+<p>That trust is what makes science possible. Once we believed in order rather than caprice, knowledge could accumulate. Experiments became expected to repeat, results communicable, and science emerged as a shared project. This conviction, more than any single discovery, is what allowed the modern worldview to take root. <a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
 <p>Without the Principle of Uniformity of Nature, replication collapses, prediction is impossible, and “law” becomes an empty word. With it, the modern scientific worldview takes shape: not pleasing the gods, but trusting that the world itself is knowable, and that what we learned here and now will apply tomorrow and elsewhere.</p>
 <p>Ding Yi concluded forcefully,</p>
 <blockquote class="blockquote">
 <p>… a great principle of nature: The laws of physics are invariant across space and time. All the physical laws of human history, from Archimedes’ principle to string theory, and all the scientific discoveries and intellectual fruits of our species are the by-products of this great law.</p>
 </blockquote>
-<p>But here is the scandal: Hume could never prove it. No one has. The uniformity of nature is not a discovery. It is a bet. A metaphysical faith disguised as an empirical law.&nbsp;Even in the twentieth century, Einstein marveled that “the most incomprehensible thing about the universe is that it is comprehensible.”</p>
-<p>Yang Dong’s suicide note was an act of apostasy.</p>
+<p>But here is the scandal: Hume could never prove it. No one has. The uniformity of nature is not a discovery. It is a bet. A metaphysical faith disguised as an empirical law.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> Even in the twentieth century, Einstein marveled that “the most incomprehensible thing about the universe is that it is comprehensible.”<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
 </section>
 <section id="the-lawful-table" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="the-lawful-table"><span class="header-section-number">2.3</span> The Lawful Table</h2>
-<p>Now, physicists don’t spend their lives rolling pool balls the same way over and over again. They juggle a zoo of variables—spin, friction, imperfections, air currents, hidden quirks of the felt—each one a potential troublemaker, each one an invitation for variance and disorder.&nbsp;</p>
+<p>Now, physicists don’t spend their lives rolling pool balls the same way over and over again. They juggle a zoo of variables—spin, friction, imperfections, air currents, hidden quirks of the felt—each one a potential troublemaker, each one an invitation for variance and disorder.</p>
 <p>And yet, beneath the clutter, the pursuit is the same: change the knobs, keep the laws. Find that invariance that stands like granite.</p>
 <div id="wid-pool-sim" class="widget quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-wid figure">
@@ -374,10 +566,11 @@ Widget&nbsp;2.1: Simple Pool Table with fixed strike and friction controls.
   <div class="wgt__panel wgt__output" aria-live="polite">
     <div class="wgt__title">Energy Ledger</div>
     <div class="wgt__hint">• Drag the ball to move it. • Pull back anywhere to set direction &amp; power, then release. • Losses appear in the ledger.</div>
-  </div>
+</div>
 </div>
 
-<!-- Make sure widgets-core.js is included before this -->
+<link rel="stylesheet" href="../../css/widgets.css">
+<script src="../../js/widgets-core.js" defer=""></script>
 <script src="../../js/pool-invariance.js" defer=""></script>
 
 </div>
@@ -436,10 +629,11 @@ Widget&nbsp;2.2: The Lawful Table—many knobs.
       <strong>Estimate p (H/trials)</strong>    <span data-role="phat" class="wgt__out">—</span>
       </div>
     <div class="wgt__hint">The chart shows the running estimate p̂ = H/n with a dashed target at the chosen p.</div>
-  </div>
+</div>
 </div>
 
-<!-- Ensure widgets-core.js is included site-wide before this -->
+<link rel="stylesheet" href="../../css/widgets.css">
+<script src="../../js/widgets-core.js" defer=""></script>
 <script src="../../js/coin-flip.js" defer=""></script>
 
 </div>
@@ -450,41 +644,82 @@ Widget&nbsp;2.3: Coin Flip Device — click to flip; chart shows p̂ over trials
 </div>
 <p>Flip the coin as many times as you like. At first, the results look noisy, even chaotic. Ten flips tell you nothing. But flip a hundred, a thousand, and something remarkable happens: the wildly fluctuating ratio between heads and tails begins to settle. Chaos turns into pattern. Noise reveals order.</p>
 <p>Pop the champagne—you’ve just discovered the <strong>Law of Large Numbers</strong>. It states that the average outcome of a random experiment approaches its expected value as the number of trials increases. This is the invariance of chance: the more experiments you run, the closer you get to the hidden probability of the coin. It isn’t merely a statistical curiosity; it’s a bedrock principle—the universe’s quiet promise of consistency, assuring us that even in the realm of chance, a hidden invariance governs.</p>
-<p>Jacob Bernoulli, who first proved this in 1713, called it his <em>golden theorem</em>. Casinos thrive on it. Insurance companies rely on it. Weather forecasts whisper it. The law promises that randomness itself contains a rhythm, and that with enough patience, averages will converge.</p>
+<p>Jacob Bernoulli, who first proved this and published it posthumously in 1713,<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> called it his <em>golden theorem</em>. Casinos thrive on it. Insurance companies rely on it. Weather forecasts whisper it. The law promises that randomness itself contains a rhythm, and that with enough patience, averages will converge.</p>
 <p>But hidden in the proof is an often overlooked clause: each trial must be <em>independently</em> and <em>identically distributed</em>. Your previous toss must not interfere with the next toss; a toss here or there, today or tomorrow, it makes no difference, as if all these tosses are drawn from the same deck. This is Hume’s Principle in disguise: uniformity all over again. The law of large numbers depends on the same bet—that nature behaves consistently, yet probabilistically, across time and space.</p>
 <p>It looks like victory: even in randomness, invariance survives. Only when such invariance holds can statistics, probability, and the sciences built on them exist at all.</p>
 </section>
-<section id="the-unlawful-table" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="the-unlawful-table"><span class="header-section-number">2.5</span> The Unlawful Table</h2>
-<p>“I still don’t understand what you’re getting at,” Wang asked. How is this relevant to Yang’s suicide?</p>
+<section id="emmy-noethers-gift" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="emmy-noethers-gift"><span class="header-section-number">2.5</span> Emmy Noether’s Gift</h2>
+<p>Physics is built on a particular type of invariance, called <strong>symmetry</strong>. We know the idea from everyday life: my left hand mirrors my right. If I flip one over, it overlays the other—a transformation that demonstrates the symmetry.</p>
+<p>Physicists extended this notion beyond mirror-images: a symmetry means the property of remaining invariant under any transformation. If a system remains the same from one moment to the very immediate next, that is time symmetry. If it holds the same here as it does elsewhere—whether a nanometer or a million kilometers away, that is spatial symmetry. If it behaves the same no matter how we rotate it—even by the tiniest imperceptible angle, that is rotational symmetry. These are what physicists call <em>continuous</em> symmetries: sameness that holds not only in great leaps, but through every tiny shift so small that transformation is smooth.</p>
+<p>Symmetry allows all branches of physics promises us some kind of conservation, promises that follow <strong>Noether’s Theorem</strong>.</p>
+<p>In 1915, Emmy Noether, German mathematician and lecturer at University of Göttingen without pay—merely because she was a woman—discovered a secret mathematical architecture beneath the laws of physics. She proved that, loosely speaking, whenever a physical system behaves the same regardless of where it is, when it is, or how it is oriented, there must exist a law of conservation.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></p>
+<p>Every continuous symmetry guarantees a conservation law. Time symmetry guarantees energy is conserved. Spatial symmetry guarantees momentum is conserved. Rotational symmetry guarantees angular momentum is conserved.</p>
+</section>
+<section id="the-ghost-particle" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="the-ghost-particle"><span class="header-section-number">2.6</span> The Ghost Particle</h2>
+<p>Now, imagine you are a particle detective on a cosmic crime scene: when a radioactive nucleus undergoes beta decay, transforming a neutron into a proton and emitting an electron, something doesn’t add up. The emitted electrons don’t always carry the expected amount of energy and their trajectories don’t always align with the conservation of momentum. What do you conclude?</p>
+<p>This was a profound crisis for physicists in the 1930s. By Noether’s theorem, it implies one of the following two possibilities. One possibility is that, somehow for beta decay reactions, the continuous spatial and time symmetries don’t hold. In other words, for beta decay alone, space and time are discrete, forming a kind of lattice, as if particles are jumping on an infinite chessboard from one grid to another. The other possibility is that something is missing. This was indeed physicist Wolfgang Pauli’s proposal: an unknown particle carries away the missing energy and momentum like a thief who had made off with some of the loot.</p>
+<p>Yet the second possibility is equally mysterious. This unknown particle would have to be able to escape detection, meaning that it doesn’t interact with an electron or a nucleus that it encounters. Pauli concluded, this particle, like a ghost, can pass through the entire earth without interacting.</p>
+<p>Pauli himself was troubled by his own untestable hypothesis, acknowledging that he had committed the worst mistake a physicist could commit: postulating a particle that cannot be subjected to experimental scrutiny <a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a>. He wrote in a letter in 1930, “I agree that my remedy could seem incredible because one should have seen these particles much earlier if they really exist. But only the ones who dares can win and the difficult situation, due to the continuous structure of the beta spectrum, is lighted by a remark of my honoured predecessor, Mr Debye, who told me recently in Brussels: ‘Oh, it’s well better not to think about this at all, like new taxes.’ From now on, every solution to the issue must be discussed. Thus, dear radioactive people, look and judge.” <a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></p>
+<p>For decades, the ghost particle remained a phantom. It was finally confirmed via experiments in 1956 by Clyde Cowan and Fredrick Reines, and gained the name <em>neutrino</em>. It turns out that neutrinos, ghostlike as they are, indeed have traces. There is a very small, but non-zero chance that neutrinos interact with a nucleus. So physicists pile an enormous amount of nuclei in front of a beam of neutrinos, and wait, listening to that faintest creak of the floor boards in vast haunted houses.</p>
+<p>Noether’s Theorem, and with it, the beautiful architecture of physics, was saved. Nobel Laureate, physicist Leon Lederman, and theoretical physicist Christopher Hill wrote,</p>
+<blockquote class="blockquote">
+<p>We should add that experimentalists still often look for missing energy and momentum in their detectors in particle collisions, but this is always interpreted nowadays as evidence for a new particle, never as evidence for the breakdown of the conservation laws of energy and momentum. Our faith, or should we say confidence (as science is not faith-based), in the symmetries of the structure of space and time, and Noether’s theorem would, at this point, be very hard to shake.<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a></p>
+</blockquote>
+<p>Even though the universe sometimes presents us with puzzles that seem to defy our most cherished laws, the answer often lies not in the breakdown of those laws, but in a deeper, more complete understanding of the underlying reality. <em>Symmetry is the premise; conservation the promise.</em></p>
+<p>The universe, though mysterious, ultimately plays fair.</p>
+</section>
+<section id="through-the-looking-glass-and-what-alice-found-there" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="through-the-looking-glass-and-what-alice-found-there"><span class="header-section-number">2.7</span> Through the Looking-Glass, and What Alice Found There</h2>
+<p>Alice who adventured in Wonderland once again steps across the threshold. This time, she climbs through a large looking-glass, a mirror. The world in the mirror should look the same, only reversed. The left hand becomes right, the teacup is still a teacup, the chessboard is still a chessboard. The mirror reassures: the rules are unchanged, only inverted.</p>
+<p>This is the promise of <strong>parity</strong> in physics. Flip space like a mirror, and the equations should hold. North and south, left and right, clockwise and counterclockwise—no preferred side, no sacred orientation. Nature, impartial, does not distinguish between her reflection and herself.</p>
+<p>For decades, physicists assumed this symmetry was absolute. It was not just an assumption, but an article of faith: nature’s mirror never lies. The very idea that the reflection could misbehave—that the rules inside the glass might be different—was unthinkable. Space, time, rotation, parity, charge—pillars of invariance. Break them and the temple of physics shakes.</p>
+<p>But then came a puzzle that cracked the mirror.</p>
+<p>In the early 1950s, physicists once again noticed something strange. Two subatomic particles, known as the tau and the theta, looked identical in every measurable way—same mass, same charge, same lifetime. They should have been the same particle. But they weren’t. The tau decayed into three pions; the theta decayed into two. Their only difference lay in parity, their mirror identity, as if Nature decides mirror images should differ.</p>
+<p>The resolution came in 1956—the same year when neutrino was confirmed—with the bold, yet revolutionary suggestion by Tsung-Dao Lee and Chen-Ning Yang. The young Chinese American scientists proposed that parity, the symmetry between a physical system and its mirror image, might not be conserved in weak interactions.</p>
+<p>Theory is cheap. Experiment is king. Lee and Yang talked to experimental physicist Chien-Shiung Wu, or Madame Wu, as she is universally known. She, like Alice before her, looked into the mirror by freezing cobalt nuclei in near absolute zero, aligning them, and watching them spit electrons. If parity were sacred, the spray would be symmetric. It wasn’t. The electrons came out lopsided, as if the universe had a preferred hand.</p>
+<p>Weak interaction violates parity. Nature is left-handed, after all.</p>
+<p>Lee and Yang won the Nobel Prize in the same year. This discovery was a seismic event in physics, challenging a deeply held “article of faith” in the scientific community. Wolfgang Pauli wrote in a letter, “Now after the first shock is over, I begin to collect myself. Yes, it was very dramatic” <span class="citation" data-cites="Myneni1984ParityViolation">(<a href="../../data/references.html#ref-Myneni1984ParityViolation" role="doc-biblioref">Myneni 1984</a>)</span>. Feynman who lost $50 dollars to a fellow scientist in 1956 on a bet that parity would not be violated, even in his 1985 book, still expressed disbelief and hope that “a more beautiful and, hence, more accurate understanding” of things will emerge.</p>
+<p>This discovery was disturbing philosophically as well. Physicist A. Zee later made it clear,</p>
+<blockquote class="blockquote">
+<p>The crucial idea which came to Lee and Yang is that Nature may respect parity in many of her laws, but not in the laws governing the weak interaction between particles. Imagine that one of the fundamental principles of our legal system, that the accused is presumed innocent until proven otherwise, is decreed to hold only for certain crimes, while for other crimes the opposite is to be the case. Just as judicial philosophers would surely cringe at this notion, physicists find Nature’s selective violation of parity rather discomforting philosophically.<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></p>
+</blockquote>
+</section>
+<section id="beyond-the-mirror-cp-t-and-cpt" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="beyond-the-mirror-cp-t-and-cpt"><span class="header-section-number">2.8</span> Beyond the Mirror: CP, T, and CPT</h2>
+<p>Parity was gone, but physicists clung to hope. Maybe if you combined a mirror with antimatter—charge conjugation plus parity, CP—the universe would be restored. A mirrored world of antiparticles should behave like ours. That was the creed of the 1960s.</p>
+<p>Until it wasn’t.</p>
+<p>In 1964, James Cronin and Val Fitch found that neutral kaons—particles flickering between matter and antimatter—sometimes decayed in ways forbidden by CP symmetry. Not often. Just rarely enough to unsettle faith. CP, too, was broken. This won them the Nobel Prize in 1980.</p>
+<p>If CP fails, then by the structure of physics, time reversal (T) must fail too. Imagine a movie of particles colliding—play it backward. For most forces, the reversed movie looks physically possible. But in the weak interaction, it doesn’t. Time itself, at the microscopic level, is not fully reversible.</p>
+<p>And yet, there is one last covenant: CPT symmetry. Combine all three—charge, parity, and time—and nature holds steady. CPT means this: if you flip left and right, swap matter for antimatter, and reverse the arrow of time all at once, the world plays fair again. This is not just a guess; it is a theorem. As long as physics obeys the basic assumptions of relativity and quantum fields, CPT cannot fail. And in every experiment ever performed, CPT holds.</p>
+<p>So yes, symmetry after symmetry has fallen. Parity. Charge. CP. Time. Each one, once thought sacred, turned out to be conditional. But CPT remains unbroken.</p>
+<p>That survival is not trivial. It is what gives us hope that the laws of physics are still coherent. It is why matter and antimatter have the same mass, why conservation still feels real, why the edifice of physics hasn’t collapsed into Yang Dong’s despair. Just as important: these violations are <em>reproducible</em>. Wu’s cobalt electrons <em>always</em> shoot left. Kaons <em>always</em> betray CP at the same tiny fraction. The movie of time reversal <em>always</em> fails in the same way. Scandalous, yes—but scandal written into law. The mirror lies, but it lies consistently. This was the reassurance: nature might break her covenants, but she does so predictably. A broken law is still a law if its violations can be written down and repeated. Even in the ruins of symmetry, some structure endures.</p>
+</section>
+<section id="the-unlawful-table" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="the-unlawful-table"><span class="header-section-number">2.9</span> The Unlawful Table</h2>
+<p>“I still don’t understand what you’re getting at,” Wang asked. How is the pool table relevant to Yang’s suicide?</p>
 <p>Ding lit a cigarette, “Imagine another set of results. The first time, the white ball drove the black ball into the pocket. The second time, the black ball bounced away. The third time, the black ball flew onto the ceiling. The fourth time, the black ball shot around the room like a frighted sparrow, finally taking refuge in your jacket pocket. The fifth time, the black ball flew away at nearly the speed of light, breaking the edge of the pool table, shooting through the wall, and leaving the Earth and Solar system, just like Asimov once described. What would you think then?”</p>
 <p>Indeed, a demon’s pool table.</p>
-<p>After a long silence, Ding explained that physicists’ expensive “pool tables”—high-energy particle accelerators–constructed on different continents, have been consistently failing to yield the same results with the same experimental setup.</p>
+<p>After a long silence, Ding explained that physicists’ expensive “pool tables”—high-energy particle accelerators—constructed on different continents, have been consistently failing to yield the same results with the same experimental setup. If this were the case for all these physical experiments described earlier, we would not have been able to discover neutrino or symmetry violations.</p>
 <p>Now imagine a similarly unlawful coin. When you flipped it, the first time, it gave you heads; the second time, it flew outside of the room; the third time, it hovered in midair humming like a hive of bees; the fourth time, it spun forever without landing, defying gravity’s grasp; the fifth time, it burst into flame and fizzled into ash, leaving only a scorch mark on the table.</p>
 <blockquote class="blockquote">
 <p>… there seemed to be no pattern.</p>
 </blockquote>
 <p>In the story, the leap from a lack of pattern to Yang Dong’s last words that “physics has never existed” is too quick. In reality, physicists are never afraid of “no obvious patterns” because they know they are dealing with complex situations with many knobs and sometimes with worlds governed by probabilities, not certainties, as exemplified by quantum physics.</p>
+<p>In experiments with cobalt and kaons that support parity and CP violation above, at least physicists were able to repeatedly get the same result over and over all. Anomalies are still invariant on the lawful pool table.</p>
 <p>Yang’s true crisis arises not from “no pattern” nor is it from simple replication failures, but from a fundamental betrayal of both scientific methods and their underlying principles.</p>
 </section>
-<section id="betrayal-of-scientific-methods" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="betrayal-of-scientific-methods"><span class="header-section-number">2.6</span> Betrayal of Scientific Methods</h2>
-<p>Scientific method is not a single recipe but a set of practices. We design experiments so they can be replicated. We build theories so they can predict. We subject hypotheses to conditions where they might be falsified. We rely on measurement and quantification so that results can be communicated and compared. We use statistical inference so that from noisy samples we can draw stable generalizations. And we expose findings to peer scrutiny so that knowledge accumulates collectively, not privately. All these are parts of scientific methods that allow scientists to verify findings, build consensus, and gradually construct a towering edifice of knowledge about the universe, from the smallest particles to the largest galaxies.</p>
+<section id="betrayal-of-scientific-methods" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="betrayal-of-scientific-methods"><span class="header-section-number">2.10</span> Betrayal of Scientific Methods</h2>
+<p>Scientific method is not a single recipe but a set of practices.<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a> We design experiments so they can be replicated. We build theories so they can predict. We subject hypotheses to conditions where they might be falsified. We rely on measurement and quantification so that results can be communicated and compared. We use statistical inference so that from noisy samples we can draw stable generalizations. And we expose findings to peer scrutiny so that knowledge accumulates collectively, not privately. All these are parts of scientific methods that allow scientists to verify findings, build consensus, and gradually construct a towering edifice of knowledge about the universe, from the smallest particles to the largest galaxies.</p>
 <p>However, all of these methods presuppose that the world itself is stable enough for yesterday’s data to apply tomorrow—uniformity of nature. Even failures to replicate previous results should be invariant. Without invariance, replication is meaningless, prediction impossible, falsification incoherent.</p>
 <p>Yet, what Yang Dong and her peers were facing was a <em>complete lack of patterns</em>: identical setups yielded wildly different outcomes, so wild that even our best statistical tools could not capture the slight hint of invariance as if it were the demon’s coin.</p>
 <p>Yang’s despair was not about complexity or chance—it was about the collapse of this scaffolding. A scientist can live with error and with noise; she cannot live with the treachery that makes her methods useless.</p>
 </section>
-<section id="emmy-noethers-gift" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="emmy-noethers-gift"><span class="header-section-number">2.7</span> Emmy Noether’s Gift</h2>
-<p>Yang Dong also killed herself because the Demon’s pool table broke the promises of all branches of physics, promises that follow <strong>Noether’s Theorem</strong>.</p>
-<p>In 1915, Emmy Noether, German mathematician and lecturer at University of Göttingen without pay—merely because she was a woman—discovered a secret mathematical architecture beneath the laws of physics. She proved that, loosely speaking, whenever a physical system behaves the same regardless of where it is, when it is, or how it is oriented, there must exist a law of conservation.</p>
-<p>Physicists call this kind of sameness a <em>symmetry</em>. We know the idea from everyday life: my left hand mirrors my right. If I flip one over, it overlays the other—a transformation that demonstrates the symmetry. Physicists extended this notion beyond mirror-images: a symmetry means the property of remaining invariant under any transformation. If a system remains the same from one moment to the immediate next, that is time symmetry. If it holds the same here as it does elsewhere—whether a nanometer or a million kilometers away, that is spatial symmetry. If it behaves the same no matter how we rotate it—even by the tiniest imperceptible angle, that is rotational symmetry. These are what physicists call continuous symmetries: sameness that holds not only in great leaps, but through every tiny shift so small that transformation is smooth.</p>
-<p>Her theorem reveals the astonishing consequence: every continuous symmetry guarantees a conservation law. Time symmetry guarantees energy is conserved. Spatial symmetry guarantees momentum is conserved. Rotational symmetry guarantees angular momentum is conserved.</p>
-<p><em>Symmetry is the premise; conservation the promise.</em></p>
-</section>
-<section id="the-horror-of-demons-pool-table" class="level2" data-number="2.8">
-<h2 data-number="2.8" class="anchored" data-anchor-id="the-horror-of-demons-pool-table"><span class="header-section-number">2.8</span> The Horror of Demon’s Pool Table</h2>
-<p>No matter where you set the ball on the pool table, the energy conserves because there is spatial symmetry. But what if we broke the spatial symmetry?</p>
+<section id="the-horror-of-demons-pool-table" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="the-horror-of-demons-pool-table"><span class="header-section-number">2.11</span> The Horror of Demon’s Pool Table</h2>
+<p>No matter where you set the ball on the lawful pool table, the energy conserves because there is spatial symmetry. But what if we broke the spatial symmetry?</p>
 <p>Try again, but this time, on a demon’s pool table where you can choose how to break the spatial symmetry.</p>
 <div id="wid-pool-symmetry" class="widget quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-wid figure">
@@ -530,9 +765,11 @@ Widget&nbsp;2.3: Coin Flip Device — click to flip; chart shows p̂ over trials
   <div class="wgt__panel wgt__output" aria-live="polite">
     <div class="wgt__title">Energy Ledger</div>
     <div class="wgt__hint">Y-axis is fixed to the maximum possible energy under current settings; dashed line marks initial E₀.</div>
-  </div>
+</div>
 </div>
 
+<link rel="stylesheet" href="../../css/widgets.css">
+<script src="../../js/widgets-core.js" defer=""></script>
 <script src="../../js/pool-symmetry.js" defer=""></script>
 
 </div>
@@ -541,25 +778,121 @@ Widget&nbsp;2.4: Breaking Spatial Symmetry—same table, unlawful rules.
 </figcaption>
 </figure>
 </div>
-<p>Enable the Size Field and drag the ball across the table, you’ll notice its size alters. Hit it with a cue, watch how the kinetic energy bounces up and down as the ball moves across the table from left to right and right to left—when it is supposed to stay constant. The ball doesn’t look the same anymore when moving. Spatial symmetry is broken. Energy doesn’t conserve.&nbsp;</p>
-<p>Enable transmutation, and even worse things happen. The concept of energy doesn’t even apply anymore, let alone energy conservation.&nbsp;</p>
+<p>Enable the Size Field and drag the ball across the table, you’ll notice its size alters. Hit it with a cue, watch how the kinetic energy bounces up and down as the ball moves across the table from left to right and right to left—when it is supposed to stay constant. The ball doesn’t look the same anymore when moving. Spatial symmetry is broken. Energy doesn’t conserve.</p>
+<p>Enable transmutation, and even worse things happen. The concept of energy doesn’t even apply anymore. The conservation law does not break. It evaporates.</p>
 <p>Only in this case, you own the pool table and can control whether and how to break symmetry. But imagine what scientists of pool tables have to face!</p>
 </section>
-<section id="apostasy-of-symmetry" class="level2" data-number="2.9">
-<h2 data-number="2.9" class="anchored" data-anchor-id="apostasy-of-symmetry"><span class="header-section-number">2.9</span> Apostasy of Symmetry</h2>
-<p>Nobel Laureate, physicist Leon Lederman, and theoretical physicist Christopher Hill wrote,&nbsp;</p>
-<blockquote class="blockquote">
-<p>We should add that experimentalists still often look for missing energy and momentum in their detectors in particle collisions, but this is always interpreted nowadays as evidence for a new particle, never as evidence for the breakdown of the conservation laws of energy and momentum. Our faith, or should we say confidence (as science is not faith-based), in the symmetries of the structure of space and time, and Noether’s theorem would, at this point, be very hard to shake.</p>
-</blockquote>
-<p>For Yang, who had as much faith as Lederman and Hill, this was the final betrayal. Symmetry was not just a mathematical trick but the deep covenant of nature. It was the bridge between invariance and conservation, the silent guarantor that science could still speak a coherent language. Everything that we ever know from physics, from quarks to quasars, was an illusion.&nbsp;To see symmetry dissolve was to see the pillars of the temple collapse.</p>
+<section id="apostasy-of-symmetry" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="apostasy-of-symmetry"><span class="header-section-number">2.12</span> Apostasy of Symmetry</h2>
+<p>In our world, the mirrors crack but do not shatter. Even when symmetry fails, the failure repeats. Physicists can write down the fractions, build new theories, and live with scandal made consistent. In Yang Dong’s world, there is no such mercy. The experiment does not only violate symmetry—it refuses to give the same answer twice. Not scandal, but madness. Not law, but caprice. That is why she despaired.</p>
+<p>For Yang, who had as much faith as Lederman and Hill, this was the final betrayal. Symmetry was not just a mathematical trick but the deep covenant of nature. It was the bridge between invariance and conservation, the silent guarantor that science could still speak a coherent language. Everything that we ever know from physics, from quarks to quasars, was an illusion. To see symmetry dissolve was to see the pillars of the temple collapse.</p>
 <p><em>Physics has never existed, and will never exist.</em></p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-bernoulli2006art" class="csl-entry" role="listitem">
+Bernoulli, Jacob. 2006. <em>The Art of Conjecturing, Together with Letter to a Friend on Sets in Court Tennis</em>. JHU Press.
+</div>
+<div id="ref-einstein1905motion" class="csl-entry" role="listitem">
+Einstein, Albert. 1905. <span>“On the Motion of Small Particles Suspended in Liquids at Rest Required by the Molecular-Kinetic Theory of Heat.”</span> <em>Annalen Der Physik</em> 17 (549-560): 208.
+</div>
+<div id="ref-einstein1936physics" class="csl-entry" role="listitem">
+———. 1936. <span>“Physics and Reality.”</span> <em>Journal of the Franklin Institute</em> 221 (3): 349–82.
+</div>
+<div id="ref-galilei1914discourses" class="csl-entry" role="listitem">
+Galilei, Galileo. 1914. <span>“Discourses and Mathematical Demonstrations Relating to Two New Sciences.”</span> <em>Leiden (1638)</em>.
+</div>
+<div id="ref-harrison2019science" class="csl-entry" role="listitem">
+Harrison, Peter, and Jon H Roberts. 2019. <em>Science Without God?: Rethinking the History of Scientific Naturalism</em>. Oxford University Press.
+</div>
+<div id="ref-henderson2018problem" class="csl-entry" role="listitem">
+Henderson, Leah. 2018. <span>“The Problem of Induction.”</span>
+</div>
+<div id="ref-hume2000treatise" class="csl-entry" role="listitem">
+Hume, David. 2000. <em>A Treatise of Human Nature</em>. Oxford University Press.
+</div>
+<div id="ref-kepler2021harmonies" class="csl-entry" role="listitem">
+Kepler, Johannes. 2021. <em>Harmonies of the World</em>. Phoemixx Classics Ebooks.
+</div>
+<div id="ref-lederman2011symmetry" class="csl-entry" role="listitem">
+Lederman, Leon M, and Christopher T Hill. 2011. <em>Symmetry and the Beautiful Universe</em>. Prometheus books.
+</div>
+<div id="ref-lindberg2010beginnings" class="csl-entry" role="listitem">
+Lindberg, David C. 2010. <em>The Beginnings of Western Science: The European Scientific Tradition in Philosophical, Religious, and Institutional Context, Prehistory to AD 1450</em>. University of Chicago Press.
+</div>
+<div id="ref-longino1990science" class="csl-entry" role="listitem">
+Longino, Helen E. 1990. <em>Science as Social Knowledge: Values and Objectivity in Scientific Inquiry</em>. Princeton University Press.
+</div>
+<div id="ref-machamer2021galileo" class="csl-entry" role="listitem">
+Machamer, Peter, and David Marshall Miller. 2021. <span>“Galileo Galilei.”</span>
+</div>
+<div id="ref-maxwell1859stability" class="csl-entry" role="listitem">
+Maxwell, James Clerk. 1859. <em>On the Stability of the Motion of Saturn’s Rings: An Essay, Which Obtained the Adams Prize for the Year 1856, in the University of Cambridge</em>. Macmillan; Company.
+</div>
+<div id="ref-mcclellan2015science" class="csl-entry" role="listitem">
+McClellan iii, James E, and Harold Dorn. 2015. <em>Science and Technology in World History: An Introduction</em>. JHU Press.
+</div>
+<div id="ref-Myneni1984ParityViolation" class="csl-entry" role="listitem">
+Myneni, Krishna. 1984. <span>“Symmetry Destroyed: The Failure of Parity.”</span> <a href="https://www.hep.ucl.ac.uk/~nk/teaching/PH4442/parity-violation.html" class="uri">https://www.hep.ucl.ac.uk/~nk/teaching/PH4442/parity-violation.html</a>.
+</div>
+<div id="ref-neuenschwander2017emmy" class="csl-entry" role="listitem">
+Neuenschwander, Dwight E. 2017. <em>Emmy Noether’s Wonderful Theorem</em>. JHU Press.
+</div>
+<div id="ref-newton1846principia" class="csl-entry" role="listitem">
+Newton, Isaac. 1846. <em>The Mathematical Principles of Natural Philosophy</em>. Edited by Florian Cajori. Translated by Andrew Motte. New York: Daniel Adee.
+</div>
+<div id="ref-RoweKoreuber2020" class="csl-entry" role="listitem">
+Rowe, David E., and Mechthild Koreuber. 2020. <em>Proving It Her Way: Emmy Noether, a Life in Mathematics</em>. Springer ‒ Cham. <a href="https://doi.org/10.1007/978-3-030-62811-6">https://doi.org/10.1007/978-3-030-62811-6</a>.
+</div>
+<div id="ref-Salmon1953-SALTUO" class="csl-entry" role="listitem">
+Salmon, Wesley C. 1953. <span>“The Uniformity of Nature.”</span> <em>Philosophy and Phenomenological Research</em> 14 (1): 39–48. <a href="https://doi.org/10.2307/2104014">https://doi.org/10.2307/2104014</a>.
+</div>
+<div id="ref-xunzi2015xunzi" class="csl-entry" role="listitem">
+Xunzi, HG. 2015. <em>Xunzi: The Complete Text</em>. Princeton University Press.
+</div>
+<div id="ref-zee2015fearful" class="csl-entry" role="listitem">
+Zee, Anthony. 2015. <em>Fearful Symmetry: The Search for Beauty in Modern Physics</em>. Princeton university press.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Issac Newton laid the foundations for the corpuscular theory of light, which states that light is made up of small discrete particles called “corpuscles” (little particles). These corpuscles travel in a straight line with a finite velocity.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>In 1859, Maxwell published his essay “on the stability of the motion of Staurn’s rings” <span class="citation" data-cites="maxwell1859stability">(<a href="../../data/references.html#ref-maxwell1859stability" role="doc-biblioref">1859</a>)</span>, which solved a mystery that had eluded scientists for 200 years—how they could remain stable without breaking up, drifting away, or crashing into Saturn. In this essay, Maxwell proved that a regular solid ring could not be stable, while a fluid ring would be forced to break up into blobs. He concluded that rings must be composed of numerous small particles. He was awarded the Adams Prize.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>In 1905, Einstein provided the first quantitative explanation for Brownian motion, suspended pollen seeds in water moving in an erratic, random motion. In this essay <span class="citation" data-cites="einstein1905motion">(<a href="../../data/references.html#ref-einstein1905motion" role="doc-biblioref">1905</a>)</span>, he proposed that Brownian motion was caused by random bombardment of visible particles by invisible, constantly moving atoms and molecules.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Hume never named this principle as-is in his <em>Treatise</em>. He says, “if Reason determin’d us, it would proceed upon that principle that instances, of which we have had no experience, must resemble those, of which we have had experience, and that the course of nature continues always uniformly the same” <span class="citation" data-cites="hume2000treatise">(<a href="../../data/references.html#ref-hume2000treatise" role="doc-biblioref">Hume 2000</a>)</span>. For convenience, philosophers refer to this claim of similarity or resemblance between observed and unobserved regularities as the “Uniformity Principle,” “Resemblance Principle,” or the “Principle of Uniformity of Nature.” Read more in <span class="citation" data-cites="henderson2018problem">Henderson (<a href="../../data/references.html#ref-henderson2018problem" role="doc-biblioref">2018</a>)</span>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Another translation: There is a constancy to the activities of Heaven, from <span class="citation" data-cites="xunzi2015xunzi">Xunzi (<a href="../../data/references.html#ref-xunzi2015xunzi" role="doc-biblioref">2015, 175</a>)</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>In 1638, Galileo Galilei published <em>Discourses and Mathematical Demonstrations Relating to Two New Sciences</em><span class="citation" data-cites="galilei1914discourses">(<a href="../../data/references.html#ref-galilei1914discourses" role="doc-biblioref">1914</a>)</span>, his final book and a scientific testament. The first half of the book deals with the causes and mathematics of how bodies break and the acceleration of falling bodies. The second new science, described in the latter part of the book, deals with the mathematical descriptions and laws of local motions—motions of all matter. See more in <span class="citation" data-cites="machamer2021galileo">Machamer and Miller (<a href="../../data/references.html#ref-machamer2021galileo" role="doc-biblioref">2021</a>)</span>. In contrast, Kepler’s attitude is more ambiguous. But at least, he believes that his laws apply to all planets as he says, in his <em>The Harmony of the World</em>, “But it is absolutely certain and exact that the proportion between the periodic times of <em>any two planets</em> is precisely the sesquialterate proportion (i.e., the ratio of 3:2) of their mean distances…”<span class="citation" data-cites="kepler2021harmonies">(<a href="../../data/references.html#ref-kepler2021harmonies" role="doc-biblioref">2021</a>)</span>. Lastly, Newton wrote in the preface of <em>The Mathematical Principles of Natural Philosophy</em>, “I wish we could derive the rest of the phænomena of nature by the same kind of reasoning from mechanical principles; for I am induced by many reasons to suspect that they may all depend upon certain forces by which the particles of bodies, by some causes hitherto unknown, are either mutually impelled towards each other, and cohere in regular figures, or are repelled and recede from each other…” <span class="citation" data-cites="newton1846principia">(<a href="../../data/references.html#ref-newton1846principia" role="doc-biblioref">1846</a>)</span>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>It is extremely difficult—if not impossible—to pin down the exact date of such a naturalistic turn. Most history science textbooks agree that the origin of western science should at least start from the natural philosophy of ancient Greece, if not Egypt and Mesopotamia. See Lindberg’s <em>The Beginnings of Western Science</em> <span class="citation" data-cites="lindberg2010beginnings">(<a href="../../data/references.html#ref-lindberg2010beginnings" role="doc-biblioref">2010</a>)</span> or McClellan III’s <em>Science and Technology in World History</em> <span class="citation" data-cites="mcclellan2015science">(<a href="../../data/references.html#ref-mcclellan2015science" role="doc-biblioref">2015</a>)</span>. However, the naturalistic turn does not mean that scientific naturalism is entirely free of references to God or the supernatural. See more in <em>Science without God?</em> by <span class="citation" data-cites="harrison2019science">Harrison and Roberts (<a href="../../data/references.html#ref-harrison2019science" role="doc-biblioref">2019</a>)</span>.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>It is worth noting that not all philosophers agree that the Principle of Uniformity of Nature (PUN) is a metaphysical postulate. For example, Mill asserts that PUN is an empirical truth whereas Russell treats PUN as a postulate, a form of “wishful thinking.” See <span class="citation" data-cites="Salmon1953-SALTUO">Salmon (<a href="../../data/references.html#ref-Salmon1953-SALTUO" role="doc-biblioref">1953</a>)</span>.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>This quote is adapted for readability. In his essay “Physics and Reality” <span class="citation" data-cites="einstein1936physics">(<a href="../../data/references.html#ref-einstein1936physics" role="doc-biblioref">1936</a>)</span>, Einstein wrote, “…the production of some sort of order among sense impressions, this order being produced by the creation of general concepts, relations between these concepts, and by definite relations of some kind between the concepts and sense experience. It is in this sense that the world of our sense experiences is comprehensible. The fact that it is comprehensible is a miracle.”<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>In a book titled <em>Ars Conjectandi (The Art of Conjecturing)</em> <span class="citation" data-cites="bernoulli2006art">(<a href="../../data/references.html#ref-bernoulli2006art" role="doc-biblioref">2006</a>)</span><a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>Read more in <em>Emmy Noether’s Wonderful Theorem</em> <span class="citation" data-cites="neuenschwander2017emmy">(<a href="../../data/references.html#ref-neuenschwander2017emmy" role="doc-biblioref">Neuenschwander 2017</a>)</span>, <em>Symmetry and the Beautiful Universe</em> <span class="citation" data-cites="lederman2011symmetry">(<a href="../../data/references.html#ref-lederman2011symmetry" role="doc-biblioref">Lederman and Hill 2011</a>)</span>, and a recent biography <em>Proving It Her Way</em> <span class="citation" data-cites="RoweKoreuber2020">(<a href="../../data/references.html#ref-RoweKoreuber2020" role="doc-biblioref">Rowe and Koreuber 2020</a>)</span>.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p><em>Fearful Symmetry</em> by <span class="citation" data-cites="zee2015fearful">Zee (<a href="../../data/references.html#ref-zee2015fearful" role="doc-biblioref">2015</a>)</span><a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p><em>Symmetry and the Beautiful Universe</em> by <span class="citation" data-cites="lederman2011symmetry">Lederman and Hill (<a href="../../data/references.html#ref-lederman2011symmetry" role="doc-biblioref">2011</a>)</span><a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p><em>Symmetry and the Beautiful Universe</em> by <span class="citation" data-cites="lederman2011symmetry">Lederman and Hill (<a href="../../data/references.html#ref-lederman2011symmetry" role="doc-biblioref">2011</a>)</span><a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p><span class="citation" data-cites="zee2015fearful">(<a href="../../data/references.html#ref-zee2015fearful" role="doc-biblioref">Zee 2015, 29</a>)</span><a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16"><p>This is, of course, when we adopt views in Longino’s <em>Science as Social Knowledge</em> <span class="citation" data-cites="longino1990science">(<a href="../../data/references.html#ref-longino1990science" role="doc-biblioref">1990</a>)</span>.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {

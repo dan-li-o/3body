@@ -8,7 +8,7 @@
 
 <meta name="description" content="A Philosopher’s Footnotes to The Three-Body Problem">
 
-<title>References – Unlawful Laws</title>
+<title>10&nbsp; References – Unlawful Laws</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,6 +25,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -57,10 +58,14 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-65c2d1068c030bca59b0711570fd7680.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-65c2d1068c030bca59b0711570fd7680.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-491f3c33416ded0d3c3f5f531ae2d7a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-65c2d1068c030bca59b0711570fd7680.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -93,7 +98,169 @@ div.csl-indent {
 <link rel="stylesheet" href="../css/widgets.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -102,7 +269,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data/references.html">References</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data/references.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">References</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -120,6 +287,7 @@ div.csl-indent {
       <a href="../">Unlawful Laws</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/dan-li-o/3body" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
       </div>
@@ -220,7 +388,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../data/references.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">References</span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">References</span></span></a>
   </div>
 </li>
     </ul>
@@ -234,9 +402,10 @@ div.csl-indent {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">References</h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">References</span></h1>
 </div>
 
 
@@ -253,8 +422,97 @@ div.csl-indent {
 </header>
 
 
-<div id="refs" role="list" style="display: none">
-
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-bernoulli2006art" class="csl-entry" role="listitem">
+Bernoulli, Jacob. 2006. <em>The Art of Conjecturing, Together with
+Letter to a Friend on Sets in Court Tennis</em>. JHU Press.
+</div>
+<div id="ref-einstein1905motion" class="csl-entry" role="listitem">
+Einstein, Albert. 1905. <span>“On the Motion of Small Particles
+Suspended in Liquids at Rest Required by the Molecular-Kinetic Theory of
+Heat.”</span> <em>Annalen Der Physik</em> 17 (549-560): 208.
+</div>
+<div id="ref-einstein1936physics" class="csl-entry" role="listitem">
+———. 1936. <span>“Physics and Reality.”</span> <em>Journal of the
+Franklin Institute</em> 221 (3): 349–82.
+</div>
+<div id="ref-galilei1914discourses" class="csl-entry" role="listitem">
+Galilei, Galileo. 1914. <span>“Discourses and Mathematical
+Demonstrations Relating to Two New Sciences.”</span> <em>Leiden
+(1638)</em>.
+</div>
+<div id="ref-harrison2019science" class="csl-entry" role="listitem">
+Harrison, Peter, and Jon H Roberts. 2019. <em>Science Without God?:
+Rethinking the History of Scientific Naturalism</em>. Oxford University
+Press.
+</div>
+<div id="ref-henderson2018problem" class="csl-entry" role="listitem">
+Henderson, Leah. 2018. <span>“The Problem of Induction.”</span>
+</div>
+<div id="ref-hume2000treatise" class="csl-entry" role="listitem">
+Hume, David. 2000. <em>A Treatise of Human Nature</em>. Oxford
+University Press.
+</div>
+<div id="ref-kepler2021harmonies" class="csl-entry" role="listitem">
+Kepler, Johannes. 2021. <em>Harmonies of the World</em>. Phoemixx
+Classics Ebooks.
+</div>
+<div id="ref-lederman2011symmetry" class="csl-entry" role="listitem">
+Lederman, Leon M, and Christopher T Hill. 2011. <em>Symmetry and the
+Beautiful Universe</em>. Prometheus books.
+</div>
+<div id="ref-lindberg2010beginnings" class="csl-entry" role="listitem">
+Lindberg, David C. 2010. <em>The Beginnings of Western Science: The
+European Scientific Tradition in Philosophical, Religious, and
+Institutional Context, Prehistory to AD 1450</em>. University of Chicago
+Press.
+</div>
+<div id="ref-longino1990science" class="csl-entry" role="listitem">
+Longino, Helen E. 1990. <em>Science as Social Knowledge: Values and
+Objectivity in Scientific Inquiry</em>. Princeton University Press.
+</div>
+<div id="ref-machamer2021galileo" class="csl-entry" role="listitem">
+Machamer, Peter, and David Marshall Miller. 2021. <span>“Galileo
+Galilei.”</span>
+</div>
+<div id="ref-maxwell1859stability" class="csl-entry" role="listitem">
+Maxwell, James Clerk. 1859. <em>On the Stability of the Motion of
+Saturn’s Rings: An Essay, Which Obtained the Adams Prize for the Year
+1856, in the University of Cambridge</em>. Macmillan; Company.
+</div>
+<div id="ref-mcclellan2015science" class="csl-entry" role="listitem">
+McClellan iii, James E, and Harold Dorn. 2015. <em>Science and
+Technology in World History: An Introduction</em>. JHU Press.
+</div>
+<div id="ref-Myneni1984ParityViolation" class="csl-entry" role="listitem">
+Myneni, Krishna. 1984. <span>“Symmetry Destroyed: The Failure of
+Parity.”</span> <a href="https://www.hep.ucl.ac.uk/~nk/teaching/PH4442/parity-violation.html" class="uri">https://www.hep.ucl.ac.uk/~nk/teaching/PH4442/parity-violation.html</a>.
+</div>
+<div id="ref-neuenschwander2017emmy" class="csl-entry" role="listitem">
+Neuenschwander, Dwight E. 2017. <em>Emmy Noether’s Wonderful
+Theorem</em>. JHU Press.
+</div>
+<div id="ref-newton1846principia" class="csl-entry" role="listitem">
+Newton, Isaac. 1846. <em>The Mathematical Principles of Natural
+Philosophy</em>. Edited by Florian Cajori. Translated by Andrew Motte.
+New York: Daniel Adee.
+</div>
+<div id="ref-RoweKoreuber2020" class="csl-entry" role="listitem">
+Rowe, David E., and Mechthild Koreuber. 2020. <em>Proving It Her Way:
+Emmy Noether, a Life in Mathematics</em>. Springer ‒ Cham. <a href="https://doi.org/10.1007/978-3-030-62811-6">https://doi.org/10.1007/978-3-030-62811-6</a>.
+</div>
+<div id="ref-Salmon1953-SALTUO" class="csl-entry" role="listitem">
+Salmon, Wesley C. 1953. <span>“The Uniformity of Nature.”</span>
+<em>Philosophy and Phenomenological Research</em> 14 (1): 39–48. <a href="https://doi.org/10.2307/2104014">https://doi.org/10.2307/2104014</a>.
+</div>
+<div id="ref-xunzi2015xunzi" class="csl-entry" role="listitem">
+Xunzi, HG. 2015. <em>Xunzi: The Complete Text</em>. Princeton University
+Press.
+</div>
+<div id="ref-zee2015fearful" class="csl-entry" role="listitem">
+Zee, Anthony. 2015. <em>Fearful Symmetry: The Search for Beauty in
+Modern Physics</em>. Princeton university press.
+</div>
 </div>
 
 
@@ -262,6 +520,19 @@ div.csl-indent {
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {

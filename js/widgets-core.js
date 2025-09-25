@@ -111,6 +111,113 @@ window.Widgets = (() => {
     liveNode.textContent = text;
   }
 
+  // ----- Theming helpers -----
+  const schemeState = {
+    mode: 'light',
+    listeners: new Set(),
+    observer: null,
+    media: null,
+    ready: false
+  };
+
+  function detectColorScheme(){
+    const el = document.documentElement;
+    const body = document.body;
+    const attrSources = [
+      el?.dataset?.bsTheme,
+      el?.getAttribute('data-bs-theme'),
+      el?.dataset?.theme,
+      el?.getAttribute('data-theme'),
+      body?.dataset?.bsTheme,
+      body?.getAttribute('data-bs-theme'),
+      body?.dataset?.theme,
+      body?.getAttribute('data-theme')
+    ].filter(Boolean).map(s => String(s).toLowerCase());
+
+    if (el?.classList?.contains('quarto-dark') || body?.classList?.contains('quarto-dark')) {
+      return 'dark';
+    }
+    if (attrSources.some(a => a.includes('dark'))) {
+      return 'dark';
+    }
+    if (attrSources.some(a => a.includes('light'))) {
+      return 'light';
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return 'light';
+  }
+
+  function emitColorScheme(next){
+    const mode = next || detectColorScheme();
+    if (mode === schemeState.mode && schemeState.ready) return;
+    schemeState.mode = mode;
+    schemeState.ready = true;
+    schemeState.listeners.forEach(fn => {
+      try { fn(mode); }
+      catch(err){ console.error(err); }
+    });
+  }
+
+  function ensureSchemeMonitor(){
+    if (schemeState.observer) {
+      emitColorScheme();
+      return;
+    }
+
+    const observer = new MutationObserver(() => emitColorScheme());
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class', 'data-bs-theme', 'data-theme']
+    });
+
+    const watchBody = () => {
+      if (!document.body) {
+        requestAnimationFrame(watchBody);
+        return;
+      }
+      observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'data-bs-theme', 'data-theme']
+      });
+    };
+    watchBody();
+
+    if (window.matchMedia) {
+      const media = window.matchMedia('(prefers-color-scheme: dark)');
+      media.addEventListener('change', () => emitColorScheme());
+      schemeState.media = media;
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => emitColorScheme(), { once: true });
+    }
+
+    schemeState.observer = observer;
+    emitColorScheme();
+  }
+
+  function onColorSchemeChange(cb){
+    if (typeof cb !== 'function') return () => {};
+    ensureSchemeMonitor();
+    schemeState.listeners.add(cb);
+    cb(schemeState.mode);
+    return () => schemeState.listeners.delete(cb);
+  }
+
+  function currentColorScheme(){
+    ensureSchemeMonitor();
+    return schemeState.mode;
+  }
+
+  function themeVar(name, fallback){
+    const styles = getComputedStyle(document.documentElement);
+    const value = styles.getPropertyValue(name);
+    if (value && value.trim()) return value.trim();
+    return fallback !== undefined ? fallback : '';
+  }
+
   /**
    * ensurePanelFigure(outPanel, opts)
    * Creates (or reuses) a tight wrapper directly under the panel title and above generic hints,
@@ -235,7 +342,8 @@ window.Widgets = (() => {
 
   return {
     setupHiDPI, autosizeCanvas, clamp, onPointerDrag, linkRangeNumber,
-    announce, hoverCursor, ensurePanelFigure, renderLatex
+    announce, hoverCursor, ensurePanelFigure, renderLatex,
+    onColorSchemeChange, currentColorScheme, themeVar
   };
 })();
 // ---------- end widgets-core.js ----------
