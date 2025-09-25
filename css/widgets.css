@@ -347,13 +347,14 @@ body.quarto-dark  .wgt__hint { color: var(--wgt-muted, #d1d7de); }
 .wgt--flat-rotate .wgt__choice{
   flex: 1 1 0;
   padding: 8px 10px;
-  border: 1.5px solid #ccc;
+  border: 1.5px solid var(--wgt-button-border, #c6ccd2);
   border-radius: 6px;
-  background: #f8f8f8;
+  background: var(--wgt-button-bg, #ffffff);
+  color: var(--wgt-button-color, inherit);
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .wgt--flat-rotate .wgt__choice:hover:not(:disabled){
-  background: #ececec;
+  background: var(--wgt-button-bg-hover, #f2f4f7);
 }
 .wgt--flat-rotate .wgt__choice:disabled{
   opacity: 0.75;
