@@ -24,12 +24,13 @@ book:
       chapters: 
         - chapters/part2/ch4_false-heavens.qmd
         - chapters/part2/ch5_computability-and-chaos.qmd
+        - chapters/part2/ch6-modeling-earth-climate.qmd
 
     - part: "Part III - Living Beyond Law"
       chapters:
-        - chapters/part3/ch6_fragile-vs-antifragile.qmd
-        - chapters/part3/ch7_defending-society.qmd
-        - chapters/part3/ch8_strategies-for-uncertainty.qmd
+        - chapters/part3/ch7_fragile-vs-antifragile.qmd
+        - chapters/part3/ch8_defending-society.qmd
+        - chapters/part3/ch9_strategies-for-uncertainty.qmd
 
     - data/references.qmd
   site-url: https://dan-li-o.github.io/3body
