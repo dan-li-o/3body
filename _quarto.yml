@@ -52,6 +52,9 @@ format:
       - css/widgets.css
     include-after-body:
       - text: |
+          <!-- Hypothes.is annotation client -->
+          <script async src="https://hypothes.is/embed.js"></script>
+      - text: |
           <!-- Site-wide utils only; page widgets load per-chapter -->
           <script src="/js/widgets-core.js"></script>
 
