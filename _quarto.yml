@@ -8,11 +8,11 @@ resources:
 
 book:
   title: "Unlawful Laws"
-  author: "Dan Li (李丹)"
-  description: "A Philosopher’s Footnotes to *The Three-Body Problem*"
+  author: "Dan Li"
+  description: "A Philosopher’s Interactive Footnotes to *The Three-Body Problem*"
   chapters:
     - index.qmd
-    ##- intro.qmd
+    - intro.qmd
 
     - part: "Part I - When Laws Fail"
       chapters: 

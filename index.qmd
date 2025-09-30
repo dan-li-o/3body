@@ -1,10 +1,8 @@
 ---
-title: "Unlawful Laws"
-format: html
-numbered: false
+date-modified: last-modified
+title-block-banner: true
 ---
-
-# *Unlawful Laws*: A Philosopher’s Footnotes to *The Three-Body Problem*
+# Welcome {.unnumbered .unlisted}
 
 Welcome to *Unlawful Laws*, a digital philosophy of science book told through the haunting imagination of Liu Cixin’s *The Three-Body Problem*. This book explores how modern science collapses — and sometimes revives — under the weight of unpredictability, chaos, and epistemic uncertainty.
 
