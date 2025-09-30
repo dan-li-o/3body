@@ -2,7 +2,7 @@
 (function(){
   const {
     autosizeCanvas, ensurePanelFigure, clamp, announce, linkRangeNumber,
-    themeVar, onColorSchemeChange, currentColorScheme
+    themeVar, onColorSchemeChange, currentColorScheme, canvasDefaults
   } = window.Widgets || {};
 
   function rngBit(){
@@ -105,8 +105,12 @@
     }
 
     // Layout
-    const layoutCoin  = autosizeCanvas(coinCanvas,  { aspect: 16/9, min: 320, max: 720 });
-    const layoutChart = autosizeCanvas(chartCanvas, { aspect: 16/9, min: 320, max: 720 });
+    const baseCanvas = typeof canvasDefaults === 'function'
+      ? canvasDefaults()
+      : { aspect: 16 / 9, min: 320, max: 720 };
+
+    const layoutCoin  = autosizeCanvas(coinCanvas,  baseCanvas);
+    const layoutChart = autosizeCanvas(chartCanvas, baseCanvas);
     const cctx = () => layoutCoin.ctx;
     const xctx = () => layoutChart.ctx;
 

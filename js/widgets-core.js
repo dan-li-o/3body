@@ -22,6 +22,24 @@
 window.Widgets = (() => {
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
+  const CANVAS_DEFAULTS = Object.freeze({
+    width: 640,
+    height: 360,
+    aspect: 16 / 9,
+    min: 320,
+    max: 720
+  });
+
+  function canvasDefaults(overrides = {}){
+    return {
+      width: overrides.width ?? CANVAS_DEFAULTS.width,
+      height: overrides.height ?? CANVAS_DEFAULTS.height,
+      aspect: overrides.aspect ?? CANVAS_DEFAULTS.aspect,
+      min: overrides.min ?? CANVAS_DEFAULTS.min,
+      max: overrides.max ?? CANVAS_DEFAULTS.max
+    };
+  }
+
   // HiDPI canvas setup (keeps your drawing code in CSS pixels)
   function setupHiDPI(canvas, cssW, cssH, dpr = window.devicePixelRatio || 1){
     canvas.style.width = cssW + "px";
@@ -34,7 +52,7 @@ window.Widgets = (() => {
   }
 
   // Auto-size canvas to parent width with fixed aspect, min/max
-  function autosizeCanvas(canvas, {aspect=16/9, min=320, max=900} = {}){
+  function autosizeCanvas(canvas, {aspect=CANVAS_DEFAULTS.aspect, min=CANVAS_DEFAULTS.min, max=CANVAS_DEFAULTS.max} = {}){
     let ctx, width, height;
     function layout(){
       const host = canvas.parentElement;
@@ -279,6 +297,14 @@ window.Widgets = (() => {
       canvas = document.createElement('canvas');
       canvas.setAttribute('data-role', role);
     }
+    const widthAttr = Number(canvas.getAttribute('width')) || 0;
+    if (!canvas.hasAttribute('width') || widthAttr === 300) {
+      canvas.setAttribute('width', CANVAS_DEFAULTS.width);
+    }
+    const heightAttr = Number(canvas.getAttribute('height')) || 0;
+    if (!canvas.hasAttribute('height') || heightAttr === 150) {
+      canvas.setAttribute('height', CANVAS_DEFAULTS.height);
+    }
     if (canvas.parentNode !== wrap) wrap.appendChild(canvas);
     Object.assign(canvas.style, {
       maxWidth: '100%',
@@ -343,7 +369,8 @@ window.Widgets = (() => {
   return {
     setupHiDPI, autosizeCanvas, clamp, onPointerDrag, linkRangeNumber,
     announce, hoverCursor, ensurePanelFigure, renderLatex,
-    onColorSchemeChange, currentColorScheme, themeVar
+    onColorSchemeChange, currentColorScheme, themeVar,
+    canvasDefaults
   };
 })();
 // ---------- end widgets-core.js ----------

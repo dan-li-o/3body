@@ -2,7 +2,7 @@
 (function () {
   const {
     autosizeCanvas, clamp, onPointerDrag, linkRangeNumber, announce, hoverCursor,
-    themeVar, onColorSchemeChange, currentColorScheme
+    themeVar, onColorSchemeChange, currentColorScheme, canvasDefaults
   } = window.Widgets || {};
 
   function initOne(root, opts = {}) {
@@ -12,6 +12,10 @@
     }
 
     // ---- Config ----
+    const baseCanvas = typeof canvasDefaults === 'function'
+      ? canvasDefaults()
+      : { aspect: 16 / 9, min: 320, max: 720 };
+
     const cfg = {
       directionDeg: 0,           // fixed cue direction (global)
       speedPxPerFrame: 3.0,      // post-impact speed if no friction
@@ -19,9 +23,9 @@
       cueLength: 120,
       cueGap: 14,
       cueAnimFrames: 18,
-      aspect: 12/7,              // canvas aspect
-      minWidth: 320,
-      maxWidth: 720,
+      aspect: baseCanvas.aspect, // standardized canvas aspect
+      minWidth: baseCanvas.min,
+      maxWidth: baseCanvas.max,
       frictionFactor: 1.000,     // 1.000 = no friction (multiplier per frame)
       ...opts
     };

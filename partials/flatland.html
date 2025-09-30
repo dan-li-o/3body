@@ -1,0 +1,86 @@
+<div class="wgt wgt--flatland" data-widget="flatland-explorer">
+  <!-- Dual canvases (top row) -->
+  <div class="wgt__canvas flatland__views">
+    <section class="flatland__view" aria-label="Shooter's View">
+      <header class="flatland__view-header">
+        <h3>Shooter's View</h3>
+        <p class="flatland__hint">God's-eye sphere with great circles.</p>
+      </header>
+      <canvas data-role="view3d" width="640" height="360"></canvas>
+    </section>
+    <section class="flatland__view" aria-label="Flatlander's View">
+      <header class="flatland__view-header">
+        <h3>Flatlander's View</h3>
+        <p class="flatland__hint">Warped window onto geodesics.</p>
+      </header>
+      <canvas data-role="view2d" width="640" height="360"></canvas>
+    </section>
+  </div>
+
+  <!-- Controls -->
+  <div class="wgt__panel wgt__controls">
+    <div class="wgt__title">Geometry Switchboard</div>
+    <div class="wgt__hint">Flip the curvature, then try the experiments below.</div>
+
+    <div class="wgt__field" role="radiogroup" aria-label="Geometry mode">
+      <label>
+        <input type="radio" name="flatland-mode" value="euclid" data-role="mode" checked>
+        Euclidean: flat, infinite, triangles sum to 180 deg
+      </label>
+      <label>
+        <input type="radio" name="flatland-mode" value="sphere" data-role="mode">
+        Riemannian: sphere, triangles get fat
+      </label>
+    </div>
+
+    <div class="wgt__field" role="group" aria-label="Triangle experiment">
+      <div class="wgt__row wgt__row--spread">
+        <strong>Triangle Experiment</strong>
+        <button type="button" data-role="triangle-reset" class="wgt__btn--ghost">Clear</button>
+      </div>
+      <div class="wgt__hint">Tap three points in either view to plot vertices.</div>
+      <div class="wgt__metric">
+        <strong>Angle Sum</strong> <span data-role="triangle-sum" class="wgt__out">--</span>
+      </div>
+      <div class="wgt__hint" data-role="triangle-message"></div>
+    </div>
+
+    <div class="wgt__field" role="group" aria-label="Parallel lines test">
+      <div class="wgt__row wgt__row--spread">
+        <strong>Parallel Postulate Test</strong>
+        <button type="button" data-role="parallel-reset" class="wgt__btn--ghost">Clear</button>
+      </div>
+      <div class="wgt__hint">Drop two geodesics from a point; toggle modes to see what happens.</div>
+      <div class="wgt__metric">
+        <strong>Status</strong> <span data-role="parallel-status" class="wgt__out">--</span>
+      </div>
+      <div class="wgt__hint" data-role="parallel-message"></div>
+    </div>
+
+    <div class="wgt__field" role="group" aria-label="Walker experiment">
+      <div class="wgt__row wgt__row--spread">
+        <strong>Unbounded but Finite Walk</strong>
+        <button type="button" data-role="walker-reset" class="wgt__btn--ghost">Reset</button>
+      </div>
+      <div class="wgt__hint">Launch the walker straight ahead. Does it ever come home?</div>
+      <button type="button" data-role="walker-play" class="wgt__btn--accent">Send Walker</button>
+      <div class="wgt__metric">
+        <strong>Result</strong> <span data-role="walker-status" class="wgt__out">--</span>
+      </div>
+      <div class="wgt__hint" data-role="walker-message"></div>
+    </div>
+  </div>
+
+  <!-- Output narratives -->
+  <div class="wgt__panel wgt__output" aria-live="polite">
+    <div class="wgt__title">Philosophical Payoff</div>
+    <p data-role="narrative" class="flatland__narrative">
+      Geometry feels like law to the Flatlander. From the shooter's perch, it's a convention tied to hidden curvature.
+    </p>
+    <div class="wgt__hint">Messages update as you run experiments--listen for induction wobbling.</div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/css/widgets.css">
+<script src="/js/widgets-core.js" defer></script>
+<script src="/js/flatland.js" defer></script>

@@ -1,5 +1,5 @@
 (function(){
-  const { autosizeCanvas, onPointerDrag, linkRangeNumber, clamp, announce } = window.Widgets;
+  const { autosizeCanvas, onPointerDrag, linkRangeNumber, clamp, announce, canvasDefaults } = window.Widgets;
 
   const state = { x: 0, y: 0, r: 12, dragging: false };
 
@@ -10,7 +10,11 @@
     const liveEl = root.querySelector('#smoke-live');
 
     // autosize canvas (HiDPI + responsive)
-    const layout = autosizeCanvas(canvas, { aspect: 16/9, min: 320, max: 900 });
+    const baseCanvas = typeof canvasDefaults === 'function'
+      ? canvasDefaults()
+      : { aspect: 16 / 9, min: 320, max: 720 };
+
+    const layout = autosizeCanvas(canvas, baseCanvas);
     const ctx = () => layout.ctx;
 
     // center ball after first layout
