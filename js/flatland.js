@@ -188,8 +188,7 @@
   }
 
   function canvasToSpherePlane(event, viewport, rect){
-    const cx = viewport.x + viewport.width / 2;
-    const cy = viewport.y + viewport.height / 2;
+    const { cx, cy } = getSphereCenter(viewport);
     const radius = Math.min(viewport.width, viewport.height) * 0.42;
     const nx = (event.clientX - rect.left - cx) / radius;
     const ny = (event.clientY - rect.top - cy) / radius;
