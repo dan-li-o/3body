@@ -565,10 +565,14 @@
     }
 
     if (state.triangle.length < 1) return;
+
+    if (!opts.perspective && state.mode !== 'sphere'){ 
+      // Flatlander's Euclidean view: no fill, just bail.
+      return;
+    }
+
     const pts = state.triangle.map(pt => projectToCanvas(pt, viewport, opts));
 
-    // Flatlander view (and spherical shooter view) still rely on the world
-    // coordinates to draw the faint comparison region.
     ctx.save();
     ctx.fillStyle = '#f28e2b';
     if (pts.length >= 3){
@@ -1054,20 +1058,23 @@
     ctx.fillStyle = '#e76f51';
     ctx.lineWidth = 2;
 
-    if (count >= 2){
+    if (count >= 1){
       if (state.mode === 'euclid'){
-        const pts = state.triangleLine.world.map(pt => planeToCanvas(pt, viewport));
-        ctx.beginPath();
-        ctx.moveTo(pts[0].x, pts[0].y);
-        ctx.lineTo(pts[1].x, pts[1].y);
-        if (pts.length >= 3){
-          ctx.lineTo(pts[2].x, pts[2].y);
-          ctx.closePath();
-        }
-        ctx.stroke();
-        pts.forEach(p => {
+        const horizonY = viewport.y + viewport.height / 2;
+        const projected = state.triangleLine.world.map(pt => planeToCanvas({ x: pt.x, y: 0 }, viewport));
+        if (projected.length >= 2){
           ctx.beginPath();
-          ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+          ctx.moveTo(projected[0].x, horizonY);
+          ctx.lineTo(projected[1].x, horizonY);
+          if (projected.length >= 3){
+            ctx.lineTo(projected[2].x, horizonY);
+            ctx.closePath();
+          }
+          ctx.stroke();
+        }
+        projected.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, horizonY, 5, 0, Math.PI * 2);
           ctx.fill();
         });
       } else {
@@ -1084,23 +1091,6 @@
           ctx.arc(marker.x, marker.y, 5, 0, Math.PI * 2);
           ctx.fill();
         });
-      }
-    } else {
-      // draw dots even if only one point
-      if (state.mode === 'euclid'){
-        const pt = planeToCanvas(state.triangleLine.world[0], viewport);
-        ctx.beginPath();
-        ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
-        ctx.fill();
-      } else {
-        const vec = planeToSphere(state.triangleLine.world[0]);
-        const planePt = sphereToPlane(vec);
-        if (planePt){
-          const marker = planeToCanvas(planePt, viewport);
-          ctx.beginPath();
-          ctx.arc(marker.x, marker.y, 5, 0, Math.PI * 2);
-          ctx.fill();
-        }
       }
     }
     ctx.restore();

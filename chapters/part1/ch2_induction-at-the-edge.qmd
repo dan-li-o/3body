@@ -31,19 +31,19 @@ Another answer, "because nature resembles itself." But how do we know? Because i
 
 To break the circle, we have to stop somewhere. Either we fully embrace induction, no question asked; or we accept, without further doubt, that nature resembles itself---the Principle of the Uniformity of Nature. Either way, we are placing a bet. We wager that the world is consistent across space and time so that induction can help us learn something useful from this consistent world. 
 
-To believe in science is to place such a bet. That symmetry is not a trick and gives us conservation---Noether's Theorem. That invariance will endure beneath noise---Uniformity Principle. That regularity outruns randomness---the law of large numbers. It is faith disguised as laws.
+To believe in science is to place such a bet. That symmetry is not a trick and gives us conservation---Noether's Theorem. That invariance will endure beneath noise---Uniformity Principle. That regularity outruns randomness---the law of large numbers. It is faith disguised as laws. Philosopher C. D. Broad concludes, induction is "the glory of science and the scandal of philosophy." 
 
-Philosopher C. D. Broad concludes, induction is "the glory of science and the scandal of philosophy." Uniformity of nature is the invisible credit card science swipes every day, with no guarantee the bank won't suddenly decline. In the end, we are no different from the turkey scientist, and we might very well get our necks wrung when nature ceases behaving uniformly. This is why Wang Miao staggered---he glimpsed that science rests not on proof, but on habit, or worse, on faith, as fragile as a turkey's routine. 
+Uniformity of nature is the invisible credit card science swipes every day, with no guarantee the bank won't suddenly decline. In the end, we are no different from the turkey scientist, and we might very well get our necks wrung when nature ceases behaving uniformly. This is why Wang Miao staggered---he glimpsed that science rests not on proof, but on habit, or worse, on faith, as fragile as a turkey's routine. 
 
-## The Deeper Fear
+## The Flatland Perspective
 
 If uniformity is not a law but a bet, what abyss does that open? The farmer hypothesis includes a farmer, a powerful being who can change any laws in turkey science at a whim. But at least, turkey scientists, if they survive, can observe the farmer's axe and learn that their "laws of nature" were conditional all along. 
 
 The shooter hypothesis suggests a worse possibility---the imperceptibility of such an omnipotent being. 
 
-When the shooter casually changes his shots, all that 2D scientists can observe is that the distance between "holes" changes. What are these observations like? 
+When the shooter casually changes his shots, all that 2D scientists can observe is that the distance between “holes” changes. What are these observations like? 
 
-Now, try it. Observe and describe what you have observed. 
+Now try it yourself. What do you see? A line? An ellipse? Science is built on such shadows.
 
 ::: {#wid-flat-rotate .widget}
 ```{=html}
@@ -52,14 +52,15 @@ Now, try it. Observe and describe what you have observed.
 Imagine you are a Flatland scientist. 
 :::
 
-Edwin Abbott wrote in *Flatland* (1885), 
-
-> In such a country, you will perceive at once that it is impossible that there should be anything of what you call a ‘solid’ kind; but I dare say you will suppose that we could at least distinguish by sight of the Triangles, Squares, and other figures moving about as I have described them. On the contrary, we could see nothing of the kind, not at least so as to distinguish one figure from another. Nothing was visible, nor could be visible, to us, except straight Lines; and the necessity of this I will speedily demonstrate.
->
-> Place a penny on the middle of one of your tables in Space; and leaning over it, look down upon it. It will appear a circle.
->
-> But now, drawing back to the edge of the table, gradually lower your eye (thus bringing yourself more and more into the condition of the inhabitants of Flatland), and you will find the penny becoming more and more oval to your view; and at last when you have placed your eye exactly on the edge of the table (so that you are, as it were, actually a Flatland citizen) the penny will then have ceased to appear oval at all, and will have become, so far as you can see, a straight line.
+Edwin Abbott made the point in his *Flatland* (1885): a coin becomes a circle from above, an oval at an angle, a line at the edge. Flatlanders see only the line, never the circle. 
 
 Flatland scientists lack words for circles or holes. Those are three‑dimensional luxuries. To them, a shooter’s hole is not a circle but an edge—an irregular boundary where things vanish. A line that swallows matter and light. 
 
 Observation is tethered to perspectives.
+
+::: {#wid-flatland .widget}
+```{=html}
+{{< include /partials/flatland.html >}}
+```
+Observation from different perspectives. 
+:::
