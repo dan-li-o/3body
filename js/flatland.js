@@ -59,6 +59,9 @@
   const VIEW_RANGE = 1.15;
   const WALKER_LIMIT = 2.4;
   const DEG = 180 / Math.PI;
+  const VIEW_COLOR = '#f97316';
+  const SPHERE_Y_OFFSET = 0.12; // fraction of viewport height to drop the globe
+  const FLATLANDER_VEC = Object.freeze({ x: 0, y: 0, z: 1 });
 
   const state = {
     mode: 'euclid',
@@ -159,11 +162,19 @@
     };
   }
 
+  function getSphereCenter(viewport){
+    return {
+      cx: viewport.x + viewport.width / 2,
+      cy: viewport.y + viewport.height / 2 + viewport.height * SPHERE_Y_OFFSET
+    };
+  }
+
   function sphereToCanvas(vec, viewport){
     const radius = Math.min(viewport.width, viewport.height) * 0.42;
+    const { cx, cy } = getSphereCenter(viewport);
     return {
-      x: viewport.x + viewport.width / 2 + vec.x * radius,
-      y: viewport.y + viewport.height / 2 - vec.y * radius
+      x: cx + vec.x * radius,
+      y: cy - vec.y * radius
     };
   }
 
@@ -506,10 +517,40 @@
     ctx.restore();
   }
 
-  function drawSphereBackground(ctx, viewport){
-    const radius = Math.min(viewport.width, viewport.height) * 0.42;
+  function drawFlatlanderHorizonLine(ctx, viewport){
+    const horizonY = viewport.y + viewport.height / 2;
+    ctx.save();
+    ctx.strokeStyle = VIEW_COLOR;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(viewport.x, horizonY);
+    ctx.lineTo(viewport.x + viewport.width, horizonY);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawFlatlanderHorizon(ctx, viewport){
     const cx = viewport.x + viewport.width / 2;
     const cy = viewport.y + viewport.height / 2;
+    const radius = Math.min(viewport.width, viewport.height) / 2 * 0.95;
+    ctx.save();
+    ctx.strokeStyle = VIEW_COLOR;
+    ctx.lineWidth = 2;
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([6, 6]);
+    ctx.font = '12px sans-serif';
+    ctx.fillStyle = VIEW_COLOR;
+    ctx.textAlign = 'center';
+    ctx.fillText('Horizon', cx, cy - radius - 6);
+    ctx.restore();
+  }
+
+  function drawSphereBackground(ctx, viewport){
+    const radius = Math.min(viewport.width, viewport.height) * 0.42;
+    const { cx, cy } = getSphereCenter(viewport);
     ctx.save();
     ctx.beginPath();
     ctx.rect(viewport.x, viewport.y, viewport.width, viewport.height);
@@ -530,15 +571,80 @@
     ctx.restore();
   }
 
-  function drawEquator3D(ctx, viewport){
+  function drawVisibleHemisphere(ctx, viewport){
     const radius = Math.min(viewport.width, viewport.height) * 0.42;
-    const cx = viewport.x + viewport.width / 2;
-    const cy = viewport.y + viewport.height / 2;
+    const { cx, cy } = getSphereCenter(viewport);
     ctx.save();
-    ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+    ctx.fillStyle = 'rgba(249, 115, 22, 0.12)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = VIEW_COLOR;
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.ellipse(cx, cy, radius, radius * 0.45, 0, 0, Math.PI * 2);
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function rotateVecX(vec, angle){
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return {
+      x: vec.x,
+      y: vec.y * cos - vec.z * sin,
+      z: vec.y * sin + vec.z * cos
+    };
+  }
+
+  function drawFlatlanderMarkerShooter(ctx, viewport){
+    // Rotate the north-pole vector 90deg so it lands at the top of the rendered sphere.
+    const rotated = rotateVecX(FLATLANDER_VEC, -Math.PI / 2);
+    const p = sphereToCanvas(rotated, viewport);
+    ctx.save();
+    ctx.fillStyle = VIEW_COLOR;
+    ctx.strokeStyle = '#b45309';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y + 12);
+    ctx.lineTo(p.x, p.y + 24);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(p.x - 6, p.y + 20);
+    ctx.lineTo(p.x, p.y + 28);
+    ctx.lineTo(p.x + 6, p.y + 20);
+    ctx.fill();
+
+    ctx.font = '12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Flatlander', p.x, p.y - 14);
+    ctx.restore();
+  }
+
+  function drawEquator3D(ctx, viewport){
+    const radius = Math.min(viewport.width, viewport.height) * 0.42;
+    const { cx, cy } = getSphereCenter(viewport);
+    ctx.save();
+    const ry = radius * 0.45;
+
+    // Back half (top) in dashed white to suggest it wraps behind the globe
+    ctx.setLineDash([6, 6]);
+    ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, radius, ry, 0, Math.PI, Math.PI * 2);
+    ctx.stroke();
+
+    // Front half (bottom) in solid orange to indicate the visible horizon
+    ctx.setLineDash([]);
+    ctx.strokeStyle = VIEW_COLOR;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, radius, ry, 0, 0, Math.PI);
     ctx.stroke();
     ctx.restore();
   }
@@ -1136,6 +1242,8 @@
       ctx.fillRect(viewports.shooter.x, viewports.shooter.y, viewports.shooter.width, viewports.shooter.height);
       drawSphereBackground(ctx, viewports.shooter);
       drawEquator3D(ctx, viewports.shooter);
+      drawVisibleHemisphere(ctx, viewports.shooter);
+      drawFlatlanderMarkerShooter(ctx, viewports.shooter);
       drawTriangleSphere(ctx, viewports.shooter);
       drawLineShooter(ctx, viewports.shooter);
       drawTriangleLineShooter(ctx, viewports.shooter);
@@ -1158,10 +1266,12 @@
       ctx.fillStyle = '#fbfaf7';
       ctx.fillRect(viewports.flat.x, viewports.flat.y, viewports.flat.width, viewports.flat.height);
       drawGrid(ctx, viewports.flat, viewports.flat.width * 0.1);
+      drawFlatlanderHorizonLine(ctx, viewports.flat);
     } else {
-      ctx.fillStyle = '#f4f8ff';
-      ctx.fillRect(viewports.flat.x, viewports.flat.y, viewports.flat.width, viewports.flat.height);
-      drawGnomonicGrid(ctx, viewports.flat);
+    ctx.fillStyle = '#f4f8ff';
+    ctx.fillRect(viewports.flat.x, viewports.flat.y, viewports.flat.width, viewports.flat.height);
+    drawGnomonicGrid(ctx, viewports.flat);
+      drawFlatlanderHorizonLine(ctx, viewports.flat);
     }
     drawBaseParallelsPlane(ctx, viewports.flat);
     drawTriangleFlat(ctx, viewports.flat);
