@@ -1039,45 +1039,26 @@
     const pathColor = 'rgba(31,111,235,0.85)';
     const horizonY = viewport.y + viewport.height / 2;
 
-    if (count >= 2){
+    const dotPoints = state.line.world.map(worldPt => {
+      const projected = planeToCanvas({ x: worldPt.x, y: 0 }, viewport);
+      return { x: projected.x, y: horizonY };
+    });
+
+    if (dotPoints.length >= 2){
       ctx.strokeStyle = pathColor;
       ctx.lineWidth = 2;
-      if (state.mode === 'euclid'){
-        const [p0, p1] = state.line.world;
-        const dot0 = planeToCanvas({ x: p0.x, y: 0 }, viewport);
-        const dot1 = planeToCanvas({ x: p1.x, y: 0 }, viewport);
-        ctx.beginPath();
-        ctx.moveTo(dot0.x, horizonY);
-        ctx.lineTo(dot1.x, horizonY);
-        ctx.stroke();
-      } else if (state.line.world.length >= 2){
-        const A = planeToSphere(state.line.world[0]);
-        const B = planeToSphere(state.line.world[1]);
-        const arcVecs = sampleGreatCircleVectors(A, B, 96);
-        let begun = false;
-        ctx.beginPath();
-        arcVecs.forEach(vec => {
-          const planePt = sphereToPlane(vec);
-          if (!planePt) return;
-          const canvasPt = planeToCanvas(planePt, viewport);
-          if (!begun){
-            ctx.moveTo(canvasPt.x, canvasPt.y);
-            begun = true;
-          } else {
-            ctx.lineTo(canvasPt.x, canvasPt.y);
-          }
-        });
-        if (begun){
-          ctx.stroke();
-        }
+      ctx.beginPath();
+      ctx.moveTo(dotPoints[0].x, dotPoints[0].y);
+      for (let i = 1; i < dotPoints.length; i++){
+        ctx.lineTo(dotPoints[i].x, dotPoints[i].y);
       }
+      ctx.stroke();
     }
 
     ctx.fillStyle = '#c0392b';
-    state.line.world.forEach(worldPt => {
-      const projected = planeToCanvas({ x: worldPt.x, y: 0 }, viewport);
+    dotPoints.forEach(p => {
       ctx.beginPath();
-      ctx.arc(projected.x, horizonY, 5, 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
       ctx.fill();
     });
     ctx.restore();
