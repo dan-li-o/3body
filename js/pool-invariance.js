@@ -4,7 +4,7 @@
   const {
     autosizeCanvas, clamp, onPointerDrag, linkRangeNumber, announce,
     hoverCursor, ensurePanelFigure, renderLatex,
-    themeVar, onColorSchemeChange, currentColorScheme
+    themeVar, onColorSchemeChange, currentColorScheme, canvasDefaults
   } = window.Widgets || {};
 
   function initOne(root, opts = {}) {
@@ -14,12 +14,16 @@
     }
 
     // ---- Config ----
+    const baseCanvas = typeof canvasDefaults === 'function'
+      ? canvasDefaults()
+      : { aspect: 16 / 9, min: 320, max: 720 };
+
     const cfg = {
       // Layout
-      aspect: 12 / 7,        // table canvas aspect
-      chartAspect: 16 / 7,   // ledger aspect inside output panel
-      minWidth: 320,
-      maxWidth: 720,
+      aspect: baseCanvas.aspect,        // table canvas aspect
+      chartAspect: baseCanvas.aspect,   // ledger aspect inside output panel
+      minWidth: baseCanvas.min,
+      maxWidth: baseCanvas.max,
 
       // Table + cue + ball visuals
       ballRadius: 10,

@@ -1,0 +1,67 @@
+name: Build & Deploy (GitHub Pages + Gitee Mirror)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: quarto-dev/quarto-actions/setup@v2
+      - name: Install Pandoc deps
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+      - name: Render Quarto
+        run: quarto render
+      - name: Copy EN index to root
+        run: |
+          if [ -f "_site/en/index.html" ]; then
+            cp _site/en/index.html _site/index.html
+          fi
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy-gh:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+
+  mirror-gitee:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ success() }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download _site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: _site
+      - name: Push _site to Gitee Pages repo (gh-pages branch)
+        env:
+          GITEE_REPO: ${{ secrets.GITEE_REPO }}   # e.g., git@gitee.com:yourname/3body.git
+          GITEE_DEPLOY_KEY: ${{ secrets.GITEE_DEPLOY_KEY }}
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add - <<< "$GITEE_DEPLOY_KEY"
+          git config --global user.name "CI Bot"
+          git config --global user.email "ci@users.noreply.github.com"
+          rm -rf /tmp/gitee-push && mkdir -p /tmp/gitee-push
+          cd /tmp/gitee-push
+          git clone --depth=1 "$GITEE_REPO" .
+          git checkout -B gh-pages
+          rm -rf ./*
+          cp -r $GITHUB_WORKSPACE/_site/* .
+          touch .nojekyll
+          git add -A
+          git commit -m "Deploy from GitHub Actions"
+          git push -f origin gh-pages

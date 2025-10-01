@@ -1,7 +1,7 @@
 // ---------- js/flat-rotate.js : Flatland rotation guessing game ----------
 (function(){
   const Widgets = window.Widgets || {};
-  const { autosizeCanvas, onPointerDrag, hoverCursor, clamp, announce } = Widgets;
+  const { autosizeCanvas, onPointerDrag, hoverCursor, clamp, announce, canvasDefaults } = Widgets;
 
   if (typeof autosizeCanvas !== 'function' || typeof onPointerDrag !== 'function' || typeof hoverCursor !== 'function' || typeof clamp !== 'function'){
     console.error('flat-rotate.js requires widgets-core.js to be loaded first.');
@@ -244,7 +244,11 @@
     const noteEl = root.querySelector('[data-role="note"]');
     const gestureHint = root.querySelector('[data-role="gesture-hint"]');
 
-    const layout = autosizeCanvas(canvas, { aspect: 4 / 3, min: 280, max: 760 });
+    const baseCanvas = typeof canvasDefaults === 'function'
+      ? canvasDefaults()
+      : { aspect: 16 / 9, min: 320, max: 720 };
+
+    const layout = autosizeCanvas(canvas, baseCanvas);
     const initialFeedback = feedbackEl ? feedbackEl.textContent.trim() : '';
 
     const state = {
