@@ -6,7 +6,7 @@
 
   <!-- Controls -->
   <div class="wgt__panel wgt__controls">
-    <div class="wgt__title">Geometry Switchboard</div>
+    <div class="wgt__title">Control</div>
     <div class="wgt__field">
       <div class="wgt__hint">Flip the curvature, then try the experiments below.</div>
     </div>
@@ -26,8 +26,7 @@
       <div class="wgt__row wgt__row--wrap">
         <button type="button" data-role="tool-line" class="wgt__btn--ghost">Draw a Line</button>
         <button type="button" data-role="tool-triangle" class="wgt__btn--ghost">Draw a Triangle</button>
-        <button type="button" data-role="tool-parallel" class="wgt__btn--ghost">Test Parallel Lines</button>
-        <button type="button" data-role="tool-walker" class="wgt__btn--ghost">Send Walker</button>
+        <button type="button" data-role="tool-walker" class="wgt__btn--ghost">Send "Johnny" the Walker</button>
       </div>
       <div class="wgt__hint" data-role="tool-hint">Select an experiment--each click resets its setup.</div>
     </div>
@@ -35,52 +34,26 @@
     <div class="wgt__field">
       <button type="button" data-role="reset-all" class="wgt__btn--ghost">Reset</button>
     </div>
-
-    <div class="wgt__field" role="group" aria-label="Draw a line">
-      <strong>Draw a Line</strong>
-      <div class="wgt__hint">Drop two points in the shooter's view; we connect them by the shortest route.</div>
-      <div class="wgt__hint" data-role="line-message"></div>
-    </div>
-
-    <div class="wgt__field" role="group" aria-label="Triangle experiment">
-      <strong>Draw a Triangle</strong>
-      <div class="wgt__hint">Tap three points in either view to plot vertices.</div>
-      <div class="wgt__metric">
-        <strong>Angle Sum</strong> <span data-role="triangle-sum" class="wgt__out">--</span>
-      </div>
-      <div class="wgt__hint" data-role="triangle-message"></div>
-    </div>
-
-    <div class="wgt__field" role="group" aria-label="Parallel lines test">
-      <strong>Test Parallel Lines</strong>
-      <div class="wgt__hint">Drop two geodesics from a point; toggle modes to see what happens.</div>
-      <div class="wgt__metric">
-        <strong>Status</strong> <span data-role="parallel-status" class="wgt__out">--</span>
-      </div>
-      <div class="wgt__hint" data-role="parallel-message"></div>
-    </div>
-
-    <div class="wgt__field" role="group" aria-label="Walker experiment">
-      <strong>Send a Walker</strong>
-      <div class="wgt__hint">Launch the walker straight ahead. Does it ever come home?</div>
-      <div class="wgt__metric">
-        <strong>Result</strong> <span data-role="walker-status" class="wgt__out">--</span>
-      </div>
-      <div class="wgt__hint" data-role="walker-message"></div>
-    </div>
   </div>
 
   <!-- Output narratives -->
   <div class="wgt__panel wgt__output" aria-live="polite">
-    <div class="wgt__title">Philosophical Payoff</div>
-    <div class="wgt__field">
+    <div class="wgt__title">Result</div>
+    <!-- Result panel: the JavaScript populates this template on demand so only
+         the active experiment's copy is surfaced. -->
+    <div class="wgt__field" data-role="result-block" hidden>
+      <strong data-role="result-title"></strong>
+      <div class="wgt__metric" data-role="triangle-metric" hidden>
+        <strong>Angle Sum</strong> <span data-role="triangle-sum" class="wgt__out">--</span>
+      </div>
+      <div class="wgt__hint" data-role="result-text"></div>
+    </div>
+    <div class="wgt__field" data-role="narrative-block" hidden>
+      <strong>Philosophical Payoff</strong>
       <div class="wgt__hint">Listen as the two perspectives narrate how geometry bends with space.</div>
       <div data-role="narrative" class="flatland__narrative wgt__out">
         Geometry feels like law to the Flatlander. From the shooter's perch, it's a convention tied to hidden curvature.
       </div>
-    </div>
-    <div class="wgt__field">
-      <div class="wgt__hint">Messages update as you run experiments--watch induction wobble.</div>
     </div>
   </div>
 </div>

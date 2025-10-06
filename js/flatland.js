@@ -27,18 +27,16 @@
 
   const projectionEl = root.querySelector('[data-role="narrative"]');
   const triangleSumEl = root.querySelector('[data-role="triangle-sum"]');
-  const triangleMsgEl = root.querySelector('[data-role="triangle-message"]');
-  const parallelStatusEl = root.querySelector('[data-role="parallel-status"]');
-  const parallelMsgEl = root.querySelector('[data-role="parallel-message"]');
-  const walkerStatusEl = root.querySelector('[data-role="walker-status"]');
-  const walkerMsgEl = root.querySelector('[data-role="walker-message"]');
+  const resultBlockEl = root.querySelector('[data-role="result-block"]');
+  const resultTitleEl = root.querySelector('[data-role="result-title"]');
+  const resultTextEl = root.querySelector('[data-role="result-text"]');
+  const triangleMetricEl = root.querySelector('[data-role="triangle-metric"]');
+  const narrativeBlock = root.querySelector('[data-role="narrative-block"]');
 
   const modeInputs = Array.from(root.querySelectorAll('[data-role="mode"]'));
-  const lineMsgEl = root.querySelector('[data-role="line-message"]');
   const toolButtons = {
     line: root.querySelector('[data-role="tool-line"]'),
     triangle: root.querySelector('[data-role="tool-triangle"]'),
-    parallel: root.querySelector('[data-role="tool-parallel"]'),
     walker: root.querySelector('[data-role="tool-walker"]')
   };
   const resetAllBtn = root.querySelector('[data-role="reset-all"]');
@@ -57,16 +55,19 @@
     : (text) => { if (projectionEl) projectionEl.textContent = text; };
 
   const VIEW_RANGE = 1.15;
-  const WALKER_LIMIT = 2.4;
+  const WALKER_SPEED = 0.9; // world units per second in Euclidean mode
+  const WALKER_ORBIT_SPEED = Math.PI * 0.35;
   const DEG = 180 / Math.PI;
   const VIEW_COLOR = '#f97316';
   const SPHERE_Y_OFFSET = 0.12; // fraction of viewport height to drop the globe
   const FLATLANDER_VEC = Object.freeze({ x: 0, y: 0, z: 1 });
 
+  // Centralised widget state; keep raw world coordinates so we can map into
+  // whichever viewport we happen to be drawing. Each tool owns its own slice
+  // so resets stay isolated.
   const state = {
     mode: 'euclid',
     triangle: [],
-    parallelPoint: null,
     line: {
       world: [],
       shooterPixels: []
@@ -78,26 +79,91 @@
     walker: {
       mode: 'euclid',
       active: false,
-      t: 0,
+      position: 0,
       theta: 0,
       lastTime: 0
     }
   };
 
   let raf = null;
-  let activePlacement = 'line';
+  let activePlacement = null;
 
   // Short instructional snippets that surface under the experiment buttons.
+  // Copy for the live hint underneath the tool buttons. Useful when we clear
+  // results because it gives the user some immediate instruction again.
   const TOOL_HINTS = {
-    line: "Drop two points in the shooter's view. A segment marks their shortest path.",
-    triangle: "Drop three points in the shooter's view; segments connect each pair.",
-    parallel: 'Place a point and trace geodesics--test whether parallels survive curvature.',
-    walker: 'Send the walker straight ahead and watch whether space brings them home.'
+    line: "Drop two points in the shooter's view to compare straight paths.",
+    triangle: "Plot three vertices to test how triangles behave across worlds.",
+    walker: "Send Johnny forth and see whether space keeps him close."
   };
 
+  // --- Result panel helpers -------------------------------------------------
+
+  // Hide the entire result panel and narrative. We rely on this whenever a
+  // tool is switched or reset so stale copy never lingers.
+  function clearResult(){
+    if (resultBlockEl){
+      resultBlockEl.hidden = true;
+    }
+    if (resultTitleEl){
+      resultTitleEl.textContent = '';
+    }
+    if (resultTextEl){
+      resultTextEl.textContent = '';
+    }
+    if (triangleMetricEl){
+      triangleMetricEl.hidden = true;
+    }
+    if (triangleSumEl){
+      triangleSumEl.textContent = '--';
+    }
+    if (narrativeBlock){
+      narrativeBlock.hidden = true;
+    }
+  }
+
+  // Populate the shared result template. `showTriangleMetric` lets the triangle
+  // experiment surface the angle-sum line without creating a bespoke DOM block.
+  function showResult({ title, text, showTriangleMetric = false }){
+    if (!resultBlockEl) return;
+    resultBlockEl.hidden = false;
+    if (resultTitleEl){
+      resultTitleEl.textContent = title;
+    }
+    if (resultTextEl){
+      resultTextEl.textContent = text;
+    }
+    if (triangleMetricEl){
+      triangleMetricEl.hidden = !showTriangleMetric;
+      if (!showTriangleMetric && triangleSumEl){
+        triangleSumEl.textContent = '--';
+      }
+    }
+  }
+
+  // --- Geometry helpers -----------------------------------------------------
+
+  // Walker orbits are easier to reason about in spherical coordinates; this
+  // returns the current equator vector so multiple draw paths can reuse the
+  // same maths.
+  function getWalkerEquatorVector(){
+    const theta = state.walker.theta;
+    return {
+      x: Math.sin(theta),
+      y: 0,
+      z: Math.cos(theta)
+    };
+  }
+
+  // Every narrative update should also surface the philosophical-payoff block;
+  // otherwise the textual payoff would disappear when switching experiments.
   function setNarrative(text){
-    if (!projectionEl) return;
-    projectionEl.textContent = text;
+    if (narrativeBlock){
+      narrativeBlock.hidden = false;
+    }
+    if (projectionEl){
+      projectionEl.textContent = text;
+    }
     liveNarrate(text);
   }
 
@@ -117,6 +183,9 @@
     };
   }
 
+  // Map world-plane coordinates (used by the experiments) into a specific
+  // viewport. The explorer keeps both halves in a single <canvas>, so we have
+  // to translate and scale manually.
   function planeToCanvas(pt, viewport){
     const halfW = viewport.width / 2;
     const halfH = viewport.height / 2;
@@ -126,6 +195,9 @@
     };
   }
 
+  // Perspective projection for the Euclidean shooter view (a faux 3‑D floor).
+  // This keeps horizon lines consistent so the Flatlander horizon aligns with
+  // the orange equator in curved mode.
   function planeToCanvasPerspective(pt, viewport){
     const xClamp = clamp(pt.x, -VIEW_RANGE * 1.35, VIEW_RANGE * 1.35);
     const farLimit = VIEW_RANGE * 0.998;
@@ -169,6 +241,8 @@
     };
   }
 
+  // Convert a 3‑D unit vector to the on-screen ellipse representing our
+  // visible hemisphere.
   function sphereToCanvas(vec, viewport){
     const radius = Math.min(viewport.width, viewport.height) * 0.42;
     const { cx, cy } = getSphereCenter(viewport);
@@ -222,10 +296,16 @@
     return { x: v.x / len, y: v.y / len, z: v.z / len };
   }
 
+  // Compute the spherical or Euclidean angle sum and feed both the result
+  // panel and the narrative. No output is shown when the user is mid-placement
+  // so they can cancel without seeing partial copy.
   function updateTriangleReport(){
+    if (activePlacement !== 'triangle'){
+      return;
+    }
+
     if (state.triangle.length < 3){
-      triangleSumEl.textContent = '--';
-      triangleMsgEl.textContent = 'Pick three vertices to compare geometries.';
+      clearResult();
       return;
     }
 
@@ -243,9 +323,16 @@
         Math.acos(clamp((a * a + b * b - c * c) / (2 * a * b), -1, 1))
       ];
       const sum = (angles[0] + angles[1] + angles[2]) * DEG;
-      triangleSumEl.textContent = sum.toFixed(1) + ' deg';
-      triangleMsgEl.textContent = 'Flat verdict: angles add to 180 deg. Induction still smiles.';
-      setNarrative('In Euclidean mode, the triangle obeys 180 deg. Geometry feels inevitable.');
+      const sumText = sum.toFixed(1) + ' deg';
+      if (triangleSumEl){
+        triangleSumEl.textContent = sumText;
+      }
+      showResult({
+        title: 'Triangle Experiment',
+        text: 'Flatlander still sees straight lines.',
+        showTriangleMetric: true
+      });
+      setNarrative('In Euclidean space, triangles behave exactly as the Flatlander expects.');
     } else {
       const A = planeToSphere(pts[0]);
       const B = planeToSphere(pts[1]);
@@ -257,33 +344,16 @@
       const angleB = Math.acos(clamp((Math.cos(b) - Math.cos(c) * Math.cos(a)) / (Math.sin(c) * Math.sin(a) || 1), -1, 1));
       const angleC = Math.acos(clamp((Math.cos(c) - Math.cos(a) * Math.cos(b)) / (Math.sin(a) * Math.sin(b) || 1), -1, 1));
       const sum = (angleA + angleB + angleC) * DEG;
-      triangleSumEl.textContent = sum.toFixed(1) + ' deg';
-      triangleMsgEl.textContent = 'Your triangle got fat. Curvature swallowed the surplus.';
-      setNarrative('Riemannian mode inflates the triangle: geometry bends with the world.');
-    }
-  }
-
-  function updateParallelReport(){
-    if (!state.parallelPoint){
-      parallelStatusEl.textContent = '--';
-      parallelMsgEl.textContent = 'Select a point to test parallels.';
-      return;
-    }
-
-    if (state.mode === 'euclid'){
-      parallelStatusEl.textContent = 'True parallel';
-      parallelMsgEl.textContent = 'Flatland says: parallel lines stay strangers forever.';
-      setNarrative('On a flat plane, parallels never meet. The postulate feels like law.');
-    } else {
-      const pSphere = planeToSphere(state.parallelPoint);
-      if (Math.abs(pSphere.y) < 1e-3){
-        parallelStatusEl.textContent = 'Equator only';
-        parallelMsgEl.textContent = 'Only the equator stays parallel to itself. Any other path curves home.';
-      } else {
-        parallelStatusEl.textContent = 'They meet';
-        parallelMsgEl.textContent = 'Parallel? A Euclidean superstition. Great circles cross again.';
+      const sumText = sum.toFixed(1) + ' deg';
+      if (triangleSumEl){
+        triangleSumEl.textContent = sumText;
       }
-      setNarrative('Hidden curvature collapses the parallel postulate. Laws wobble with context.');
+      showResult({
+        title: 'Triangle Experiment',
+        text: `In the shooter's view, this triangle's angles sum to ${sumText}, yet the Flatlander still sees straight lines.`,
+        showTriangleMetric: true
+      });
+      setNarrative('Curvature fattens triangles, even while the Flatlander insists everything stays straight.');
     }
   }
 
@@ -291,8 +361,9 @@
     state.triangle = [];
     state.triangleLine.world = [];
     state.triangleLine.shooterPixels = [];
-    triangleSumEl.textContent = '--';
-    triangleMsgEl.textContent = '';
+    if (triangleSumEl){
+      triangleSumEl.textContent = '--';
+    }
     render();
   }
 
@@ -301,18 +372,32 @@
   function resetLine(){
     state.line.world = [];
     state.line.shooterPixels = [];
-    updateLineMessage();
+    updateLineResult();
     render();
   }
 
-  function updateLineMessage(){
-    if (!lineMsgEl) return;
-    if (state.line.world.length === 0){
-      lineMsgEl.textContent = 'Drop the first point in the shooter\'s view.';
-    } else if (state.line.world.length === 1){
-      lineMsgEl.textContent = 'Drop a second point to complete the geodesic.';
+  // Similar flow for the line experiment: only surface copy once the user has
+  // supplied both endpoints, otherwise keep the result panel empty.
+  function updateLineResult(){
+    if (activePlacement !== 'line'){
+      return;
+    }
+    if (state.line.world.length < 2){
+      clearResult();
+      return;
+    }
+    if (state.mode === 'euclid'){
+      showResult({
+        title: 'Line Experiment',
+        text: 'Flatlander also sees a straight line, but of different length, and always bounded on their horizon.'
+      });
+      setNarrative('Even in flat space, distant horizons shrink the Flatlander\'s sense of length.');
     } else {
-      lineMsgEl.textContent = 'Shortest connection drawn.';
+      showResult({
+        title: 'Line Experiment',
+        text: 'In the shooter\'s view, this line appears to be an arc, but the Flatlander still sees a straight line bounded on the horizon.'
+      });
+      setNarrative('Great circles bend overhead while the Flatlander insists the line stays straight.');
     }
   }
 
@@ -322,7 +407,7 @@
     state.line.shooterPixels = state.line.shooterPixels.slice(-1);
     state.line.world.push(worldPt);
     state.line.shooterPixels.push(shooterPixel);
-    updateLineMessage();
+    updateLineResult();
     render();
   }
 
@@ -358,6 +443,9 @@
   }
 
   // Change tool, update hint text, and optionally reset that experiment's state.
+  // Switching tools resets the relevant buffers and redraws hints. Keeping the
+  // logic in one place makes it safer to add future experiments without
+  // duplicating clean-up code.
   function setActiveTool(tool, {triggerReset = true} = {}){
     updateToolButtonStyles(tool);
     setToolHint(tool);
@@ -365,7 +453,10 @@
       resetWalker();
     }
     activePlacement = tool;
-    if (!triggerReset) return;
+    if (!triggerReset){
+      clearResult();
+      return;
+    }
     switch(tool){
       case 'line':
         resetLine();
@@ -373,56 +464,67 @@
       case 'triangle':
         resetTriangle();
         break;
-      case 'parallel':
-        resetParallel();
-        break;
       case 'walker':
         resetWalker();
         startWalker();
         break;
+      default:
+        clearResult();
+        break;
     }
   }
 
+  // Full reset wipes every experiment, deselects the active tool, and hides
+  // the result panel. Render runs at the end so the canvases visibly clear.
   function resetAll(){
+    activePlacement = null;
+    updateToolButtonStyles(null);
+    setToolHint(null);
     resetLine();
     resetTriangle();
-    resetParallel();
     resetWalker();
-    setActiveTool('line', {triggerReset: false});
-  }
-
-  function resetParallel(){
-    state.parallelPoint = null;
-    parallelStatusEl.textContent = '--';
-    parallelMsgEl.textContent = '';
+    clearResult();
     render();
   }
 
   function resetWalker(){
     state.walker.active = false;
-    state.walker.t = 0;
+    state.walker.position = 0;
     state.walker.theta = 0;
-    walkerStatusEl.textContent = '--';
-    walkerMsgEl.textContent = '';
+    state.walker.lastTime = 0;
     if (raf){
       cancelAnimationFrame(raf);
       raf = null;
     }
+    if (activePlacement === 'walker'){
+      clearResult();
+    }
     render();
   }
 
+  // Each walker launch writes its own result copy so the panel can narrate
+  // without waiting for the animation loop to complete.
   function startWalker(){
-    resetWalker();
     state.walker.mode = state.mode;
     state.walker.active = true;
     state.walker.lastTime = performance.now();
-    walkerStatusEl.textContent = 'Running';
-    walkerMsgEl.textContent = state.mode === 'euclid'
-      ? 'Our walker strides endlessly on a flat plane.'
-      : 'The walker hugs a great circle. Wait for the loop.';
-    setNarrative(state.mode === 'euclid'
-      ? 'Induction feels safe: in flat space, straight paths run forever.'
-      : 'On a sphere, uniform motion smuggles you home. Laws depend on hidden curvature.');
+    if (state.mode === 'euclid'){
+      state.walker.position = -VIEW_RANGE * 1.6;
+      state.walker.theta = 0;
+      showResult({
+        title: 'Johnny the Walker',
+        text: 'Both shooter and Flatlander see Johnny disappearing on the horizon because both worlds are infinite and unbounded.'
+      });
+      setNarrative('Johnny strides across an endless plain until the horizon swallows him.');
+    } else {
+      state.walker.theta = 0;
+      state.walker.position = 0;
+      showResult({
+        title: 'Johnny the Walker',
+        text: 'Both Shooter and Flatlander see Johnny keep circling back to where he was. The shooter knows this world is finite, yet the Flatlander feels it as finite but unbounded.'
+      });
+      setNarrative('On the sphere, Johnny loops along the equator—finite space with no edges.');
+    }
     if (!raf){
       raf = requestAnimationFrame(step);
     }
@@ -434,21 +536,12 @@
 
     if (state.walker.active){
       if (state.walker.mode === 'euclid'){
-        state.walker.t += dt * 0.5;
-        if (state.walker.t * 2 > WALKER_LIMIT){
-          walkerStatusEl.textContent = 'Never comes back';
-          walkerMsgEl.textContent = 'Flatland report: the walker drifts off forever.';
-          setNarrative('Uniformity feels eternal when space is truly flat.');
+        state.walker.position += dt * WALKER_SPEED;
+        if (state.walker.position > VIEW_RANGE * 1.6){
           state.walker.active = false;
         }
       } else {
-        state.walker.theta += dt * Math.PI * 0.35;
-        if (state.walker.theta >= Math.PI * 2){
-          walkerStatusEl.textContent = 'Returned home';
-          walkerMsgEl.textContent = 'Curvature closes the walk. No edges, yet finite.';
-          setNarrative('Curved space bends even straight intentions back on themselves.');
-          state.walker.active = false;
-        }
+        state.walker.theta = (state.walker.theta + dt * WALKER_ORBIT_SPEED) % (Math.PI * 2);
       }
     }
 
@@ -668,29 +761,6 @@
       }
       return;
     }
-
-    if (state.triangle.length < 1) return;
-
-    if (!opts.perspective && state.mode !== 'sphere'){ 
-      // Flatlander's Euclidean view: no fill, just bail.
-      return;
-    }
-
-    const pts = state.triangle.map(pt => projectToCanvas(pt, viewport, opts));
-
-    ctx.save();
-    ctx.fillStyle = '#f28e2b';
-    if (pts.length >= 3){
-      ctx.beginPath();
-      ctx.moveTo(pts[0].x, pts[0].y);
-      ctx.lineTo(pts[1].x, pts[1].y);
-      ctx.lineTo(pts[2].x, pts[2].y);
-      ctx.closePath();
-      ctx.globalAlpha = 0.18;
-      ctx.fill();
-      ctx.globalAlpha = 1;
-    }
-    ctx.restore();
   }
 
   function drawGreatCircleEdge(ctx, viewport, A, B){
@@ -742,24 +812,42 @@
   }
 
   function drawTriangleSphere(ctx, viewport){
-    if (state.triangle.length < 1) return;
-    const spherePts = state.triangle.map(planeToSphere);
-    const proj = spherePts.map(vec => sphereToCanvas(vec, viewport));
+    if (state.triangle.length < 3) return;
+    const lastPts = state.triangle.slice(-3);
+    const spherePts = lastPts.map(planeToSphere);
+    const fallback = spherePts.map(vec => sphereToCanvas(vec, viewport));
+
+    const edges = [
+      sampleGreatCircleVectors(spherePts[0], spherePts[1], 96),
+      sampleGreatCircleVectors(spherePts[1], spherePts[2], 96),
+      sampleGreatCircleVectors(spherePts[2], spherePts[0], 96)
+    ];
+
+    const arcPath = [];
+    edges.forEach((edge, edgeIndex) => {
+      edge.forEach((vec, pointIndex) => {
+        if (vec.z < 0) return;
+        if (edgeIndex > 0 && pointIndex === 0) return;
+        arcPath.push(sphereToCanvas(vec, viewport));
+      });
+    });
+
+    const pointsToDraw = arcPath.length >= 3 ? arcPath : fallback;
+    if (pointsToDraw.length < 3) return;
 
     ctx.save();
     ctx.fillStyle = 'rgba(255, 201, 107, 0.28)';
-    if (proj.length >= 3){
-      ctx.beginPath();
-      ctx.moveTo(proj[0].x, proj[0].y);
-      ctx.lineTo(proj[1].x, proj[1].y);
-      ctx.lineTo(proj[2].x, proj[2].y);
-      ctx.closePath();
-      ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(pointsToDraw[0].x, pointsToDraw[0].y);
+    for (let i = 1; i < pointsToDraw.length; i++){
+      ctx.lineTo(pointsToDraw[i].x, pointsToDraw[i].y);
     }
+    ctx.closePath();
+    ctx.fill();
     ctx.restore();
   }
 
-  function drawBaseParallelsPlane(ctx, viewport, opts = {}){
+  function drawFlatlanderBaseline(ctx, viewport, opts = {}){
     ctx.save();
     ctx.strokeStyle = 'rgba(60,60,60,0.45)';
     ctx.lineWidth = 2;
@@ -769,97 +857,6 @@
     ctx.moveTo(a.x, a.y);
     ctx.lineTo(b.x, b.y);
     ctx.stroke();
-    ctx.restore();
-  }
-
-  function derivativeVector(pt, delta){
-    const ahead = planeToSphere({ x: pt.x + delta, y: pt.y });
-    const here = planeToSphere(pt);
-    return {
-      x: ahead.x - here.x,
-      y: ahead.y - here.y,
-      z: ahead.z - here.z
-    };
-  }
-
-  function rotateAroundAxis(vec, axis, angle){
-    const cos = Math.cos(angle);
-    const sin = Math.sin(angle);
-    const dot = vec.x * axis.x + vec.y * axis.y + vec.z * axis.z;
-    return {
-      x: vec.x * cos + sin * (axis.y * vec.z - axis.z * vec.y) + axis.x * dot * (1 - cos),
-      y: vec.y * cos + sin * (axis.z * vec.x - axis.x * vec.z) + axis.y * dot * (1 - cos),
-      z: vec.z * cos + sin * (axis.x * vec.y - axis.y * vec.x) + axis.z * dot * (1 - cos)
-    };
-  }
-
-  function sampleGreatCircle(anchor, tangent){
-    const axis = norm3(cross3(anchor, tangent));
-    const pts = [];
-    const steps = 96;
-    for (let i = -steps; i <= steps; i++){
-      const angle = (i / steps) * Math.PI;
-      const rotated = rotateAroundAxis(anchor, axis, angle);
-      if (rotated.z >= 0) pts.push(rotated);
-    }
-    return pts;
-  }
-
-  function drawSpherePath(ctx, viewport, pts){
-    const mapped = pts.map(p => sphereToCanvas(p, viewport));
-    if (mapped.length < 2) return;
-    ctx.beginPath();
-    ctx.moveTo(mapped[0].x, mapped[0].y);
-    for (let i = 1; i < mapped.length; i++){
-      ctx.lineTo(mapped[i].x, mapped[i].y);
-    }
-    ctx.stroke();
-  }
-
-  function drawParallelCandidatePlane(ctx, viewport, opts = {}){
-    if (!state.parallelPoint) return;
-    const baseY = state.parallelPoint.y;
-    ctx.save();
-    ctx.setLineDash([8, 6]);
-    ctx.strokeStyle = state.mode === 'euclid' ? '#18a999' : '#c0392b';
-    ctx.lineWidth = 2.5;
-    const a = projectToCanvas({ x: -VIEW_RANGE * 1.2, y: baseY }, viewport, opts);
-    const b = projectToCanvas({ x: VIEW_RANGE * 1.2, y: baseY }, viewport, opts);
-    ctx.beginPath();
-    ctx.moveTo(a.x, a.y);
-    ctx.lineTo(b.x, b.y);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    const marker = projectToCanvas(state.parallelPoint, viewport, opts);
-    ctx.fillStyle = '#18a999';
-    ctx.beginPath();
-    ctx.arc(marker.x, marker.y, 6, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-
-  function drawParallelCandidateSphere(ctx, viewport){
-    if (!state.parallelPoint) return;
-    const base = planeToSphere({ x: 0, y: 0 });
-    const basePts = sampleGreatCircle(base, derivativeVector({ x: 0, y: 0 }, 0.02));
-    ctx.save();
-    ctx.strokeStyle = 'rgba(255,255,255,0.35)';
-    ctx.lineWidth = 2;
-    drawSpherePath(ctx, viewport, basePts);
-    ctx.restore();
-
-    const pointSphere = planeToSphere(state.parallelPoint);
-    const tangent = derivativeVector(state.parallelPoint, 0.02);
-    const arcPts = sampleGreatCircle(pointSphere, tangent);
-    ctx.save();
-    ctx.strokeStyle = state.mode === 'euclid' ? '#18a999' : '#ff6f61';
-    ctx.lineWidth = 2.5;
-    drawSpherePath(ctx, viewport, arcPts);
-    const marker = sphereToCanvas(pointSphere, viewport);
-    ctx.fillStyle = '#18a999';
-    ctx.beginPath();
-    ctx.arc(marker.x, marker.y, 6, 0, Math.PI * 2);
-    ctx.fill();
     ctx.restore();
   }
 
@@ -945,25 +942,30 @@
 
   function drawWalkerPlane(ctx, viewport, opts = {}){
     const walker = state.walker;
-    if (!walker.active && walker.t === 0 && walker.theta === 0) return;
+    if (!walker.active && Math.abs(walker.position) < 1e-6 && Math.abs(walker.theta) < 1e-6) return;
     ctx.save();
     ctx.fillStyle = '#5f27cd';
     let point;
     if (walker.mode === 'euclid'){
-      const x = walker.t * 2;
-      point = projectToCanvas({ x, y: 0 }, viewport, opts);
+      if (walker.position < -VIEW_RANGE * 1.4 || walker.position > VIEW_RANGE * 1.6){
+        ctx.restore();
+        return;
+      }
+      point = projectToCanvas({ x: walker.position, y: 0 }, viewport, opts);
     } else {
-      const vec = {
-        x: Math.sin(walker.theta),
-        y: 0,
-        z: Math.cos(walker.theta)
-      };
+      const vec = getWalkerEquatorVector();
+      if (vec.z <= 0){
+        ctx.restore();
+        return;
+      }
       const planePt = sphereToPlane(vec);
       if (!planePt){
         ctx.restore();
         return;
       }
-      point = projectToCanvas(planePt, viewport, opts);
+      const horizonY = viewport.y + viewport.height / 2;
+      const projected = planeToCanvas({ x: planePt.x, y: 0 }, viewport);
+      point = { x: projected.x, y: horizonY };
     }
     ctx.beginPath();
     ctx.arc(point.x, point.y, 6, 0, Math.PI * 2);
@@ -973,23 +975,29 @@
 
   function drawWalkerSphere(ctx, viewport){
     const walker = state.walker;
-    if (!walker.active && walker.t === 0 && walker.theta === 0) return;
+    if (!walker.active && Math.abs(walker.position) < 1e-6 && Math.abs(walker.theta) < 1e-6) return;
     ctx.save();
     ctx.fillStyle = '#5f27cd';
     let point;
     if (walker.mode === 'euclid'){
-      point = planeToCanvas({ x: walker.t * 2, y: 0 }, viewport);
-    } else {
-      const vec = {
-        x: Math.sin(walker.theta),
-        y: 0,
-        z: Math.cos(walker.theta)
-      };
-      if (vec.z < 0){
+      if (walker.position < -VIEW_RANGE * 1.4 || walker.position > VIEW_RANGE * 1.6){
         ctx.restore();
         return;
       }
-      point = sphereToCanvas(vec, viewport);
+      point = planeToCanvas({ x: walker.position, y: 0 }, viewport);
+    } else {
+      const vec = getWalkerEquatorVector();
+      const angle = state.walker.theta;
+      const radius = Math.min(viewport.width, viewport.height) * 0.42;
+      const ry = radius * 0.45;
+      const { cx, cy } = getSphereCenter(viewport);
+      point = {
+        x: cx + radius * Math.sin(angle),
+        y: cy + ry * Math.cos(angle)
+      };
+      if (vec.z < 0){
+        ctx.globalAlpha = 0.35;
+      }
     }
     ctx.beginPath();
     ctx.arc(point.x, point.y, 6, 0, Math.PI * 2);
@@ -1164,17 +1172,24 @@
           ctx.fill();
         });
       } else {
-        const vecs = state.triangleLine.world.map(planeToSphere);
-        const segments = vecs.length === 3 ? [[0,1],[1,2],[2,0]] : [[0,1]];
-        segments.forEach(([i, j]) => {
-          drawGreatCircleOnFlat(ctx, viewport, vecs[i], vecs[j]);
+        const horizonY = viewport.y + viewport.height / 2;
+        const projected = state.triangleLine.world.map(pt => {
+          const base = planeToCanvas({ x: pt.x, y: 0 }, viewport);
+          return { x: base.x, y: horizonY };
         });
-        vecs.forEach(vec => {
-          const planePt = sphereToPlane(vec);
-          if (!planePt) return;
-          const marker = planeToCanvas(planePt, viewport);
+        const segments = projected.length === 3 ? [[0,1],[1,2],[2,0]] : [[0,1]];
+        segments.forEach(([i, j]) => {
+          const start = projected[i];
+          const end = projected[j];
+          if (!start || !end) return;
           ctx.beginPath();
-          ctx.arc(marker.x, marker.y, 5, 0, Math.PI * 2);
+          ctx.moveTo(start.x, start.y);
+          ctx.lineTo(end.x, end.y);
+          ctx.stroke();
+        });
+        projected.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
           ctx.fill();
         });
       }
@@ -1194,6 +1209,9 @@
     ctx.restore();
   }
 
+  // Master render pass; called after every state change and on resize. We draw
+  // the left and right views sequentially inside the same canvas so clipping
+  // is used heavily to keep content in its half.
   function render(){
     const ctx = view.ctx;
     if (!ctx) return;
@@ -1210,7 +1228,6 @@
       drawTriangleFlat(ctx, viewports.shooter, { perspective: true });
       drawLineShooter(ctx, viewports.shooter);
       drawTriangleLineShooter(ctx, viewports.shooter);
-      drawParallelCandidatePlane(ctx, viewports.shooter, { perspective: true });
       drawWalkerPlane(ctx, viewports.shooter, { perspective: true });
       drawViewportHeader(ctx, viewports.shooter, "Shooter's View", "God's-eye perspective", {
         fg: 'rgba(32,32,32,0.88)',
@@ -1227,7 +1244,6 @@
       drawTriangleSphere(ctx, viewports.shooter);
       drawLineShooter(ctx, viewports.shooter);
       drawTriangleLineShooter(ctx, viewports.shooter);
-      drawParallelCandidateSphere(ctx, viewports.shooter);
       drawWalkerSphere(ctx, viewports.shooter);
       drawViewportHeader(ctx, viewports.shooter, "Shooter's View", "God's-eye perspective", {
         fg: 'rgba(240,246,255,0.96)',
@@ -1253,13 +1269,12 @@
     drawGnomonicGrid(ctx, viewports.flat);
       drawFlatlanderHorizonLine(ctx, viewports.flat);
     }
-    drawBaseParallelsPlane(ctx, viewports.flat);
+    drawFlatlanderBaseline(ctx, viewports.flat);
     drawTriangleFlat(ctx, viewports.flat);
     drawLineFlat(ctx, viewports.flat);
     drawTriangleLineFlat(ctx, viewports.flat);
-    drawParallelCandidatePlane(ctx, viewports.flat);
     drawWalkerPlane(ctx, viewports.flat);
-    drawViewportHeader(ctx, viewports.flat, "Flatlander's View", "Warped window onto geodesics", {
+    drawViewportHeader(ctx, viewports.flat, "Flatlander's View", "2D and intelligent perspective", {
       fg: 'rgba(32,32,32,0.88)',
       bg: 'rgba(255,255,255,0.86)',
       border: 'rgba(32,32,32,0.15)'
@@ -1276,15 +1291,13 @@
     render();
   }
 
-  function setParallelPoint(pt){
-    state.parallelPoint = pt;
-    updateParallelReport();
-    render();
-  }
-
+  // Route pointer events to the active experiment. The tools only accept input
+  // inside the shooter's half of the canvas so the Flatland view remains a
+  // passive projection.
   function handlePointer(event){
     const rect = viewCanvas.getBoundingClientRect();
-    const tool = event.shiftKey ? 'parallel' : activePlacement;
+    const tool = activePlacement;
+    if (!tool) return;
     const viewports = getViewports();
     const isShooter = (event.clientX - rect.left) < rect.width / 2;
 
@@ -1325,8 +1338,6 @@
         y: event.clientY - rect.top
       };
       addTriangleLinePoint(pt, shooterPixel);
-    } else if (tool === 'parallel'){
-      setParallelPoint(pt);
     } else if (tool === 'line'){
       const shooterPixel = {
         x: event.clientX - rect.left,
@@ -1341,9 +1352,11 @@
       if (!e.target.checked) return;
       state.mode = e.target.value === 'sphere' ? 'sphere' : 'euclid';
       state.walker.mode = state.mode;
+      resetLine();
+      resetTriangle();
+      resetWalker();
       updateTriangleReport();
-      updateParallelReport();
-      render();
+      clearResult();
     });
   });
 
@@ -1352,9 +1365,6 @@
   });
   toolButtons.triangle?.addEventListener('click', () => {
     setActiveTool('triangle');
-  });
-  toolButtons.parallel?.addEventListener('click', () => {
-    setActiveTool('parallel');
   });
   toolButtons.walker?.addEventListener('click', () => {
     setActiveTool('walker');
@@ -1387,7 +1397,9 @@
   });
 
   resetAll();
-  setNarrative('Geometry feels like law to the Flatlander. From the shooter view, it is a negotiated truce with curvature.');
+  if (projectionEl){
+    projectionEl.textContent = 'Geometry feels like law to the Flatlander. From the shooter view, it is a negotiated truce with curvature.';
+  }
   render();
   requestAnimationFrame(() => render());
 })();
