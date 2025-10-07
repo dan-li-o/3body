@@ -104,12 +104,22 @@
     ctx.clearRect(0, 0, width, height);
 
     const splitX = width * 0.5;
-    drawObserverView(ctx, { x: 0, y: 0, width: splitX, height }, hyperDistance);
-    drawIntrinsicView(ctx, { x: splitX, y: 0, width: width - splitX, height }, hyperDistance);
+    const r = Math.tanh(hyperDistance / 2);
+    const euclidSpeed = 0.5 * HYPER_SPEED * (1 - r * r);
+    const displaySpeed = Math.max(euclidSpeed, TARGET_EUCLIDEAN_SPEED);
+    drawObserverView(ctx, { x: 0, y: 0, width: splitX, height }, {
+      hyperDistance,
+      euclidSpeed: displaySpeed,
+      euclidDistance: r
+    });
+    drawIntrinsicView(ctx, { x: splitX, y: 0, width: width - splitX, height }, {
+      hyperDistance,
+      poincareSpeed: HYPER_SPEED
+    });
     drawDivider(ctx, splitX, height);
   }
 
-  function drawObserverView(ctx, rect, hyperDistance){
+  function drawObserverView(ctx, rect, metrics){
     ctx.save();
     ctx.beginPath();
     ctx.rect(rect.x, rect.y, rect.width, rect.height);
@@ -161,7 +171,7 @@
     ctx.stroke();
     ctx.setLineDash([]);
 
-    const rWalker = Math.min(Math.tanh(hyperDistance / 2), 0.999);
+    const rWalker = Math.min(Math.tanh(metrics.hyperDistance / 2), 0.999);
     const yWalker = centreY - rWalker * diskRadius;
     const scale = Math.max(0.12, 1 - rWalker * rWalker);
     const bodyRadius = diskRadius * 0.06 * scale;
@@ -203,12 +213,16 @@
     ctx.lineTo(centreX, yWalker - Math.max(rulerLength, 6));
     ctx.stroke();
 
+    drawInfoText(ctx, width, height, [
+      ['Euclidean speed', metrics.euclidSpeed.toFixed(5) + ' units/s'],
+      ['Euclidean distance', metrics.euclidDistance.toFixed(5) + ' units']
+    ]);
     drawBanner(ctx, width, 'Our View');
 
     ctx.restore();
   }
 
-  function drawIntrinsicView(ctx, rect, hyperDistance){
+  function drawIntrinsicView(ctx, rect, metrics){
     ctx.save();
     ctx.beginPath();
     ctx.rect(rect.x, rect.y, rect.width, rect.height);
@@ -226,7 +240,7 @@
 
     // The intrinsic grid: equally spaced rails sliding past at constant speed.
     const spacing = GRID_SPACING;
-    const shift = (hyperDistance * INTRINSIC_PIXELS_PER_UNIT) % spacing;
+    const shift = (metrics.hyperDistance * INTRINSIC_PIXELS_PER_UNIT) % spacing;
 
     ctx.strokeStyle = 'rgba(47,122,107,0.3)';
     ctx.lineWidth = 2;
@@ -254,7 +268,7 @@
 
     const walkerX = width * 0.5;
     const walkerY = height * 0.68;
-    const bobOffset = Math.sin(hyperDistance * 2) * 2;
+    const bobOffset = Math.sin(metrics.hyperDistance * 2) * 2;
 
     ctx.fillStyle = 'rgba(15,32,42,0.9)';
     ctx.beginPath();
@@ -268,6 +282,10 @@
     ctx.lineTo(walkerX, walkerY - bobOffset - 42);
     ctx.stroke();
 
+    drawInfoText(ctx, width, height, [
+      ['Poincarite speed', metrics.poincareSpeed.toFixed(2) + ' units/s'],
+      ['Poincarite distance', metrics.hyperDistance.toFixed(2) + ' units']
+    ]);
     drawBanner(ctx, width, 'Following Johnny in Poincarite Land');
 
     ctx.restore();
@@ -297,6 +315,29 @@
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'left';
     ctx.fillText(text, padX + 12, padY + bannerHeight / 2);
+    ctx.restore();
+  }
+
+  function drawInfoText(ctx, width, height, lines){
+    if(!Array.isArray(lines) || !lines.length){
+      return;
+    }
+    const padX = 18;
+    const padY = 18;
+    const lineHeight = 20;
+    const totalHeight = lineHeight * lines.length;
+    let y = height - padY - totalHeight + lineHeight / 2;
+
+    ctx.save();
+    ctx.font = '600 15px "Inter", "Segoe UI", sans-serif';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = 'rgba(22, 31, 39, 0.92)';
+
+    lines.forEach(([label, value]) => {
+      const labelText = label + ': ' + value;
+      ctx.fillText(labelText, padX, y);
+      y += lineHeight;
+    });
     ctx.restore();
   }
 
