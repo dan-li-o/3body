@@ -58,9 +58,44 @@ Flatland scientists lack words for circles or holes. Those are three‑dimension
 
 Observation is tethered to perspectives.
 
+## Plane vs. Sphere
+
+For the flatlanders, geometry isn’t a system of axioms—it’s instinct. They live in the flat, breathe it, never question it. Every triangle they draw closes perfectly; every straight line feels honest. To them, flatness isn’t an assumption—it’s the air they breathe, the rhythm of their universe. Only from above would anyone suspect the ground itself might be curved.
+
+They might picture themselves living in what we call a **Euclidean** plane, an infinite marble floor—smooth, predictable, obedient. Draw two straight lines and they will never meet, no matter how far they run. Triangles close neatly—their angles always summing to 180°; the world behaves. It’s the geometry we inherit without knowing, the quiet default of our thinking—even in middle school, we learned it without question: parallel lines never meet, and space feels obediently flat, both on paper and in our three‑dimensional imagination.
+
+From the shooter’s perch, things might look completely different. What the flatlander calls straight, the shooter sees as curved; what they call certainty, he calls projection. The surface itself might swell and bow, following **Riemannian** geometry, a curved world where straight lines bend and the rules of triangles change. On a sphere, for instance, the shortest paths ("geodesics") curve along the surface, and the angles of a triangle can add up to more than 180°. To a flatlander, these deviations are invisible; every triangle still looks straight. To the shooter, the distortion is obvious.
+
+In the widget below, you can toggle between these two geometries—Euclidean and Riemannian—and witness how the same world appears under different assumptions. Draw a line. Make a triangle. Send Johnny the Walker on this flatland to keep going straight. See what happens from these two views respectively. 
+
+What looks law‑like and straight from within may curve and warp from above.
+
 ::: {#wid-flatland .widget}
 ```{=html}
 {{< include /partials/flatland.html >}}
 ```
-Observation from different perspectives. 
+Observation in different geometry from different perspectives. 
 :::
+
+## Geometry as Convention
+
+Wang’s vertigo deepens: if geometry itself can change with perspective, what else can? Henri Poincaré once asked the same question and reached a scandalous answer—that geometry is not discovered but chosen. The shape of space is a matter of convenience, not truth.
+
+We measure, compare, and claim that rulers stay constant, yet the decision to treat space as Euclidean or curved is a convention—a bet on simplicity and convenience. The difference between straight and curved is not in nature but in our bookkeeping. 
+
+Now try another widget. This was Poincaré's thought experiment. Flatlanders now live on a disk, but with a special caveat. As one moves away from the center towards the periphery, everything---including one's own size and the ruler in hand---shrinks. 
+
+::: {#wid-disk .widget}
+```{=html}
+{{< include /partials/disk.html >}}
+```
+Poincarites that live on a disk. Everything shrinks as they move away from the center. 
+:::
+
+In our view, flatlanders live on a disk, flat, bounded, except that things shrink as they move away from the center; In the flatlander’s view, they live in an infinite and unbounded world. Both systems work, each internally consistent. The only test of geometry is usefulness.
+
+This was Poincaré’s quiet revolution. The laws we take as fundamental are often the shorthand of creatures limited by their vantage point. Experiment does not reveal which geometry is true, only which is comfortable. As he wrote, “[Experiment] tells us not what is the truest, but what is the most convenient geometry.”
+
+Try toggling the above widgets again. What you see is not two worlds, but two grammars for describing one. Euclidean geometry tells a simple story of flat obedience; Riemannian, a more complex tale of curvature and connection. Neither owns reality—they are translations. And every science, whether physics or cosmology, writes its truths in one dialect or another.
+
+To the shooter, the world curves; to the flatlander, it doesn’t. Both are right, and both are wrong. That is the quiet horror Poincaré handed down to modern science: even the ground beneath reason can be merely a matter of convention.
