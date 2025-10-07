@@ -615,7 +615,33 @@ Widget&nbsp;2.2: Observation in different geometry from different perspectives.
 <div id="wid-disk" class="widget quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-wid figure">
 <div aria-describedby="wid-disk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<link rel="stylesheet" href="../../css/widgets.css">
+<script src="../../js/widgets-core.js" defer=""></script>
 
+<div class="wgt wgt--poincare" data-widget="poincare-disk">
+  <div class="wgt__canvas disk__canvas">
+    <canvas data-role="views" width="640" height="360" aria-label="Observer and Poincarite views of Johnny the Walker"></canvas>
+  </div>
+
+  <div class="wgt__panel wgt__controls">
+    <div class="wgt__title">Control</div>
+    <div class="wgt__field">
+      <button type="button" data-role="send">Send Johnny</button>
+    </div>
+    <div class="wgt__field">
+      <div class="wgt__hint">Press once: Johnny leaves the center. Left: shooter's Euclidean eye. Right: Johnny's own horizon.</div>
+    </div>
+  </div>
+
+  <div class="wgt__panel wgt__output" aria-live="polite">
+    <div class="wgt__title">Telemetry</div>
+    <div class="wgt__field" data-role="status-copy">
+      <div class="wgt__hint">Euclidean speed: -- | Intrinsic speed: 1.00. Swing between the two grammars of space.</div>
+    </div>
+  </div>
+</div>
+
+<script src="../../js/disk.js" defer=""></script>
 
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-wid" id="wid-disk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
