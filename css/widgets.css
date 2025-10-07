@@ -368,3 +368,11 @@ body.quarto-dark  .wgt__hint { color: var(--wgt-muted, #d1d7de); }
 .wgt--flat-rotate .wgt__choice[data-correct="true"]{
   box-shadow: 0 0 0 2px rgba(31, 122, 107, 0.45);
 }
+
+/* Poincare disk widget canvas shares flatland layout */
+.wgt--poincare .disk__canvas canvas{
+  background: transparent;
+  display: block;
+  width: 100%;
+  height: auto;
+}
