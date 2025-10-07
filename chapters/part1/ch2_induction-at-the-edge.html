@@ -397,6 +397,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#inductivist-turkey" id="toc-inductivist-turkey" class="nav-link active" data-scroll-target="#inductivist-turkey"><span class="header-section-number">2.1</span> Inductivist Turkey</a></li>
   <li><a href="#humes-problem" id="toc-humes-problem" class="nav-link" data-scroll-target="#humes-problem"><span class="header-section-number">2.2</span> Hume’s Problem</a></li>
   <li><a href="#the-flatland-perspective" id="toc-the-flatland-perspective" class="nav-link" data-scroll-target="#the-flatland-perspective"><span class="header-section-number">2.3</span> The Flatland Perspective</a></li>
+  <li><a href="#plane-vs.-sphere" id="toc-plane-vs.-sphere" class="nav-link" data-scroll-target="#plane-vs.-sphere"><span class="header-section-number">2.4</span> Plane vs.&nbsp;Sphere</a></li>
+  <li><a href="#geometry-as-convention" id="toc-geometry-as-convention" class="nav-link" data-scroll-target="#geometry-as-convention"><span class="header-section-number">2.5</span> Geometry as Convention</a></li>
   </ul>
 </nav>
     </div>
@@ -418,7 +420,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">October 1, 2025</p>
+      <p class="date-modified">October 7, 2025</p>
     </div>
   </div>
     
@@ -523,6 +525,14 @@ Widget&nbsp;2.1: Imagine you are a Flatland scientist.
 <p>Edwin Abbott made the point in his <em>Flatland</em> (1885): a coin becomes a circle from above, an oval at an angle, a line at the edge. Flatlanders see only the line, never the circle.</p>
 <p>Flatland scientists lack words for circles or holes. Those are three‑dimensional luxuries. To them, a shooter’s hole is not a circle but an edge—an irregular boundary where things vanish. A line that swallows matter and light.</p>
 <p>Observation is tethered to perspectives.</p>
+</section>
+<section id="plane-vs.-sphere" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="plane-vs.-sphere"><span class="header-section-number">2.4</span> Plane vs.&nbsp;Sphere</h2>
+<p>For the flatlanders, geometry isn’t a system of axioms—it’s instinct. They live in the flat, breathe it, never question it. Every triangle they draw closes perfectly; every straight line feels honest. To them, flatness isn’t an assumption—it’s the air they breathe, the rhythm of their universe. Only from above would anyone suspect the ground itself might be curved.</p>
+<p>They might picture themselves living in what we call a <strong>Euclidean</strong> plane, an infinite marble floor—smooth, predictable, obedient. Draw two straight lines and they will never meet, no matter how far they run. Triangles close neatly—their angles always summing to 180°; the world behaves. It’s the geometry we inherit without knowing, the quiet default of our thinking—even in middle school, we learned it without question: parallel lines never meet, and space feels obediently flat, both on paper and in our three‑dimensional imagination.</p>
+<p>From the shooter’s perch, things might look completely different. What the flatlander calls straight, the shooter sees as curved; what they call certainty, he calls projection. The surface itself might swell and bow, following <strong>Riemannian</strong> geometry, a curved world where straight lines bend and the rules of triangles change. On a sphere, for instance, the shortest paths (“geodesics”) curve along the surface, and the angles of a triangle can add up to more than 180°. To a flatlander, these deviations are invisible; every triangle still looks straight. To the shooter, the distortion is obvious.</p>
+<p>In the widget below, you can toggle between these two geometries—Euclidean and Riemannian—and witness how the same world appears under different assumptions. Draw a line. Make a triangle. Send Johnny the Walker on this flatland to keep going straight. See what happens from these two views respectively.</p>
+<p>What looks law‑like and straight from within may curve and warp from above.</p>
 <div id="wid-flatland" class="widget quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-wid figure">
 <div aria-describedby="wid-flatland-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -534,7 +544,7 @@ Widget&nbsp;2.1: Imagine you are a Flatland scientist.
 
   <!-- Controls -->
   <div class="wgt__panel wgt__controls">
-    <div class="wgt__title">Geometry Switchboard</div>
+    <div class="wgt__title">Control</div>
     <div class="wgt__field">
       <div class="wgt__hint">Flip the curvature, then try the experiments below.</div>
     </div>
@@ -554,8 +564,7 @@ Widget&nbsp;2.1: Imagine you are a Flatland scientist.
       <div class="wgt__row wgt__row--wrap">
         <button type="button" data-role="tool-line" class="wgt__btn--ghost">Draw a Line</button>
         <button type="button" data-role="tool-triangle" class="wgt__btn--ghost">Draw a Triangle</button>
-        <button type="button" data-role="tool-parallel" class="wgt__btn--ghost">Test Parallel Lines</button>
-        <button type="button" data-role="tool-walker" class="wgt__btn--ghost">Send Walker</button>
+        <button type="button" data-role="tool-walker" class="wgt__btn--ghost">Send "Johnny" the Walker</button>
       </div>
       <div class="wgt__hint" data-role="tool-hint">Select an experiment--each click resets its setup.</div>
     </div>
@@ -563,52 +572,26 @@ Widget&nbsp;2.1: Imagine you are a Flatland scientist.
     <div class="wgt__field">
       <button type="button" data-role="reset-all" class="wgt__btn--ghost">Reset</button>
     </div>
-
-    <div class="wgt__field" role="group" aria-label="Draw a line">
-      <strong>Draw a Line</strong>
-      <div class="wgt__hint">Drop two points in the shooter's view; we connect them by the shortest route.</div>
-      <div class="wgt__hint" data-role="line-message"></div>
-    </div>
-
-    <div class="wgt__field" role="group" aria-label="Triangle experiment">
-      <strong>Draw a Triangle</strong>
-      <div class="wgt__hint">Tap three points in either view to plot vertices.</div>
-      <div class="wgt__metric">
-        <strong>Angle Sum</strong> <span data-role="triangle-sum" class="wgt__out">--</span>
-      </div>
-      <div class="wgt__hint" data-role="triangle-message"></div>
-    </div>
-
-    <div class="wgt__field" role="group" aria-label="Parallel lines test">
-      <strong>Test Parallel Lines</strong>
-      <div class="wgt__hint">Drop two geodesics from a point; toggle modes to see what happens.</div>
-      <div class="wgt__metric">
-        <strong>Status</strong> <span data-role="parallel-status" class="wgt__out">--</span>
-      </div>
-      <div class="wgt__hint" data-role="parallel-message"></div>
-    </div>
-
-    <div class="wgt__field" role="group" aria-label="Walker experiment">
-      <strong>Send a Walker</strong>
-      <div class="wgt__hint">Launch the walker straight ahead. Does it ever come home?</div>
-      <div class="wgt__metric">
-        <strong>Result</strong> <span data-role="walker-status" class="wgt__out">--</span>
-      </div>
-      <div class="wgt__hint" data-role="walker-message"></div>
-    </div>
   </div>
 
   <!-- Output narratives -->
   <div class="wgt__panel wgt__output" aria-live="polite">
-    <div class="wgt__title">Philosophical Payoff</div>
-    <div class="wgt__field">
+    <div class="wgt__title">Result</div>
+    <!-- Result panel: the JavaScript populates this template on demand so only
+         the active experiment's copy is surfaced. -->
+    <div class="wgt__field" data-role="result-block" hidden="">
+      <strong data-role="result-title"></strong>
+      <div class="wgt__metric" data-role="triangle-metric" hidden="">
+        <strong>Angle Sum</strong> <span data-role="triangle-sum" class="wgt__out">--</span>
+      </div>
+      <div class="wgt__hint" data-role="result-text"></div>
+    </div>
+    <div class="wgt__field" data-role="narrative-block" hidden="">
+      <strong>Philosophical Payoff</strong>
       <div class="wgt__hint">Listen as the two perspectives narrate how geometry bends with space.</div>
       <div data-role="narrative" class="flatland__narrative wgt__out">
         Geometry feels like law to the Flatlander. From the shooter's perch, it's a convention tied to hidden curvature.
       </div>
-    </div>
-    <div class="wgt__field">
-      <div class="wgt__hint">Messages update as you run experiments--watch induction wobble.</div>
     </div>
   </div>
 </div>
@@ -619,10 +602,31 @@ Widget&nbsp;2.1: Imagine you are a Flatland scientist.
 
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-wid" id="wid-flatland-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Widget&nbsp;2.2: Observation from different perspectives.
+Widget&nbsp;2.2: Observation in different geometry from different perspectives.
 </figcaption>
 </figure>
 </div>
+</section>
+<section id="geometry-as-convention" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="geometry-as-convention"><span class="header-section-number">2.5</span> Geometry as Convention</h2>
+<p>Wang’s vertigo deepens: if geometry itself can change with perspective, what else can? Henri Poincaré once asked the same question and reached a scandalous answer—that geometry is not discovered but chosen. The shape of space is a matter of convenience, not truth.</p>
+<p>We measure, compare, and claim that rulers stay constant, yet the decision to treat space as Euclidean or curved is a convention—a bet on simplicity and convenience. The difference between straight and curved is not in nature but in our bookkeeping.&nbsp;</p>
+<p>Now try another widget. This was&nbsp;Poincaré’s thought experiment. Flatlanders now live on a disk, but with a special caveat. As one moves away from the center towards the periphery, everything—including one’s own size and the ruler in hand—shrinks.&nbsp;</p>
+<div id="wid-disk" class="widget quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-wid figure">
+<div aria-describedby="wid-disk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+
+
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-wid" id="wid-disk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Widget&nbsp;2.3: Poincarites that live on a disk. Everything shrinks as they move away from the center.
+</figcaption>
+</figure>
+</div>
+<p>In our view, flatlanders live on a disk, flat, bounded, except that things shrink as they move away from the center; In the flatlander’s view, they live in an infinite and unbounded world. Both systems work, each internally consistent. The only test of geometry is usefulness.</p>
+<p>This was Poincaré’s quiet revolution. The laws we take as fundamental are often the shorthand of creatures limited by their vantage point. Experiment does not reveal which geometry is true, only which is comfortable. As he wrote, “[Experiment] tells us not what is the truest, but what is the most convenient geometry.”</p>
+<p>Try toggling the above widgets again. What you see is not two worlds, but two grammars for describing one. Euclidean geometry tells a simple story of flat obedience; Riemannian, a more complex tale of curvature and connection. Neither owns reality—they are translations. And every science, whether physics or cosmology, writes its truths in one dialect or another.</p>
+<p>To the shooter, the world curves; to the flatlander, it doesn’t. Both are right, and both are wrong. That is the quiet horror Poincaré handed down to modern science: even the ground beneath reason can be merely a matter of convention.</p>
 
 
 </section>
