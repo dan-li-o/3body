@@ -1,0 +1,46 @@
+# Test the widgets, render the book, and publish it to GitHub Pages.
+# Pull requests: test + render only (nothing goes live).
+# Pushes to main (e.g. merging a PR): test + render + publish.
+name: Build and publish
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Widget engine tests
+        run: npm test
+
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: release   # TODO: pin to the version this first run reports
+
+      - name: Render (pull requests)
+        if: github.event_name == 'pull_request'
+        run: quarto render
+
+      - name: Render and publish (main)
+        if: github.event_name != 'pull_request'
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

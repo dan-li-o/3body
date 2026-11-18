@@ -1,0 +1,9 @@
+{
+  "name": "unlawful-laws-widgets",
+  "private": true,
+  "type": "module",
+  "description": "Interactive widgets for the online book Unlawful Laws. No dependencies; tests use Node's built-in runner.",
+  "scripts": {
+    "test": "node --test \"tests/**/*.test.mjs\""
+  }
+}

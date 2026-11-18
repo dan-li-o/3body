@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Widget gallery — Unlawful Laws</title>
+<style>
+  body { margin: 0; background: #FBFBF8; color: #1F2124; font-family: 'EB Garamond', Garamond, serif; }
+  body.quarto-dark { background: #1F2226; color: #E6E4DF; }
+  main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+  .tuner { position: sticky; top: 0; z-index: 2; background: inherit; border-bottom: 1px solid var(--ul-rule); padding: .5rem 0 .25rem; margin-bottom: 1.5rem; }
+  body.quarto-dark .tuner { background: #1F2226; } body:not(.quarto-dark) .tuner { background: #FBFBF8; }
+  h1 { font-weight: 400; font-size: 2.2rem; margin: 1rem 0 .25rem; }
+  p { font-size: 1.3rem; line-height: 1.55; max-width: 34em; margin: 0 0 1rem; }
+  .note { font-size: 1rem; color: var(--ul-grey); }
+  .wide { display: none; } .stacked { display: block; }
+  @media (min-width: 760px) { .wide { display: block; } .stacked { display: none; } }
+</style>
+</head>
+<body class="quarto-light">
+<main>
+  <div class="tuner"><ul-tuner></ul-tuner></div>
+  <p class="note">Widget gallery. Text adapted from the Ch3 draft. Wide screens show one figure; phones show the steps in the text.</p>
+  <h1>Better Data Ontology</h1>
+  <p><em>A tale of two pendulums.</em> A swinging pendulum can be described in two ways that are mathematically equivalent. Here, in grey, is the real one.</p>
+  <div class="stacked"><ul-two-pendulums step="1"></ul-two-pendulums></div>
+  <p>The first description, Newton’s way, tracks where the bob is and how it moves. A network trained on it did not keep energy constant. Small errors piled up, and its pendulum drifted until it ran wild.</p>
+  <div class="stacked"><ul-two-pendulums step="2"></ul-two-pendulums></div>
+  <p>The second uses the pendulum’s total energy, which, in an ideal pendulum, never changes. The network trained on it kept swinging, slightly off but forever.</p>
+  <div class="stacked"><ul-two-pendulums step="3"></ul-two-pendulums></div>
+  <div class="wide"><ul-two-pendulums step="3"></ul-two-pendulums></div>
+  <p class="note"><em>Widget 3.1.</em> Same data, same error, different ontology, different fate. The widget models how the trained networks behave; it does not train them live.</p>
+</main>
+<script type="module" src="../core/tuner.js"></script>
+<script type="module" src="../two-pendulums/two-pendulums.js"></script>
+</body>
+</html>

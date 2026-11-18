@@ -1,0 +1,43 @@
+/* Unlawful Laws design tokens. Change a value here and every widget follows.
+   Principle: the least that does the job properly (widgets/design.md). */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;600&display=swap');
+
+:root {
+  --ul-ink: #1F2124;          /* models, text, the main thing */
+  --ul-grey: #646A71;         /* secondary text and labels (readable) */
+  --ul-ghost: #A3A8AD;        /* reference / context, e.g. nature */
+  --ul-rule: #D3D6D1;         /* tracks, baselines */
+  --ul-accent: #B8402A;       /* the one thing to notice */
+  --ul-bg: transparent;
+  --ul-line: 1.75px;          /* tuned by Dan with the dials */
+  --ul-bob: 7px;
+  --ul-serif: 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --ul-sans: 'Source Sans 3', system-ui, sans-serif;
+}
+body.quarto-dark {
+  --ul-ink: #E6E4DF;
+  --ul-grey: #A9AEB4;
+  --ul-ghost: #6F757C;
+  --ul-rule: #474C52;
+  --ul-accent: #E8735C;
+}
+
+.ul-widget { display: block; margin: 1.75rem 0; font-family: var(--ul-serif); color: var(--ul-ink); }
+.ul-fallback { font-family: var(--ul-serif); font-style: italic; color: var(--ul-grey); }
+
+/* Controls: quiet, but they look like controls. */
+.ul-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; margin-top: 0.5rem; }
+.ul-field { display: flex; align-items: center; gap: 0.75rem; flex: 1 1 14rem; min-width: 0; }
+.ul-field label { font-family: var(--ul-serif); font-style: italic; font-size: 1.05rem; color: var(--ul-grey); white-space: nowrap; }
+.ul-field output { font-family: var(--ul-sans); font-size: 0.9rem; color: var(--ul-ink); font-variant-numeric: tabular-nums; min-width: 3.2em; }
+.ul-range { -webkit-appearance: none; appearance: none; flex: 1 1 auto; min-width: 6rem; height: 44px; background: transparent; margin: 0; cursor: pointer; }
+.ul-range::-webkit-slider-runnable-track { height: 2px; background: var(--ul-rule); border-radius: 1px; }
+.ul-range::-moz-range-track { height: 2px; background: var(--ul-rule); border-radius: 1px; }
+.ul-range::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; margin-top: -8px; border-radius: 50%; background: var(--ul-ink); border: 0; }
+.ul-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--ul-ink); border: 0; }
+.ul-btn { min-height: 44px; min-width: 44px; padding: 0 1rem; font-family: var(--ul-sans); font-size: 0.95rem; font-weight: 600;
+  color: var(--ul-ink); background: transparent; border: 1.5px solid var(--ul-ink); border-radius: 22px; cursor: pointer; }
+.ul-btn[aria-pressed="true"] { background: var(--ul-ink); color: var(--ul-paper, #FBFBF8); }
+body.quarto-dark .ul-btn[aria-pressed="true"] { color: #1F2226; }
+.ul-btn:focus-visible, .ul-range:focus-visible { outline: 2px solid var(--ul-accent); outline-offset: 3px; }
+.ul-readout { font-family: var(--ul-sans); font-size: 0.9rem; color: var(--ul-grey); font-variant-numeric: tabular-nums; }
