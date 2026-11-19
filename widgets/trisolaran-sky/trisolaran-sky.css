@@ -1,0 +1,2 @@
+/* Trisolaran sky: the sky is the page itself (no panel). */
+ul-trisolaran-sky .ul-stage canvas { touch-action: none; cursor: crosshair; }

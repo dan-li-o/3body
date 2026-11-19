@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Widget gallery — Unlawful Laws</title>
+<!-- Every widget, outside the book: check each one here in light and dark,
+     at phone and desktop width, before it ships (guideline §6).
+     Serve the repo (e.g. `npx http-server .` or `python3 -m http.server`)
+     and open /widgets/gallery/. Embeds mirror what the shortcode emits. -->
+<link rel="stylesheet" href="../core/tokens.css">
+<style>
+  body { margin: 0; background: var(--ul-paper); color: var(--ul-ink); font-family: var(--ul-serif); font-size: 21px; line-height: 1.5; }
+  @media (max-width: 640px) { body { font-size: 19px; } }
+  main { max-width: 1000px; margin: 0 auto; padding: 0 1.25rem 5rem; }
+  .tuner { position: sticky; top: 0; z-index: 2; background: var(--ul-paper); border-bottom: 1px solid var(--ul-rule); padding: .5rem 0 .25rem; margin-bottom: 1.5rem; }
+  h1 { font-weight: 400; font-size: 2rem; margin: 2.5rem 0 .25rem; }
+  h2 { font-weight: 400; font-style: italic; font-size: 1.5rem; margin: 3rem 0 .25rem; border-top: 1px solid var(--ul-rule); padding-top: 1.5rem; }
+  p { max-width: 34em; margin: 0 0 1rem; }
+  .note { font-family: var(--ul-sans); font-size: .85rem; color: var(--ul-grey); }
+  .wide { display: none; } .stacked { display: block; }
+  @media (min-width: 760px) { .wide { display: block; } .stacked { display: none; } }
+</style>
+</head>
+<body class="quarto-light">
+<main>
+  <div class="tuner"><ul-tuner></ul-tuner></div>
+  <h1>Widget gallery</h1>
+  <p class="note">All widgets of <em>Unlawful Laws</em>. Use the dials to try design tokens; the chosen values go into <code>widgets/core/tokens.css</code>.</p>
+
+  <h2 id="trisolaran-sky">Tame the Trisolaran sky <span class="note">Welcome page · unnumbered</span></h2>
+  <ul-trisolaran-sky>
+    <img class="ul-poster ul-poster-light" src="../trisolaran-sky/poster-light.png" alt="Poster: a tangle beside a figure-eight">
+    <img class="ul-poster ul-poster-dark" src="../trisolaran-sky/poster-dark.png" alt="Poster: a tangle beside a figure-eight">
+  </ul-trisolaran-sky>
+
+  <h2 id="two-pendulums">A tale of two pendulums <span class="note">Ch3 · Widget 3.1 · draft</span></h2>
+  <p>A swinging pendulum can be described in two ways that are mathematically equivalent. Here, in grey, is the real one.</p>
+  <div class="stacked"><ul-two-pendulums step="1"></ul-two-pendulums></div>
+  <p>The first description, Newton’s way, tracks where the bob is and how it moves. A network trained on it did not keep energy constant. Its pendulum drifted until it ran wild.</p>
+  <div class="stacked"><ul-two-pendulums step="2"></ul-two-pendulums></div>
+  <p>The second uses the pendulum’s total energy, which never changes. The network trained on it kept swinging, slightly off but forever.</p>
+  <div class="stacked"><ul-two-pendulums step="3"></ul-two-pendulums></div>
+  <div class="wide"><ul-two-pendulums step="3"></ul-two-pendulums></div>
+</main>
+<script type="module" src="../core/tuner.js"></script>
+<script type="module" src="../trisolaran-sky/trisolaran-sky.js"></script>
+<script type="module" src="../two-pendulums/two-pendulums.js"></script>
+</body>
+</html>
