@@ -1,6 +1,6 @@
-# Test the widgets, render the book, and publish it to GitHub Pages.
-# Pull requests: test + render only (nothing goes live).
-# Pushes to main (e.g. merging a PR): test + render + publish.
+# Render the book and publish it to GitHub Pages (the gh-pages branch).
+# Pull requests: render only, as a check (nothing goes live).
+# Pushes to main (e.g. merging a PR): render + publish.
 name: Build and publish
 
 on:
@@ -23,15 +23,17 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
+        if: hashFiles('package.json') != ''
         with:
           node-version: 22
 
       - name: Widget engine tests
+        if: hashFiles('package.json') != ''
         run: npm test
 
       - uses: quarto-dev/quarto-actions/setup@v2
         with:
-          version: release   # TODO: pin to the version this first run reports
+          version: 1.11.9
 
       - name: Render (pull requests)
         if: github.event_name == 'pull_request'
