@@ -20,6 +20,16 @@
     ]
   },
   {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "Preface",
+    "section": "",
+    "text": "This preface is a work in progress.\n\n\n\nI first read The Three-Body Problem in 2011, in college, in Chinese, before it was translated. I read it in two days and forgot about everything else. Then another two days for the sequel. It was magic.\nI didn’t find it too dry, partly because I was an engineering student. I started philosophy of science as a STEM student who could not find answers about science within science, and found them instead in philosophy. After my engineering degree, I went straight into philosophy, and finally found my way to the U.S., to a dual PhD in philosophy of science and informatics.\nIt is still magic, over a decade later. I have re-read the novel every few years, and each time I see more of the philosophy behind it. My engineering education let me see how the world of Three-Body is plausible. My philosophy education let me see how that plausible world is nonetheless a version of reality. And informatics gives me the knowledge and tools, now enhanced by AI, to visualize the links between the fictional world and the actual one.\nWhen I took a career break for childcare, I thought this project could not keep going. Now it seems possible. I work on my phone; AI files my notes and builds the widgets. How fortunate it is to be born in a time like this: a stay-at-home mom can continue her intellectual project amid diaper changes, toddler screaming, and baby naps.\nThere is a small irony, though. While I enjoy all the progress and convenience technology brings me, this book is, nonetheless, a caution against taking science as absolute truth.\nWhen Wang Miao first plays the Three Body game, he senses that its designers did the opposite of other game designers: instead of showing as much as possible, they compressed the information to hide a larger reality. Liu’s novel works the same way. Under the aliens and spaceships, it quietly asks about knowledge and civilization. It is almost a stress test for science. And the central argument of this book is, in fact, one about our reality: although our physical laws have not broken the way they do in the novel, our science faces similar challenges — fallibility, the inaccessibility of truth, the limits of computing and modeling, and fragility. None of this makes science less worth trusting. It asks us to trust it with our eyes open.\nI’m grateful. Thanks to my advisor, Lisa Lloyd, for really bringing me into the world of philosophy of science; to my husband, Ryan, for supporting me whenever and however I need it; to Millie, for going to school every weekday; to Lulu, for still taking naps every day; and to Claude, for turning my doodling into real work.\nI’d like to share what I see, the way I see it.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
     "objectID": "chapters/part1/ch1_physics-never-existed.html",
     "href": "chapters/part1/ch1_physics-never-existed.html",
     "title": "1  Physics has never existed",
