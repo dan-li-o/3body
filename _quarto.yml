@@ -43,8 +43,10 @@ book:
 format:
   html:
     theme:
-      light: cosmo
-      dark: darkly
+      light: [cosmo, theme/book.scss, theme/light.scss]
+      dark: [darkly, theme/book.scss, theme/dark.scss]
+    fig-cap-location: margin       # Tufte: figure captions in the margin
+    tbl-cap-location: margin
     html-math-method: katex
     toc: true
     number-sections: true
