@@ -9,7 +9,8 @@ resources:
 book:
   title: "Unlawful Laws"
   author: "Dan Li"
-  description: "A Philosopher’s Interactive Footnotes to *The Three-Body Problem*"
+  subtitle: "How to Live with Scientific Uncertainties"
+  description: "How to Live with Scientific Uncertainties"
   chapters:
     - index.qmd
     - intro.qmd
