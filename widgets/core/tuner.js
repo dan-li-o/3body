@@ -1,53 +1,45 @@
-// <ul-tuner>: live design dials for tuning "the least that does the job
-// properly". Writes token overrides on <body>, then asks widgets to redraw.
-// Used in the gallery only; the chosen values go into tokens.css.
-import { define, useStyles } from './core.js';
+// <ul-tuner>: live design dials, for the gallery only. Writes token overrides
+// on <body>; widgets redraw through their retune() hook. Chosen values go into
+// tokens.css by hand. Defaults are the values locked on 2026-11-19.
+import { define, el } from './core.js';
+import { slider, button, row } from './controls.js';
 
-const MODES = {
-  light: { ink: [31, 33, 36], bg: [251, 251, 248], accents: { cinnabar: '#B8402A', vermilion: '#D2462E', 'deep blue': '#2A4F9A' } },
-  dark: { ink: [230, 228, 223], bg: [31, 34, 38], accents: { cinnabar: '#E8735C', vermilion: '#F0644A', 'deep blue': '#7FA2EA' } },
+const ACCENTS = {
+  light: { cinnabar: '#a63d2a', 'deep blue': '#2a4f9a' },
+  dark: { cinnabar: '#e07a5f', 'deep blue': '#7fa2ea' },
 };
-const mix = (a, b, f) => `rgb(${a.map((v, i) => Math.round(v * f + b[i] * (1 - f))).join(',')})`;
 
 class Tuner extends HTMLElement {
   connectedCallback() {
     if (this._done) return; this._done = true;
-    this.v = { line: 1.75, ghost: 0.4, bob: 7, accent: 'cinnabar' };
-    this.innerHTML = '';
-    const mk = (label, key, min, max, step, unit) => {
-      const row = document.createElement('div'); row.className = 'ul-field';
-      const id = `tune-${key}`;
-      row.innerHTML = `<label for="${id}">${label}</label><input id="${id}" class="ul-range" type="range" min="${min}" max="${max}" step="${step}" value="${this.v[key]}"><output for="${id}"></output>`;
-      const input = row.querySelector('input'), out = row.querySelector('output');
-      const show = () => { out.textContent = `${this.v[key]}${unit}`; };
-      input.addEventListener('input', () => { this.v[key] = parseFloat(input.value); show(); this.apply(); });
-      show(); return row;
-    };
-    const acc = document.createElement('div'); acc.className = 'ul-field';
-    acc.innerHTML = '<label for="tune-accent">accent</label>';
-    const sel = document.createElement('select'); sel.id = 'tune-accent'; sel.className = 'ul-btn';
-    for (const k of Object.keys(MODES.light.accents)) sel.add(new Option(k, k));
-    sel.addEventListener('change', () => { this.v.accent = sel.value; this.apply(); });
-    acc.append(sel);
-    const theme = document.createElement('button'); theme.type = 'button'; theme.className = 'ul-btn';
-    const setLabel = () => { theme.textContent = document.body.classList.contains('quarto-dark') ? 'Light mode' : 'Dark mode'; };
-    theme.addEventListener('click', () => { document.body.classList.toggle('quarto-dark'); document.body.classList.toggle('quarto-light'); setLabel(); this.apply(); });
-    setLabel();
-    this.summary = document.createElement('p'); this.summary.className = 'ul-readout';
-    const box = document.createElement('div'); box.className = 'ul-controls';
-    box.append(mk('line weight', 'line', 1, 3.5, 0.25, ' px'), mk('ghost strength', 'ghost', 0.15, 0.8, 0.05, ''), mk('bob size', 'bob', 4, 11, 0.5, ' px'), acc, theme);
-    this.append(box, this.summary);
+    this.v = { line: 1.75, bob: 6.5, trail: 0.55, accent: 'cinnabar' };
+    const set = (k, unit = '') => ({ value: this.v[k], format: (x) => `${x}${unit}`, onInput: (x) => { this.v[k] = x; this.apply(); } });
+    const acc = el('select', { className: 'ul-btn', ariaLabel: 'accent' });
+    for (const k of Object.keys(ACCENTS.light)) acc.add(new Option(k, k));
+    acc.addEventListener('change', () => { this.v.accent = acc.value; this.apply(); });
+    const theme = button('', () => {
+      document.body.classList.toggle('quarto-dark'); document.body.classList.toggle('quarto-light');
+      label(); this.apply();
+    });
+    const label = () => { theme.textContent = document.body.classList.contains('quarto-dark') ? 'Light mode' : 'Dark mode'; };
+    label();
+    this.summary = el('p', { className: 'ul-readout' });
+    this.replaceChildren(row(
+      slider({ label: 'line weight', min: 1, max: 3.5, step: 0.25, ...set('line', ' px') }),
+      slider({ label: 'ball size', min: 3, max: 12, step: 0.5, ...set('bob', ' px') }),
+      slider({ label: 'trail', min: 0.2, max: 0.9, step: 0.05, ...set('trail') }),
+      acc, theme,
+    ), this.summary);
     this.apply();
   }
   apply() {
-    const m = document.body.classList.contains('quarto-dark') ? MODES.dark : MODES.light;
+    const mode = document.body.classList.contains('quarto-dark') ? 'dark' : 'light';
     const b = document.body.style;
     b.setProperty('--ul-line', `${this.v.line}px`);
     b.setProperty('--ul-bob', `${this.v.bob}px`);
-    b.setProperty('--ul-ghost', mix(m.ink, m.bg, this.v.ghost));
-    b.setProperty('--ul-accent', m.accents[this.v.accent]);
-    this.summary.textContent = `Send me these: line ${this.v.line} px · ghost ${this.v.ghost} · bob ${this.v.bob} px · accent ${this.v.accent}`;
-    document.querySelectorAll('.ul-widget').forEach((w) => w.retune?.());
+    b.setProperty('--ul-trail', String(this.v.trail));
+    b.setProperty('--ul-accent', ACCENTS[mode][this.v.accent]);
+    this.summary.textContent = `Send me these: line ${this.v.line} px · ball ${this.v.bob} px · trail ${this.v.trail} · accent ${this.v.accent}`;
   }
 }
 define('ul-tuner', Tuner);

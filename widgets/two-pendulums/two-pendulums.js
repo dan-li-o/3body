@@ -3,6 +3,7 @@
 // drawn from one pivot, plus an energy line. step=1: nature only;
 // step=2: + Newton's terms; step=3: + energy terms (default).
 import { ULWidget, define, svg, useStyles, token } from '../core/core.js';
+import { slider, button } from '../core/controls.js';
 import { energy, stepNature, stepNewton, stepEnergy } from '../engines/pendulum.js';
 
 useStyles(new URL('./two-pendulums.css', import.meta.url));
@@ -21,7 +22,6 @@ class TwoPendulums extends ULWidget {
     this.models = MODELS.filter((m) => m.minStep <= this.stepN);
     this.angle = this.num('angle', 69);
     this.err = this.num('error', 3);
-    const uid = Math.random().toString(36).slice(2, 8);
 
     this.figure = document.createElement('div');
     this.figure.className = 'ul-tp';
@@ -32,14 +32,14 @@ class TwoPendulums extends ULWidget {
     const controls = document.createElement('div');
     controls.className = 'ul-controls';
     controls.append(
-      this.field(`a-${uid}`, 'starting angle', 10, 150, 1, this.angle, (v) => `${v}°`, (v) => { this.angle = v; this.reset(); }),
+      slider({ label: 'starting angle', min: 10, max: 150, step: 1, value: this.angle, format: (v) => `${v}°`, onInput: (v) => { this.angle = v; this.reset(); } }),
     );
     if (this.stepN >= 2) {
-      controls.append(this.field(`e-${uid}`, 'learning error', 0, 10, 0.5, this.err, (v) => `${v}%`, (v) => { this.err = v; this.reset(); }));
+      controls.append(slider({ label: 'learning error', min: 0, max: 10, step: 0.5, value: this.err, format: (v) => `${v}%`, onInput: (v) => { this.err = v; this.reset(); } }));
     }
-    this.playBtn = this.button('Play', () => (this.playing ? this.pause() : (this.t >= T_MAX && this.reset(), this.play())));
+    this.playBtn = button('Play', () => (this.playing ? this.pause() : (this.t >= T_MAX && this.reset(), this.play())));
     this.playBtn.setAttribute('aria-pressed', 'false');
-    const resetBtn = this.button('Reset', () => { this.pause(); this.reset(); });
+    const resetBtn = button('Reset', () => { this.pause(); this.reset(); });
     this.readout = document.createElement('span');
     this.readout.className = 'ul-readout';
     this.readout.setAttribute('aria-live', 'polite');
@@ -51,32 +51,6 @@ class TwoPendulums extends ULWidget {
     this.replaceChildren(this.figure, controls);
     this.build(this.getBoundingClientRect().width || 640);
     this.reset();
-  }
-
-  field(id, label, min, max, step, value, fmt, onInput) {
-    const wrap = document.createElement('div');
-    wrap.className = 'ul-field';
-    const lab = document.createElement('label');
-    lab.htmlFor = id; lab.textContent = label;
-    const input = document.createElement('input');
-    Object.assign(input, { id, type: 'range', min, max, step, value, className: 'ul-range' });
-    const out = document.createElement('output');
-    out.htmlFor = id; out.textContent = fmt(value);
-    input.setAttribute('aria-valuetext', fmt(value));
-    input.addEventListener('input', () => {
-      const v = parseFloat(input.value);
-      out.textContent = fmt(v); input.setAttribute('aria-valuetext', fmt(v));
-      onInput(v);
-    });
-    wrap.append(lab, input, out);
-    return wrap;
-  }
-
-  button(text, onClick) {
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'ul-btn'; b.textContent = text;
-    b.addEventListener('click', onClick);
-    return b;
   }
 
   // ----- geometry (rebuilt on resize)
@@ -140,7 +114,6 @@ class TwoPendulums extends ULWidget {
     this.draw(true);
   }
 
-  themeChanged() { this.retune(); }
   retune() { if (this.geo) { this.build(this.geo.W); this.draw(true); } }
 
   // ----- simulation
