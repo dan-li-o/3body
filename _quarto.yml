@@ -37,6 +37,14 @@ book:
 
     - data/references.qmd
   site-url: https://dan-li-o.github.io/3body
+  favicon: assets/icons/favicon.svg
+  image: assets/social-card.png
+  open-graph:
+    image: assets/social-card.png
+    image-alt: "Three bodies tracing a tangle across the sky"
+  twitter-card:
+    card-style: summary_large_image
+    image: assets/social-card.png
   repo-url: https://github.com/dan-li-o/3body
   language: en
   sidebar: 
@@ -55,6 +63,12 @@ format:
     code-copy: true
     css: 
       - css/widgets.css
+    include-in-header:
+      - text: |
+          <link rel="icon" href="/3body/assets/icons/favicon.ico" sizes="32x32">
+          <link rel="apple-touch-icon" href="/3body/assets/icons/apple-touch-icon.png">
+          <meta name="theme-color" content="#fffff8" media="(prefers-color-scheme: light)">
+          <meta name="theme-color" content="#151513" media="(prefers-color-scheme: dark)">
     include-after-body:
       - text: |
           <!-- Hypothes.is annotation client -->

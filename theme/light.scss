@@ -3,4 +3,11 @@ $body-bg: #fffff8;      // Tufte paper
 $body-color: #111111;
 $link-color: #111111;
 $primary: #111111;
+// Callouts in the book's colours: ink and grey, orange only for warnings.
+$ul-accent: #b4501a;
+$callout-color-note: #5f646a;
+$callout-color-tip: #5f646a;
+$callout-color-important: $body-color;
+$callout-color-warning: $ul-accent;
+$callout-color-caution: $ul-accent;
 /*-- scss:rules --*/
