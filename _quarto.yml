@@ -3,6 +3,8 @@ project:
 
 resources: 
   - js/**
+  - widgets/**
+  - "!widgets/**/*.md"      # specs and README stay in the repo, not on the site
   - css/**
   - assets/**
 
@@ -75,7 +77,7 @@ crossref:
       reference-prefix: Widget
       key: wid
       caption-prefix: Widget
-      caption-location: bottom
+      caption-location: margin      # Tufte: number and caption in the margin (design.md)
       space-before-numbering: true
 
 editor: 

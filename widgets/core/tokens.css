@@ -1,0 +1,66 @@
+/* Unlawful Laws design tokens. Change a value here and every widget follows.
+   Principle: the least that does the job properly (widgets/design.md).
+   Paper and ink match the book theme (theme/light.scss, theme/dark.scss).
+   Line, bob, trail and accent were tuned by Dan on the Trisolaran sky dials
+   (2026-11-19: "Current setting is good"). */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;600&display=swap');
+
+:root {
+  --ul-paper: #fffff8;        /* page (Tufte paper) */
+  --ul-ink: #111111;          /* text, models, the main thing */
+  --ul-grey: #5f646a;         /* secondary text and labels (readable) */
+  --ul-ghost: #a3a8ad;        /* reference / context, e.g. nature */
+  --ul-rule: #d3d6d1;         /* tracks, baselines */
+  --ul-accent: #a63d2a;       /* the one thing to notice */
+  --ul-line: 1.75px;          /* line weight */
+  --ul-bob: 6.5px;            /* radius of bobs, balls, markers */
+  --ul-trail: 0.55;           /* opacity of trails at their freshest */
+  --ul-serif: 'EB Garamond', Garamond, Georgia, serif;
+  --ul-sans: 'Source Sans 3', system-ui, sans-serif;
+}
+body.quarto-dark {
+  --ul-paper: #151513;
+  --ul-ink: #e8e6de;
+  --ul-grey: #a9aeb4;
+  --ul-ghost: #6f757c;
+  --ul-rule: #474c52;
+  --ul-accent: #e07a5f;
+}
+
+/* ----- figure grammar: invitation above, the figure, status + controls below */
+.ul-widget { display: block; margin: 1.75rem 0; font-family: var(--ul-serif); color: var(--ul-ink); }
+.ul-invite { font-style: italic; margin: 0 0 .5rem; }
+.ul-status { font-style: italic; min-height: 1.5em; margin: .5rem 0 .25rem; }
+.ul-closing { font-size: .85em; color: var(--ul-grey); margin: .75rem 0 0; }
+.ul-fallback { font-style: italic; color: var(--ul-grey); }
+
+/* Canvas stage: space reserved before load (no layout shift). */
+.ul-stage { position: relative; width: 100%; aspect-ratio: var(--ul-aspect, 16 / 9); }
+@media (max-width: 640px) { .ul-stage { aspect-ratio: var(--ul-aspect-phone, 1 / 1); } }
+.ul-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.ul-stage canvas:focus-visible { outline: 2px solid var(--ul-accent); outline-offset: 4px; }
+
+/* Poster: shown until the widget mounts, and if it fails. One per theme. */
+.ul-poster { display: block; width: 100%; height: auto; }
+body.quarto-dark .ul-poster-light, body:not(.quarto-dark) .ul-poster-dark { display: none; }
+
+/* ----- controls: quiet, but they look like controls */
+.ul-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin-top: .5rem;
+  font-family: var(--ul-sans); font-size: 1rem; }
+.ul-field { display: flex; align-items: center; gap: .75rem; flex: 1 1 14rem; min-width: 0; }
+.ul-field label { font-family: var(--ul-serif); font-style: italic; font-size: 1.05rem; color: var(--ul-grey); white-space: nowrap; }
+.ul-field output { font-family: var(--ul-sans); font-size: .9rem; color: var(--ul-ink); font-variant-numeric: tabular-nums; min-width: 3.2em; }
+.ul-range { -webkit-appearance: none; appearance: none; flex: 1 1 auto; min-width: 6rem; height: 44px; background: transparent; margin: 0; cursor: pointer; }
+.ul-range::-webkit-slider-runnable-track { height: 2px; background: var(--ul-rule); border-radius: 1px; }
+.ul-range::-moz-range-track { height: 2px; background: var(--ul-rule); border-radius: 1px; }
+.ul-range::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; margin-top: -8px; border-radius: 50%; background: var(--ul-ink); border: 0; }
+.ul-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--ul-ink); border: 0; }
+.ul-btn { min-height: 44px; min-width: 44px; padding: 0 1rem; font: inherit; font-family: var(--ul-sans);
+  color: var(--ul-ink); background: transparent; border: 1.5px solid currentColor; border-radius: 6px; cursor: pointer; }
+.ul-btn:hover { background: color-mix(in srgb, var(--ul-ink) 7%, transparent); }
+.ul-btn[aria-pressed="true"] { background: var(--ul-ink); color: var(--ul-paper); }
+.ul-btn-quiet { border-color: transparent; text-decoration: underline; text-underline-offset: .2em; padding: 0 .5rem; }
+.ul-btn-quiet:hover { background: transparent; text-decoration-thickness: 2px; }
+.ul-btn[hidden] { display: none; }
+.ul-btn:focus-visible, .ul-range:focus-visible { outline: 2px solid var(--ul-accent); outline-offset: 3px; }
+.ul-readout { font-family: var(--ul-sans); font-size: .9rem; color: var(--ul-grey); font-variant-numeric: tabular-nums; }

@@ -4,3 +4,9 @@ outline.md
 /docs/
 /_site/
 /_freeze/
+
+# widget smoke-test screenshots
+tests/screens/
+node_modules/
+
+**/*.quarto_ipynb

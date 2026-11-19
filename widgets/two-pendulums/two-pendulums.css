@@ -1,0 +1,17 @@
+/* Figure grammar: grey ghost = reference; ink = model; accent = the thing to notice. */
+ul-two-pendulums { display: block; min-height: 300px; }
+.ul-tp-svg { overflow: visible; }
+.ul-stroke-ink { stroke: var(--ul-ink); stroke-width: var(--ul-line); }
+.ul-tp-ghost { --c: var(--ul-ghost); }
+.ul-tp-ink { --c: var(--ul-ink); }
+.ul-tp-accent { --c: var(--ul-accent); }
+[class^="ul-tp-"] line { stroke: var(--c); stroke-width: var(--ul-line); stroke-linecap: round; }
+[class^="ul-tp-"] > circle { fill: var(--c); }
+.ul-tp-label { fill: var(--c); font-family: var(--ul-serif); font-style: italic; }
+.ul-tp-ghost .ul-tp-label { fill: var(--ul-grey); }
+.ul-tp-eline { fill: none; stroke: var(--c); stroke-width: var(--ul-line); stroke-linejoin: round; }
+.ul-tp-val { fill: var(--c); font-family: var(--ul-serif); font-style: italic; font-variant-numeric: tabular-nums; white-space: pre; }
+.ul-tp-axis text { fill: var(--ul-grey); font-family: var(--ul-sans); }
+.ul-tp-axis text.title { font-family: var(--ul-serif); font-style: italic; }
+.ul-tp-axis line.base { stroke: var(--ul-rule); stroke-width: 1.5; }
+.ul-tp-axis line.tick { stroke: var(--ul-rule); stroke-width: 1; stroke-dasharray: 2 4; }
