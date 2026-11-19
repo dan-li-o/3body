@@ -1,0 +1,48 @@
+# Render the book and publish it to GitHub Pages (the gh-pages branch).
+# Pull requests: render only, as a check (nothing goes live).
+# Pushes to main (e.g. merging a PR): render + publish.
+name: Build and publish
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        if: hashFiles('package.json') != ''
+        with:
+          node-version: 22
+
+      - name: Widget engine tests
+        if: hashFiles('package.json') != ''
+        run: npm test
+
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.11.9
+
+      - name: Render (pull requests)
+        if: github.event_name == 'pull_request'
+        run: quarto render
+
+      - name: Render and publish (main)
+        if: github.event_name != 'pull_request'
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
