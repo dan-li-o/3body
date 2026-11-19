@@ -1,10 +1,12 @@
 ---
-title: "Unlawful Laws"
 subtitle: "How to Live with Scientific Uncertainties"
 author: "Dan Li"
 date-modified: last-modified
 title-block-banner: true
+toc: false
 ---
+
+# Welcome {.unnumbered}
 
 > "Physics has never existed, and will never exist." — Yang Dong, *The Three-Body Problem*
 
