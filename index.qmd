@@ -1,99 +1,27 @@
 ---
+title: "Unlawful Laws"
+subtitle: "How to Live with Scientific Uncertainties"
+author: "Dan Li"
 date-modified: last-modified
 title-block-banner: true
 ---
-# Welcome {.unnumbered .unlisted}
 
-Welcome to *Unlawful Laws*, a digital philosophy of science book told through the haunting imagination of Liu Cixin’s *The Three-Body Problem*. This book explores how modern science collapses — and sometimes revives — under the weight of unpredictability, chaos, and epistemic uncertainty.
+> "Physics has never existed, and will never exist." — Yang Dong, *The Three-Body Problem*
 
-:::{.callout-note}
-**“Physics has never existed, and will never exist.”** — Yang Dong, string theorist
-:::
+In Liu Cixin's novel, the laws of physics stop working. This book asks how far that is from our own world, and how to live with that.
 
----
+Science is not as absolute as one might think, even though it is taught as absolute facts in the curriculum. Behind the novel's alien invasion, we follow real scientists through history as they keep hitting walls: broken symmetries, the problem of induction, chaos, the untamable weather. Reaching a wall is real progress but also a lesson in humility: our natural laws, it turns out, are not as lawful as we thought. The book ends with suggestions to live with the uncertainty that remains: "cautious confidence."
 
-## 🧠 What This Book Is About
+## Inside {.unnumbered .unlisted}
 
-Science once promised order, law, and prediction. But what if those very promises break down? Drawing on insights from statistics, philosophy, machine learning, and nonlinear systems — and guided by events in sci-fi *The Three-Body Problem* — this book journeys through:
+- **Part I, When Laws Fail:** what laws rest on, and where they give way.
+- **Part II, Modeling the Unlawful:** from ancient sky charts to climate models, predicting a world that won't sit still.
+- **Part III, Living Beyond Law:** science, society, and strategies for uncertain times.
 
-- **Epistemic breakdowns** (e.g., replication crisis, failed induction)
-- **Chaotic systems** (e.g., weather, climate, celestial mechanics)
-- **Model fragility and antifragility**
-- **New strategies to live with radical uncertainty**
+<!-- Widget: Tame the Trisolaran sky (in progress; see widgets project) -->
 
-Each chapter includes embedded interactive components to let you simulate scientific breakdowns — from drifting coin flips to collapsing orbits to AI model failure.
+Throughout the book, you run the experiments yourself instead of being told how they turn out.
 
----
+[Start reading →](intro.qmd){.btn .btn-primary}
 
-## 🧭 Book Structure
-
-This book is organized into **three parts**:
-
-### **Part I — When Laws Fail**
-How science begins to crack under the weight of failed replication, unknowable futures, and machine learning dilemmas.
-
-- The illusion of stable physical laws
-- Hume's problem of induction and modern analogues
-- Why some machine learning models work — but no one knows why
-
-### **Part II — Modeling the Unlawful**
-Can we represent the chaotic? When simulation replaces explanation.
-
-- Astronomy as allegory: from epicycles to Trisolaran chaos
-- Limits of prediction in climate models and celestial mechanics
-- Computability and the fundamental limits of knowledge
-
-### **Part III — Living Beyond Law**
-What kind of science and society remain when law collapses?
-
-- Fragility and antifragility in the sciences
-- Feyerabend, pluralism, and knowledge systems beyond the lab
-- Strategies to live with radical uncertainty
-
----
-
-## 🎮 Interactive Features Coming Soon
-
-This book will include embedded simulations:
-
-- 🎲 **Coin-flip simulator** with drifting probabilities
-- 🎯 **Induction paradox visualizations**
-- 🤖 **Machine learning classifier toggles**
-- 🌌 **Ptolemaic vs. Copernican solar models**
-- 🪐 **Chaotic pendulum and three-body simulators**
-- 🧬 **Fragile vs. antifragile replication demo**
-- ⚖️ **Interactive debate toggle** on Feyerabend's thesis
-
-> These components are built using custom JavaScript widgets and Quarto’s interactive framework.
-
----
-
-## 🌍 Language Toggle Coming Soon
-
-We plan to support **bilingual text (English/中文)** for broader accessibility.
-
----
-
-## 📘 About the Author
-
-Dan Li is a philosopher of science with a dual Ph.D. in Informatics and Philosophy of Science. She explores how scientific knowledge is shaped — and sometimes shaken — by uncertainty and complexity.
-
----
-
-## 📜 Copyright and License
-
-This book is free to read, adapt, and share under a [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
-
-> **Commercial republication or resale — including reprinting, redistribution, or use in for-profit products — is prohibited without explicit written permission from the author.**
-
----
-
-## 📡 Stay Involved
-
-This is a living book. All source code and future improvements are available on GitHub:
-
-- [Project Repository](https://github.com/dan-li-o/3body)
-
-Feedback and pull requests are welcome.
-
-
+*Free to read and share ([CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)). A work in progress.*
