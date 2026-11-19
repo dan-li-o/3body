@@ -65,3 +65,7 @@ hr { opacity: .25; }
 .quarto-secondary-nav, #quarto-header .quarto-secondary-nav { background: $body-bg !important; color: $body-color;
   border-bottom: 1px solid rgba(127,127,127,.2); }
 .quarto-secondary-nav .quarto-btn-toggle, .quarto-secondary-nav h1, .quarto-secondary-nav .breadcrumb a { color: $body-color !important; }
+
+// Callouts: a quiet rule and paper, no coloured header band
+.callout { border-width: 0 0 0 3px !important; border-radius: 0 !important; background: transparent !important; }
+.callout .callout-header { background: transparent !important; }

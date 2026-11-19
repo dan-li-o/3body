@@ -2,7 +2,9 @@
    Principle: the least that does the job properly (widgets/design.md).
    Paper and ink match the book theme (theme/light.scss, theme/dark.scss).
    Line, bob, trail and accent were tuned by Dan on the Trisolaran sky dials
-   (2026-11-19: "Current setting is good"). */
+   (2026-11-19: "Current setting is good").
+   Accent hue: orange + teal (Dan, 2026-11-19). If you change --ul-accent,
+   also change assets/icons/favicon.svg and theme/*.scss ($ul-accent). */
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;600&display=swap');
 
 :root {
@@ -11,7 +13,8 @@
   --ul-grey: #5f646a;         /* secondary text and labels (readable) */
   --ul-ghost: #a3a8ad;        /* reference / context, e.g. nature */
   --ul-rule: #d3d6d1;         /* tracks, baselines */
-  --ul-accent: #a63d2a;       /* the one thing to notice */
+  --ul-accent: #b4501a;       /* orange: the one thing to notice (5.1:1 on paper) */
+  --ul-contrast: #1f6f78;     /* teal: reserved for ONE book-wide concept (TBD) */
   --ul-line: 1.75px;          /* line weight */
   --ul-bob: 6.5px;            /* radius of bobs, balls, markers */
   --ul-trail: 0.55;           /* opacity of trails at their freshest */
@@ -24,7 +27,8 @@ body.quarto-dark {
   --ul-grey: #a9aeb4;
   --ul-ghost: #6f757c;
   --ul-rule: #474c52;
-  --ul-accent: #e07a5f;
+  --ul-accent: #f08a4b;
+  --ul-contrast: #6cc2c9;
 }
 
 /* ----- figure grammar: invitation above, the figure, status + controls below */

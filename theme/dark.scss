@@ -3,5 +3,12 @@ $body-bg: #151513;
 $body-color: #e8e6de;
 $link-color: #e8e6de;
 $primary: #e8e6de;
+// Callouts in the book's colours: ink and grey, orange only for warnings.
+$ul-accent: #f08a4b;
+$callout-color-note: #a9aeb4;
+$callout-color-tip: #a9aeb4;
+$callout-color-important: $body-color;
+$callout-color-warning: $ul-accent;
+$callout-color-caution: $ul-accent;
 /*-- scss:rules --*/
 #quarto-search .aa-Form, .aa-Form { background: transparent; color: inherit; }
