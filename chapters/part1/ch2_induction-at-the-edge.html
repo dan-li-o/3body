@@ -2,18 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="A Philosopher’s Interactive Footnotes to The Three-Body Problem">
+<meta name="description" content="How to Live with Scientific Uncertainties">
 
-<title>2&nbsp; Induction on edge – Unlawful Laws</title>
+<title>3&nbsp; Induction on edge – Unlawful Laws</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -35,18 +41,19 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../chapters/part1/ch1_physics-never-existed.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-65c2d1068c030bca59b0711570fd7680.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-491f3c33416ded0d3c3f5f531ae2d7a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-65c2d1068c030bca59b0711570fd7680.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -79,7 +86,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../../css/widgets.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -102,6 +109,7 @@ ul.task-list li input[type="checkbox"] {
       for (let i=0; i < toggles.length; i++) {
         const toggle = toggles[i];
         if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
           if (alternate) {
             toggle.classList.add("alternate");
           } else {
@@ -131,13 +139,19 @@ ul.task-list li input[type="checkbox"] {
       manageTransitions('#quarto-margin-sidebar .nav-link', true);
       // Switch the toggles
       setColorSchemeToggle(alternate)
-      // Hack to workaround the fact that safari doesn't
-      // properly recolor the scrollbar when toggling (#1455)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
       if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
         manageTransitions("body", false);
-        window.scrollTo(0, 1);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
         setTimeout(() => {
-          window.scrollTo(0, 0);
+          window.scrollTo(0, scrollY);
           manageTransitions("body", true);
         }, 40);
       }
@@ -231,6 +245,7 @@ ul.task-list li input[type="checkbox"] {
       // Read the current dark / light value
       let toAlternate = !hasAlternateSentinel();
       toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
       setStyleSentinel(toAlternate);
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
@@ -245,13 +260,13 @@ ul.task-list li input[type="checkbox"] {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/part1/ch1_physics-never-existed.html">Part I - When Laws Fail</a></li><li class="breadcrumb-item"><a href="../../chapters/part1/ch2_induction-at-the-edge.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Induction on edge</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/part1/ch1_physics-never-existed.html">Part I - When Laws Fail</a></li><li class="breadcrumb-item"><a href="../../chapters/part1/ch2_induction-at-the-edge.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Induction on edge</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -262,13 +277,13 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">Unlawful Laws</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/dan-li-o/3body" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
 </div>
     </div>
       </div>
@@ -282,7 +297,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Welcome</span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Unlawful Laws</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -293,87 +308,78 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Part I - When Laws Fail</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I - When Laws Fail</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/part1/ch1_physics-never-existed.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Physics has never existed</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Physics has never existed</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/part1/ch2_induction-at-the-edge.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Induction on edge</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Induction on edge</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/part1/ch3_grue-machines-predictions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Grue, Machines, and Unlawful Predictions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Grue, Machines, and Unlawful Predictions</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Part II - Modeling the Unlawful</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II - Modeling the Unlawful</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/part2/ch4_false-heavens.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Game of False Heavens</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Game of False Heavens</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/part2/ch5_computability-and-chaos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Computability and Chaos</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Computability and Chaos</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/part2/ch6-modeling-earth-climate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Modeling Earth’s Climate</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Modeling Earth’s Climate</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Part III - Living Beyond Law</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III - Living Beyond Law</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/part3/ch7_fragile-vs-antifragile.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fragile vs.&nbsp;Antifragile Sciences</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Fragile vs.&nbsp;Antifragile Sciences</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/part3/ch8_defending-society.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Defending Society from Science</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Defending Society from Science</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/part3/ch9_strategies-for-uncertainty.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Strategies to live with Uncertainty</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Strategies to live with Uncertainty</span></span></a>
   </div>
 </li>
       </ul>
@@ -390,25 +396,25 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#inductivist-turkey" id="toc-inductivist-turkey" class="nav-link active" data-scroll-target="#inductivist-turkey"><span class="header-section-number">2.1</span> Inductivist Turkey</a></li>
-  <li><a href="#humes-problem" id="toc-humes-problem" class="nav-link" data-scroll-target="#humes-problem"><span class="header-section-number">2.2</span> Hume’s Problem</a></li>
-  <li><a href="#the-flatland-perspective" id="toc-the-flatland-perspective" class="nav-link" data-scroll-target="#the-flatland-perspective"><span class="header-section-number">2.3</span> The Flatland Perspective</a></li>
-  <li><a href="#plane-vs.-sphere" id="toc-plane-vs.-sphere" class="nav-link" data-scroll-target="#plane-vs.-sphere"><span class="header-section-number">2.4</span> Plane vs.&nbsp;Sphere</a></li>
-  <li><a href="#geometry-as-convention" id="toc-geometry-as-convention" class="nav-link" data-scroll-target="#geometry-as-convention"><span class="header-section-number">2.5</span> Geometry as Convention</a></li>
+  <li><a href="#inductivist-turkey" id="toc-inductivist-turkey" class="nav-link active" data-scroll-target="#inductivist-turkey"><span class="header-section-number">3.1</span> Inductivist Turkey</a></li>
+  <li><a href="#humes-problem" id="toc-humes-problem" class="nav-link" data-scroll-target="#humes-problem"><span class="header-section-number">3.2</span> Hume’s Problem</a></li>
+  <li><a href="#the-flatland-perspective" id="toc-the-flatland-perspective" class="nav-link" data-scroll-target="#the-flatland-perspective"><span class="header-section-number">3.3</span> The Flatland Perspective</a></li>
+  <li><a href="#plane-vs.-sphere" id="toc-plane-vs.-sphere" class="nav-link" data-scroll-target="#plane-vs.-sphere"><span class="header-section-number">3.4</span> Plane vs.&nbsp;Sphere</a></li>
+  <li><a href="#geometry-as-convention" id="toc-geometry-as-convention" class="nav-link" data-scroll-target="#geometry-as-convention"><span class="header-section-number">3.5</span> Geometry as Convention</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/part1/ch1_physics-never-existed.html">Part I - When Laws Fail</a></li><li class="breadcrumb-item"><a href="../../chapters/part1/ch2_induction-at-the-edge.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Induction on edge</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/part1/ch1_physics-never-existed.html">Part I - When Laws Fail</a></li><li class="breadcrumb-item"><a href="../../chapters/part1/ch2_induction-at-the-edge.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Induction on edge</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Induction on edge</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Induction on edge</span></h1>
 </div>
 
 
@@ -420,7 +426,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">October 7, 2025</p>
+      <p class="date-modified">November 19, 2026</p>
     </div>
   </div>
     
@@ -437,15 +443,15 @@ ul.task-list li input[type="checkbox"] {
 <p>The farmer hypothesis, on the other hand, has the flavor of a horror story: Every morning on a turkey farm, the farmer comes to feed the turkeys. A scientist turkey, having observed his pattern to hold without change for almost a year, makes the following discovery: “Every morning at eleven, food arrives.” On the morning of Thanksgiving, the scientist announces this law to the other turkeys. But that morning at eleven, food doesn’t arrive; instead, the farmer comes and kills the entire flock.</p>
 </blockquote>
 <p>Wang felt the ground beneath his feet shift like quicksand. Everything seemed to wobble and sway. What was it about these two hypotheses that made Wang faint?</p>
-<section id="inductivist-turkey" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="inductivist-turkey"><span class="header-section-number">2.1</span> Inductivist Turkey</h2>
+<section id="inductivist-turkey" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="inductivist-turkey"><span class="header-section-number">3.1</span> Inductivist Turkey</h2>
 <p>The farmer hypothesis borrows from Bertrand Russell’s cruel parable of chicken—fed every day until the morning it becomes dinner. The turkey scientist did nothing “wrong.” He observed, and he observed diligently. Each morning’s meal seemed to confirm the law: at eleven, food arrives. The more he recorded, the stronger his confidence grew. Until confidence itself was his undoing.</p>
 <p>This is induction in its rawest form: the animal instinct that tomorrow will echo today. The more we see, the stronger the habit grips us. A thousand sunrises persuade us of the next. A thousand billiard shots reassure us of Newton’s mechanics. A thousand experiments across every branch of physics harden our trust in Noether’s theorem—that symmetry begets conservation. All of these, fundamentally, is no different from “at eleven, food arrives.” As Russell quipped, “Our instincts certainly cause us to believe that the sun will rise tomorrow, but we may be in no better a position than the chicken which unexpectedly has its neck wrung.”</p>
 <p>At the shallowest level, the story teaches that induction is fallible: expectation built from repetition can betray. To rely on induction blindly is to live as animals do—entranced by habit, unarmed against surprise. The cruelty of the farmer is philosophy’s reminder: what feels like law may only be routine, one axe-blow away from collapse.</p>
 <p>Induction can go wrong—not a revelation that philosophy is proud to offer. The real lesson cuts deeper. Hume drew a brutal conclusion: reason has no authority here. Habit does. We are animals of expectation, not creatures of proof. We are not guided by reason but by psychological inertia. And here is why.</p>
 </section>
-<section id="humes-problem" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="humes-problem"><span class="header-section-number">2.2</span> Hume’s Problem</h2>
+<section id="humes-problem" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="humes-problem"><span class="header-section-number">3.2</span> Hume’s Problem</h2>
 <p>Induction is the act of reasoning from repeated past observations to expectations about the future—to expect tomorrow will echo today. Philosophy calls it a form of logic, yet there is no proof—it is muscle memory dressed as credence.</p>
 <p>David Hume stripped induction to its bare bones. <em>Why</em> trust induction? He asked. One might say, “because it has worked in the past.” But this answer relies on induction again—the very act of reasoning on trial. A circular argument, like a snake swallowing its own tail.</p>
 <p>Another answer, “because nature resembles itself.” But how do we know? Because it always has. Once more, the circle closes.</p>
@@ -453,8 +459,8 @@ ul.task-list li input[type="checkbox"] {
 <p>To believe in science is to place such a bet. That symmetry is not a trick and gives us conservation—Noether’s Theorem. That invariance will endure beneath noise—Uniformity Principle. That regularity outruns randomness—the law of large numbers. It is faith disguised as laws. Philosopher C. D. Broad concludes, induction is “the glory of science and the scandal of philosophy.”</p>
 <p>Uniformity of nature is the invisible credit card science swipes every day, with no guarantee the bank won’t suddenly decline. In the end, we are no different from the turkey scientist, and we might very well get our necks wrung when nature ceases behaving uniformly. This is why Wang Miao staggered—he glimpsed that science rests not on proof, but on habit, or worse, on faith, as fragile as a turkey’s routine.</p>
 </section>
-<section id="the-flatland-perspective" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="the-flatland-perspective"><span class="header-section-number">2.3</span> The Flatland Perspective</h2>
+<section id="the-flatland-perspective" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="the-flatland-perspective"><span class="header-section-number">3.3</span> The Flatland Perspective</h2>
 <p>If uniformity is not a law but a bet, what abyss does that open? The farmer hypothesis includes a farmer, a powerful being who can change any laws in turkey science at a whim. But at least, turkey scientists, if they survive, can observe the farmer’s axe and learn that their “laws of nature” were conditional all along.</p>
 <p>The shooter hypothesis suggests a worse possibility—the imperceptibility of such an omnipotent being.</p>
 <p>When the shooter casually changes his shots, all that 2D scientists can observe is that the distance between “holes” changes. What are these observations like?</p>
@@ -518,7 +524,7 @@ ul.task-list li input[type="checkbox"] {
 
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-wid" id="wid-flat-rotate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Widget&nbsp;2.1: Imagine you are a Flatland scientist.
+Widget&nbsp;3.1: Imagine you are a Flatland scientist.
 </figcaption>
 </figure>
 </div>
@@ -526,8 +532,8 @@ Widget&nbsp;2.1: Imagine you are a Flatland scientist.
 <p>Flatland scientists lack words for circles or holes. Those are three‑dimensional luxuries. To them, a shooter’s hole is not a circle but an edge—an irregular boundary where things vanish. A line that swallows matter and light.</p>
 <p>Observation is tethered to perspectives.</p>
 </section>
-<section id="plane-vs.-sphere" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="plane-vs.-sphere"><span class="header-section-number">2.4</span> Plane vs.&nbsp;Sphere</h2>
+<section id="plane-vs.-sphere" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="plane-vs.-sphere"><span class="header-section-number">3.4</span> Plane vs.&nbsp;Sphere</h2>
 <p>For the flatlanders, geometry isn’t a system of axioms—it’s instinct. They live in the flat, breathe it, never question it. Every triangle they draw closes perfectly; every straight line feels honest. To them, flatness isn’t an assumption—it’s the air they breathe, the rhythm of their universe. Only from above would anyone suspect the ground itself might be curved.</p>
 <p>They might picture themselves living in what we call a <strong>Euclidean</strong> plane, an infinite marble floor—smooth, predictable, obedient. Draw two straight lines and they will never meet, no matter how far they run. Triangles close neatly—their angles always summing to 180°; the world behaves. It’s the geometry we inherit without knowing, the quiet default of our thinking—even in middle school, we learned it without question: parallel lines never meet, and space feels obediently flat, both on paper and in our three‑dimensional imagination.</p>
 <p>From the shooter’s perch, things might look completely different. What the flatlander calls straight, the shooter sees as curved; what they call certainty, he calls projection. The surface itself might swell and bow, following <strong>Riemannian</strong> geometry, a curved world where straight lines bend and the rules of triangles change. On a sphere, for instance, the shortest paths (“geodesics”) curve along the surface, and the angles of a triangle can add up to more than 180°. To a flatlander, these deviations are invisible; every triangle still looks straight. To the shooter, the distortion is obvious.</p>
@@ -602,13 +608,13 @@ Widget&nbsp;2.1: Imagine you are a Flatland scientist.
 
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-wid" id="wid-flatland-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Widget&nbsp;2.2: Observation in different geometry from different perspectives.
+Widget&nbsp;3.2: Observation in different geometry from different perspectives.
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="geometry-as-convention" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="geometry-as-convention"><span class="header-section-number">2.5</span> Geometry as Convention</h2>
+<section id="geometry-as-convention" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="geometry-as-convention"><span class="header-section-number">3.5</span> Geometry as Convention</h2>
 <p>Wang’s vertigo deepens: if geometry itself can change with perspective, what else can? Henri Poincaré once asked the same question and reached a scandalous answer—that geometry is not discovered but chosen. The shape of space is a matter of convenience, not truth.</p>
 <p>We measure, compare, and claim that rulers stay constant, yet the decision to treat space as Euclidean or curved is a convention—a bet on simplicity and convenience. The difference between straight and curved is not in nature but in our bookkeeping.&nbsp;</p>
 <p>Now try another widget. This was&nbsp;Poincaré’s thought experiment. Flatlanders now live on a disk, but with a special caveat. As one moves away from the center towards the periphery, everything—including one’s own size and the ruler in hand—shrinks.&nbsp;</p>
@@ -645,7 +651,7 @@ Widget&nbsp;2.2: Observation in different geometry from different perspectives.
 
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-wid" id="wid-disk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Widget&nbsp;2.3: Poincarites that live on a disk. Everything shrinks as they move away from the center.
+Widget&nbsp;3.3: Poincarites that live on a disk. Everything shrinks as they move away from the center.
 </figcaption>
 </figure>
 </div>
@@ -662,15 +668,50 @@ Widget&nbsp;2.3: Poincarites that live on a disk. Everything shrinks as they mov
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-      const a = window.document.createElement('a');
-      a.classList.add('top-right');
-      a.classList.add('quarto-color-scheme-toggle');
-      a.href = "";
-      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
       const i = window.document.createElement("i");
       i.classList.add('bi');
-      a.appendChild(i);
-      window.document.body.appendChild(a);
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
     }
     setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
@@ -722,13 +763,14 @@ Widget&nbsp;2.3: Poincarites that live on a disk. Everything shrinks as they mov
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -748,7 +790,8 @@ Widget&nbsp;2.3: Poincarites that live on a disk. Everything shrinks as they mov
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -757,8 +800,69 @@ Widget&nbsp;2.3: Poincarites that live on a disk. Everything shrinks as they mov
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -772,6 +876,7 @@ Widget&nbsp;2.3: Poincarites that live on a disk. Everything shrinks as they mov
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -934,44 +1039,54 @@ Widget&nbsp;2.3: Poincarites that live on a disk. Everything shrinks as they mov
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -1070,15 +1185,18 @@ Widget&nbsp;2.3: Poincarites that live on a disk. Everything shrinks as they mov
     }
   });
   </script>
-<nav class="page-navigation">
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="../../chapters/part1/ch1_physics-never-existed.html" class="pagination-link" aria-label="Physics has never existed">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Physics has never existed</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Physics has never existed</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../chapters/part1/ch3_grue-machines-predictions.html" class="pagination-link" aria-label="Grue, Machines, and Unlawful Predictions">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Grue, Machines, and Unlawful Predictions</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Grue, Machines, and Unlawful Predictions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
