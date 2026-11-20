@@ -1,0 +1,21 @@
+<script>
+// Chapter lead-in: put the opening phrase of a chapter in small caps, as books do:
+// up to the first punctuation mark, at most six words. Skips the Welcome page.
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('welcome')) return;
+  const p = document.querySelector('main > p, main > section > p');
+  if (!p || !p.firstChild || p.firstChild.nodeType !== 3) return;
+  const t = p.firstChild.textContent;
+  const m = t.match(/^\s*((?:\S+\s+){0,5}?\S+?)([.,;:!?\u2014]|\s(?=\S)|$)/);
+  let words = t.trimStart().split(/\s+/).slice(0, 6).join(' ');
+  const stop = words.search(/[.,;:!?\u2014]/);
+  if (stop > 0) words = words.slice(0, stop);
+  const i = t.indexOf(words);
+  if (i < 0 || !words) return;
+  const span = document.createElement('span');
+  span.className = 'lead-in';
+  span.textContent = t.slice(0, i + words.length);
+  p.firstChild.textContent = t.slice(i + words.length);
+  p.insertBefore(span, p.firstChild);
+});
+</script>

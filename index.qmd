@@ -1,7 +1,6 @@
 ---
 subtitle: "How to Live with Scientific Uncertainties"
 author: "Dan Li"
-date-modified: last-modified
 title-block-banner: true
 toc: false
 ---
