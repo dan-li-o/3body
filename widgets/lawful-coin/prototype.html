@@ -47,11 +47,8 @@ function flip(n, rng) { const out = new Array(n); for (let i = 0; i < n; i++) ou
 // Band for the share of heads with n fair coins: 1/2 ± k·σ, σ = 1/(2√n), clipped to [0, 1].
 // k = 1: about 68 of every 100 flips land inside; k = 2: about 95.
 function band(n, k) { const h = k / (2 * Math.sqrt(n)); return [Math.max(0, 0.5 - h), Math.min(1, 0.5 + h)]; }
-// The counts one run sweeps: 1 to 1,000, spaced evenly on a log scale, no repeats.
-function sweep(points = 260) {
-  const out = []; for (let i = 0; i < points; i++) { const n = Math.round(Math.pow(10, 3 * i / (points - 1))); if (n !== out[out.length - 1]) out.push(n); }
-  return out;
-}
+// The counts one run sweeps: every count from 1 to 1,000, one coin added at a time.
+function sweep(max = 1000) { return Array.from({ length: max }, (_, i) => i + 1); }
 </script>
 <script>
 (()=>{
@@ -61,7 +58,7 @@ const statusEl=document.querySelector('.ul-status'),valsEl=document.getElementBy
 const btn=a=>document.querySelector(`[data-a=${a}]`);
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let seed=(Date.now()%2147483646)+1;const rng=()=>(seed=seed*16807%2147483647)/2147483647;
-const COUNTS=sweep(),RUN_MS=7000;
+const COUNTS=sweep(),RUN_MS=8000;
 // Ideas arrive one at a time: one coin -> one run -> runs repeat -> the predicted bands.
 const SAY={
  start:'One coin. Flip it.',
@@ -106,19 +103,19 @@ function drawModel(){const W=mc._w,H=mc._h,ink=css('--ul-ink'),grey=css('--ul-gr
  mx.font='15px '+css('--ul-sans');mx.fillStyle=grey;mx.textAlign='center';
  mx.fillText('heads '+hn.toLocaleString(),half/2,H-10);mx.fillText('tails '+(N-hn).toLocaleString(),W-half/2,H-10);}
 function drawChart(){const W=cc._w,H=cc._h,grey=css('--ul-grey'),ghost=css('--ul-ghost'),rule=css('--ul-rule'),acc=css('--ul-accent');cx.clearRect(0,0,W,H);
- const L=40,R=W-10,T=22,B=H-30,X=v=>L+Math.log10(v)/3*(R-L),Y=s=>B-s*(B-T);
+ const L=40,R=W-10,T=22,B=H-30,X=v=>L+(v-1)/999*(R-L),Y=s=>B-s*(B-T);
  // bands (only once revealed): light = about 95 in 100, dark = about 68 in 100
  if(showBand){for(const[k,a]of[[2,.16],[1,.3]]){cx.fillStyle=ghost;cx.globalAlpha=a;cx.beginPath();
-   for(let i=0;i<=150;i++){const v=Math.pow(10,3*i/150);i?cx.lineTo(X(v),Y(band(v,k)[1])):cx.moveTo(X(v),Y(band(v,k)[1]));}
-   for(let i=150;i>=0;i--){const v=Math.pow(10,3*i/150);cx.lineTo(X(v),Y(band(v,k)[0]));}cx.closePath();cx.fill();}cx.globalAlpha=1;}
+   for(let v=1;v<=1000;v++){v>1?cx.lineTo(X(v),Y(band(v,k)[1])):cx.moveTo(X(v),Y(band(v,k)[1]));}
+   for(let v=1000;v>=1;v--){cx.lineTo(X(v),Y(band(v,k)[0]));}cx.closePath();cx.fill();}cx.globalAlpha=1;}
  cx.strokeStyle=rule;cx.lineWidth=1;cx.beginPath();cx.moveTo(L,B);cx.lineTo(R,B);cx.stroke();
  cx.strokeStyle=ghost;cx.lineWidth=1.25;cx.beginPath();cx.moveTo(L,Y(.5));cx.lineTo(R,Y(.5));cx.stroke();
  cx.font='italic 15px '+css('--ul-serif');cx.fillStyle=grey;cx.textBaseline='middle';cx.textAlign='right';
  cx.fillText('1',L-8,Y(1));cx.fillText('½',L-8,Y(.5));cx.fillText('0',L-8,Y(0));
  cx.textAlign='left';cx.textBaseline='alphabetic';cx.fillText('share of heads',L,T-8);
- cx.fillText('1 coin',L,H-8);cx.textAlign='right';cx.fillText('1,000 coins',R,H-8);
+ cx.fillText('1 coin',L,H-8);cx.textAlign='center';cx.fillText('500',X(500),H-8);cx.textAlign='right';cx.fillText('1,000 coins',R,H-8);
  // dots: each at its exact count; repeats overlap and darken
- const rr=dots.length>40?2.4:3.4;cx.fillStyle=acc;cx.globalAlpha=dots.length>40?.55:1;
+ const rr=dots.length>40?1.8:3.4;cx.fillStyle=acc;cx.globalAlpha=dots.length>40?.45:1;
  for(const[v,s]of dots){cx.beginPath();cx.arc(X(v),Y(s),rr,0,7);cx.fill();}cx.globalAlpha=1;}
 addEventListener('resize',layout);
 document.getElementById('k1').style.background=`color-mix(in srgb, ${css('--ul-ghost')} 30%, ${css('--ul-paper')})`;
