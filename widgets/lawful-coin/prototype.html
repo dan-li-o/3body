@@ -30,7 +30,7 @@ canvas:focus-visible{outline:2px solid var(--ul-accent);outline-offset:4px}
 <div class="fig">
  <div><canvas id="model" role="img" aria-label="The coins of the latest flip, sorted into heads (filled) and tails (open)."></canvas></div>
  <div><canvas id="chart" role="img" aria-label="Share of heads against number of coins. One dot per flip."></canvas>
-  <div class="key" hidden><span><i id="k1"></i>about 68 of every 100 flips</span><span><i id="k2"></i>about 95 of every 100</span></div></div>
+  <div class="key" hidden><span><i id="k1"></i>inner band: about 68 of every 100 flips</span><span><i id="k2"></i>outer band: about 95 of every 100</span></div></div>
 </div>
 <p class="ul-status" aria-live="polite"></p>
 <div class="ul-controls">
@@ -71,10 +71,10 @@ const SAY={
  ready:'You get the idea. Add coins one at a time, or let it run.',
  running:'Each dot is one flip of that many coins: how many coins across, the share of heads up.',
  run1:'Few coins: almost anything can happen. Many coins: close to half every time.',
- runN:'New flips, same shape. Chance on its own is wild; in bulk it keeps a pattern.',
- band:'The math drew these bands before any coin was flipped. Most dots land in them, and they narrow as coins are added.'};
+ runN:'New flips, same bands. Chance on its own is wild; in bulk it keeps a pattern.',
+ band:'The shaded bands are what the math predicts, before any coin is flipped: about 68 of every 100 flips land in the inner band, about 95 in the outer one. Both narrow as coins are added.'};
 let coins,dots,runs,running,showBand,say,stepN=1;const STEP_UNTIL=5;
-function reset(){xMax=10;coins=[false];coins.unflipped=true;dots=[];runs=0;running=null;showBand=false;say=SAY.start;
+function reset(){xMax=10;bandT0=0;coins=[false];coins.unflipped=true;dots=[];runs=0;running=null;showBand=false;say=SAY.start;
  btn('one').hidden=false;btn('add').hidden=true;btn('run').hidden=true;stepN=1;btn('band').hidden=true;key.hidden=true;btn('run').textContent=`Run: 1 to ${MAX.toLocaleString()} coins`;draw();}
 function setFlip(n){coins=flip(n,rng);const s=coins.filter(Boolean).length/n;dots.push([n,s]);}
 document.querySelector('.ul-controls').addEventListener('click',e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a||running)return;
@@ -91,7 +91,7 @@ function startRun(){stepped=false;
   if(reduced){xMax=MAX;}else{requestAnimationFrame(z);return;}}say=SAY.running;btn('run').disabled=true;
  if(reduced){for(const n of COUNTS.slice(runs===0?stepN:0))setFlip(n);endRun();return;}
  running={i:runs===0?stepN:0,next:performance.now()};btn('add').hidden=true;requestAnimationFrame(tick);}
-let last=null,stepped=false,xMax=10;
+let bandT0=0,last=null,stepped=false,xMax=10;
 const DOT_R=3,DOT_A=.45;
 const NICE=[10,20,50,100,200,500,1000];
 function zoomTo(to,then){const from=xMax,t0=performance.now();if(reduced||from===to){xMax=to;draw();then&&then();return;}
@@ -99,8 +99,9 @@ function zoomTo(to,then){const from=xMax,t0=performance.now();if(reduced||from==
 function tick(now){if(!running)return;
  while(running.i<COUNTS.length&&now>=running.next){const n=COUNTS[running.i++];setFlip(n);running.next+=delay(n);last={n,t:now,d:delay(n)};}
  draw(now);if(running.i<COUNTS.length||now-last.t<last.d)requestAnimationFrame(tick);else endRun();}
+function fadeBand(){const f=now=>{draw(now);if(now-bandT0<900)requestAnimationFrame(f);};if(!reduced)requestAnimationFrame(f);}
 function endRun(){running=null;last=null;runs++;btn('run').disabled=false;btn('run').textContent='Run again';
- say=runs===1?SAY.run1:SAY.runN;if(runs>=2&&!showBand)btn('band').hidden=false;draw();}
+ if(!showBand){showBand=true;bandT0=performance.now();key.hidden=false;fadeBand();}say=runs===1?SAY.band:SAY.runN;draw();}
 // ---- layout
 function layout(){const dpr=Math.min(2,devicePixelRatio||1),phone=innerWidth<=640;
  for(const[c,ctx,ar]of[[mc,mx,phone?0.55:0.8],[cc,cx,phone?0.6:0.8]]){const w=c.clientWidth,h=Math.round(w*ar);c.style.height=h+'px';c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);c._w=w;c._h=h;}
@@ -140,7 +141,7 @@ const hn=coins.filter(Boolean).length,landed=!(flipAnim&&now&&now-flipAnim.t0<FL
 function drawChart(now){const W=cc._w,H=cc._h,grey=css('--ul-grey'),ghost=css('--ul-ghost'),rule=css('--ul-rule'),acc=css('--ul-accent');cx.clearRect(0,0,W,H);
  const L=40,R=W-10,T=22,B=H-30,X=v=>L+(v-1)/(xMax-1)*(R-L),Y=s=>B-s*(B-T);
  // bands (only once revealed): light = about 95 in 100, dark = about 68 in 100
- if(showBand){for(const[k,a]of[[2,.16],[1,.3]]){cx.fillStyle=ghost;cx.globalAlpha=a;cx.beginPath();
+ if(showBand){const fade=reduced?1:Math.min(1,((now||performance.now())-bandT0)/900);for(const[k,a]of[[2,.22],[1,.4]]){cx.fillStyle=ghost;cx.globalAlpha=a*fade;cx.beginPath();
    for(let v=1;v<=xMax;v++){v>1?cx.lineTo(X(v),Y(band(v,k)[1])):cx.moveTo(X(v),Y(band(v,k)[1]));}
    for(let v=Math.floor(xMax);v>=1;v--){cx.lineTo(X(v),Y(band(v,k)[0]));}cx.closePath();cx.fill();}cx.globalAlpha=1;}
  cx.strokeStyle=rule;cx.lineWidth=1;cx.beginPath();cx.moveTo(L,B);cx.lineTo(R,B);cx.stroke();
