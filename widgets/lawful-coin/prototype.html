@@ -70,7 +70,7 @@ const SAY={
  more:'One more coin, one more dot.',
  ready:'You get the idea. Add coins one at a time, or let it run.',
  running:'Each dot is one flip of that many coins: how many coins across, the share of heads up.',
- run1:'Few coins: almost anything can happen. Many coins: close to half every time.',
+ run1:'Few coins: almost anything can happen. Many coins: close to half every time. Does the math predict this shape?',
  runN:'New flips, same bands. Chance on its own is wild; in bulk it keeps a pattern.',
  band:'The shaded bands are what the math predicts, before any coin is flipped: about 68 of every 100 flips land in the inner band, about 95 in the outer one. Both narrow as coins are added.'};
 let coins,dots,runs,running,showBand,say,stepN=1;const STEP_UNTIL=5;
@@ -82,7 +82,7 @@ document.querySelector('.ul-controls').addEventListener('click',e=>{const a=e.ta
  if(a==='add'){stepN++;setFlip(stepN);animateFlip();stepLabel();if(stepN>xMax)zoomTo(Math.min(MAX,NICE.find(v=>v>=stepN)));say=stepN===2?SAY.two:stepN<STEP_UNTIL?SAY.more:SAY.ready;
   if(stepN>=STEP_UNTIL)btn('run').hidden=false;}
  if(a==='run')startRun();
- if(a==='band'){showBand=true;btn('band').hidden=true;key.hidden=false;say=SAY.band;}
+ if(a==='band'){showBand=true;bandT0=performance.now();btn('band').hidden=true;key.hidden=false;say=SAY.band;fadeBand();}
  if(a==='reset')reset();
  draw();});
 function startRun(){stepped=false;
@@ -101,7 +101,7 @@ function tick(now){if(!running)return;
  draw(now);if(running.i<COUNTS.length||now-last.t<last.d)requestAnimationFrame(tick);else endRun();}
 function fadeBand(){const f=now=>{draw(now);if(now-bandT0<900)requestAnimationFrame(f);};if(!reduced)requestAnimationFrame(f);}
 function endRun(){running=null;last=null;runs++;btn('run').disabled=false;btn('run').textContent='Run again';
- if(!showBand){showBand=true;bandT0=performance.now();key.hidden=false;fadeBand();}say=runs===1?SAY.band:SAY.runN;draw();}
+ if(!showBand)btn('band').hidden=false;say=runs===1?SAY.run1:SAY.runN;draw();}
 // ---- layout
 function layout(){const dpr=Math.min(2,devicePixelRatio||1),phone=innerWidth<=640;
  for(const[c,ctx,ar]of[[mc,mx,phone?0.55:0.8],[cc,cx,phone?0.6:0.8]]){const w=c.clientWidth,h=Math.round(w*ar);c.style.height=h+'px';c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);c._w=w;c._h=h;}
