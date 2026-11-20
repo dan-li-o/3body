@@ -52,9 +52,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-584947861696b263c2a46cdc28d2a594.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-3843aadccc8664d98e1b12a189820916.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-584947861696b263c2a46cdc28d2a594.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-6f1b3af4050b6be136ad79f816e11350.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-8c173b321057188c32dfc4e25e87fd25.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-6f1b3af4050b6be136ad79f816e11350.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -84,11 +84,12 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <link rel="icon" href="../../3body/assets/icons/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="../../3body/assets/icons/apple-touch-icon.png">
-<meta name="theme-color" content="#fffff8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#151513" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
 
 
 <link rel="stylesheet" href="../../css/widgets.css">
+<link rel="stylesheet" href="../../css/paper.css">
 <meta property="og:title" content="4&nbsp; The Game of False Heavens – Unlawful Laws">
 <meta property="og:description" content="How to Live with Scientific Uncertainties">
 <meta property="og:image" content="https://dan-li-o.github.io/3body/assets/social-card.png">
@@ -102,7 +103,7 @@ ul.task-list li input[type="checkbox"] {
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating fullcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -411,9 +412,7 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
@@ -441,6 +440,27 @@ ul.task-list li input[type="checkbox"] {
 
 
 </main> <!-- /main -->
+<script>
+// Chapter lead-in: put the opening phrase of a chapter in small caps, as books do:
+// up to the first punctuation mark, at most six words. Skips the Welcome page.
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('welcome')) return;
+  const p = document.querySelector('main > p, main > section > p');
+  if (!p || !p.firstChild || p.firstChild.nodeType !== 3) return;
+  const t = p.firstChild.textContent;
+  const m = t.match(/^\s*((?:\S+\s+){0,5}?\S+?)([.,;:!?\u2014]|\s(?=\S)|$)/);
+  let words = t.trimStart().split(/\s+/).slice(0, 6).join(' ');
+  const stop = words.search(/[.,;:!?\u2014]/);
+  if (stop > 0) words = words.slice(0, stop);
+  const i = t.indexOf(words);
+  if (i < 0 || !words) return;
+  const span = document.createElement('span');
+  span.className = 'lead-in';
+  span.textContent = t.slice(0, i + words.length);
+  p.firstChild.textContent = t.slice(i + words.length);
+  p.insertBefore(span, p.firstChild);
+});
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
