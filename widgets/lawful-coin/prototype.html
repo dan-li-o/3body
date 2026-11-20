@@ -35,7 +35,7 @@ canvas:focus-visible{outline:2px solid var(--ul-accent);outline-offset:4px}
 <p class="ul-status" aria-live="polite"></p>
 <div class="ul-controls">
  <button class="ul-btn" data-a="one">Flip one coin</button>
- <button class="ul-btn" data-a="run" hidden>Run: 1 to 1,000 coins</button>
+ <button class="ul-btn" data-a="run" hidden>Run</button>
  <button class="ul-btn ul-btn-quiet" data-a="band" hidden>Show the expected range</button>
  <button class="ul-btn ul-btn-quiet" data-a="reset">Reset</button>
 </div>
@@ -58,18 +58,20 @@ const statusEl=document.querySelector('.ul-status'),valsEl=document.getElementBy
 const btn=a=>document.querySelector(`[data-a=${a}]`);
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let seed=(Date.now()%2147483646)+1;const rng=()=>(seed=seed*16807%2147483647)/2147483647;
-const COUNTS=sweep(),RUN_MS=8000;
+const MAX=[200,500,1000].includes(+location.hash.slice(1))?+location.hash.slice(1):200,COUNTS=sweep(MAX);
+// Pace: the first flips are slow (one flip, one visible step), then the run speeds up.
+const FAST=3200/MAX,delay=n=>Math.max(FAST,1100/n);
 // Ideas arrive one at a time: one coin -> one run -> runs repeat -> the predicted bands.
 const SAY={
  start:'One coin. Flip it.',
  one:'One coin lands all heads or all tails, so the dot sits at 1 or at 0. The dot marks the share of heads.',
- running:'Each dot is one flip of that many coins.',
+ running:'Each dot is one flip of that many coins: how many coins across, the share of heads up.',
  run1:'Few coins: almost anything can happen. Many coins: close to half every time.',
  runN:'New flips, same shape. Chance on its own is wild; in bulk it keeps a pattern.',
  band:'The math drew these bands before any coin was flipped. Most dots land in them, and they narrow as coins are added.'};
 let coins,dots,runs,running,showBand,say;
 function reset(){coins=[false];coins.unflipped=true;dots=[];runs=0;running=null;showBand=false;say=SAY.start;
- btn('one').hidden=false;btn('run').hidden=true;btn('band').hidden=true;key.hidden=true;btn('run').textContent='Run: 1 to 1,000 coins';draw();}
+ btn('one').hidden=false;btn('run').hidden=true;btn('band').hidden=true;key.hidden=true;btn('run').textContent=`Run: 1 to ${MAX.toLocaleString()} coins`;draw();}
 function setFlip(n){coins=flip(n,rng);const s=coins.filter(Boolean).length/n;dots.push([n,s]);}
 document.querySelector('.ul-controls').addEventListener('click',e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a||running)return;
  if(a==='one'){setFlip(1);say=SAY.one;btn('one').hidden=true;btn('run').hidden=false;}
@@ -79,10 +81,12 @@ document.querySelector('.ul-controls').addEventListener('click',e=>{const a=e.ta
  draw();});
 function startRun(){say=SAY.running;btn('run').disabled=true;
  if(reduced){for(const n of COUNTS)setFlip(n);endRun();return;}
- running={i:0,t0:performance.now()};requestAnimationFrame(tick);}
-function tick(now){if(!running)return;const due=Math.min(COUNTS.length,Math.floor((now-running.t0)/RUN_MS*COUNTS.length)+1);
- while(running.i<due)setFlip(COUNTS[running.i++]);draw();if(running.i<COUNTS.length)requestAnimationFrame(tick);else endRun();}
-function endRun(){running=null;runs++;btn('run').disabled=false;btn('run').textContent='Run again';
+ running={i:0,next:performance.now()};requestAnimationFrame(tick);}
+let last=null;
+function tick(now){if(!running)return;
+ while(running.i<COUNTS.length&&now>=running.next){const n=COUNTS[running.i++];setFlip(n);running.next+=delay(n);last={n,t:now,d:delay(n)};}
+ draw(now);if(running.i<COUNTS.length||now-last.t<last.d)requestAnimationFrame(tick);else endRun();}
+function endRun(){running=null;last=null;runs++;btn('run').disabled=false;btn('run').textContent='Run again';
  say=runs===1?SAY.run1:SAY.runN;if(runs>=2&&!showBand)btn('band').hidden=false;draw();}
 // ---- layout
 function layout(){const dpr=Math.min(2,devicePixelRatio||1),phone=innerWidth<=640;
@@ -90,7 +94,7 @@ function layout(){const dpr=Math.min(2,devicePixelRatio||1),phone=innerWidth<=64
  draw();}
 function cell(N,W,H){let c=Math.sqrt(W*H/N);while(Math.floor(W/c)*Math.floor(H/c)<N)c*=0.97;return c;}
 function pile(N,x0,W,bot,c){const cols=Math.max(1,Math.floor(W/c)),out=[];for(let i=0;i<N;i++){const r=Math.floor(i/cols),k=i%cols;out.push([x0+(W-cols*c)/2+c*(k+.5),bot-c*(r+.5)]);}return out;}
-function draw(){drawModel();drawChart();if(statusEl.textContent!==say)statusEl.textContent=say;
+function draw(now){drawModel();drawChart(now);if(statusEl.textContent!==say)statusEl.textContent=say;
  const h=coins.filter(Boolean).length;valsEl.textContent=coins.unflipped?'One coin, not flipped yet.':`Latest flip: ${coins.length} coins, heads ${h}, tails ${coins.length-h}. ${dots.length} dots on the chart.`;}
 function drawModel(){const W=mc._w,H=mc._h,ink=css('--ul-ink'),grey=css('--ul-grey'),rule=css('--ul-rule');mx.clearRect(0,0,W,H);
  const N=coins.length,top=8,bot=H-34,half=(W-24)/2,c=cell(Math.max(N,1),half,bot-top),r=Math.min(10,c*0.36);
@@ -102,21 +106,30 @@ function drawModel(){const W=mc._w,H=mc._h,ink=css('--ul-ink'),grey=css('--ul-gr
  mx.strokeStyle=ink;for(const[x,y]of pile(N-hn,W-half,half,bot,c)){mx.beginPath();mx.arc(x,y,r,0,7);mx.stroke();}
  mx.font='15px '+css('--ul-sans');mx.fillStyle=grey;mx.textAlign='center';
  mx.fillText('heads '+hn.toLocaleString(),half/2,H-10);mx.fillText('tails '+(N-hn).toLocaleString(),W-half/2,H-10);}
-function drawChart(){const W=cc._w,H=cc._h,grey=css('--ul-grey'),ghost=css('--ul-ghost'),rule=css('--ul-rule'),acc=css('--ul-accent');cx.clearRect(0,0,W,H);
- const L=40,R=W-10,T=22,B=H-30,X=v=>L+(v-1)/999*(R-L),Y=s=>B-s*(B-T);
+function drawChart(now){const W=cc._w,H=cc._h,grey=css('--ul-grey'),ghost=css('--ul-ghost'),rule=css('--ul-rule'),acc=css('--ul-accent');cx.clearRect(0,0,W,H);
+ const L=40,R=W-10,T=22,B=H-30,X=v=>L+(v-1)/(MAX-1)*(R-L),Y=s=>B-s*(B-T);
  // bands (only once revealed): light = about 95 in 100, dark = about 68 in 100
  if(showBand){for(const[k,a]of[[2,.16],[1,.3]]){cx.fillStyle=ghost;cx.globalAlpha=a;cx.beginPath();
-   for(let v=1;v<=1000;v++){v>1?cx.lineTo(X(v),Y(band(v,k)[1])):cx.moveTo(X(v),Y(band(v,k)[1]));}
-   for(let v=1000;v>=1;v--){cx.lineTo(X(v),Y(band(v,k)[0]));}cx.closePath();cx.fill();}cx.globalAlpha=1;}
+   for(let v=1;v<=MAX;v++){v>1?cx.lineTo(X(v),Y(band(v,k)[1])):cx.moveTo(X(v),Y(band(v,k)[1]));}
+   for(let v=MAX;v>=1;v--){cx.lineTo(X(v),Y(band(v,k)[0]));}cx.closePath();cx.fill();}cx.globalAlpha=1;}
  cx.strokeStyle=rule;cx.lineWidth=1;cx.beginPath();cx.moveTo(L,B);cx.lineTo(R,B);cx.stroke();
  cx.strokeStyle=ghost;cx.lineWidth=1.25;cx.beginPath();cx.moveTo(L,Y(.5));cx.lineTo(R,Y(.5));cx.stroke();
  cx.font='italic 15px '+css('--ul-serif');cx.fillStyle=grey;cx.textBaseline='middle';cx.textAlign='right';
  cx.fillText('1',L-8,Y(1));cx.fillText('½',L-8,Y(.5));cx.fillText('0',L-8,Y(0));
  cx.textAlign='left';cx.textBaseline='alphabetic';cx.fillText('share of heads',L,T-8);
- cx.fillText('1 coin',L,H-8);cx.textAlign='center';cx.fillText('500',X(500),H-8);cx.textAlign='right';cx.fillText('1,000 coins',R,H-8);
+ cx.fillText('1 coin',L,H-8);cx.textAlign='center';cx.fillText((MAX/2).toLocaleString(),X(MAX/2),H-8);cx.textAlign='right';cx.fillText(MAX.toLocaleString()+' coins',R,H-8);
  // dots: each at its exact count; repeats overlap and darken
  const rr=dots.length>40?1.8:3.4;cx.fillStyle=acc;cx.globalAlpha=dots.length>40?.45:1;
- for(const[v,s]of dots){cx.beginPath();cx.arc(X(v),Y(s),rr,0,7);cx.fill();}cx.globalAlpha=1;}
+ for(const[v,s]of dots){cx.beginPath();cx.arc(X(v),Y(s),rr,0,7);cx.fill();}cx.globalAlpha=1;
+ // band edges drawn over the dots, so they stay visible where dots pile up
+ if(showBand){for(const[k,c]of[[1,grey],[2,ghost]])for(const e of[0,1]){cx.strokeStyle=c;cx.lineWidth=1;cx.beginPath();for(let v=1;v<=MAX;v++){const y=Y(band(v,k)[e]);v>1?cx.lineTo(X(v),y):cx.moveTo(X(v),y);}cx.stroke();}}
+ // the newest dot, while the run is slow: a ring, a guide down to its count, and words saying what it is
+ if(last&&now&&last.d>=250&&dots.length){const[v,sv]=dots[dots.length-1],x=X(v),y=Y(sv),age=Math.min(1,(now-last.t)/Math.min(500,last.d));
+  cx.strokeStyle=acc;cx.globalAlpha=1-age;cx.lineWidth=1.5;cx.beginPath();cx.arc(x,y,4+10*age,0,7);cx.stroke();cx.globalAlpha=1;
+  cx.fillStyle=acc;cx.beginPath();cx.arc(x,y,3.4,0,7);cx.fill();
+  cx.strokeStyle=rule;cx.setLineDash([2,3]);cx.beginPath();cx.moveTo(x,y+6);cx.lineTo(x,B);cx.stroke();cx.setLineDash([]);
+  const h=Math.round(sv*v);cx.font='italic 15px '+css('--ul-serif');cx.fillStyle=grey;cx.textAlign='left';cx.textBaseline='middle';
+  cx.fillText(`${v} ${v>1?'coins':'coin'}, ${h} ${h===1?'head':'heads'}`,x+12,y<(T+B)/2?y+16:y-16);}}
 addEventListener('resize',layout);
 document.getElementById('k1').style.background=`color-mix(in srgb, ${css('--ul-ghost')} 30%, ${css('--ul-paper')})`;
 document.getElementById('k2').style.background=`color-mix(in srgb, ${css('--ul-ghost')} 16%, ${css('--ul-paper')})`;
