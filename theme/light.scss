@@ -1,6 +1,6 @@
 /*-- scss:defaults --*/
-$body-bg: #fffff8;      // Tufte paper
-$body-color: #111111;
+$body-bg: #fbf8f1;      // warm book paper (was Tufte #fffff8)
+$body-color: #1d1b17;   // warm near-black ink
 $link-color: #111111;
 $primary: #111111;
 // Callouts in the book's colours: ink and grey, orange only for warnings.
@@ -11,3 +11,4 @@ $callout-color-important: $body-color;
 $callout-color-warning: $ul-accent;
 $callout-color-caution: $ul-accent;
 /*-- scss:rules --*/
+hr { color: #8a8478; }

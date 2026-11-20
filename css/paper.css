@@ -1,0 +1,2 @@
+/* Paper grain: faint noise, seen only if you look for it. Light mode only (Dan, 2026-11-20). */
+body.quarto-light { background-image: url("../assets/paper-grain.svg"); }

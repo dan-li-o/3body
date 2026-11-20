@@ -1,6 +1,6 @@
 /*-- scss:defaults --*/
-$body-bg: #151513;
-$body-color: #e8e6de;
+$body-bg: #1c1a17;      // warm charcoal (was #151513)
+$body-color: #e8e3d6;   // cream ink
 $link-color: #e8e6de;
 $primary: #e8e6de;
 // Callouts in the book's colours: ink and grey, orange only for warnings.
@@ -12,3 +12,4 @@ $callout-color-warning: $ul-accent;
 $callout-color-caution: $ul-accent;
 /*-- scss:rules --*/
 #quarto-search .aa-Form, .aa-Form { background: transparent; color: inherit; }
+hr { color: #8f897c; }
