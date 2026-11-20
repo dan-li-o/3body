@@ -48,6 +48,9 @@ Margin note beside the widget (Dan, 2026-11-20: Galileo "either to the main text
 
 Optional main-text line before "Physics keeps its books this way": *Start with the ideal table, then add the real one: the felt, the soft cushions. The ball slows, but nothing is lost.*
 
+## In the book
+Numbered (Dan, 2026-11-20: "remember to number the widget when put in the book"): wrap the shortcode in a `::: {#wid-break-the-law}` block with a caption, so Quarto shows "Widget 1.x" in the margin. Same for every Ch1 widget.
+
 ## Open
 - Dent depth and the gentle-push size, after Dan tries it on her phone.
 - Margin notes fold inline below ~992 px in Quarto (upright tablets): notes must read well mid-text.

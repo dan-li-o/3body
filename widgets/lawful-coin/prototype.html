@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Lawful Coin — prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ul-paper:#fffff8;--ul-ink:#111111;--ul-grey:#5f646a;--ul-ghost:#a3a8ad;--ul-rule:#d3d6d1;--ul-accent:#b4501a;--ul-line:1.75;--ul-trail:.55;
+ --ul-serif:'EB Garamond',Garamond,Georgia,serif;--ul-sans:'Source Sans 3',system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root{--ul-paper:#151513;--ul-ink:#e8e6de;--ul-grey:#a9aeb4;--ul-ghost:#6f757c;--ul-rule:#474c52;--ul-accent:#f08a4b}}
+body{margin:0;background:var(--ul-paper);color:var(--ul-ink);font-family:var(--ul-serif);font-size:19px}
+main{max-width:780px;margin:0 auto;padding:22px 16px}
+.ul-invite{font-style:italic;margin:0 0 .5rem}
+.ul-status{font-style:italic;min-height:3em;margin:.5rem 0 .25rem}
+canvas{display:block;width:100%}
+.fig{display:flex;gap:28px;align-items:stretch}
+.fig>div{flex:1 1 0;min-width:0}
+@media(max-width:640px){.fig{flex-direction:column;gap:6px}}
+canvas:focus-visible{outline:2px solid var(--ul-accent);outline-offset:4px}
+.ul-controls{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;margin-top:.5rem;font-family:var(--ul-sans);font-size:1rem}
+.ul-btn{min-height:44px;min-width:44px;padding:0 1rem;font:inherit;font-family:var(--ul-sans);color:var(--ul-ink);background:transparent;border:1.5px solid currentColor;border-radius:6px;cursor:pointer}
+.ul-btn[aria-pressed="true"]{background:var(--ul-ink);color:var(--ul-paper)}
+.ul-btn-quiet{border-color:transparent;text-decoration:underline;text-underline-offset:.2em;padding:0 .5rem}
+.ul-btn[hidden]{display:none}
+.ul-btn:focus-visible{outline:2px solid var(--ul-accent);outline-offset:3px}
+.sr{position:absolute;left:-9999px}
+</style></head><body><main>
+<p class="ul-invite">Add coins. Flip them all. Watch the split.</p>
+<div class="fig">
+ <div><canvas id="model" role="img" aria-label="The coins, sorted after each flip into heads (filled) and tails (open)."></canvas></div>
+ <div><canvas id="chart" role="img" aria-label="Share of heads against number of coins, one dot per flip, inside a band that narrows as coins are added."></canvas></div>
+</div>
+<p class="ul-status" aria-live="polite"></p>
+<div class="ul-controls">
+ <button class="ul-btn" data-a="flip">Flip all</button>
+ <button class="ul-btn" data-a="add">Add coins</button>
+ <button class="ul-btn ul-btn-quiet" data-a="reset">Reset</button>
+</div>
+<p class="sr" id="vals"></p>
+</main>
+<script>// Coins engine (Ch1 §5a The Lawful Coin). Fair coins; no drawing.
+// Flip n fair coins: returns an array of booleans (true = heads).
+function flip(n, rng) { const out = new Array(n); for (let i = 0; i < n; i++) out[i] = rng() < 0.5; return out; }
+// Expected range for the share of heads with n fair coins: 1/2 ± 1/sqrt(n)
+// (two standard deviations, about 95% of flips), clipped to [0, 1].
+function envelope(n) { const h = 1 / Math.sqrt(n); return [Math.max(0, 0.5 - h), Math.min(1, 0.5 + h)]; }
+const STEPS = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
+</script>
+<script>
+(()=>{
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const mc=document.getElementById('model'),cc=document.getElementById('chart'),mx=mc.getContext('2d'),cx=cc.getContext('2d');
+const statusEl=document.querySelector('.ul-status'),valsEl=document.getElementById('vals');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let seed=(Date.now()%2147483646)+1;const rng=()=>(seed=seed*16807%2147483647)/2147483647;
+let step,coins,results,dots,anim,flipsAtBig;
+const n=()=>STEPS[step];
+function reset(){step=0;coins=null;dots=[];flipsAtBig=0;anim=null;document.querySelector('[data-a=add]').disabled=false;update();}
+function update(){status();drawModel(1);drawChart();
+ const h=coins?coins.filter(Boolean).length:0;
+ valsEl.textContent=coins?`${n()} coins: heads ${h}, tails ${n()-h}. ${dots.length} flips on the chart.`:`${n()} coins, not flipped yet.`;}
+function status(){let t;const N=n();
+ if(!coins&&!dots.length)t='One coin. Flip it.';
+ else if(N<10)t='Too few to tell. Add coins.';
+ else if(N<100)t='Getting closer to half.';
+ else if(N>=500&&flipsAtBig>=3)t='However often you flip, it lands near half.';
+ else t='Settling near one half.';
+ statusEl.textContent=t;}
+document.querySelector('.ul-controls').addEventListener('click',e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a)return;
+ if(a==='flip'){coins=flip(n(),rng);const s=coins.filter(Boolean).length/n();dots.push([n(),s]);if(n()>=500)flipsAtBig++;start();}
+ if(a==='add'&&step<STEPS.length-1){step++;coins=null;if(step===STEPS.length-1)e.target.disabled=true;}
+ if(a==='reset')reset();
+ update();});
+// ---- model: before a flip, one neat block; after, heads pile on the left, tails on the right
+let M={};
+function layout(){const dpr=Math.min(2,devicePixelRatio||1),phone=innerWidth<=640;
+ for(const[c,ctx,ar]of[[mc,mx,phone?0.62:0.8],[cc,cx,phone?0.5:0.8]]){const w=c.clientWidth,h=Math.round(w*ar);c.style.height=h+'px';c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);c._w=w;c._h=h;}
+ update();}
+function cell(N,W,H){let c=Math.sqrt(W*H/N);while(Math.floor(W/c)*Math.floor(H/c)<N)c*=0.97;return c;}
+function slotsPile(N,x0,W,bot,c){const cols=Math.max(1,Math.floor(W/c)),out=[];for(let i=0;i<N;i++){const r=Math.floor(i/cols),k=i%cols;out.push([x0+(W-cols*c)/2+c*(k+.5),bot-c*(r+.5)]);}return out;}
+function start(){if(reduced){anim=null;return;}anim={t0:performance.now()};requestAnimationFrame(tick);}
+function tick(now){if(!anim)return;const p=Math.min(1,(now-anim.t0)/650);drawModel(p);if(p<1)requestAnimationFrame(tick);else anim=null;}
+function drawModel(p){if(anim&&p===1&&performance.now()-anim.t0<650)return;
+ const W=mc._w,H=mc._h,ink=css('--ul-ink'),grey=css('--ul-grey'),rule=css('--ul-rule');mx.clearRect(0,0,W,H);
+ const N=n(),top=8,bot=H-34,half=(W-24)/2;
+ const c=cell(N,half,bot-top),r=Math.min(9,c*0.36);
+ const block=slotsPile(N,(W-Math.min(W,half*1.2))/2,Math.min(W,half*1.2),bot,cell(N,Math.min(W,half*1.2),bot-top));
+ mx.lineWidth=Math.max(1,Math.min(1.75,r*0.35));
+ if(!coins){for(const[x,y]of block){mx.strokeStyle=grey;mx.beginPath();mx.arc(x,y,r,0,7);mx.stroke();}return;}
+ const hs=[],ts=[];coins.forEach((h,i)=>(h?hs:ts).push(i));
+ const ph=slotsPile(hs.length,0,half,bot,c),pt=slotsPile(ts.length,W-half,half,bot,c);
+ const e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+ // rule between the groups
+ mx.strokeStyle=rule;mx.lineWidth=1;mx.beginPath();mx.moveTo(W/2,top);mx.lineTo(W/2,bot);mx.stroke();
+ mx.lineWidth=Math.max(1,Math.min(1.75,r*0.35));
+ coins.forEach((h,i)=>{const j=h?hs.indexOf(i):ts.indexOf(i);const to=h?ph[j]:pt[j],fr=block[i];
+  const x=fr[0]+(to[0]-fr[0])*e,y=fr[1]+(to[1]-fr[1])*e;const sq=Math.abs(Math.cos(Math.min(1,p*2.2)*Math.PI*1.5));
+  mx.beginPath();mx.ellipse(x,y,Math.max(.5,r*(p<.45?sq:1)),r,0,0,7);
+  if(h&&p>.3){mx.fillStyle=ink;mx.fill();}else{mx.strokeStyle=ink;mx.stroke();}});
+ mx.font='15px '+css('--ul-sans');mx.fillStyle=grey;mx.textAlign='center';mx.textBaseline='alphabetic';
+ if(p>.6){mx.fillText('heads '+hs.length.toLocaleString(),half/2,H-10);mx.fillText('tails '+ts.length.toLocaleString(),W-half/2,H-10);}}
+// ---- chart: share of heads vs number of coins (log), ghost line at 1/2, envelope 1/2 ± 1/sqrt(n), accent dots
+function drawChart(){const W=cc._w,H=cc._h,grey=css('--ul-grey'),ghost=css('--ul-ghost'),rule=css('--ul-rule'),acc=css('--ul-accent');cx.clearRect(0,0,W,H);
+ const L=40,R=W-12,T=10,B=H-30;const X=v=>L+Math.log10(v)/3*(R-L),Y=s=>B-s*(B-T);
+ cx.font='italic 15px '+css('--ul-serif');cx.fillStyle=grey;cx.textBaseline='middle';
+ cx.textAlign='right';cx.fillText('1',L-8,Y(1));cx.fillText('½',L-8,Y(.5));cx.fillText('0',L-8,Y(0));
+ cx.strokeStyle=rule;cx.lineWidth=1;cx.beginPath();cx.moveTo(L,B);cx.lineTo(R,B);cx.stroke();
+ cx.textBaseline='alphabetic';cx.textAlign='left';cx.fillText('1 coin',L,H-8);cx.textAlign='right';cx.fillText('1,000 coins',R,H-8);
+ cx.strokeStyle=ghost;cx.lineWidth=1.75;cx.beginPath();cx.moveTo(L,Y(.5));cx.lineTo(R,Y(.5));cx.stroke();
+ cx.lineWidth=1;for(const k of[0,1]){cx.beginPath();for(let i=0;i<=120;i++){const v=Math.pow(10,3*i/120),y=Y(envelope(v)[k]);i?cx.lineTo(X(v),y):cx.moveTo(X(v),y);}cx.stroke();}
+ cx.fillStyle=grey;cx.textAlign='right';cx.textBaseline='bottom';cx.fillText('expected range',R,Y(envelope(1000)[1])-16);
+ // dots; identical results at one count sit side by side so each stays visible
+ const placed=[],rr=3.4;cx.fillStyle=acc;
+ for(const[v,s]of dots){let x=X(v),y=Y(s),k=0;const base=x;while(placed.some(p=>Math.hypot(p[0]-x,p[1]-y)<rr*2.1)){k++;x=base+(base>(L+R)/2?-1:1)*k*rr*2.1;}
+  placed.push([x,y]);cx.beginPath();cx.arc(x,y,rr,0,7);cx.fill();}}
+addEventListener('resize',layout);
+reset();layout();
+})();
+</script></body></html>
