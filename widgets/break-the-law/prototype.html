@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Try to Break the Law — prototype v3</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ul-paper:#fffff8;--ul-ink:#111111;--ul-grey:#5f646a;--ul-ghost:#a3a8ad;--ul-rule:#d3d6d1;--ul-accent:#b4501a;--ul-line:1.75;--ul-trail:.55;
+ --ul-serif:'EB Garamond',Garamond,Georgia,serif;--ul-sans:'Source Sans 3',system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root{--ul-paper:#151513;--ul-ink:#e8e6de;--ul-grey:#a9aeb4;--ul-ghost:#6f757c;--ul-rule:#474c52;--ul-accent:#f08a4b}}
+body{margin:0;background:var(--ul-paper);color:var(--ul-ink);font-family:var(--ul-serif);font-size:19px}
+main{max-width:780px;margin:0 auto;padding:22px 16px}
+.ul-invite{font-style:italic;margin:0 0 .5rem}
+.ul-status{font-style:italic;min-height:3em;margin:.5rem 0 .25rem}
+canvas{display:block;width:100%;touch-action:none}
+canvas:focus-visible{outline:2px solid var(--ul-accent);outline-offset:4px}
+.ul-controls{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;margin-top:.5rem;font-family:var(--ul-sans);font-size:1rem}
+.ul-btn{min-height:44px;min-width:44px;padding:0 1rem;font:inherit;font-family:var(--ul-sans);color:var(--ul-ink);background:transparent;border:1.5px solid currentColor;border-radius:6px;cursor:pointer}
+.ul-btn[aria-pressed="true"]{background:var(--ul-ink);color:var(--ul-paper)}
+.ul-btn-quiet{border-color:transparent;text-decoration:underline;text-underline-offset:.2em;padding:0 .5rem}
+.ul-btn[hidden]{display:none}
+.ul-btn:focus-visible{outline:2px solid var(--ul-accent);outline-offset:3px}
+.sr{position:absolute;left:-9999px}
+</style></head><body><main>
+<p class="ul-invite">Push the ball. Push it hard, or gently.</p>
+<canvas id="c" tabindex="0" role="img" aria-label="A pool table with one ball, and a column showing the ball's energy and the warmth it has given the felt and cushions."></canvas>
+<p class="ul-status" aria-live="polite"></p>
+<div class="ul-controls">
+ <button class="ul-btn" data-a="felt" aria-pressed="false">Felt</button>
+ <button class="ul-btn" data-a="cush" aria-pressed="false">Soft cushions</button>
+ <button class="ul-btn ul-btn-quiet" data-a="reset">Reset</button>
+ <button class="ul-btn ul-btn-quiet" data-a="push">Push at random</button>
+ <button class="ul-btn ul-btn-quiet" data-a="play" hidden>Play</button>
+</div>
+<p class="sr" id="vals"></p>
+</main>
+<script>// Pool-table engine: pure math, no DOM. Unit mass balls; energy = ½v².
+// Every joule is accounted for: total = kinetic + warmth = energy pushed in from outside.
+function createTable(W, H, r) {
+  return { W, H, r, balls: [], warmth: 0, external: 0, e: 1, mu: 0.1, events: [] };
+}
+function ke(b) { return 0.5 * (b.vx * b.vx + b.vy * b.vy); }
+function kinetic(t) { let k = 0; for (const b of t.balls) k += ke(b); return k; }
+function total(t) { return kinetic(t) + t.warmth; }
+
+function addBall(t, x, y, rng) {
+  rng = rng || Math.random;
+  for (let tries = 0; tries < 200; tries++) {
+    const px = x != null && tries === 0 ? x : t.r + rng() * (t.W - 2 * t.r);
+    const py = y != null && tries === 0 ? y : t.r + rng() * (t.H - 2 * t.r);
+    if (px < t.r || px > t.W - t.r || py < t.r || py > t.H - t.r) continue;
+    if (t.balls.every(b => (b.x - px) ** 2 + (b.y - py) ** 2 > (2.2 * t.r) ** 2)) {
+      const b = { id: t.balls.length, x: px, y: py, vx: 0, vy: 0 };
+      t.balls.push(b); return b;
+    }
+  }
+  return null;
+}
+// The only way energy enters: a push from outside (cue or finger).
+function push(t, b, vx, vy) {
+  const before = ke(b); b.vx = vx; b.vy = vy; t.external += ke(b) - before;
+}
+
+function step(t, dt) {
+  const n = 8, h = dt / n, r = t.r;
+  for (let s = 0; s < n; s++) {
+    for (const b of t.balls) {
+      if (b.held) continue;
+      const sp = Math.hypot(b.vx, b.vy);
+      if (sp > 0) {
+        let ns = sp - t.mu * h;
+        if (ns < 0.004) ns = 0;                       // comes to rest
+        const lost = 0.5 * (sp * sp - ns * ns);
+        t.warmth += lost; if (lost > 0) t.events.push({ type: 'felt', amt: lost, id: b.id });
+        b.vx *= ns / sp; b.vy *= ns / sp;
+      }
+      b.x += b.vx * h; b.y += b.vy * h;
+      cushion(t, b, 'x', t.W); cushion(t, b, 'y', t.H);
+    }
+    const B = t.balls;
+    for (let i = 0; i < B.length; i++) for (let j = i + 1; j < B.length; j++) {
+      const a = B[i], c = B[j];
+      const dx = c.x - a.x, dy = c.y - a.y, d = Math.hypot(dx, dy);
+      if (d >= 2 * r || d === 0) continue;
+      const nx = dx / d, ny = dy / d;
+      const rel = (a.vx - c.vx) * nx + (a.vy - c.vy) * ny;
+      if (rel > 0) {                                   // approaching: elastic, equal masses
+        const ka = ke(a), kc = ke(c);
+        if (a.held) { c.vx += 2 * rel * nx; c.vy += 2 * rel * ny; t.external += ke(c) - kc; }
+        else if (c.held) { a.vx -= 2 * rel * nx; a.vy -= 2 * rel * ny; t.external += ke(a) - ka; }
+        else {
+          a.vx -= rel * nx; a.vy -= rel * ny; c.vx += rel * nx; c.vy += rel * ny;
+          const da = ke(a) - ka;
+          if (Math.abs(da) > 1e-4) t.events.push(da < 0 ? { type: 'transfer', from: a.id, to: c.id, amt: -da } : { type: 'transfer', from: c.id, to: a.id, amt: da });
+        }
+      }
+      const o = (2 * r - d) / 2;                       // separate (no energy change)
+      if (a.held) { c.x += 2 * o * nx; c.y += 2 * o * ny; }
+      else if (c.held) { a.x -= 2 * o * nx; a.y -= 2 * o * ny; }
+      else { a.x -= o * nx; a.y -= o * ny; c.x += o * nx; c.y += o * ny; }
+    }
+  }
+}
+function cushion(t, b, k, L) {
+  const v = k === 'x' ? 'vx' : 'vy', r = t.r;
+  const hitLow = b[k] < r && b[v] < 0, hitHigh = b[k] > L - r && b[v] > 0;
+  if (hitLow || hitHigh) {
+    const before = b[v];
+    b[v] = -before * t.e;
+    const lost = 0.5 * before * before * (1 - t.e * t.e);
+    t.warmth += lost; if (lost > 0) t.events.push({ type: 'cushion', amt: lost, side: k + (hitLow ? '0' : '1'), x: b.x, y: b.y });
+  }
+  if (b[k] < r) b[k] = r; if (b[k] > L - r) b[k] = L - r;
+}
+if (typeof module !== 'undefined') module.exports = { createTable, addBall, push, step, total, kinetic, ke };
+</script>
+<script>
+(()=>{
+const cv=document.getElementById('c'),ctx=cv.getContext('2d'),statusEl=document.querySelector('.ul-status'),valsEl=document.getElementById('vals');
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const W=2,H=1,R=0.032,FELT=0.35,SOFT=0.7,MAXV=3,PER=4,TAPV=1.1,SCALE0=0.5*MAXV*MAXV*1.3;
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let T,ball,trail,scars,dents,warmF,warmC,pushed,scale,felt,soft,aim,clock;
+const btn=a=>document.querySelector(`[data-a=${a}]`);
+const S={
+ start:'Press on the ball and drag the way you want it to go. The longer the drag, the harder the push.',
+ aim:'Let go to push.',
+ ideal:'No table is this smooth. But this is the law with nothing in the way: the ball keeps going forever.',
+ felt:'The ball warms the felt as it rolls; the faint track is energy the ball has lost. Total unchanged.',
+ cush:'Each bounce dents a soft cushion; the dent is energy the ball has lost. Total unchanged.',
+ both:'Felt and cushions are taking the motion as warmth. Total unchanged.',
+ still:'The ball has stopped. Its energy is all in the felt and the cushions now. Total unchanged.',
+ up:'That push came from outside the table, and it added energy. The total went up.',
+ down:'That push came from outside the table, and it took energy away. The total went down.',
+ miss:'Press on the ball itself.'};
+let standing,remarkText=null,remarkAt=-1e9,shown='';
+function remark(t){remarkText=t;remarkAt=performance.now();}
+function status(){const t=remarkText&&performance.now()-remarkAt<4000?remarkText:standing;if(t!==shown){statusEl.textContent=t;shown=t;}}
+function reset(){T=createTable(W,H,R);T.mu=0;ball=addBall(T,0.55,0.62);trail=[];scars=[];dents=[];warmF=warmC=0;pushed=false;scale=SCALE0;felt=soft=false;aim=null;clock=0;labels();remarkText=null;setStanding();draw();}
+function labels(){btn('felt').setAttribute('aria-pressed',felt);btn('cush').setAttribute('aria-pressed',soft);T.mu=felt?FELT:0;T.e=soft?SOFT:1;}
+function setStanding(){const moving=ball.vx||ball.vy;
+ standing=aim?S.aim:!pushed?S.start:(!moving&&T.warmth>0)?S.still:felt&&soft?S.both:felt?S.felt:soft?S.cush:S.ideal;}
+function give(vx,vy){const before=total(T);let nx=ball.vx+vx,ny=ball.vy+vy;const m=Math.hypot(nx,ny);if(m>MAXV){nx*=MAXV/m;ny*=MAXV/m;}
+ push(T,ball,nx,ny);const d=total(T)-before;if(pushed&&Math.abs(d)>0.02)remark(d>0?S.up:S.down);pushed=true;setStanding();play();}
+// ---- layout: the table is drawn on the page, no panel
+let L={};
+function layout(){const dpr=Math.min(2,devicePixelRatio||1),cw=cv.clientWidth,narrow=cw<560,colW=narrow?0:120,pad=10;
+ const s=(cw-colW-2*pad)/W,tw=W*s,th=H*s;const ch=th+2*pad+8+(narrow?74:0);
+ cv.style.height=ch+'px';cv.width=Math.round(cw*dpr);cv.height=Math.round(ch*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+ L={narrow,portrait:false,s,ox:pad,oy:pad+8,tw,th,cw,ch,colX:cw-colW+78,top:pad+22,bot:pad+8+th,barY:pad+8+th+30,barL:pad+56,barR:cw-pad-48};}
+const toS=(x,y)=>L.portrait?[L.ox+y*L.s,L.oy+x*L.s]:[L.ox+x*L.s,L.oy+y*L.s];
+const vW=(dx,dy)=>L.portrait?[dy/L.s,dx/L.s]:[dx/L.s,dy/L.s];
+// ---- gesture: press on the ball, drag the way it should go, let go. A tap is a gentle nudge.
+function pt(e){const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top];}
+cv.addEventListener('pointerdown',e=>{const[sx,sy]=pt(e),[bx,by]=toS(ball.x,ball.y);
+ if(Math.hypot(sx-bx,sy-by)>Math.max(28,R*L.s*3)){remark(S.miss);status();return;}
+ cv.setPointerCapture(e.pointerId);aim={sx,sy,ex:sx,ey:sy};setStanding();play();});
+cv.addEventListener('pointermove',e=>{if(!aim)return;const[x,y]=pt(e);aim.ex=x;aim.ey=y;draw();});
+cv.addEventListener('pointerup',()=>{if(!aim)return;const a=aim;aim=null;const v=aimVel(a);
+ if(Math.hypot(a.ex-a.sx,a.ey-a.sy)<8){const[bx,by]=toS(ball.x,ball.y);let[dx,dy]=vW(bx-a.sx,by-a.sy);const m=Math.hypot(dx,dy);if(m<1e-6){dx=1;dy=0;}else{dx/=m;dy/=m;}give(dx*TAPV,dy*TAPV);}
+ else give(v[0],v[1]);});
+cv.addEventListener('pointercancel',()=>{aim=null;setStanding();draw();});
+function aimVel(a){let[dx,dy]=vW(a.ex-a.sx,a.ey-a.sy);dx*=PER;dy*=PER;const m=Math.hypot(dx,dy);if(m>MAXV){dx*=MAXV/m;dy*=MAXV/m;}return[dx,dy];}
+document.querySelector('.ul-controls').addEventListener('click',e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a)return;
+ if(a==='push'){const g=Math.random()*6.283,sp=0.8+Math.random()*1.8;give(Math.cos(g)*sp,Math.sin(g)*sp);}
+ if(a==='felt'){felt=!felt;labels();}
+ if(a==='cush'){soft=!soft;labels();}
+ if(a==='reset')reset();
+ if(a==='play'){btn('play').hidden=true;userPlay=true;}
+ setStanding();play();});
+// ---- loop: only while on screen, tab visible, and moving
+let raf=0,last=0,onScreen=true,userPlay=!reduced;
+function play(){if(!raf&&onScreen&&!document.hidden&&userPlay){last=performance.now();raf=requestAnimationFrame(frame);}draw();}
+new IntersectionObserver(es=>{onScreen=es[0].isIntersecting;if(onScreen)play();}).observe(cv);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)play();});
+const LIFE=1.6;
+function frame(now){raf=0;const dt=Math.min(0.033,(now-last)/1000);last=now;clock+=dt;
+ const px=ball.x,py=ball.y;T.events.length=0;step(T,dt);
+ let f=0;for(const ev of T.events){if(ev.type==='felt')f+=ev.amt;else{warmC+=ev.amt;dent(ev);}}
+ warmF+=f;if(f>0)scars.push(px,py,ball.x,ball.y);
+ const moving=ball.vx||ball.vy;if(moving)trail.push(ball.x,ball.y,clock);
+ while(trail.length&&clock-trail[2]>LIFE)trail.splice(0,3);
+ setStanding();draw();if(moving||trail.length||aim)play();}
+// A dent where the ball hit, deeper for more energy lost. Nearby hits deepen the same dent.
+function dent(ev){const s=ev.side[0]==='x'?ev.y:ev.x;const side=ev.side;
+ const near=dents.find(d=>d.side===side&&Math.abs(d.s-s)<0.03);if(near)near.amt+=ev.amt;else dents.push({side,s,amt:ev.amt});}
+// ---- drawing
+function draw(){if(!L.s)return;const ink=css('--ul-ink'),grey=css('--ul-grey'),ghost=css('--ul-ghost'),rule=css('--ul-rule'),acc=css('--ul-accent'),line=1.75;
+ ctx.clearRect(0,0,L.cw,L.ch);ctx.lineCap='round';ctx.lineJoin='round';
+ // felt marks: permanent, faint; overlapping passes darken (warmth per distance is constant)
+ if(scars.length){ctx.save();ctx.strokeStyle=ghost;ctx.lineWidth=line;ctx.globalAlpha=0.35;
+  for(let i=0;i<scars.length;i+=4){const[a,b]=toS(scars[i],scars[i+1]),[c,d]=toS(scars[i+2],scars[i+3]);ctx.beginPath();ctx.moveTo(a,b);ctx.lineTo(c,d);ctx.stroke();}ctx.restore();}
+ // cushions: four lines, dented where energy was lost
+ ctx.strokeStyle=grey;ctx.lineWidth=line;
+ cushion('y0',0,W,(s,o)=>[s,-o]);cushion('y1',0,W,(s,o)=>[s,H+o]);cushion('x0',0,H,(s,o)=>[-o,s]);cushion('x1',0,H,(s,o)=>[W+o,s]);
+ // fading trail, as on the Welcome page
+ ctx.save();ctx.strokeStyle=grey;ctx.lineWidth=line;
+ for(let k=3;k<trail.length;k+=3){const fade=Math.max(0,1-(clock-trail[k+2])/LIFE);ctx.globalAlpha=.55*fade*fade;
+  const[a,b]=toS(trail[k-3],trail[k-2]),[c,d]=toS(trail[k],trail[k+1]);ctx.beginPath();ctx.moveTo(a,b);ctx.lineTo(c,d);ctx.stroke();}ctx.restore();
+ const[x,y]=toS(ball.x,ball.y),rp=Math.max(6.5,R*L.s);
+ // aiming arrow
+ if(aim){const v=aimVel(aim),k=1/PER,[ex,ey]=toS(ball.x+v[0]*k,ball.y+v[1]*k);arrow(x,y,ex,ey,grey,line);}
+ ctx.fillStyle=ink;ctx.beginPath();ctx.arc(x,y,rp,0,7);ctx.fill();
+ // ---- the column: motion (ink), felt and cushions (ghost), one accent mark for the total
+ const k=ke(ball),tot=k+warmF+warmC;if(tot>scale*0.92)scale=tot/0.8;
+
+ const V=!L.narrow,cw=7,gap=2;
+ const P=V?(v=>L.bot-v/scale*(L.bot-L.top)):(v=>L.barL+v/scale*(L.barR-L.barL));
+ const seg=(a,b)=>V?[[L.colX,a],[L.colX,b]]:[[a,L.barY],[b,L.barY]];
+ ctx.strokeStyle=rule;ctx.lineWidth=1;ctx.beginPath();const tr=V?seg(L.top,L.bot):seg(L.barL,L.barR);ctx.moveTo(...tr[0]);ctx.lineTo(...tr[1]);ctx.stroke();
+ ctx.font='italic 15px '+css('--ul-serif');ctx.textBaseline='middle';
+ let base=0,hl=[];const segs=[[k,ink,'motion'],[warmF,ghost,'felt'],[warmC,ghost,'cushions']];
+ ctx.lineCap='butt';
+ for(const[v,c,lab]of segs){if(v<=1e-6)continue;const a=P(base),b=P(base+v),dir=V?-1:1;
+  const[p0,p1]=seg(a+dir*(base>0?gap/2:0),b-dir*gap/2);ctx.strokeStyle=c;ctx.lineWidth=cw;ctx.beginPath();ctx.moveTo(...p0);ctx.lineTo(...p1);ctx.stroke();
+  if(V){if(Math.abs(b-a)>16){ctx.fillStyle=grey;ctx.textAlign='right';ctx.fillText(lab,L.colX-12,(a+b)/2);}}else hl.push({lab,mid:(a+b)/2});base+=v;}
+ if(!V)hlabels(hl,grey,rule);
+ const tick=(p,w)=>{const q=V?[[L.colX-w,p],[L.colX+w,p]]:[[p,L.barY-w],[p,L.barY+w]];ctx.beginPath();ctx.moveTo(...q[0]);ctx.lineTo(...q[1]);ctx.stroke();};
+ if(aim){const v=aimVel(aim),nv=[ball.vx+v[0],ball.vy+v[1]];let m=Math.hypot(...nv);if(m>MAXV)m=MAXV;const pv=tot-k+0.5*m*m;
+  ctx.strokeStyle=acc;ctx.globalAlpha=.45;ctx.lineWidth=line;ctx.setLineDash([3,3]);tick(P(pv),10);ctx.setLineDash([]);ctx.globalAlpha=1;}
+ if(pushed||tot>0){const p=P(tot);ctx.strokeStyle=acc;ctx.lineWidth=2.5;tick(p,10);ctx.fillStyle=acc;
+  if(V){ctx.textAlign='left';ctx.fillText('total',L.colX+15,p);}else{ctx.textAlign='left';ctx.fillText('total',p+6,L.barY-15);}}
+ if(!V){ctx.fillStyle=grey;ctx.textAlign='left';ctx.font='italic 15px '+css('--ul-serif');ctx.fillText('energy',L.ox,L.barY);}
+ status();valsEl.textContent=`Motion ${k.toFixed(2)}, warmth in felt ${warmF.toFixed(2)}, in cushions ${warmC.toFixed(2)}, total ${tot.toFixed(2)}.`;}
+// Phone labels. Mode 'alt': alternate above and below the bar. Mode 'lead': a row below, spread apart, with leader lines.
+const LMODE=(location.hash.slice(1)||'lead');
+function hlabels(hl,grey,rule){ctx.font='italic 15px '+css('--ul-serif');ctx.textBaseline='middle';
+ if(LMODE==='alt'){hl.forEach((h,i)=>{ctx.fillStyle=grey;ctx.textAlign='center';ctx.fillText(h.lab,h.mid,L.barY+(i%2?18:-17));});return;}
+ const y=L.barY+26,pad=10;let x=-1e9;const pos=hl.map(h=>{const w=ctx.measureText(h.lab).width;let c=Math.max(h.mid,x+w/2+pad);x=c+w/2;return{...h,c,w};});
+ const over=x-(L.cw-6);if(over>0)pos.forEach(p=>p.c-=over);
+ for(const p of pos){ctx.strokeStyle=rule;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(p.mid,L.barY+5);ctx.lineTo(p.c,y-9);ctx.stroke();
+  ctx.fillStyle=grey;ctx.textAlign='center';ctx.fillText(p.lab,p.c,y);}}
+function cushion(side,a,b,at){const pts=[],sig=0.018,n=Math.max(40,Math.round((b-a)*L.s/2));const ds=dents.filter(d=>d.side===side);
+ for(let i=0;i<=n;i++){const s=a+(b-a)*i/n;let o=0;for(const d of ds)o+=Math.min(0.018,0.014*Math.sqrt(d.amt))*Math.exp(-((s-d.s)**2)/(2*sig*sig));pts.push(toS(...at(s,o+R*0.35)));}
+ ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.stroke();}
+function arrow(x0,y0,x1,y1,c,line){const dx=x1-x0,dy=y1-y0;if(Math.hypot(dx,dy)<8)return;const g=Math.atan2(dy,dx),h=9;
+ ctx.save();ctx.strokeStyle=c;ctx.lineWidth=line;ctx.globalAlpha=.6;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);
+ ctx.moveTo(x1,y1);ctx.lineTo(x1-h*Math.cos(g-.45),y1-h*Math.sin(g-.45));ctx.moveTo(x1,y1);ctx.lineTo(x1-h*Math.cos(g+.45),y1-h*Math.sin(g+.45));ctx.stroke();ctx.restore();}
+addEventListener('resize',()=>{layout();draw();});
+if(reduced)btn('play').hidden=false;
+layout();reset();
+})();
+</script></body></html>
