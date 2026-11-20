@@ -79,7 +79,7 @@ function reset(){xMax=10;coins=[false];coins.unflipped=true;dots=[];runs=0;runni
 function setFlip(n){coins=flip(n,rng);const s=coins.filter(Boolean).length/n;dots.push([n,s]);}
 document.querySelector('.ul-controls').addEventListener('click',e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a||running)return;
  if(a==='one'){setFlip(1);say=SAY.one;btn('one').hidden=true;btn('add').hidden=false;stepLabel();}
- if(a==='add'){stepN++;setFlip(stepN);stepLabel();say=stepN===2?SAY.two:stepN<STEP_UNTIL?SAY.more:SAY.ready;
+ if(a==='add'){stepN++;setFlip(stepN);stepLabel();if(stepN>xMax)zoomTo(Math.min(MAX,NICE.find(v=>v>=stepN)));say=stepN===2?SAY.two:stepN<STEP_UNTIL?SAY.more:SAY.ready;
   if(stepN>=STEP_UNTIL)btn('run').hidden=false;}
  if(a==='run')startRun();
  if(a==='band'){showBand=true;btn('band').hidden=true;key.hidden=false;say=SAY.band;}
@@ -91,7 +91,10 @@ function startRun(){stepped=false;
   if(reduced){xMax=MAX;}else{requestAnimationFrame(z);return;}}say=SAY.running;btn('run').disabled=true;
  if(reduced){for(const n of COUNTS.slice(runs===0?stepN:0))setFlip(n);endRun();return;}
  running={i:runs===0?stepN:0,next:performance.now()};btn('add').hidden=true;requestAnimationFrame(tick);}
-let last=null,stepped=false,xMax=10,zoom=null;function stepLabel(){stepped=true;}
+let last=null,stepped=false,xMax=10;
+const NICE=[10,20,50,100,200,500,1000];
+function zoomTo(to,then){const from=xMax,t0=performance.now();if(reduced||from===to){xMax=to;draw();then&&then();return;}
+ const z=now=>{const p=Math.min(1,(now-t0)/700),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;xMax=from+(to-from)*e;draw(now);if(p<1)requestAnimationFrame(z);else{xMax=to;draw();then&&then();}};requestAnimationFrame(z);}function stepLabel(){stepped=true;}
 function tick(now){if(!running)return;
  while(running.i<COUNTS.length&&now>=running.next){const n=COUNTS[running.i++];setFlip(n);running.next+=delay(n);last={n,t:now,d:delay(n)};}
  draw(now);if(running.i<COUNTS.length||now-last.t<last.d)requestAnimationFrame(tick);else endRun();}
