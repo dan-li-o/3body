@@ -1,51 +1,54 @@
 // Gas-chamber engine (Ch1 §5b The Pressure Gauge). Pure math, no drawing.
-// Molecules: point-like balls, one speed, random directions; top and bottom walls bounce them back unchanged.
-// Left wall: a wall at fixed temperature — a molecule that hits it leaves at the same speed in a random direction
-//   (this keeps the gas at one temperature and shuffles the molecules, as real walls do). Directions follow
-//   Lambert's cosine law; a uniform spread of angles would trap molecules skimming along the wall.
-// Right wall: a piston of mass M on a stiff, lightly damped spring: the needle of a pressure gauge.
-//   Molecules bounce off it elastically; every bounce's impulse is recorded. The push on the piston is that impulse over time.
+// A two-dimensional ideal gas: point molecules that do not collide with each other.
+// - Speeds follow the Maxwell–Boltzmann distribution (each velocity component normal, spread SIGMA).
+// - Top and bottom walls reflect molecules unchanged.
+// - Left wall is held at one temperature: a molecule that hits it leaves with a fresh thermal velocity
+//   (flux-weighted, as for a real wall: normal component Rayleigh, sideways component normal).
+// - Right wall is a heavy piston on a stiff, damped spring. Molecules bounce off it elastically and every
+//   bounce's impulse is added up: that is the push on the piston.
+// Units are arbitrary: molecule mass 1, SIGMA = 1.5. The push per molecule averages SIGMA² / L
+// (the ideal-gas law, P·V = N·k·T, in these units); MEAN below is checked against the simulation in the tests.
+export const SIGMA = 1.5;
 export function createGas(o = {}) {
-  return { L: o.L ?? 2, H: o.H ?? 1, v: o.v ?? 2.5, M: o.M ?? 200, k: o.k ?? 50000, c: o.c ?? 1600,
-    x0: o.L ?? 2, px: o.L ?? 2, pv: 0, balls: [], impulse: 0, hits: 0, t: 0 };
+  const cap = o.cap ?? 10000, L = o.L ?? 2;
+  return { L, H: o.H ?? 1, M: o.M ?? 2000, k: o.k ?? 2e6, c: o.c ?? 38000, x0: L, px: L, pv: 0,
+    n: 0, x: new Float64Array(cap), y: new Float64Array(cap), vx: new Float64Array(cap), vy: new Float64Array(cap),
+    impulse: 0, t: 0, rate: 0 };
 }
+function gauss(rng) { return Math.sqrt(-2 * Math.log(1 - rng())) * Math.cos(2 * Math.PI * rng()); }
 export function addBall(g, rng) {
-  const a = rng() * 2 * Math.PI;
-  g.balls.push({ x: rng() * (g.px - 0.02) + 0.01, y: rng() * g.H, vx: g.v * Math.cos(a), vy: g.v * Math.sin(a) });
+  if (g.n >= g.x.length) return;
+  const i = g.n++; g.x[i] = rng() * (g.px - 0.02) + 0.01; g.y[i] = rng() * g.H;
+  g.vx[i] = SIGMA * gauss(rng); g.vy[i] = SIGMA * gauss(rng);
 }
-export function step(g, dt, rng) {
-  const n = 4, h = dt / n, H = g.H;
-  for (let s = 0; s < n; s++) {
-    for (const b of g.balls) {
-      b.x += b.vx * h; b.y += b.vy * h;
-      if (b.y < 0) { b.y = -b.y; b.vy = -b.vy; } else if (b.y > H) { b.y = 2 * H - b.y; b.vy = -b.vy; }
-      if (b.x < 0) {                                   // wall at fixed temperature
-        const a = Math.asin(2 * rng() - 1);              // Lambert's cosine law, as for a real wall
-        b.x = -b.x; b.vx = g.v * Math.cos(a); b.vy = g.v * Math.sin(a);
-      } else if (b.x > g.px && b.vx > g.pv) {          // elastic bounce off the moving piston
-        const u1 = b.vx, u2 = g.pv, M = g.M;
-        const v1 = ((1 - M) * u1 + 2 * M * u2) / (1 + M), v2 = ((M - 1) * u2 + 2 * u1) / (1 + M);
-        g.impulse += M * (v2 - u2); g.hits++;
-        b.vx = v1; g.pv = v2; b.x = g.px - (b.x - g.px);
+export function step(g, dt, rng, sub = 4) {
+  const h = dt / sub, H = g.H, M = g.M, X = g.x, Y = g.y, VX = g.vx, VY = g.vy;
+  let imp = 0;
+  for (let s = 0; s < sub; s++) {
+    const px = g.px; let pv = g.pv;
+    for (let i = 0; i < g.n; i++) {
+      let x = X[i] + VX[i] * h, y = Y[i] + VY[i] * h;
+      if (y < 0) { y = -y; VY[i] = -VY[i]; } else if (y > H) { y = 2 * H - y; VY[i] = -VY[i]; }
+      if (x < 0) { x = -x; VX[i] = SIGMA * Math.sqrt(-2 * Math.log(1 - rng())); VY[i] = SIGMA * gauss(rng); }
+      else if (x > px && VX[i] > pv) {
+        const u1 = VX[i], v1 = ((1 - M) * u1 + 2 * M * pv) / (1 + M), v2 = ((M - 1) * pv + 2 * u1) / (1 + M);
+        imp += M * (v2 - pv); pv = v2; VX[i] = v1; x = px - (x - px);
       }
+      X[i] = x; Y[i] = y;
     }
-    const a = (-g.k * (g.px - g.x0) - g.c * g.pv) / g.M;  // spring + damping
-    g.pv += a * h; g.px += g.pv * h;
-    for (const b of g.balls) if (b.x > g.px) b.x = g.px;
-    g.t += h;
+    pv += ((-g.k * (g.px - g.x0) - g.c * pv) / M) * h; g.px += pv * h; g.pv = pv; g.t += h;
   }
+  g.impulse += imp;
+  return imp;
 }
-// One reading: the average push on the piston over a window, per molecule.
-export function startReading(g) { g.impulse = 0; g.hits = 0; g.t0 = g.t; }
-export function reading(g) { const T = g.t - g.t0; return g.balls.length && T > 0 ? g.impulse / T / g.balls.length : 0; }
-export const WINDOW = 2;           // seconds of model time per reading
+// The dial: push over the last fraction of a second (an exponential average with time constant TAU), per molecule.
+export const TAU = 0.25;
+export function updateDial(g, imp, dt) { g.rate += (imp / dt - g.rate) * Math.min(1, dt / TAU); return g.n ? g.rate / g.n : 0; }
+export const MEAN = SIGMA * SIGMA / 2;   // ideal-gas value for L = 2: SIGMA² / L
 
-// Expected range of one reading, measured once by simulating many readings at each count (tools/calibrate-gas.mjs):
-// [molecules, mean, 2.5%, 16%, 84%, 97.5%]. The inner band (16–84%) holds about 68 of every 100 readings,
-// the outer band (2.5–97.5%) about 95. Never fitted to the reader's own dots.
-export const CALIB = [[1, 1.5164, 0, 0, 2.4434, 4.7129], [2, 1.5296, 0, 0.7698, 2.3124, 3.4198], [3, 1.5561, 0.3049, 0.8279, 2.2112, 2.9792], [5, 1.5405, 0.5418, 1.0062, 2.0641, 2.6307], [8, 1.5475, 0.7608, 1.1413, 1.9524, 2.3674], [12, 1.5491, 0.9253, 1.221, 1.8765, 2.1983], [20, 1.544, 1.0579, 1.2849, 1.7906, 2.0524], [30, 1.5332, 1.1214, 1.323, 1.7448, 1.9634], [50, 1.5321, 1.2161, 1.3601, 1.6986, 1.8537], [80, 1.5162, 1.2682, 1.3869, 1.6468, 1.768], [120, 1.5404, 1.3271, 1.4344, 1.6434, 1.7337], [200, 1.5335, 1.3768, 1.4519, 1.6123, 1.6872], [300, 1.524, 1.3917, 1.4591, 1.592, 1.6569]];
-export const MEAN = 1.536;   // average push per molecule: the same at every count
-// Band edges at any count, interpolated on log(count).
+// Expected range of the dial, measured once by simulating at each count (tools/calibrate-gas.mjs):
+// [molecules, mean, 2.5%, 16%, 84%, 97.5%]. Inner band (16–84%): about 68 of every 100 moments; outer (2.5–97.5%): about 95.
+export const CALIB = [[1, 0.9327, 0, 0, 1.026, 9.6078], [2, 1.154, 0, 0, 2.4283, 8.3095], [3, 1.1998, 0.0001, 0.0101, 2.6393, 6.7736], [5, 1.1077, 0.002, 0.047, 2.3032, 4.9633], [10, 1.1511, 0.0345, 0.2225, 2.1207, 3.6769], [20, 1.0586, 0.1122, 0.3919, 1.7404, 2.663], [50, 1.1414, 0.3903, 0.6935, 1.5765, 2.1386], [100, 1.1103, 0.5654, 0.7937, 1.4151, 1.8127], [200, 1.1315, 0.7165, 0.9161, 1.3546, 1.5964], [500, 1.111, 0.8586, 0.9802, 1.2498, 1.3875], [1000, 1.1257, 0.9326, 1.0167, 1.2246, 1.3399], [2000, 1.1226, 0.9933, 1.0577, 1.1842, 1.2528], [5000, 1.1071, 1.0243, 1.0659, 1.1489, 1.1918], [10000, 1.0981, 1.037, 1.0682, 1.1293, 1.1578]];
 export function bandAt(n, k) {
   const C = CALIB, lo = k === 1 ? 3 : 2, hi = k === 1 ? 4 : 5;
   if (n <= C[0][0]) return [C[0][lo], C[0][hi]];
