@@ -68,7 +68,7 @@ format:
       - text: |
           <link rel="icon" href="/3body/assets/icons/favicon.ico" sizes="32x32">
           <link rel="apple-touch-icon" href="/3body/assets/icons/apple-touch-icon.png">
-          <meta name="theme-color" content="#fbf8f1" media="(prefers-color-scheme: light)">
+          <meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)">
           <meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
     include-after-body:
       - theme/lead-in.html
