@@ -55,18 +55,23 @@ blockquote, .blockquote { border-left: none; padding-left: 1.5rem; font-size: .9
 // Set like a printed book (Dan, 2026-11-20)
 // Paragraphs: indented, no blank line; no indent after a heading, list, figure or widget.
 main p { margin-bottom: 0; }
-main p + p { text-indent: 1.4em; }
+main p + p, main p + .page-columns > p:first-child { text-indent: 1.4em; }
+main .page-columns + p { text-indent: 1.4em; }
 main ul, main ol, main figure, main .callout, main blockquote, main .quarto-figure { margin-top: 1em; margin-bottom: 1em; }
 main .column-margin p + p, main .callout p + p, main .footnotes p + p { text-indent: 0; margin-top: .5em; }
 // Justified with hyphenation on wide screens; ragged-right on phones (narrow columns leave gaps).
 @media (min-width: 768px) { main p { text-align: justify; } }
-// Chapter lead-in: first line of the chapter's first paragraph in small caps.
-main > p:first-of-type::first-line { font-variant-caps: small-caps; letter-spacing: .03em; }
+// Chapter lead-in: the opening words in small caps (wrapped by theme/lead-in.html).
+.lead-in { font-variant-caps: all-small-caps; letter-spacing: .05em; }
 // Abbreviations in small caps: write [NASA]{.sc}
 .sc { font-variant-caps: all-small-caps; letter-spacing: .03em; }
 // Section breaks: a fleuron instead of a rule (write *** or ---)
 hr { border: 0; opacity: 1; height: auto; text-align: center; margin: 1.6em 0; background: none; }
 hr::after { content: "\2766"; font-size: 1.1em; }
+
+// Book, not blog: no "Modified" date under chapter titles (Dan, 2026-11-20)
+#title-block-header .quarto-title-meta { display: none !important; }
+#title-block-header { margin-bottom: 1.6rem; }
 
 // The book description is for search engines and link previews; the subtitle already says it
 .quarto-title .description { display: none; }

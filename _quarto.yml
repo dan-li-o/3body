@@ -58,7 +58,7 @@ format:
     fig-cap-location: margin       # Tufte: figure captions in the margin
     tbl-cap-location: margin
     html-math-method: katex
-    toc: true
+    toc: false                     # a book has no per-page contents box (Dan, 2026-11-20)
     number-sections: true
     code-copy: true
     css: 
@@ -71,6 +71,7 @@ format:
           <meta name="theme-color" content="#fbf8f1" media="(prefers-color-scheme: light)">
           <meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
     include-after-body:
+      - theme/lead-in.html
       - text: |
           <!-- Hypothes.is annotation client -->
           <script async src="https://hypothes.is/embed.js"></script>
