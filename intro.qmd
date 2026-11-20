@@ -1,5 +1,3 @@
----
----
 # Preface {.unnumbered}
 
 ::: {.callout-note appearance="minimal"}
