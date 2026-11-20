@@ -69,8 +69,7 @@ main .column-margin p + p, main .callout p + p, main .footnotes p + p { text-ind
 hr { border: 0; opacity: 1; height: auto; text-align: center; margin: 1.6em 0; background: none; }
 hr::after { content: "\2766"; font-size: 1.1em; }
 
-// Book, not blog: no "Modified" date under chapter titles (Dan, 2026-11-20)
-#title-block-header .quarto-title-meta { display: none !important; }
+// Book, not blog: no "Modified" date (removed from front matter, Dan 2026-11-20)
 #title-block-header { margin-bottom: 1.6rem; }
 
 // The book description is for search engines and link previews; the subtitle already says it

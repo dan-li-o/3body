@@ -1,6 +1,5 @@
 ---
 title: "Induction on edge"
-date-modified: last-modified
 ---
 
 All night long, Wang Miao dreamed of pool balls. They flew in the dark without any patterns. He woke up in a sweat and thought of the shooter hypothesis and the farmer hypothesis, something that the members of the Frontiers of Science often discussed. Both involve the fundamental nature of the laws of the universe. 
