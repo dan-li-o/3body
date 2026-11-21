@@ -71,7 +71,7 @@ body.quarto-dark .ul-poster-light, body:not(.quarto-dark) .ul-poster-dark { disp
 .ul-readout { font-family: var(--ul-sans); font-size: .9rem; color: var(--ul-grey); font-variant-numeric: tabular-nums; }
 
 /* Key for shaded bands on a chart (strip.js): small sans, swatches in the ghost colour. */
-.ul-key { display: flex; flex-wrap: wrap; gap: .2rem 1.2rem; margin: .2rem 0 0 14%; font-family: var(--ul-sans); font-size: .8rem; color: var(--ul-grey); }
+.ul-key { display: flex; flex-wrap: wrap; gap: .2rem 1.2rem; margin: .2rem 0 0 14%; font-family: var(--ul-sans); font-size: .7rem; color: var(--ul-grey); }
 .ul-key[hidden] { display: none; }
 .ul-key span::before { content: ""; display: inline-block; width: 14px; height: 10px; margin-right: .4rem; vertical-align: -1px; }
 .ul-key-inner::before { background: color-mix(in srgb, var(--ul-ghost) 40%, var(--ul-paper)); }
