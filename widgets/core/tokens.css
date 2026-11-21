@@ -33,7 +33,7 @@ body.quarto-dark {
 }
 
 /* ----- figure grammar: invitation above, the figure, status + controls below */
-.ul-widget { display: block; margin: 1.75rem 0; font-family: var(--ul-serif); color: var(--ul-ink); }
+.ul-widget { display: block; text-align: left; margin: 1.75rem 0; font-family: var(--ul-serif); color: var(--ul-ink); }
 .ul-invite { font-style: italic; margin: 0 0 .5rem; }
 .ul-status { font-style: italic; min-height: 1.5em; margin: .5rem 0 .25rem; }
 .ul-closing { font-size: .85em; color: var(--ul-grey); margin: .75rem 0 0; }
@@ -69,3 +69,10 @@ body.quarto-dark .ul-poster-light, body:not(.quarto-dark) .ul-poster-dark { disp
 .ul-btn[hidden] { display: none; }
 .ul-btn:focus-visible, .ul-range:focus-visible { outline: 2px solid var(--ul-accent); outline-offset: 3px; }
 .ul-readout { font-family: var(--ul-sans); font-size: .9rem; color: var(--ul-grey); font-variant-numeric: tabular-nums; }
+
+/* Key for shaded bands on a chart (strip.js): small sans, swatches in the ghost colour. */
+.ul-key { display: flex; flex-wrap: wrap; gap: .2rem 1.2rem; margin: .2rem 0 0 14%; font-family: var(--ul-sans); font-size: .8rem; color: var(--ul-grey); }
+.ul-key[hidden] { display: none; }
+.ul-key span::before { content: ""; display: inline-block; width: 14px; height: 10px; margin-right: .4rem; vertical-align: -1px; }
+.ul-key-inner::before { background: color-mix(in srgb, var(--ul-ghost) 40%, var(--ul-paper)); }
+.ul-key-outer::before { background: color-mix(in srgb, var(--ul-ghost) 22%, var(--ul-paper)); }

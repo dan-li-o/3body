@@ -131,13 +131,10 @@ Flip a coin ten times and the results tell you little: seven heads, maybe, or th
 
 Here is a way to see that share. Put the tails on one end of a ruler and the heads on the other, and balance it on your finger. The ruler balances at the share of heads: right in the middle if they are even, nearer the heads end if heads are ahead. It is Archimedes' lever, put to work on chance.
 
-::: {.todo}
-<!-- Shown once the widget's PR lands (widgets/lawful-coin). -->
 ::: {#wid-lawful-coin}
 {{< widget lawful-coin alt="A balance beam with tails on the left pan and heads on the right; an orange fulcrum under the beam at the share of heads; below, a line of the share as coins are added, settling near one half." >}}
 
 **The lawful coin.** Flip more and more coins. The beam balances at the share of heads: wild with a few coins, steady near one half with thousands. The bands were predicted before any coin was flipped.
-:::
 :::
 
 Watch where the beam balances as the coins pile up. This is the [law of large numbers]{.term}: the more times you repeat a chancy experiment, the closer the average comes to a fixed value. Jacob Bernoulli, who first proved it, called it his *golden theorem*.^[Published after his death, in *Ars Conjectandi* (*The Art of Conjecturing*), 1713 [-@bernoulli2006art].] Casinos thrive on it. Insurance companies rely on it. No single bet can be predicted, and the house still wins.
