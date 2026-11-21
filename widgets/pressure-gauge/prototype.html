@@ -140,27 +140,27 @@ const SAY={
  run1:'Few molecules: the push comes in knocks. Thousands: one steady push. That steady push is pressure. Does the math predict this shape?',
  runN:'A new run, the same shape. Each knock is random; the hum is lawful.',
  band:'The bands were worked out in advance, from long simulations at each count: the pointer spends about 68% of the time in the inner band, about 95% in the outer. Both narrow as molecules are added.'};
-let N=0,rate=0,g,trace,old,runs,mode,showBand,say,xMax,bandT0,dialV,run,raf=0,lastT=0,onScreen=true;
-function reset(){N=0;rate=0;g=createGas({cap:SIM});trace=[];old=[];runs=0;mode='idle';showBand=false;say=SAY.start;xMax=10;bandT0=0;dialV=0;run=null;
+let N=0,rate=0,nAvg=0,g,trace,old,runs,mode,showBand,say,xMax,bandT0,dialV,run,raf=0,lastT=0,onScreen=true;
+function reset(){N=0;rate=0;nAvg=0;g=createGas({cap:SIM});trace=[];old=[];runs=0;mode='idle';showBand=false;say=SAY.start;xMax=10;bandT0=0;dialV=0;run=null;
  btn('add').hidden=false;btn('run').hidden=true;btn('band').hidden=true;key.hidden=true;btn('run').textContent='Run: up to 10,000 molecules';loop();}
 function zoomTo(to){const from=xMax,t0=performance.now();if(reduced||from===to){xMax=to;return;}
  const z=now=>{const p=Math.min(1,(now-t0)/800),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;xMax=from+(to-from)*e;if(p<1)requestAnimationFrame(z);else xMax=to;};requestAnimationFrame(z);}
 function grow(n){N=Math.max(N,n);while(g.n<Math.min(N,SIM))addBall(g,rng);const to=NICE.find(v=>v>=N)||MAX;if(to>xMax)zoomTo(to);}
 document.querySelector('.ul-controls').addEventListener('click',e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a)return;
  if(a==='add'&&mode==='idle'){grow(N+1);say=N===1?SAY.one:N===2?SAY.two:N>=STEP_UNTIL?SAY.ready:say;if(N>=STEP_UNTIL)btn('run').hidden=false;}
- if(a==='run'&&mode==='idle'){if(runs>0){old.push(trace);g=createGas({cap:SIM});N=0;rate=0;trace=[];xMax=10;}if(!N)grow(1);
+ if(a==='run'&&mode==='idle'){if(runs>0){old.push(trace);g=createGas({cap:SIM});N=0;rate=0;nAvg=0;trace=[];xMax=10;}if(!N)grow(1);
   mode='run';run={t0:performance.now(),t:0,n0:N};say=SAY.running;btn('add').hidden=true;btn('run').disabled=true;}
  if(a==='band'){showBand=true;bandT0=performance.now();btn('band').hidden=true;key.hidden=false;say=SAY.band;}
  if(a==='reset')reset();
  loop();});
-function endRun(){mode='idle';runs++;run=null;btn('run').disabled=false;btn('run').textContent='Run again';say=runs===1?SAY.run1:SAY.runN;if(!showBand)btn('band').hidden=false;}
+function endRun(){const t=trace,k=Math.floor(t.length/2*2/3)*2;let s=0,c=0;for(let i=k+1;i<t.length;i+=2){s+=t[i];c++;}window.__late=s/c/MEAN;mode='idle';runs++;run=null;btn('run').disabled=false;btn('run').textContent='Run again';say=runs===1?SAY.run1:SAY.runN;if(!showBand)btn('band').hidden=false;}
 function loop(){if(!raf&&onScreen&&!document.hidden){lastT=performance.now();raf=requestAnimationFrame(frame);}}
 new IntersectionObserver(es=>{onScreen=es[0].isIntersecting;if(onScreen)loop();}).observe(mc);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)loop();});
 function frame(now){raf=0;const dt=Math.min(1/30,Math.max(1/240,(now-lastT)/1000));lastT=now;
  if(run){run.t=(now-run.t0)/1000;const p=Math.min(1,run.t/RUN_S);grow(Math.round(run.n0*Math.pow(MAX/run.n0,p)));}
  if(N){// molecules drawn on screen are simulated one by one; the rest are added by the tested statistical model
-  const imp=step(g,dt,rng)+statImpulse(N-g.n,dt,rng);rate+=(imp/dt-rate)*Math.min(1,dt/TAU);dialV=rate/N;
+  const imp=step(g,dt,rng)+statImpulse(N-g.n,dt,rng);const a=Math.min(1,dt/TAU);rate+=(imp/dt-rate)*a;nAvg+=(N-nAvg)*a;dialV=rate/nAvg;
   if(mode==='run'||trace.length<4000)trace.push(N,dialV);}
  if(run&&run.t>=RUN_S)endRun();
  draw(now);if(N)loop();}
@@ -204,7 +204,9 @@ function drawChart(now){const W=cc._w,H=cc._h,grey=css('--ul-grey'),ghost=css('-
  const line=(tr,alpha)=>{if(tr.length<4)return;cx.strokeStyle=acc;cx.globalAlpha=alpha;cx.lineWidth=1.25;cx.lineJoin='round';cx.beginPath();
   // at a fixed count the trace scribbles up and down; spread it a hair so the scribble is visible
   for(let i=0;i<tr.length;i+=2){const x=X(tr[i]),y=Y(tr[i+1]);i?cx.lineTo(x,y):cx.moveTo(x,y);}cx.stroke();cx.globalAlpha=1;};
- cx.save();cx.beginPath();cx.rect(L,T-4,R-L+2,B-T+6);cx.clip();for(const o of old)line(o,.25);line(trace,.85);cx.restore();
+ cx.save();cx.beginPath();cx.rect(L,T-4,R-L+2,B-T+6);cx.clip();for(const o of old)line(o,.25);line(trace,.85);
+ if(trace.length>=2){const x=X(trace[trace.length-2]),y=Y(trace[trace.length-1]);cx.fillStyle=acc;cx.beginPath();cx.arc(x,y,4.5,0,7);cx.fill();}
+ cx.restore();
  if(showBand)for(const[k,c]of[[1,grey],[2,ghost]])for(const e of[0,1]){cx.strokeStyle=c;cx.lineWidth=1;cx.beginPath();bx.forEach((v,i)=>{const y=Y(bandAt(v,k)[e]);i?cx.lineTo(X(v),y):cx.moveTo(X(v),y);});cx.stroke();}}
 addEventListener('resize',layout);
 document.getElementById('k1').style.background=`color-mix(in srgb, ${css('--ul-ghost')} 40%, ${css('--ul-paper')})`;
