@@ -19,6 +19,7 @@ widgets/
     nbody.js       gravity, bounce, merge, escape tests, figure-eight
     pendulum.js    Ch3 pendulums
     coins.js       fair coins, the bands (1σ, 2σ), the law of the lever
+    gas.js         2D ideal gas, piston on a spring, statistical shortcut, the dial, calibrated bands
   <name>/        one folder per widget
     <name>.js      the custom element <ul-name>
     <name>.css     widget-only styles (rare; prefer tokens)
