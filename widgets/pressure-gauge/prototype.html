@@ -12,7 +12,7 @@ main{max-width:780px;margin:0 auto;padding:22px 16px}
 .ul-status{font-style:italic;min-height:3em;margin:.5rem 0 .25rem}
 canvas{display:block;width:100%}
 .fig{display:flex;gap:0;align-items:flex-start}
-.fig>div:first-child{flex:0 0 30%}
+.fig{flex-direction:column;align-items:stretch}.fig>div{flex:none;width:100%}
 .fig>div{flex:1 1 0;min-width:0}
 @media(max-width:640px){.fig{flex-direction:column;gap:0}.fig>div:first-child{flex:none;width:100%}}
 canvas:focus-visible{outline:2px solid var(--ul-accent);outline-offset:4px}
@@ -170,11 +170,11 @@ function frame(now){raf=0;const dt=Math.min(1/30,Math.max(1/240,(now-lastT)/1000
 // Phone: everything turns 90°: the push runs left to right; the piston slides sideways above the chart,
 // and the line grows downward as molecules are added.
 let A={};
-function layout(){const dpr=Math.min(2,devicePixelRatio||1),phone=innerWidth<=640;
+function layout(){const dpr=Math.min(2,devicePixelRatio||1),phone=true;   // stacked on every screen, like the coin
  const W1=mc.clientWidth,W2=cc.clientWidth;
- const H1=phone?Math.round(W1*0.36):Math.max(300,Math.round(W1*1.25)),H2=phone?Math.round(W2*0.78):H1;
+ const H1=Math.round(Math.min(W1*0.36,230)),H2=Math.round(Math.min(W2*0.75,420));
  for(const[c,ctx,w,h]of[[mc,mx,W1,H1],[cc,cx,W2,H2]]){c.style.height=h+'px';c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);c._w=w;c._h=h;}
- A=phone?{phone,v0:Math.round(W1*0.34),v1:W1-46}:{phone,v0:Math.round(H1*0.72),v1:70};
+ A=phone?{phone,v0:Math.round(W1*0.34),v1:Math.round(W1*0.86)}:{phone,v0:Math.round(H1*0.72),v1:70};
  draw(performance.now());}
 const V=v=>A.v0+Math.min(v,YMAX)/YMAX*(A.v1-A.v0);
 function draw(now){drawModel();drawChart(now);if(statusEl.textContent!==say)statusEl.textContent=say;
