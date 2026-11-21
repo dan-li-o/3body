@@ -72,6 +72,7 @@ format:
           <meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
     include-after-body:
       - theme/lead-in.html
+      - theme/quiet-page.html
       - text: |
           <!-- Hypothes.is annotation client -->
           <script async src="https://hypothes.is/embed.js"></script>
