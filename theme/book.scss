@@ -125,3 +125,22 @@ div.todo-visible { display: block; padding: .4em .6em; margin: .6em 0; }
   .quarto-secondary-nav .breadcrumb-item:not(:last-child) { display: none; }   // just the chapter
   .quarto-secondary-nav .breadcrumb-item:last-child::before { display: none; }
 }
+
+// One page grid for every page (Dan, 2026-11-21: "align the pages and text body").
+// Quarto picks a different grid when a page has no margin notes (Welcome, Preface) and keeps a column
+// for the contents panel, so the text jumped between pages and was squeezed on laptops. Here every page
+// uses the same grid, with Quarto's own line names:
+//   wide:   [space] text (~70 characters) · gutter · margin notes [space], centred as one block;
+//           the left space never narrower than the Contents button
+//   narrow: one centred column, never wider than a comfortable line
+// The contents panel floats over the page (theme/quiet-page.html), so it takes no column.
+$ul-grid-wide: [screen-start] minmax(5.5rem, 1fr) [screen-start-inset page-start page-start-inset body-start-outset body-start body-content-start] minmax(0, 32rem) [body-content-end] 2.5rem [body-end body-end-outset] minmax(9rem, 14rem) [page-end-inset page-end] 0 [screen-end-inset] minmax(1.5rem, 1fr) [screen-end];
+$ul-grid-narrow: [screen-start] minmax(1.25rem, 1fr) [screen-start-inset page-start page-start-inset body-start-outset body-start body-content-start] minmax(0, 34rem) [body-content-end body-end body-end-outset page-end-inset page-end screen-end-inset] minmax(1.25rem, 1fr) [screen-end];
+@media (min-width: 992px) {
+  body .page-columns, body #quarto-content.page-columns { grid-template-columns: $ul-grid-wide !important; }
+  #quarto-sidebar { position: fixed !important; top: 0; left: 0; }
+  #quarto-margin-sidebar { display: none; }
+}
+@media (max-width: 991.98px) {
+  body .page-columns, body #quarto-content.page-columns { grid-template-columns: $ul-grid-narrow !important; }
+}
