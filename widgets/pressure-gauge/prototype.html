@@ -26,7 +26,7 @@ canvas:focus-visible{outline:2px solid var(--ul-accent);outline-offset:4px}
 .key span{display:inline-flex;align-items:center;gap:.4rem}.key i{display:inline-block;width:14px;height:10px}
 .key[hidden]{display:none}
 </style></head><body><main>
-<p class="ul-invite">Add molecules. Watch the pointer.</p>
+<p class="ul-invite">Add molecules. Watch the piston, the pointer and the pen.</p>
 <div class="fig">
  <div><canvas id="model" role="img" aria-label="A gas chamber. Molecules fly inside; the right wall is a piston on a spring; a pointer shows the push per molecule."></canvas></div>
  <div><canvas id="chart" role="img" aria-label="The pointer's reading traced as molecules are added."></canvas>
@@ -169,35 +169,33 @@ function layout(){const dpr=Math.min(2,devicePixelRatio||1),phone=innerWidth<=64
  draw(performance.now());}
 function draw(now){drawModel();drawChart(now);if(statusEl.textContent!==say)statusEl.textContent=say;
  valsEl.textContent=`${N.toLocaleString()} molecules. Push per molecule now ${dialV.toFixed(2)}; the ideal-gas value is ${MEAN.toFixed(2)}.`;}
-// The chamber, the piston on its spring, and the dial: a pointer on a scale of push per molecule.
+// The chamber, turned so the piston is on top: it rises and falls with the reading, like the pointer and the pen.
 function drawModel(){const W=mc._w,H=mc._h,ink=css('--ul-ink'),grey=css('--ul-grey'),rule=css('--ul-rule'),acc=css('--ul-accent');mx.clearRect(0,0,W,H);
- const top=22,bot=H-26,dialX=W-14,post=W-70,p0=(W-70)*0.62,ox=4,pX=p0+Math.min(dialV,YMAX)/YMAX*34,s=(p0-ox)/g.x0,Hs=(bot-top)/g.H;
- mx.strokeStyle=rule;mx.lineWidth=1.75;mx.lineCap='round';mx.beginPath();mx.moveTo(pX+2,top);mx.lineTo(ox,top);mx.lineTo(ox,bot);mx.lineTo(pX+2,bot);mx.stroke();
- mx.fillStyle=ink;const k=g.n,r=g.n>100?1.6:2.6;
- for(let i=0;i<k;i++){mx.beginPath();mx.arc(ox+Math.min(g.x[i],g.x0)*s*(pX-ox)/(p0-ox),bot-g.y[i]*Hs,r,0,7);mx.fill();}
- const midY=(top+bot)/2,coils=7,amp=6;mx.strokeStyle=grey;mx.lineWidth=1.25;mx.beginPath();mx.moveTo(pX,midY);
- for(let i=1;i<=coils*2;i++){mx.lineTo(pX+(post-pX)*i/(coils*2+1),midY+(i%2?-amp:amp));}mx.lineTo(post,midY);mx.stroke();
- mx.strokeStyle=rule;mx.lineWidth=1.75;mx.beginPath();mx.moveTo(post,midY-20);mx.lineTo(post,midY+20);mx.stroke();
- mx.strokeStyle=acc;mx.lineWidth=3;mx.beginPath();mx.moveTo(pX,top);mx.lineTo(pX,bot);mx.stroke();
+ const left=6,right=W-6,bot=H-26,travel=Math.min(46,H*0.14),post=10,p0=post+44+travel;   // p0: piston height at zero push
+ const pY=p0-Math.min(dialV,YMAX)/YMAX*(p0-post-22);                                     // the piston rises with the push, never past the spring's stop
+ const s=(bot-pY)/g.x0,hs=(right-left)/g.H;
+ mx.strokeStyle=rule;mx.lineWidth=1.75;mx.lineCap='round';
+ mx.beginPath();mx.moveTo(left,pY-2);mx.lineTo(left,bot);mx.lineTo(right,bot);mx.lineTo(right,pY-2);mx.stroke();
+ mx.fillStyle=ink;const r=g.n>100?1.6:2.6;
+ for(let i=0;i<g.n;i++){mx.beginPath();mx.arc(left+g.y[i]*hs,bot-Math.min(g.x[i],g.x0)*s,r,0,7);mx.fill();}
+ // spring from the piston up to a fixed bar
+ const cxm=(left+right)/2,coils=6,amp=7;mx.strokeStyle=grey;mx.lineWidth=1.25;mx.beginPath();mx.moveTo(cxm,pY);
+ for(let i=1;i<=coils*2;i++)mx.lineTo(cxm+(i%2?-amp:amp),pY+(post-pY)*i/(coils*2+1));mx.lineTo(cxm,post);mx.stroke();
+ mx.strokeStyle=rule;mx.lineWidth=1.75;mx.beginPath();mx.moveTo(cxm-28,post);mx.lineTo(cxm+28,post);mx.stroke();
+ mx.strokeStyle=acc;mx.lineWidth=3;mx.beginPath();mx.moveTo(left,pY);mx.lineTo(right,pY);mx.stroke();
  mx.font='italic 14px '+css('--ul-serif');mx.fillStyle=grey;mx.textBaseline='alphabetic';mx.textAlign='left';
- mx.fillText(N>SIM?`${N.toLocaleString()} molecules (${SIM} drawn)`:`${N} molecule${N===1?'':'s'}`,ox,H-6);
- // dial: same vertical scale as the chart
- const Y=v=>bot-Math.min(v,YMAX)/YMAX*(bot-top);mx.strokeStyle=rule;mx.lineWidth=1;mx.beginPath();mx.moveTo(dialX,top);mx.lineTo(dialX,bot);mx.stroke();
- for(const v of[0,MEAN,2*MEAN]){mx.beginPath();mx.moveTo(dialX-5,Y(v));mx.lineTo(dialX+5,Y(v));mx.stroke();}
- mx.textAlign='right';mx.textBaseline='middle';mx.fillText('avg',dialX-10,Y(MEAN));mx.fillText('0',dialX-10,Y(0));
- if(N){const y=Y(dialV);mx.fillStyle=acc;mx.beginPath();mx.moveTo(dialX+1,y);mx.lineTo(dialX+11,y-5);mx.lineTo(dialX+11,y+5);mx.closePath();mx.fill();
-  mx.strokeStyle=acc;mx.lineWidth=2;mx.beginPath();mx.moveTo(dialX-6,y);mx.lineTo(dialX+6,y);mx.stroke();}}
+ mx.fillText(N>SIM?`${N.toLocaleString()} molecules (${SIM} drawn)`:`${N} molecule${N===1?'':'s'}`,left,H-6);}
 function drawChart(now){const W=cc._w,H=cc._h,grey=css('--ul-grey'),ghost=css('--ul-ghost'),rule=css('--ul-rule'),acc=css('--ul-accent');cx.clearRect(0,0,W,H);
- const L=40,R=W-10,T=22,B=H-30,X=v=>L+(v-1)/(xMax-1)*(R-L),Y=s=>B-Math.min(s,YMAX)/YMAX*(B-T);
+ const L=48,R=W-10,T=22,B=H-30,X=v=>L+(v-1)/(xMax-1)*(R-L),Y=s=>B-Math.min(s,YMAX)/YMAX*(B-T);
  const bx=[];for(let i=0;i<=200;i++)bx.push(1+(xMax-1)*i/200);
  if(showBand){const fade=reduced?1:Math.min(1,(now-bandT0)/900);
   for(const[k,a]of[[2,.22],[1,.4]]){cx.fillStyle=ghost;cx.globalAlpha=a*fade;cx.beginPath();
    bx.forEach((v,i)=>{const y=Y(bandAt(v,k)[1]);i?cx.lineTo(X(v),y):cx.moveTo(X(v),y);});
    for(let i=bx.length-1;i>=0;i--)cx.lineTo(X(bx[i]),Y(bandAt(bx[i],k)[0]));cx.closePath();cx.fill();}cx.globalAlpha=1;}
- cx.strokeStyle=rule;cx.lineWidth=1;cx.beginPath();cx.moveTo(L,B);cx.lineTo(R,B);cx.stroke();
+ cx.strokeStyle=rule;cx.lineWidth=1;cx.beginPath();cx.moveTo(L,T);cx.lineTo(L,B);cx.lineTo(R,B);cx.stroke();
  cx.strokeStyle=ghost;cx.lineWidth=1.25;cx.beginPath();cx.moveTo(L,Y(MEAN));cx.lineTo(R,Y(MEAN));cx.stroke();
  cx.font='italic 15px '+css('--ul-serif');cx.fillStyle=grey;cx.textBaseline='middle';cx.textAlign='right';
- cx.fillText('0',L-8,Y(0));cx.fillText('avg',L-6,Y(MEAN));
+ cx.fillText('0',L-14,Y(0));cx.fillText('avg',L-14,Y(MEAN));
  cx.textAlign='left';cx.textBaseline='alphabetic';cx.fillText('push per molecule',L,T-8);
  cx.fillText('1',L,H-8);cx.textAlign='center';cx.fillText(Math.round(xMax/2).toLocaleString(),X(xMax/2),H-8);
  cx.textAlign='right';cx.fillText(Math.round(xMax).toLocaleString()+' molecules',R,H-8);
@@ -207,6 +205,7 @@ function drawChart(now){const W=cc._w,H=cc._h,grey=css('--ul-grey'),ghost=css('-
  cx.save();cx.beginPath();cx.rect(L,T-4,R-L+2,B-T+6);cx.clip();for(const o of old)line(o,.25);line(trace,.85);
  if(trace.length>=2){const x=X(trace[trace.length-2]),y=Y(trace[trace.length-1]);cx.fillStyle=acc;cx.beginPath();cx.arc(x,y,4.5,0,7);cx.fill();}
  cx.restore();
+ if(N){const y=Y(dialV);cx.fillStyle=acc;cx.beginPath();cx.moveTo(L-1,y);cx.lineTo(L-11,y-5);cx.lineTo(L-11,y+5);cx.closePath();cx.fill();}
  if(showBand)for(const[k,c]of[[1,grey],[2,ghost]])for(const e of[0,1]){cx.strokeStyle=c;cx.lineWidth=1;cx.beginPath();bx.forEach((v,i)=>{const y=Y(bandAt(v,k)[e]);i?cx.lineTo(X(v),y):cx.moveTo(X(v),y);});cx.stroke();}}
 addEventListener('resize',layout);
 document.getElementById('k1').style.background=`color-mix(in srgb, ${css('--ul-ghost')} 40%, ${css('--ul-paper')})`;
