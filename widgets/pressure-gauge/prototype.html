@@ -141,8 +141,8 @@ const SAY={
  run1:'Few molecules: the push comes in knocks. Thousands: one steady push. That steady push is pressure. Does the math predict this shape?',
  runN:'A new run, the same shape. Each knock is random; the hum is lawful.',
  band:'The pressure was predictable all along. The bands were worked out in advance, from long simulations at each count: the pointer spends about 68% of the time in the inner band, about 95% in the outer. Both narrow as molecules are added.'};
-let N=0,rate=0,nAvg=0,g,trace,old,runs,mode,showBand,say,xMax,bandT0,dialV,run,raf=0,lastT=0,onScreen=true;
-function reset(){N=0;rate=0;nAvg=0;g=createGas({cap:SIM});trace=[];old=[];runs=0;mode='idle';showBand=false;say=SAY.start;xMax=10;bandT0=0;dialV=0;run=null;
+let N=0,rate=0,nAvg=0,dispV=0,dispVel=0,g,trace,old,runs,mode,showBand,say,xMax,bandT0,dialV,run,raf=0,lastT=0,onScreen=true;
+function reset(){N=0;rate=0;nAvg=0;dispV=0;dispVel=0;g=createGas({cap:SIM});trace=[];old=[];runs=0;mode='idle';showBand=false;say=SAY.start;xMax=10;bandT0=0;dialV=0;run=null;
  btn('add').hidden=false;btn('run').hidden=true;btn('band').hidden=true;key.hidden=true;btn('run').textContent='Run: up to 10,000 molecules';loop();}
 function zoomTo(to){const from=xMax,t0=performance.now();if(reduced||from===to){xMax=to;return;}
  const z=now=>{const p=Math.min(1,(now-t0)/800),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;xMax=from+(to-from)*e;if(p<1)requestAnimationFrame(z);else xMax=to;};requestAnimationFrame(z);}
@@ -162,6 +162,7 @@ function frame(now){raf=0;const dt=Math.min(1/30,Math.max(1/240,(now-lastT)/1000
  if(run){run.t=(now-run.t0)/1000;const p=Math.min(1,run.t/RUN_S);grow(Math.round(run.n0*Math.pow(MAX/run.n0,p)));}
  if(N){// molecules drawn on screen are simulated one by one; the rest are added by the tested statistical model
   const imp=step(g,dt,rng)+statImpulse(N-g.n,dt,rng);const a=Math.min(1,dt/TAU);rate+=(imp/dt-rate)*a;nAvg+=(N-nAvg)*a;dialV=rate/nAvg;
+  {const w=2*Math.PI*4,z=0.45;dispVel+=(w*w*(Math.min(dialV,YMAX)-dispV)-2*z*w*dispVel)*dt;dispV+=dispVel*dt;if(reduced){dispV=dialV;dispVel=0;}}
   if(mode==='run'||trace.length<4000)trace.push(N,dialV);}
  if(run&&run.t>=RUN_S)endRun();
  draw(now);if(N)loop();}
@@ -172,7 +173,7 @@ function frame(now){raf=0;const dt=Math.min(1/30,Math.max(1/240,(now-lastT)/1000
 let A={};
 function layout(){const dpr=Math.min(2,devicePixelRatio||1),phone=true;   // stacked on every screen, like the coin
  const W1=mc.clientWidth,W2=cc.clientWidth;
- const H1=Math.round(Math.min(W1*0.36,230)),H2=Math.round(Math.min(W2*0.75,420));
+ const H1=Math.round(Math.min(W1*0.3,170)),H2=Math.round(Math.min(W2*0.75,420));
  for(const[c,ctx,w,h]of[[mc,mx,W1,H1],[cc,cx,W2,H2]]){c.style.height=h+'px';c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);c._w=w;c._h=h;}
  A=phone?{phone,v0:Math.round(W1*0.34),v1:Math.round(W1*0.86)}:{phone,v0:Math.round(H1*0.72),v1:70};
  draw(performance.now());}
@@ -188,13 +189,15 @@ function drawModel(){const W=mc._w,H=mc._h,ink=css('--ul-ink'),grey=css('--ul-gr
   const c=(left+right)/2;spring(c,p,c,post,grey,rule);
   mx.strokeStyle=acc;mx.lineWidth=3;mx.beginPath();mx.moveTo(left,p);mx.lineTo(right,p);mx.stroke();
   guide(right,p,W,p);}
- else{const left=6,top=24,bot=H-6,post=W-6;
-  mx.strokeStyle=rule;mx.lineWidth=1.75;mx.beginPath();mx.moveTo(p+2,top);mx.lineTo(left,top);mx.lineTo(left,bot);mx.lineTo(p+2,bot);mx.stroke();
-  const s=(p-left)/g.x0,hs=(bot-top)/g.H;mx.fillStyle=ink;
-  for(let i=0;i<g.n;i++){mx.beginPath();mx.arc(left+Math.min(g.x[i],g.x0)*s,bot-g.y[i]*hs,r,0,7);mx.fill();}
-  const c=(top+bot)/2;spring(p,c,post,c,grey,rule);
-  mx.strokeStyle=acc;mx.lineWidth=3;mx.beginPath();mx.moveTo(p,top);mx.lineTo(p,bot);mx.stroke();
-  guide(p,bot,p,H);}
+ else{// a fixed chamber (left wall to the zero mark); the piston slides in a short sleeve beyond it
+  const left=6,top=24,bot=H-6,post=W-6,wall=A.v0,pp=Math.max(wall,V(dispV));
+  mx.strokeStyle=rule;mx.lineWidth=1.75;mx.beginPath();mx.moveTo(wall,top);mx.lineTo(left,top);mx.lineTo(left,bot);mx.lineTo(wall,bot);mx.stroke();
+  mx.lineWidth=1;mx.beginPath();mx.moveTo(wall,top);mx.lineTo(Math.min(post-30,A.v1+12),top);mx.moveTo(wall,bot);mx.lineTo(Math.min(post-30,A.v1+12),bot);mx.stroke();
+  const s=(wall-left-4)/g.x0,hs=(bot-top)/g.H;mx.fillStyle=ink;
+  for(let i=0;i<g.n;i++){mx.beginPath();mx.arc(left+2+Math.min(g.x[i],g.x0)*s,bot-g.y[i]*hs,r,0,7);mx.fill();}
+  const c=(top+bot)/2;spring(pp,c,post,c,grey,rule);
+  mx.strokeStyle=acc;mx.lineWidth=3;mx.beginPath();mx.moveTo(pp,top+2);mx.lineTo(pp,bot-2);mx.stroke();
+  guide(pp,bot,pp,H);}
  mx.font='italic 14px '+css('--ul-serif');mx.fillStyle=grey;mx.textBaseline='alphabetic';mx.textAlign='left';
  mx.fillText(N>SIM?`${N.toLocaleString()} molecules (${SIM} drawn)`:`${N} molecule${N===1?'':'s'}`,6,A.phone?15:H-6);}
 function spring(x1,y1,x2,y2,grey,rule){const n=12,amp=7,dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy)||1,nx=-dy/len,ny=dx/len;
@@ -227,7 +230,7 @@ function drawChart(now){const W=cc._w,H=cc._h,grey=css('--ul-grey'),ghost=css('-
  if(trace.length>=2){const q=P(trace[trace.length-2],trace[trace.length-1]);cx.fillStyle=acc;cx.beginPath();cx.arc(q[0],q[1],4.5,0,7);cx.fill();}
  cx.restore();
  if(showBand)for(const[k,c]of[[1,grey],[2,ghost]])for(const e of[0,1]){cx.strokeStyle=c;cx.lineWidth=1;cx.beginPath();poly(k,e).forEach((q,i)=>i?cx.lineTo(...q):cx.moveTo(...q));cx.stroke();}
- if(N){const v=V(dialV);cx.fillStyle=acc;cx.beginPath();
+ if(N){const v=V(dispV);cx.fillStyle=acc;cx.beginPath();
   if(!A.phone){cx.moveTo(c0-1,v);cx.lineTo(c0-11,v-5);cx.lineTo(c0-11,v+5);}else{cx.moveTo(v,c0-1);cx.lineTo(v-5,c0-11);cx.lineTo(v+5,c0-11);}
   cx.closePath();cx.fill();}}
 addEventListener('resize',layout);

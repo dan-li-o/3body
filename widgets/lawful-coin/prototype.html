@@ -62,7 +62,7 @@ let seed=(Date.now()%2147483646)+1;const rng=()=>(seed=seed*16807%2147483647)/21
 const MAX=10000,DRAWN=400,RUN_S=20,FLIP_MS=900,NICE=[10,100,1000,10000],STEP_UNTIL=5;
 const SAY={
  start:'One coin. Flip it.',
- one:'One coin: all heads or all tails, so the beam can only balance at one end. Where it balances is the share of heads. Add a coin.',
+ one:'One coin: all heads or all tails, so the beam balances at one end. The fulcrum slides to where the beam balances, like balancing a ruler on your finger: that point is the share of heads. Add a coin.',
  two:'The line traces the balance point: across for the share of heads, down for how many coins. Add another.',
  more:'One more coin, one more flip.',
  ready:'You get the idea. Add coins one at a time, or let it run.',
@@ -96,7 +96,7 @@ function frame(now){raf=0;
 // ---- layout: one value axis (share of heads) shared by the divider, the pointer and the pen
 let A={};
 function layout(){const dpr=Math.min(2,devicePixelRatio||1);
- const W1=mc.clientWidth,W2=cc.clientWidth,H1=Math.round(Math.min(W1*0.4,210)),H2=Math.round(Math.min(W2*0.75,420));
+ const W1=mc.clientWidth,W2=cc.clientWidth,H1=Math.round(Math.min(W1*0.4,210)),H2=Math.round(Math.min(W2*0.75,330));
  for(const[c,ctx,w,h]of[[mc,mx,W1,H1],[cc,cx,W2,H2]]){c.style.height=h+'px';c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);c._w=w;c._h=h;}
  A={phone:true,v0:Math.round(W1*0.14),v1:Math.round(W1*0.86)};fx=V(share);draw(performance.now());}
 const V=v=>A.v0+v*(A.v1-A.v0);
@@ -109,9 +109,9 @@ let fx=0,lastF=0;
 function drawModel(now){const W=mc._w,H=mc._h,ink=css('--ul-ink'),grey=css('--ul-grey'),ghost=css('--ul-ghost'),rule=css('--ul-rule'),acc=css('--ul-accent');mx.clearRect(0,0,W,H);
  const dt=Math.min(.05,Math.max(0,(now-lastF)/1000));lastF=now;
  const age=(now-flipT0)/FLIP_MS,anim=N<=60&&age<1,landed=!anim||age>0.55;
- const target=V(N?share:.5);fx+=(target-fx)*(reduced?1:Math.min(1,dt*(run?20:5)));
+ const target=V(N?share:.5);fx+=(target-fx)*(reduced?1:Math.min(1,dt*(run?7:4)));   // slow enough that the beam visibly rocks
  const tri=16,trackY=H-26,beamY=trackY-tri,half=(A.v1-A.v0)/2;
- const theta=Math.max(-.2,Math.min(.2,(target-fx)/half*0.9));         // tips toward the heavier side until balanced
+ const tmax=14/half,theta=Math.max(-tmax,Math.min(tmax,(target-fx)/half*1.6));   // a visible rock, never into the scale         // tips toward the heavier side until balanced
  const end=x=>{const dx=x-fx;return[fx+dx*Math.cos(theta),beamY+dx*Math.sin(theta)];};
  // track with the scale 0, ½, 1
  mx.strokeStyle=rule;mx.lineWidth=1;mx.beginPath();mx.moveTo(V(0)-10,trackY);mx.lineTo(V(1)+10,trackY);mx.stroke();
@@ -128,9 +128,9 @@ function drawModel(now){const W=mc._w,H=mc._h,ink=css('--ul-ink'),grey=css('--ul
    if(N<=60){const per=Math.max(1,Math.floor((panW-6)/11)),rx=4.6,ry=2.1;
     for(let i=0;i<count;i++){const row=Math.floor(i/per),col=i%per,cx0=px-(per-1)*5.5+col*11,cy0=py-ry-1-row*4.4;
      mx.fillStyle=ghost;mx.beginPath();mx.ellipse(cx0,cy0,rx,ry,0,0,7);mx.fill();mx.strokeStyle=grey;mx.lineWidth=.75;mx.stroke();top=Math.min(top,cy0-ry);}}
-   else{const h=Math.max(1,count/N*2*maxPile*0.5),w=panW-10;   // a stack of coins: height in proportion to the count
-    mx.fillStyle=ghost;mx.globalAlpha=.55;mx.fillRect(px-w/2,py-1-h,w,h);mx.globalAlpha=1;mx.strokeStyle=grey;mx.lineWidth=.75;mx.strokeRect(px-w/2,py-1-h,w,h);
-    mx.globalAlpha=.5;for(let y=py-5;y>py-h;y-=4){mx.beginPath();mx.moveTo(px-w/2,y);mx.lineTo(px+w/2,y);mx.stroke();}mx.globalAlpha=1;top=py-1-h;}}
+   else{const h=Math.max(1,count/N*maxPile*0.7),w=panW-14;   // a stack of coins: height in proportion to the count
+    mx.fillStyle=ghost;mx.globalAlpha=.3;mx.fillRect(px-w/2,py-1-h,w,h);mx.globalAlpha=1;mx.strokeStyle=grey;mx.lineWidth=.75;mx.strokeRect(px-w/2,py-1-h,w,h);
+    mx.globalAlpha=.35;for(let y=py-6;y>py-h;y-=6){mx.beginPath();mx.moveTo(px-w/2,y);mx.lineTo(px+w/2,y);mx.stroke();}mx.globalAlpha=1;top=py-1-h;}}
   mx.fillStyle=grey;mx.textAlign='center';mx.fillText(N&&landed?`${label} ${count.toLocaleString()}`:label,px,top-8);};
  pan(L0,N-heads,'tails');pan(L1,heads,'heads');
  // coins in the air: spin above the beam, then drop into their pans
