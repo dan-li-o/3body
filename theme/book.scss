@@ -96,3 +96,32 @@ hr::after { content: "\2766"; font-size: 1.1em; }
 .todo-visible { color: $ul-accent; font-family: $font-family-sans-serif; font-size: .8em;
   border: 1px dashed $ul-accent; border-radius: 3px; padding: 0 .25em; }
 div.todo-visible { display: block; padding: .4em .6em; margin: .6em 0; }
+
+// Quiet page (theme/quiet-page.html; Dan, 2026-11-21)
+// 1. On phones and upright tablets, margin notes fold into a small ⊕ at the end of their paragraph.
+.mn-toggle { display: none; }
+@media (max-width: 991.98px) {
+  .mn-toggle { display: inline-block; border: 0; background: none; color: $text-muted; font-family: $font-family-sans-serif;
+    font-size: .7em; line-height: 1; padding: .45em .35em; margin: -.35em 0 -.35em .1em; vertical-align: baseline; cursor: pointer; }
+  .mn-toggle:focus-visible { outline: 2px solid $ul-accent; outline-offset: 1px; border-radius: 3px; }
+  main .column-margin.mn-folded { display: none; }
+  main .column-margin.mn-folded.mn-open { display: block; margin: .4em 0 .8em; padding-left: .8em; border-left: 1px solid rgba(127,127,127,.35); }
+}
+// 2. On wide screens the contents panel waits behind a button.
+.contents-toggle { display: none; }
+@media (min-width: 992px) {
+  .contents-toggle { display: block; position: fixed; top: 1rem; left: 1rem; z-index: 1100; border: 0; background: none;
+    font-family: $font-family-sans-serif; font-size: .8rem; letter-spacing: .04em; color: $text-muted; padding: .5rem .6rem; cursor: pointer; }
+  .contents-toggle:hover, .contents-toggle:focus-visible { color: $body-color; }
+  body:not(.contents-open) #quarto-sidebar { visibility: hidden; opacity: 0; }
+  body.contents-open #quarto-sidebar { visibility: visible; opacity: 1; position: fixed !important; top: 0; left: 0; height: 100vh;
+    z-index: 1050; background: $body-bg; padding-top: 3.5rem; box-shadow: 0 0 24px rgba(0,0,0,.12); overflow-y: auto; width: 290px !important; }
+  #quarto-sidebar { transition: opacity .15s ease; }
+}
+// Phones: the top bar's chapter path on one quiet line, not three
+@media (max-width: 991.98px) {
+  .quarto-secondary-nav .breadcrumb, .quarto-secondary-nav .quarto-page-breadcrumbs { font-size: .78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-wrap: nowrap; }
+  .quarto-secondary-nav .breadcrumb-item { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .quarto-secondary-nav .breadcrumb-item:not(:last-child) { display: none; }   // just the chapter
+  .quarto-secondary-nav .breadcrumb-item:last-child::before { display: none; }
+}
