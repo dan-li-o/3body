@@ -31,3 +31,17 @@ test('the piston barely moves: the chamber keeps its size', () => {
   const rng = seeded(4), g = G.createGas(); for (let i = 0; i < 10000; i++) G.addBall(g, rng);
   for (let i = 0; i < 300; i++) G.step(g, 1 / 60, rng); assert.ok(Math.abs(g.px - g.x0) < 0.01 * g.L);
 });
+
+test('the statistical shortcut gives the same dial as simulating every molecule', () => {
+  const dt = 1 / 60, N = 2000, shown = 200;
+  const full = dial(N, 300, 21);
+  const rng = seeded(22), g = G.createGas(); for (let i = 0; i < shown; i++) G.addBall(g, rng);
+  const R = []; let rate = 0;
+  for (let i = 0; i < 120 + 300 * 15; i++) {
+    const imp = G.step(g, dt, rng) + G.statImpulse(N - shown, dt, rng);
+    rate += (imp / dt - rate) * Math.min(1, dt / G.TAU);
+    if (i >= 120 && (i - 120) % 15 === 14) R.push(rate / N);
+  }
+  assert.ok(Math.abs(avg(R) / avg(full) - 1) < 0.04, `mean ${avg(R)} vs ${avg(full)}`);
+  assert.ok(Math.abs(sd(R) / sd(full) - 1) < 0.25, `spread ${sd(R)} vs ${sd(full)}`);
+});

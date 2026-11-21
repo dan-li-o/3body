@@ -89,6 +89,26 @@ const TAU = 0.25;
 function updateDial(g, imp, dt) { g.rate += (imp / dt - g.rate) * Math.min(1, dt / TAU); return g.n ? g.rate / g.n : 0; }
 const MEAN = SIGMA * SIGMA / 2;   // ideal-gas value for L = 2: SIGMA² / L
 
+// Molecules beyond those simulated one by one. Molecules in an ideal gas don't interact, so the push from many of them is
+// the sum of many independent pushes. Each molecule hits the piston at an average rate RATE = SIGMA / (√(2π)·L);
+// each hit gives an impulse 2·vx, with vx drawn as at a real wall (Rayleigh, spread SIGMA). So the push from m
+// unsimulated molecules over dt is a compound Poisson sum: a Poisson number of hits, each with its own impulse.
+// The tests check that this gives the same dial as simulating every molecule.
+const RATE = SIGMA / (Math.sqrt(2 * Math.PI) * 2);
+function poisson(mu, rng) {
+  if (mu > 30) return Math.max(0, Math.round(mu + Math.sqrt(mu) * gauss(rng)));
+  let k = 0, p = Math.exp(-mu), s = p, u = rng(); while (u > s) { k++; p *= mu / k; s += p; } return k;
+}
+function statImpulse(m, dt, rng) {
+  const k = poisson(m * RATE * dt, rng); let imp = 0;
+  if (k > 60) { // many hits: the sum is normal, with mean k·E[J] and variance k·Var[J]; E[J] = 2σ√(π/2), E[J²] = 8σ²
+    const EJ = 2 * SIGMA * Math.sqrt(Math.PI / 2), VJ = 8 * SIGMA * SIGMA - EJ * EJ;
+    return k * EJ + Math.sqrt(k * VJ) * gauss(rng);
+  }
+  for (let i = 0; i < k; i++) imp += 2 * SIGMA * Math.sqrt(-2 * Math.log(1 - rng()));
+  return imp;
+}
+
 // Expected range of the dial, measured once by simulating at each count (tools/calibrate-gas.mjs):
 // [molecules, mean, 2.5%, 16%, 84%, 97.5%]. Inner band (16–84%): about 68 of every 100 moments; outer (2.5–97.5%): about 95.
 const CALIB = [[1, 0.9327, 0, 0, 1.026, 9.6078], [2, 1.154, 0, 0, 2.4283, 8.3095], [3, 1.1998, 0.0001, 0.0101, 2.6393, 6.7736], [5, 1.1077, 0.002, 0.047, 2.3032, 4.9633], [10, 1.1511, 0.0345, 0.2225, 2.1207, 3.6769], [20, 1.0586, 0.1122, 0.3919, 1.7404, 2.663], [50, 1.1414, 0.3903, 0.6935, 1.5765, 2.1386], [100, 1.1103, 0.5654, 0.7937, 1.4151, 1.8127], [200, 1.1315, 0.7165, 0.9161, 1.3546, 1.5964], [500, 1.111, 0.8586, 0.9802, 1.2498, 1.3875], [1000, 1.1257, 0.9326, 1.0167, 1.2246, 1.3399], [2000, 1.1226, 0.9933, 1.0577, 1.1842, 1.2528], [5000, 1.1071, 1.0243, 1.0659, 1.1489, 1.1918], [10000, 1.0981, 1.037, 1.0682, 1.1293, 1.1578]];
@@ -110,7 +130,7 @@ const statusEl=document.querySelector('.ul-status'),valsEl=document.getElementBy
 const btn=a=>document.querySelector(`[data-a=${a}]`);
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let seed=(Date.now()%2147483646)+1;const rng=()=>(seed=seed*16807%2147483647)/2147483647;
-const MAX=10000,RUN_S=22,YMAX=MEAN*2.4,DRAWN=400,NICE=[10,100,1000,10000],STEP_UNTIL=3;
+const MAX=10000,SIM=400,RUN_S=22,YMAX=MEAN*2.4,DRAWN=400,NICE=[10,100,1000,10000],STEP_UNTIL=3;
 const SAY={
  start:'An empty chamber. Add a molecule.',
  one:'One molecule. Each time it hits the piston, the pointer jumps; between hits it falls back to zero. A knock, then nothing.',
@@ -120,16 +140,16 @@ const SAY={
  run1:'Few molecules: the push comes in knocks. Thousands: one steady push. That steady push is pressure. Does the math predict this shape?',
  runN:'A new run, the same shape. Each knock is random; the hum is lawful.',
  band:'The bands were worked out in advance, from long simulations at each count: the pointer spends about 68% of the time in the inner band, about 95% in the outer. Both narrow as molecules are added.'};
-let g,trace,old,runs,mode,showBand,say,xMax,bandT0,dialV,run,raf=0,lastT=0,onScreen=true;
-function reset(){g=createGas({cap:MAX});trace=[];old=[];runs=0;mode='idle';showBand=false;say=SAY.start;xMax=10;bandT0=0;dialV=0;run=null;
+let N=0,rate=0,g,trace,old,runs,mode,showBand,say,xMax,bandT0,dialV,run,raf=0,lastT=0,onScreen=true;
+function reset(){N=0;rate=0;g=createGas({cap:SIM});trace=[];old=[];runs=0;mode='idle';showBand=false;say=SAY.start;xMax=10;bandT0=0;dialV=0;run=null;
  btn('add').hidden=false;btn('run').hidden=true;btn('band').hidden=true;key.hidden=true;btn('run').textContent='Run: up to 10,000 molecules';loop();}
 function zoomTo(to){const from=xMax,t0=performance.now();if(reduced||from===to){xMax=to;return;}
  const z=now=>{const p=Math.min(1,(now-t0)/800),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;xMax=from+(to-from)*e;if(p<1)requestAnimationFrame(z);else xMax=to;};requestAnimationFrame(z);}
-function grow(n){while(g.n<n)addBall(g,rng);const to=NICE.find(v=>v>=g.n)||MAX;if(to>xMax)zoomTo(to);}
+function grow(n){N=Math.max(N,n);while(g.n<Math.min(N,SIM))addBall(g,rng);const to=NICE.find(v=>v>=N)||MAX;if(to>xMax)zoomTo(to);}
 document.querySelector('.ul-controls').addEventListener('click',e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a)return;
- if(a==='add'&&mode==='idle'){grow(g.n+1);say=g.n===1?SAY.one:g.n===2?SAY.two:g.n>=STEP_UNTIL?SAY.ready:say;if(g.n>=STEP_UNTIL)btn('run').hidden=false;}
- if(a==='run'&&mode==='idle'){if(runs>0){old.push(trace);g=createGas({cap:MAX});trace=[];xMax=10;}if(!g.n)grow(1);
-  mode='run';run={t:0,n0:g.n};say=SAY.running;btn('add').hidden=true;btn('run').disabled=true;}
+ if(a==='add'&&mode==='idle'){grow(N+1);say=N===1?SAY.one:N===2?SAY.two:N>=STEP_UNTIL?SAY.ready:say;if(N>=STEP_UNTIL)btn('run').hidden=false;}
+ if(a==='run'&&mode==='idle'){if(runs>0){old.push(trace);g=createGas({cap:SIM});N=0;rate=0;trace=[];xMax=10;}if(!N)grow(1);
+  mode='run';run={t0:performance.now(),t:0,n0:N};say=SAY.running;btn('add').hidden=true;btn('run').disabled=true;}
  if(a==='band'){showBand=true;bandT0=performance.now();btn('band').hidden=true;key.hidden=false;say=SAY.band;}
  if(a==='reset')reset();
  loop();});
@@ -137,34 +157,35 @@ function endRun(){mode='idle';runs++;run=null;btn('run').disabled=false;btn('run
 function loop(){if(!raf&&onScreen&&!document.hidden){lastT=performance.now();raf=requestAnimationFrame(frame);}}
 new IntersectionObserver(es=>{onScreen=es[0].isIntersecting;if(onScreen)loop();}).observe(mc);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)loop();});
-function frame(now){raf=0;const dt=Math.min(1/30,(now-lastT)/1000);lastT=now;
- if(run){run.t+=dt;const p=Math.min(1,run.t/RUN_S);grow(Math.round(run.n0*Math.pow(MAX/run.n0,p)));}
- if(g.n){const imp=step(g,dt,rng,g.n>3000?2:4);dialV=updateDial(g,imp,dt);
-  if(mode==='run'||trace.length<4000)trace.push(g.n,dialV);}
+function frame(now){raf=0;const dt=Math.min(1/30,Math.max(1/240,(now-lastT)/1000));lastT=now;
+ if(run){run.t=(now-run.t0)/1000;const p=Math.min(1,run.t/RUN_S);grow(Math.round(run.n0*Math.pow(MAX/run.n0,p)));}
+ if(N){// molecules drawn on screen are simulated one by one; the rest are added by the tested statistical model
+  const imp=step(g,dt,rng)+statImpulse(N-g.n,dt,rng);rate+=(imp/dt-rate)*Math.min(1,dt/TAU);dialV=rate/N;
+  if(mode==='run'||trace.length<4000)trace.push(N,dialV);}
  if(run&&run.t>=RUN_S)endRun();
- draw(now);if(g.n)loop();}
+ draw(now);if(N)loop();}
 function layout(){const dpr=Math.min(2,devicePixelRatio||1),phone=innerWidth<=640;
  for(const[c,ctx,ar]of[[mc,mx,phone?0.6:0.8],[cc,cx,phone?0.6:0.8]]){const w=c.clientWidth,h=Math.round(w*ar);c.style.height=h+'px';c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);c._w=w;c._h=h;}
  draw(performance.now());}
 function draw(now){drawModel();drawChart(now);if(statusEl.textContent!==say)statusEl.textContent=say;
- valsEl.textContent=`${g.n.toLocaleString()} molecules. Push per molecule now ${dialV.toFixed(2)}; the ideal-gas value is ${MEAN.toFixed(2)}.`;}
+ valsEl.textContent=`${N.toLocaleString()} molecules. Push per molecule now ${dialV.toFixed(2)}; the ideal-gas value is ${MEAN.toFixed(2)}.`;}
 // The chamber, the piston on its spring, and the dial: a pointer on a scale of push per molecule.
 function drawModel(){const W=mc._w,H=mc._h,ink=css('--ul-ink'),grey=css('--ul-grey'),rule=css('--ul-rule'),acc=css('--ul-accent');mx.clearRect(0,0,W,H);
- const top=22,bot=H-26,dialX=W-14,post=W-70,pX=(W-70)*0.62,ox=4,s=(pX-ox)/g.x0,Hs=(bot-top)/g.H;
+ const top=22,bot=H-26,dialX=W-14,post=W-70,p0=(W-70)*0.62,ox=4,pX=p0+Math.min(dialV,YMAX)/YMAX*34,s=(p0-ox)/g.x0,Hs=(bot-top)/g.H;
  mx.strokeStyle=rule;mx.lineWidth=1.75;mx.lineCap='round';mx.beginPath();mx.moveTo(pX+2,top);mx.lineTo(ox,top);mx.lineTo(ox,bot);mx.lineTo(pX+2,bot);mx.stroke();
- mx.fillStyle=ink;const k=Math.min(g.n,DRAWN),r=g.n>100?1.6:2.6;
- for(let i=0;i<k;i++){mx.beginPath();mx.arc(ox+Math.min(g.x[i],g.x0)*s,bot-g.y[i]*Hs,r,0,7);mx.fill();}
+ mx.fillStyle=ink;const k=g.n,r=g.n>100?1.6:2.6;
+ for(let i=0;i<k;i++){mx.beginPath();mx.arc(ox+Math.min(g.x[i],g.x0)*s*(pX-ox)/(p0-ox),bot-g.y[i]*Hs,r,0,7);mx.fill();}
  const midY=(top+bot)/2,coils=7,amp=6;mx.strokeStyle=grey;mx.lineWidth=1.25;mx.beginPath();mx.moveTo(pX,midY);
  for(let i=1;i<=coils*2;i++){mx.lineTo(pX+(post-pX)*i/(coils*2+1),midY+(i%2?-amp:amp));}mx.lineTo(post,midY);mx.stroke();
  mx.strokeStyle=rule;mx.lineWidth=1.75;mx.beginPath();mx.moveTo(post,midY-20);mx.lineTo(post,midY+20);mx.stroke();
  mx.strokeStyle=acc;mx.lineWidth=3;mx.beginPath();mx.moveTo(pX,top);mx.lineTo(pX,bot);mx.stroke();
  mx.font='italic 14px '+css('--ul-serif');mx.fillStyle=grey;mx.textBaseline='alphabetic';mx.textAlign='left';
- mx.fillText(g.n>DRAWN?`${g.n.toLocaleString()} molecules (${DRAWN} drawn)`:`${g.n} molecule${g.n===1?'':'s'}`,ox,H-6);
+ mx.fillText(N>SIM?`${N.toLocaleString()} molecules (${SIM} drawn)`:`${N} molecule${N===1?'':'s'}`,ox,H-6);
  // dial: same vertical scale as the chart
  const Y=v=>bot-Math.min(v,YMAX)/YMAX*(bot-top);mx.strokeStyle=rule;mx.lineWidth=1;mx.beginPath();mx.moveTo(dialX,top);mx.lineTo(dialX,bot);mx.stroke();
  for(const v of[0,MEAN,2*MEAN]){mx.beginPath();mx.moveTo(dialX-5,Y(v));mx.lineTo(dialX+5,Y(v));mx.stroke();}
  mx.textAlign='right';mx.textBaseline='middle';mx.fillText('avg',dialX-10,Y(MEAN));mx.fillText('0',dialX-10,Y(0));
- if(g.n){const y=Y(dialV);mx.fillStyle=acc;mx.beginPath();mx.moveTo(dialX+1,y);mx.lineTo(dialX+11,y-5);mx.lineTo(dialX+11,y+5);mx.closePath();mx.fill();
+ if(N){const y=Y(dialV);mx.fillStyle=acc;mx.beginPath();mx.moveTo(dialX+1,y);mx.lineTo(dialX+11,y-5);mx.lineTo(dialX+11,y+5);mx.closePath();mx.fill();
   mx.strokeStyle=acc;mx.lineWidth=2;mx.beginPath();mx.moveTo(dialX-6,y);mx.lineTo(dialX+6,y);mx.stroke();}}
 function drawChart(now){const W=cc._w,H=cc._h,grey=css('--ul-grey'),ghost=css('--ul-ghost'),rule=css('--ul-rule'),acc=css('--ul-accent');cx.clearRect(0,0,W,H);
  const L=40,R=W-10,T=22,B=H-30,X=v=>L+(v-1)/(xMax-1)*(R-L),Y=s=>B-Math.min(s,YMAX)/YMAX*(B-T);
@@ -183,7 +204,7 @@ function drawChart(now){const W=cc._w,H=cc._h,grey=css('--ul-grey'),ghost=css('-
  const line=(tr,alpha)=>{if(tr.length<4)return;cx.strokeStyle=acc;cx.globalAlpha=alpha;cx.lineWidth=1.25;cx.lineJoin='round';cx.beginPath();
   // at a fixed count the trace scribbles up and down; spread it a hair so the scribble is visible
   for(let i=0;i<tr.length;i+=2){const x=X(tr[i]),y=Y(tr[i+1]);i?cx.lineTo(x,y):cx.moveTo(x,y);}cx.stroke();cx.globalAlpha=1;};
- for(const o of old)line(o,.25);line(trace,.85);
+ cx.save();cx.beginPath();cx.rect(L,T-4,R-L+2,B-T+6);cx.clip();for(const o of old)line(o,.25);line(trace,.85);cx.restore();
  if(showBand)for(const[k,c]of[[1,grey],[2,ghost]])for(const e of[0,1]){cx.strokeStyle=c;cx.lineWidth=1;cx.beginPath();bx.forEach((v,i)=>{const y=Y(bandAt(v,k)[e]);i?cx.lineTo(X(v),y):cx.moveTo(X(v),y);});cx.stroke();}}
 addEventListener('resize',layout);
 document.getElementById('k1').style.background=`color-mix(in srgb, ${css('--ul-ghost')} 40%, ${css('--ul-paper')})`;

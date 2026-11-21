@@ -46,6 +46,26 @@ export const TAU = 0.25;
 export function updateDial(g, imp, dt) { g.rate += (imp / dt - g.rate) * Math.min(1, dt / TAU); return g.n ? g.rate / g.n : 0; }
 export const MEAN = SIGMA * SIGMA / 2;   // ideal-gas value for L = 2: SIGMA² / L
 
+// Molecules beyond those simulated one by one. Molecules in an ideal gas don't interact, so the push from many of them is
+// the sum of many independent pushes. Each molecule hits the piston at an average rate RATE = SIGMA / (√(2π)·L);
+// each hit gives an impulse 2·vx, with vx drawn as at a real wall (Rayleigh, spread SIGMA). So the push from m
+// unsimulated molecules over dt is a compound Poisson sum: a Poisson number of hits, each with its own impulse.
+// The tests check that this gives the same dial as simulating every molecule.
+export const RATE = SIGMA / (Math.sqrt(2 * Math.PI) * 2);
+function poisson(mu, rng) {
+  if (mu > 30) return Math.max(0, Math.round(mu + Math.sqrt(mu) * gauss(rng)));
+  let k = 0, p = Math.exp(-mu), s = p, u = rng(); while (u > s) { k++; p *= mu / k; s += p; } return k;
+}
+export function statImpulse(m, dt, rng) {
+  const k = poisson(m * RATE * dt, rng); let imp = 0;
+  if (k > 60) { // many hits: the sum is normal, with mean k·E[J] and variance k·Var[J]; E[J] = 2σ√(π/2), E[J²] = 8σ²
+    const EJ = 2 * SIGMA * Math.sqrt(Math.PI / 2), VJ = 8 * SIGMA * SIGMA - EJ * EJ;
+    return k * EJ + Math.sqrt(k * VJ) * gauss(rng);
+  }
+  for (let i = 0; i < k; i++) imp += 2 * SIGMA * Math.sqrt(-2 * Math.log(1 - rng()));
+  return imp;
+}
+
 // Expected range of the dial, measured once by simulating at each count (tools/calibrate-gas.mjs):
 // [molecules, mean, 2.5%, 16%, 84%, 97.5%]. Inner band (16–84%): about 68 of every 100 moments; outer (2.5–97.5%): about 95.
 export const CALIB = [[1, 0.9327, 0, 0, 1.026, 9.6078], [2, 1.154, 0, 0, 2.4283, 8.3095], [3, 1.1998, 0.0001, 0.0101, 2.6393, 6.7736], [5, 1.1077, 0.002, 0.047, 2.3032, 4.9633], [10, 1.1511, 0.0345, 0.2225, 2.1207, 3.6769], [20, 1.0586, 0.1122, 0.3919, 1.7404, 2.663], [50, 1.1414, 0.3903, 0.6935, 1.5765, 2.1386], [100, 1.1103, 0.5654, 0.7937, 1.4151, 1.8127], [200, 1.1315, 0.7165, 0.9161, 1.3546, 1.5964], [500, 1.111, 0.8586, 0.9802, 1.2498, 1.3875], [1000, 1.1257, 0.9326, 1.0167, 1.2246, 1.3399], [2000, 1.1226, 0.9933, 1.0577, 1.1842, 1.2528], [5000, 1.1071, 1.0243, 1.0659, 1.1489, 1.1918], [10000, 1.0981, 1.037, 1.0682, 1.1293, 1.1578]];
