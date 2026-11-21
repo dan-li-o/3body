@@ -227,7 +227,7 @@ function drawChart(now){const W=cc._w,H=cc._h,grey=css('--ul-grey'),ghost=css('-
   for(let i=0;i<tr.length;i+=2){const q=P(tr[i],tr[i+1]);i?cx.lineTo(...q):cx.moveTo(...q);}cx.stroke();cx.globalAlpha=1;};
  cx.save();cx.beginPath();if(!A.phone)cx.rect(c0,V(YMAX)-4,c1-c0+4,V(0)-V(YMAX)+8);else cx.rect(V(0)-4,c0,V(YMAX)-V(0)+8,c1-c0+4);cx.clip();
  for(const o of old)line(o,.25);line(trace,.85);
- if(trace.length>=2){const q=P(trace[trace.length-2],trace[trace.length-1]);cx.fillStyle=acc;cx.beginPath();cx.arc(q[0],q[1],4.5,0,7);cx.fill();}
+ if(N){const q=P(N,dispV);cx.fillStyle=acc;cx.beginPath();cx.arc(q[0],q[1],4.5,0,7);cx.fill();}
  cx.restore();
  if(showBand)for(const[k,c]of[[1,grey],[2,ghost]])for(const e of[0,1]){cx.strokeStyle=c;cx.lineWidth=1;cx.beginPath();poly(k,e).forEach((q,i)=>i?cx.lineTo(...q):cx.moveTo(...q));cx.stroke();}
  if(N){const v=V(dispV);cx.fillStyle=acc;cx.beginPath();
