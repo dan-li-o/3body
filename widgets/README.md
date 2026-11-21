@@ -14,9 +14,11 @@ widgets/
     stage.js       HiDPI canvas with reserved space (no layout shift)
     tokens.css     design tokens + house styles (colours, line, ball, trail)
     tuner.js       live design dials (gallery only)
+    strip.js       the strip chart shared by Ch1 §5 (instrument on top, record below, one scale)
   engines/       pure math: no DOM, no drawing, unit-tested
     nbody.js       gravity, bounce, merge, escape tests, figure-eight
     pendulum.js    Ch3 pendulums
+    coins.js       fair coins, the bands (1σ, 2σ), the law of the lever
   <name>/        one folder per widget
     <name>.js      the custom element <ul-name>
     <name>.css     widget-only styles (rare; prefer tokens)
