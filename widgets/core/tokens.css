@@ -3,18 +3,19 @@
    Paper and ink match the book theme (theme/light.scss, theme/dark.scss).
    Line, bob, trail and accent were tuned by Dan on the Trisolaran sky dials
    (2026-11-19: "Current setting is good").
-   Accent hue: orange + teal (Dan, 2026-11-19). If you change --ul-accent,
+   Accents: orange = the one thing to notice; teal = philosophy and science terms
+   (Dan, 2026-11-19 and 2026-11-21). If you change --ul-accent,
    also change assets/icons/favicon.svg and theme/*.scss ($ul-accent). */
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;600&display=swap');
 
 :root {
-  --ul-paper: #fffff8;        /* page (Tufte paper) */
-  --ul-ink: #111111;          /* text, models, the main thing */
+  --ul-paper: #faf9f5;        /* page: ivory book paper (theme/light.scss, Dan 2026-11-20) */
+  --ul-ink: #1d1b17;          /* warm near-black ink: text, models, the main thing */
   --ul-grey: #5f646a;         /* secondary text and labels (readable) */
   --ul-ghost: #a3a8ad;        /* reference / context, e.g. nature */
   --ul-rule: #d3d6d1;         /* tracks, baselines */
   --ul-accent: #b4501a;       /* orange: the one thing to notice (5.1:1 on paper) */
-  --ul-contrast: #1f6f78;     /* teal: reserved for ONE book-wide concept (TBD) */
+  --ul-contrast: #1f6f78;     /* teal: philosophy and science terms (matches .term in the text) */
   --ul-line: 1.75px;          /* line weight */
   --ul-bob: 6.5px;            /* radius of bobs, balls, markers */
   --ul-trail: 0.55;           /* opacity of trails at their freshest */
@@ -22,8 +23,8 @@
   --ul-sans: 'Source Sans 3', system-ui, sans-serif;
 }
 body.quarto-dark {
-  --ul-paper: #151513;
-  --ul-ink: #e8e6de;
+  --ul-paper: #1c1a17;
+  --ul-ink: #e8e3d6;
   --ul-grey: #a9aeb4;
   --ul-ghost: #6f757c;
   --ul-rule: #474c52;

@@ -1,0 +1,2 @@
+# Draft profile: `quarto preview --profile draft` shows the TODOs (orange) that the site hides.
+show-todos: true
