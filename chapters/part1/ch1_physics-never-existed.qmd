@@ -155,13 +155,10 @@ That steady push has a name: [pressure]{.term}. The air around you is a box like
 [Temperature]{.term} is the same trick: a measure of how fast the molecules move, on average. Heat the air and the hits get harder, and the push grows.
 :::
 
-::: {.todo}
-<!-- Shown once the widget's PR lands (widgets/pressure-gauge). -->
 ::: {#wid-pressure-gauge}
 {{< widget pressure-gauge alt="A box of gas with a piston on a spring; below, a line of the push per molecule as molecules are added, wild at first, then steady." >}}
 
 **A gas chamber.** The dots are molecules; the right wall is a piston on a spring. Piston, pointer and pen show the push per molecule: knocks with a few molecules, a steady hum (pressure) with thousands. The piston's motion is exaggerated.
-:::
 :::
 
 ::: {.column-margin}
