@@ -98,13 +98,10 @@ A calorie is a unit of energy. The "calorie" on a food label is the energy neede
 
 Start with the ideal table, then add the real one: the felt, the soft cushions. The ball slows, but nothing is lost.
 
-::: {.todo}
-<!-- Shown once the widget's PR lands (widgets/break-the-law). -->
 ::: {#wid-break-the-law}
 {{< widget break-the-law alt="A pool table with one ball and a column of energy: motion, warmth in the felt, warmth in the cushions, and an orange total." >}}
 
 **Try to break the law.** Push the ball, then add felt and soft cushions. Motion turns into warmth; the total does not change unless you push again.
-:::
 :::
 
 ::: {.column-margin}

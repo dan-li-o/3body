@@ -18,6 +18,7 @@ widgets/
   engines/       pure math: no DOM, no drawing, unit-tested
     nbody.js       gravity, bounce, merge, escape tests, figure-eight
     pendulum.js    Ch3 pendulums
+    pool-table.js  one ball on a table: felt, cushions, exact energy books
     coins.js       fair coins, the bands (1σ, 2σ), the law of the lever
     gas.js         2D ideal gas, piston on a spring, statistical shortcut, the dial, calibrated bands
   <name>/        one folder per widget
