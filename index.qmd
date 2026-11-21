@@ -19,11 +19,7 @@ Science is not as absolute as one might think, even though it is taught as absol
 - **Part II, Modeling the Unlawful:** from ancient sky charts to climate models, predicting a world that won't sit still.
 - **Part III, Living Beyond Law:** science, society, and strategies for uncertain times.
 
-::: {#wid-trisolaran-sky}
 {{< widget trisolaran-sky alt="Left: a third sun pushed into a calm pair of suns, and the tangle of paths that follows. Right: three suns chasing each other around a figure-eight, which repeats." >}}
-
-Tame the Trisolaran sky: nudge one sun and watch the sky change for good.
-:::
 
 Throughout the book, you run the experiments yourself instead of being told how they turn out.
 

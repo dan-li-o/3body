@@ -16,6 +16,10 @@
 --   :::
 --
 -- Leave the block out for an unnumbered widget (e.g. the Welcome page).
+--
+-- Every widget gets an anchor, numbered or not: id="NAME" by default, so
+-- the page link #NAME jumps to it. If a page uses the same widget twice,
+-- give each its own id: {{< widget coin-flip id="coin-fair" >}}.
 
 local function esc(s)
   return (s:gsub('&', '&amp;'):gsub('"', '&quot;'):gsub('<', '&lt;'))
@@ -61,6 +65,9 @@ return {
     for k, v in pairs(kwargs) do
       local val = pandoc.utils.stringify(v)
       if k ~= 'alt' and val ~= '' then table.insert(attrs, string.format(' %s="%s"', k, esc(val))) end
+    end
+    if pandoc.utils.stringify(kwargs['id'] or '') == '' then
+      table.insert(attrs, string.format(' id="%s"', name))
     end
     table.sort(attrs)
     local root = (quarto.project and quarto.project.offset) or '.'
