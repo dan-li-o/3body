@@ -71,9 +71,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-8ca7f75baa859426d0e1549a7c4b1aa8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-c2e46c359b09cbc25be525ae5646576c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-8ca7f75baa859426d0e1549a7c4b1aa8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-c6ebba9ea8c930a947dec6ce3353ea19.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-d4c5c6c97940099aa9adadf022195f7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-c6ebba9ea8c930a947dec6ce3353ea19.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -462,201 +462,109 @@ div.csl-indent {
 <p>Physics has never existed, and will never exist.</p>
 </blockquote>
 <p>A sentence like that does not belong in a suicide note. It belongs as the opening line of a metaphysics textbook. But to Yang, it was not philosophy. It was despair.</p>
-<p>For Wang Miao, a nano-material scientist, the note was incomprehensible. How could physics <em>never</em> have existed, when it is the skeleton of modern life? Lasers, satellites, GPS, semiconductors—all monuments to physical laws. What did Yang see that broke her faith so completely?</p>
-<p>When asked, Yang’s partner, the physicist Ding Yi, did not answer with words. He answered with a demonstration.</p>
-<section id="the-pool-table" class="level2 page-columns page-full" data-number="1.1">
+<p>Wang Miao, a nano-material scientist, could not make sense of it. How could physics <em>never</em> have existed? Lasers, satellites, GPS, semiconductors: modern life runs on physical laws. What did Yang see that broke her faith so completely?</p>
+<p>When Wang asked, Yang’s partner, the physicist Ding Yi, did not answer with words. He answered with a pool table.</p>
+<section id="the-pool-table" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="the-pool-table"><span class="header-section-number">1.1</span> The Pool Table</h2>
-<p>Science has always loved metaphors of colliding spheres. Newton used them to explain light,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Maxwell sketched them to understand Saturn’s rings,<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and Einstein invoked them in discussions of Brownian motions.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Ding Yi continued the tradition—since the 19th century, billiards have been routinely used in physics textbooks for illustration.</p>
-<p>He placed the ball at one end of the table, struck it with the cue at a fixed angle and force, and watched it collide with the side cushions. The rebound was predictable. Then he placed the ball elsewhere, struck again with the same angle and force. The collisions traced out an identical pattern. He did it again. And again.</p>
+<p>Physicists have always loved colliding balls. Newton, Maxwell, and Einstein all reached for them, and billiards have filled physics textbooks since the nineteenth century.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Ding Yi continued the tradition.</p>
+<p>He placed the ball at one end of the table and struck it with the cue at a fixed angle and force. It hit the cushions and rebounded, just as expected. Then he placed the ball somewhere else and struck it again, with the same angle and the same force. The ball traced the same pattern. He did it again. And again.</p>
 <p>Five times. Five experiments.</p>
 <p>Each yielded the same result.</p>
-<p>“Aren’t you shocked by the results?” Ding asked rhetorically. Wang did not know how to respond.</p>
-<p>“Come on, let’s celebrate. We’ve discovered a great principle of nature: <em>The laws of physics are invariant across space and time</em>.”</p>
-<p>This was no trivial statement. It is one of the great articles of faith in science: that laws are not local customs, but universal decrees. Strike a ball here, or there, today or tomorrow—it doesn’t matter. The physical laws remain the same.</p>
-<p>Try it yourself. Ding Yi’s pool table has been reconstructed here.</p>
-<div id="wid-pool-sim" class="widget quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-wid figure page-columns page-full">
-<div aria-describedby="wid-pool-sim-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="wgt wgt--pool" data-widget="pool-sim">
-  <!-- Canvas (top row) -->
-  <div class="wgt__canvas">
-    <canvas width="640" height="360"></canvas>
-  </div>
-
-  <!-- Controls (bottom-left) -->
-  <div class="wgt__panel wgt__controls">
-    <div class="wgt__title">Controls</div>
-
-    <div class="wgt__field">
-      <label for="fric-range">Friction</label>
-      <input type="range" id="fric-range" data-role="fric-range" min="0.000" max="0.100" step="0.001" value="0.000">
-      <input type="number" id="fric-num" data-role="fric-num" min="0.000" max="0.100" step="0.001" value="0.000">
-      <div class="wgt__hint">(0.000 = no friction)</div>
-    </div>
-
-    <div>
-      <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
-    </div>
-  </div>
-
-  <!-- Output (bottom-right) -->
-  <div class="wgt__panel wgt__output" id="telemetry" aria-live="polite">
-    <div class="wgt__title">Results</div>
-    <div class="wgt__row"><strong>Position</strong>     <span data-role="pos" class="wgt__out">(—, —)</span></div>
-    <div class="wgt__row"><strong>Velocity</strong>     <span data-role="vel" class="wgt__out">(—, —)</span></div>
-    <div class="wgt__row"><strong>Acceleration</strong> <span data-role="acc" class="wgt__out">(—, —)</span></div>
-    <div class="wgt__hint">• Drag the ball anywhere, then release. • Cue hits with the same direction &amp; force. • Cushions are perfectly elastic.</div>
-</div>
-</div>
-
-<link rel="stylesheet" href="../../css/widgets.css">
-<script src="../../js/widgets-core.js" defer=""></script>
-<script src="../../js/pool-sim.js" defer=""></script>
-
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-wid margin-caption" id="wid-pool-sim-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Widget&nbsp;1.1: Simple Pool Table with fixed strike and friction controls.
-</figcaption>
-</figure>
-</div>
-<p>Drag the ball anywhere you like. Release it. A cue will strike with the same direction and force each time. Watch the numbers: position, velocity, acceleration. Try it again, and again.</p>
-<p>Notice how the experiment becomes boring. That boredom is the signature of a law.</p>
+<p>“Aren’t you shocked?” Ding asked. Wang did not know what to say.</p>
+<p>“Come on, let’s celebrate. We’ve discovered a great principle of nature: <em>the laws of physics are invariant across space and time</em>.”</p>
+<p>He was joking, but only half. This is no trivial statement. It is one of science’s deepest articles of faith: laws are not local customs. Strike the ball here or there, today or tomorrow, and the result is the same.</p>
+<p>Imagine a sixth strike. You already know how it will go. That boredom is the signature of a law.</p>
 </section>
-<section id="the-seduction-of-invariance" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="the-seduction-of-invariance"><span class="header-section-number">1.2</span> The Seduction of Invariance</h2>
-<p>Science seduces us with boredom. That is its secret charm. We want the universe to behave, not to surprise. Every replication, every repeated experiment that yields the same result, feels like a reassurance that we live in an orderly cosmos.</p>
-<p>Philosophers gave this reassurance a name: the Principle of the Uniformity of Nature. David Hume, the great skeptic, articulated it in the 18th century: the assumption that the future will resemble the past; that nature tomorrow will behave like nature today; that “<em>the course of nature continues always uniformly the same</em>.”<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
-<p>Across cultures and centuries, thinkers spontaneously embraced the principle without hesitation. Thales sought a single element to ground the flux of the world. Aristotle believed nature’s motions could be classified because they followed regular causes. Xunzi wrote 天行有常—“the heavens move with constancy.”<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> The Stoics saw the cosmos ordered by logos. Aquinas and medieval scholastics argued that God’s creation was rational and therefore reliable. Galileo, Kepler, and Newton all assumed their laws applied everywhere.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> Bacon made nature a system governed by its own laws and the very source of knowledge. And knowledge is power.</p>
-<p>This conviction—that the rhythm of nature is reliable, and thus knowable—is what keeps us from superstition. However framed—through omen or through reason—the majority have trusted that the world follows patterns so that we are not at the mercy of whimsical gods.</p>
-<p>That trust is what makes science possible. Once we believed in order rather than caprice, knowledge could accumulate. Experiments became expected to repeat, results communicable, and science emerged as a shared project. This conviction, more than any single discovery, is what allowed the modern worldview to take root.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
-<p>Without the Principle of Uniformity of Nature, replication collapses, prediction is impossible, and “law” becomes an empty word. With it, the modern scientific worldview takes shape: not pleasing the gods, but trusting that the world itself is knowable, and that what we learned here and now will apply tomorrow and elsewhere.</p>
-<p>Ding Yi concluded forcefully,</p>
+<section id="a-world-without-repeats" class="level2 page-columns page-full" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="a-world-without-repeats"><span class="header-section-number">1.2</span> A World Without Repeats</h2>
+<p>Boredom is what science hopes for. Run an experiment again, get the same answer, and you have learned something that will still be true tomorrow.</p>
+<p>Philosophers have a name for this hope: <span class="term">the uniformity of nature</span>. David Hume put it plainly in the eighteenth century: the future will resemble the past; “the course of nature continues always uniformly the same.”<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>Hardly anyone doubted it. Aristotle sorted nature’s motions because he believed they had regular causes. In China, Xunzi wrote 天行有常: “the heavens move with constancy.”<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Galileo, Kepler, and Newton all assumed that their laws held everywhere, on Earth and in the sky.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>This trust is what keeps us from superstition. If the world follows patterns, we are not at the mercy of whimsical gods. And this is what makes science possible. Once we believe in order rather than caprice, experiments are expected to repeat, results can be shared, and knowledge can pile up, one finding on top of another.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Why did people stop pleasing the gods and start predicting nature? That turn, in ancient Greece and ancient China alike, is the story of Chapter 4.</p>
+</div></div><p>What would a world without it look like? The world would just be a big lookup table, and every experiment would happen only once. Strike the ball here, write down what happened. Strike it there, write down something else. Row after row, and no row tells you anything about the next.</p>
+<p>And actually even a lookup table won’t work. An experiment in the table just happened in the past. If we don’t assume it will happen again, then whatever happened in the past doesn’t matter. A lookup table is worth keeping only if you expect to look things up again. Even a record of the past is a bet on the future.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Machine-learning researchers meet the same wall. A model that only memorizes its training examples is a gigantic lookup table, useless on any case it has not seen. Learning means generalizing, and generalizing means betting on invariance. More in Chapter 3.</p>
+</div></div><p>This is why Ding Yi was only half joking:</p>
 <blockquote class="blockquote">
 <p>… a great principle of nature: The laws of physics are invariant across space and time. All the physical laws of human history, from Archimedes’ principle to string theory, and all the scientific discoveries and intellectual fruits of our species are the by-products of this great law.</p>
 </blockquote>
-<p>But here is the scandal: Hume could never prove it. No one has. The uniformity of nature is not a discovery. It is a bet. A metaphysical faith disguised as an empirical law.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> Even in the twentieth century, Einstein marveled that “the most incomprehensible thing about the universe is that it is comprehensible.”<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
-</section>
-<section id="the-lawful-table" class="level2 page-columns page-full" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="the-lawful-table"><span class="header-section-number">1.3</span> The Lawful Table</h2>
-<p>Now, physicists don’t spend their lives rolling pool balls the same way over and over again. They juggle a zoo of variables—spin, friction, imperfections, air currents, hidden quirks of the felt—each one a potential troublemaker, each one an invitation for variance and disorder.</p>
-<p>And yet, beneath the clutter, the pursuit is the same: change the knobs, keep the laws. Find that invariance that stands like granite.</p>
-<div id="wid-pool-sim" class="widget quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-wid figure page-columns page-full">
-<div aria-describedby="wid-pool-sim-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="wgt wgt--pool" data-widget="pool-invariance" id="wid-pool-invariance">
-  <!-- Canvas (table) -->
-  <div class="wgt__canvas">
-    <canvas data-role="table" width="640" height="360" aria-label="Pool table simulation canvas"></canvas>
-  </div>
+<p>Everything science knows rides on it. But can anyone prove it? Hume tried. What he found is the subject of the next chapter. For now, a question to carry with you: is the uniformity of nature a discovery, a bet, or something else?<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
 
-  <!-- Controls (bottom-left) -->
-  <div class="wgt__panel wgt__controls">
-    <div class="wgt__title">controls</div>
+<div class="no-row-height column-margin column-container"><div class="">
+<p>“The eternal mystery of the world is its comprehensibility… The fact that it is comprehensible is a miracle.” —Albert Einstein, 1936<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+</div></div></section>
+<section id="many-knobs-one-number" class="level2 page-columns page-full" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="many-knobs-one-number"><span class="header-section-number">1.3</span> Many Knobs, One Number</h2>
+<p>Physicists don’t spend their lives striking the same ball the same way. Real experiments are messy. The felt is worn in places. The ball spins. The air moves. The cushions are a little soft. Each of these is a knob, and every knob can change what happens.</p>
+<p>And yet, beneath the clutter, the pursuit is the same: change the knobs, keep the laws. Look for the one thing that doesn’t turn when everything else does. Start with something you can hold.</p>
+<p>Put an ice cube in a jar, screw the lid on tight, and weigh it. Leave the jar in the sun. The ice melts, the water sloshes, the glass fogs. Weigh it again. Same number. The ice is gone, but nothing was lost. It only changed form.</p>
+<p>That is what scientists mean by <span class="term">conservation</span>. Not that nothing changes, but that something is kept while everything else changes. Mass is the easy case: you can put it on a scale.</p>
 
-    <div class="wgt__field">
-      <label for="fric-range">Friction</label>
-      <input type="range" id="fric-range" data-role="fric-range" min="0.000" max="0.100" step="0.001" value="0.000">
-      <input type="number" id="fric-num" data-role="fric-num" min="0.000" max="0.100" step="0.001" value="0.000">
-      <div class="wgt__hint">(0.000 = no friction)</div>
-    </div>
+<div class="no-row-height column-margin column-container"><div class="">
+<p>The lid matters. Leave the jar open and some water escapes as vapor, and the scale drops. Conservation holds for a <span class="term">closed system</span>: nothing gets in, nothing gets out. If something seems to vanish, first ask where it went. Remember that question; it returns in Section 7.</p>
+</div></div><p>Energy is harder, because no scale can weigh it. Think of it as the ability to make something happen: to move a ball, to warm a room, to make a sound. It comes in many forms, and it can turn from one into another. What it never does is appear from nothing or vanish into nothing.</p>
+<p>Back to the pool table. The cue gives the ball energy of motion. As the ball rolls, the felt slows it down. The motion isn’t lost. It turns into a little warmth in the felt and the cushions, and a little sound: the click against the cushion. Rough felt or smooth, lively cushions or dead ones: the path is different every time. Add up the motion, the warmth, and the sound, and the total is always what the cue put in.</p>
 
-    <div class="wgt__field">
-      <label for="rest-range">Elasticity</label>
-      <input type="range" id="rest-range" data-role="rest-range" min="0.60" max="1.00" step="0.01" value="1.00">
-      <input type="number" id="rest-num" data-role="rest-num" min="0.60" max="1.00" step="0.01" value="1.00">
-      <div class="wgt__hint">(1.00 = perfectly elastic cushions)</div>
-    </div>
+<div class="no-row-height column-margin column-container"><div class="">
+<p>In the 1840s, James Joule showed that motion and heat are two forms of one thing: a falling weight that stirs a tub of water warms it by an amount you can predict.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+</div><div class="">
+<p>Energy is not the only thing kept. In every collision on the table, <span class="term">momentum</span>—roughly, how hard something is to stop—is kept too. We meet it again in Section 6.</p>
+</div></div>
+<p>You already trust this law. Calories in, calories out: no one expects to lose weight while eating more cheeseburgers. But this law sometimes gives a counterintuitive result: the best bicycle helmets are built to break. The unbreakable ones pass the energy of the blow to the rider’s skull; the crushable ones absorb the shock and break. A cracked helmet has done exactly what it is supposed to do. Tall buildings follow the same rule. A perfectly rigid tower would take the full force of a gale, with nowhere for the energy to go, and could crack. A tower that sways turns the wind’s energy into motion, and dampers inside it turn that motion into a little heat. Energy has to go somewhere, and engineers design where it goes.</p>
 
-    <div>
-      <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
-    </div>
-  </div>
+<div class="no-row-height column-margin column-container"><div class="">
+<p>A calorie is a unit of energy. The “calorie” on a food label is the energy needed to warm a liter of water by one degree Celsius.</p>
+</div></div><p>Start with the ideal table, then add the real one: the felt, the soft cushions. The ball slows, but nothing is lost.</p>
 
-  <!-- Output (bottom-right) -->
-  <div class="wgt__panel wgt__output" aria-live="polite">
-    <div class="wgt__title">Energy Ledger</div>
-    <div class="wgt__hint">• Drag the ball to move it. • Pull back anywhere to set direction &amp; power, then release. • Losses appear in the ledger.</div>
-</div>
-</div>
+<div class="no-row-height column-margin column-container"><div class="">
+<p>The ideal table, where nothing slows the ball, is Galileo’s trick. He imagined a ball on a perfectly smooth, level plane and argued it would roll on forever. No such plane exists. But strip away the friction in your mind and the law shows itself; add the friction back and it is still there, hidden in the warmth. Idealization is not a lie about the world. It is how physics sees through the clutter. More in Chapter 4.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+</div><div class="">
+<p>Want to feel the trade between height and speed? PhET’s free <a href="https://phet.colorado.edu/en/simulations/energy-skate-park"><em>Energy Skate Park</em></a> (University of Colorado Boulder) lets you build a ramp and watch a skater swap one for the other, with friction or without.</p>
+</div></div>
+<p>Physics keeps its books this way. However wild the day—balls ricocheting, particles colliding—the books close clean. Energy in, energy out.</p>
 
-<link rel="stylesheet" href="../../css/widgets.css">
-<script src="../../js/widgets-core.js" defer=""></script>
-<script src="../../js/pool-invariance.js" defer=""></script>
-
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-wid margin-caption" id="wid-pool-sim-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Widget&nbsp;1.2: The Lawful Table—many knobs.
-</figcaption>
-</figure>
-</div>
-<p>Set the ball, pick an angle, choose a force, slide the friction. Watch the ball run like a wild child across the felt. Then, look to the right: the number that refuses to panic: total energy. The surface changes, the invariant doesn’t. Complexity multiplies, but the promise of invariance holds. That’s what a law feels like from the inside.</p>
-<p>Physics <em>hides</em> its treasures in invariants. They are its balance sheets. No matter how wild the day’s trading—balls ricocheting, particles colliding—the books close clean. Energy in, energy out. Momentum tallied to the last decimal.</p>
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Why should anything be kept at all? Hold that question. Section 6 has an answer, and it comes from Emmy Noether.</p>
+</div></div><p>Physics hides its treasures in invariants.</p>
 </section>
 <section id="the-lawful-coin" class="level2 page-columns page-full" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="the-lawful-coin"><span class="header-section-number">1.4</span> The Lawful Coin</h2>
-<p>A curious reader might object: not all outcomes are replicable the way billiard collisions are. What about random events—like flipping a coin? Where is the invariance there?</p>
-<p>Let’s try it.</p>
-<div id="wid-coin-sim" class="widget quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-wid figure page-columns page-full">
-<div aria-describedby="wid-coin-sim-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="wgt wgt--coin" data-widget="coin-flip" id="wid-coin-sim">
-  <!-- Canvas (coin area) -->
-  <div class="wgt__canvas">
-    <canvas data-role="coin" width="640" height="360" aria-label="Coin flipping simulation canvas"></canvas>
-  </div>
+<p>A curious reader might object: not all outcomes are replicable the way billiard collisions are. What about random events, like flipping a coin? Where is the invariance there?</p>
+<p>Flip a coin ten times and the results tell you little: seven heads, maybe, or three. But flip it a hundred times, a thousand, and something remarkable happens: the share of heads stops jumping around and settles near one half. Noise gives way to pattern.</p>
+<p>Here is a way to see that share. Put the tails on one end of a ruler and the heads on the other, and balance it on your finger. The ruler balances at the share of heads: right in the middle if they are even, nearer the heads end if heads are ahead. It is Archimedes’ lever, put to work on chance.</p>
+<p>Watch where the beam balances as the coins pile up. This is the <span class="term">law of large numbers</span>: the more times you repeat a chancy experiment, the closer the average comes to a fixed value. Jacob Bernoulli, who first proved it, called it his <em>golden theorem</em>.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> Casinos thrive on it. Insurance companies rely on it. No single bet can be predicted, and the house still wins.</p>
+<p>But hidden in the proof is an often overlooked clause: every toss must be a fair copy of every other. Your previous toss must not interfere with the next; a toss here or there, today or tomorrow, makes no difference, as if all these tosses were drawn from the same deck. Swap in a bent coin halfway through, or let the coin wear down a little with each toss, and the average has nothing to settle on.</p>
 
-  <!-- Controls (bottom-left) -->
-  <div class="wgt__panel wgt__controls">
-    <div class="wgt__title">Controls</div>
-    <div class="wgt__field">
-      <div class="wgt__hint">Click the coin (or use buttons) to flip. </div>
-    </div>
-    <div class="wgt__field">
-      <label for="p-range">Heads probability</label>
-      <input type="range" id="p-range" data-role="p-range" min="0.00" max="1.00" step="0.01" value="0.50">
-      <input type="number" id="p-num" data-role="p-num" min="0.00" max="1.00" step="0.01" value="0.50">
-      <div class="wgt__hint">Changing p resets the run. (0.50 = fair coin)</div>
-    </div>
-    <div class="wgt__field" role="group" aria-label="Flip actions">
-      <button type="button" data-role="flip1" class="wgt__btn--accent">Flip</button>
-      <div class="wgt__row">
-        <button type="button" data-role="flip10">Flip ×10</button>
-        <button type="button" data-role="flip100">Flip ×100</button>
-      </div>
-      <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
-    </div>
-  </div>
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Statisticians call this clause <span class="term">independent and identically distributed</span>, or <em>i.i.d.</em> Independent: no toss affects another. Identically distributed: every toss has the same odds.</p>
+</div></div><p>This is Hume’s principle in disguise: uniformity all over again. Even chance keeps a law only if nature keeps its habits across time and space.</p>
+<p>Now trade the pool table for a box of gas. Shrink the balls to molecules, thousands of them, flying in every direction and never slowing down. Make one wall of the box a piston held back by a spring, like the plunger inside a tyre gauge. Each molecule that hits the piston knocks it back a little, and the spring pushes it home. With three molecules, the piston jerks: a knock, then nothing, then two knocks at once. With thousands, the knocks become a hum. The piston settles at one spot and only trembles there. No single hit can be predicted. Their sum can.</p>
+<p>That steady push has a name: <span class="term">pressure</span>. The air around you is a box like this, with countless molecules striking every surface they meet, your skin included. No one tracks them one by one. The pressure is steady anyway. It is the law of large numbers, working inside physics.</p>
 
-  <!-- Output (bottom-right) -->
-  <div class="wgt__panel wgt__output" aria-live="polite">
-    <div class="wgt__title">Results</div>
-    <div class="wgt__row wgt__row--spread">
-      <span class="wgt__metric"><strong>Trials</strong> <span data-role="n" class="wgt__out">0</span></span>
-      <span class="wgt__metric"><strong>Heads</strong>  <span data-role="h" class="wgt__out">0</span></span>
-      <span class="wgt__metric"><strong>Tails</strong>  <span data-role="t" class="wgt__out">0</span></span>
-    </div>
-    <div class="wgt__row">
-      <strong>Estimate p (H/trials)</strong>    <span data-role="phat" class="wgt__out">—</span>
-      </div>
-    <div class="wgt__hint">The chart shows the running estimate p̂ = H/n with a dashed target at the chosen p.</div>
+<div class="no-row-height column-margin column-container"><div class="">
+<p><span class="term">Temperature</span> is the same trick: a measure of how fast the molecules move, on average. Heat the air and the hits get harder, and the push grows.</p>
+</div><div class="">
+<p>An honest note on the widget. A real piston would barely move; the drawing exaggerates it so you can see the reading. And only 400 of the molecules are drawn. The rest are counted with a tested shortcut: in this model the molecules never meet, so their pushes simply add up.</p>
+</div><div class="">
+<p>Hold on to this move: what can’t be predicted one by one can be predicted on average. It returns in Chapter 6, where tomorrow’s weather can’t be forecast a month ahead, but the climate can be studied.</p>
+</div></div>
+
+<p>Only when such invariance holds can statistics, probability, and the sciences built on them exist at all. Even in randomness, invariance survives, as long as every toss is a fair copy of the last.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><em>The sections from here to the end of the chapter are from an earlier draft. They are being revised.</em></p>
 </div>
 </div>
-
-<link rel="stylesheet" href="../../css/widgets.css">
-<script src="../../js/widgets-core.js" defer=""></script>
-<script src="../../js/coin-flip.js" defer=""></script>
-
 </div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-wid margin-caption" id="wid-coin-sim-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Widget&nbsp;1.3: Coin Flip Device — click to flip; chart shows p̂ over trials.
-</figcaption>
-</figure>
-</div>
-<p>Flip the coin as many times as you like. At first, the results look noisy, even chaotic. Ten flips tell you nothing. But flip a hundred, a thousand, and something remarkable happens: the wildly fluctuating ratio between heads and tails begins to settle. Chaos turns into pattern. Noise reveals order.</p>
-<p>Pop the champagne—you’ve just discovered the <strong>Law of Large Numbers</strong>. It states that the average outcome of a random experiment approaches its expected value as the number of trials increases. This is the invariance of chance: the more experiments you run, the closer you get to the hidden probability of the coin. It isn’t merely a statistical curiosity; it’s a bedrock principle—the universe’s quiet promise of consistency, assuring us that even in the realm of chance, a hidden invariance governs.</p>
-<p>Jacob Bernoulli, who first proved this and published it posthumously in 1713,<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> called it his <em>golden theorem</em>. Casinos thrive on it. Insurance companies rely on it. Weather forecasts whisper it. The law promises that randomness itself contains a rhythm, and that with enough patience, averages will converge.</p>
-<p>But hidden in the proof is an often overlooked clause: each trial must be <em>independently</em> and <em>identically distributed</em>. Your previous toss must not interfere with the next toss; a toss here or there, today or tomorrow, it makes no difference, as if all these tosses are drawn from the same deck. This is Hume’s Principle in disguise: uniformity all over again. The law of large numbers depends on the same bet—that nature behaves consistently, yet probabilistically, across time and space.</p>
-<p>It looks like victory: even in randomness, invariance survives. Only when such invariance holds can statistics, probability, and the sciences built on them exist at all.</p>
 </section>
 <section id="emmy-noethers-gift" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="emmy-noethers-gift"><span class="header-section-number">1.5</span> Emmy Noether’s Gift</h2>
@@ -766,7 +674,7 @@ Widget&nbsp;1.3: Coin Flip Device — click to flip; chart shows p̂ over trials
 
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-wid margin-caption" id="wid-pool-symmetry-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Widget&nbsp;1.4: Breaking Spatial Symmetry—same table, unlawful rules.
+Widget&nbsp;1.1: Breaking Spatial Symmetry—same table, unlawful rules.
 </figcaption>
 </figure>
 </div>
@@ -837,9 +745,6 @@ Lindberg, David C. 2010. <em>The Beginnings of Western Science: The European Sci
 <div id="ref-longino1990science" class="csl-entry" role="listitem">
 Longino, Helen E. 1990. <em>Science as Social Knowledge: Values and Objectivity in Scientific Inquiry</em>. Princeton University Press.
 </div>
-<div id="ref-machamer2021galileo" class="csl-entry" role="listitem">
-Machamer, Peter, and David Marshall Miller. 2021. <em>Galileo Galilei</em>.
-</div>
 <div id="ref-maxwell1859stability" class="csl-entry" role="listitem">
 Maxwell, James Clerk. 1859. <em>On the Stability of the Motion of Saturn’s Rings: An Essay, Which Obtained the Adams Prize for the Year 1856, in the University of Cambridge</em>. Macmillan; Company.
 </div>
@@ -872,16 +777,16 @@ Zee, Anthony. 2015. <em>Fearful Symmetry: The Search for Beauty in Modern Physic
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>Issac Newton laid the foundations for the corpuscular theory of light, which states that light is made up of small discrete particles called “corpuscles” (little particles). These corpuscles travel in a straight line with a finite velocity.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>In 1859, Maxwell published his essay “on the stability of the motion of Staurn’s rings” <span class="citation" data-cites="maxwell1859stability">(<a href="../../data/references.html#ref-maxwell1859stability" role="doc-biblioref">1859</a>)</span>, which solved a mystery that had eluded scientists for 200 years—how they could remain stable without breaking up, drifting away, or crashing into Saturn. In this essay, Maxwell proved that a regular solid ring could not be stable, while a fluid ring would be forced to break up into blobs. He concluded that rings must be composed of numerous small particles. He was awarded the Adams Prize.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>In 1905, Einstein provided the first quantitative explanation for Brownian motion, suspended pollen seeds in water moving in an erratic, random motion. In this essay <span class="citation" data-cites="einstein1905motion">(<a href="../../data/references.html#ref-einstein1905motion" role="doc-biblioref">1905</a>)</span>, he proposed that Brownian motion was caused by random bombardment of visible particles by invisible, constantly moving atoms and molecules.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Hume never named this principle as-is in his <em>Treatise</em>. He says, “if Reason determin’d us, it would proceed upon that principle that instances, of which we have had no experience, must resemble those, of which we have had experience, and that the course of nature continues always uniformly the same” <span class="citation" data-cites="hume2000treatise">(<a href="../../data/references.html#ref-hume2000treatise" role="doc-biblioref">Hume 2000</a>)</span>. For convenience, philosophers refer to this claim of similarity or resemblance between observed and unobserved regularities as the “Uniformity Principle,” “Resemblance Principle,” or the “Principle of Uniformity of Nature.” Read more in <span class="citation" data-cites="henderson2018problem">Henderson (<a href="../../data/references.html#ref-henderson2018problem" role="doc-biblioref">2018</a>)</span>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>Another translation: There is a constancy to the activities of Heaven, from <span class="citation" data-cites="xunzi2015xunzi">Xunzi (<a href="../../data/references.html#ref-xunzi2015xunzi" role="doc-biblioref">2015, 175</a>)</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>In 1638, Galileo Galilei published <em>Discourses and Mathematical Demonstrations Relating to Two New Sciences</em> <span class="citation" data-cites="galilei1914discourses">(<a href="../../data/references.html#ref-galilei1914discourses" role="doc-biblioref">1914</a>)</span>, his final book and a scientific testament. The first half of the book deals with the causes and mathematics of how bodies break and the acceleration of falling bodies. The second new science, described in the latter part of the book, deals with the mathematical descriptions and laws of local motions—motions of all matter. See more in <span class="citation" data-cites="machamer2021galileo">Machamer and Miller (<a href="../../data/references.html#ref-machamer2021galileo" role="doc-biblioref">2021</a>)</span>. In contrast, Kepler’s attitude is more ambiguous. But at least, he believes that his laws apply to all planets as he says, in his <em>The Harmony of the World</em>, “But it is absolutely certain and exact that the proportion between the periodic times of <em>any two planets</em> is precisely the sesquialterate proportion (i.e., the ratio of 3:2) of their mean distances…” <span class="citation" data-cites="kepler2021harmonies">(<a href="../../data/references.html#ref-kepler2021harmonies" role="doc-biblioref">2021</a>)</span>. Lastly, Newton wrote in the preface of <em>The Mathematical Principles of Natural Philosophy</em>, “I wish we could derive the rest of the phænomena of nature by the same kind of reasoning from mechanical principles; for I am induced by many reasons to suspect that they may all depend upon certain forces by which the particles of bodies, by some causes hitherto unknown, are either mutually impelled towards each other, and cohere in regular figures, or are repelled and recede from each other…” <span class="citation" data-cites="newton1846principia">(<a href="../../data/references.html#ref-newton1846principia" role="doc-biblioref">1846</a>)</span>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>It is extremely difficult—if not impossible—to pin down the exact date of such a naturalistic turn. Most history science textbooks agree that the origin of western science should at least start from the natural philosophy of ancient Greece, if not Egypt and Mesopotamia. See Lindberg’s <em>The Beginnings of Western Science</em> <span class="citation" data-cites="lindberg2010beginnings">(<a href="../../data/references.html#ref-lindberg2010beginnings" role="doc-biblioref">2010</a>)</span> or McClellan III’s <em>Science and Technology in World History</em> <span class="citation" data-cites="mcclellan2015science">(<a href="../../data/references.html#ref-mcclellan2015science" role="doc-biblioref">2015</a>)</span>. However, the naturalistic turn does not mean that scientific naturalism is entirely free of references to God or the supernatural. See more in <em>Science without God?</em> by <span class="citation" data-cites="harrison2019science">Harrison and Roberts (<a href="../../data/references.html#ref-harrison2019science" role="doc-biblioref">2019</a>)</span>.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>It is worth noting that not all philosophers agree that the Principle of Uniformity of Nature (PUN) is a metaphysical postulate. For example, Mill asserts that PUN is an empirical truth whereas Russell treats PUN as a postulate, a form of “wishful thinking.” See <span class="citation" data-cites="Salmon1953-SALTUO">Salmon (<a href="../../data/references.html#ref-Salmon1953-SALTUO" role="doc-biblioref">1953</a>)</span>.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9"><p>This quote is adapted for readability. In his essay “Physics and Reality” <span class="citation" data-cites="einstein1936physics">(<a href="../../data/references.html#ref-einstein1936physics" role="doc-biblioref">1936</a>)</span>, Einstein wrote, “…the production of some sort of order among sense impressions, this order being produced by the creation of general concepts, relations between these concepts, and by definite relations of some kind between the concepts and sense experience. It is in this sense that the world of our sense experiences is comprehensible. The fact that it is comprehensible is a miracle.”<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10"><p>In a book titled <em>Ars Conjectandi (The Art of Conjecturing)</em> <span class="citation" data-cites="bernoulli2006art">(<a href="../../data/references.html#ref-bernoulli2006art" role="doc-biblioref">2006</a>)</span><a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Newton pictured light as a stream of tiny particles. Maxwell showed in 1859 that Saturn’s rings must be made of countless small bodies rather than a solid sheet <span class="citation" data-cites="maxwell1859stability">(<a href="../../data/references.html#ref-maxwell1859stability" role="doc-biblioref">1859</a>)</span>. Einstein explained in 1905 the jittering of pollen grains in water (Brownian motion) as the result of invisible molecules knocking into them <span class="citation" data-cites="einstein1905motion">(<a href="../../data/references.html#ref-einstein1905motion" role="doc-biblioref">1905</a>)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Hume never named the principle himself. In the <em>Treatise</em> he writes that reasoning from experience “would proceed upon that principle that instances, of which we have had no experience, must resemble those, of which we have had experience, and that the course of nature continues always uniformly the same” <span class="citation" data-cites="hume2000treatise">(<a href="../../data/references.html#ref-hume2000treatise" role="doc-biblioref">Hume 2000</a>)</span>. Philosophers later called it the Uniformity Principle or the Principle of the Uniformity of Nature. See <span class="citation" data-cites="henderson2018problem">Henderson (<a href="../../data/references.html#ref-henderson2018problem" role="doc-biblioref">2018</a>)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Another translation: “There is a constancy to the activities of Heaven” <span class="citation" data-cites="xunzi2015xunzi">(<a href="../../data/references.html#ref-xunzi2015xunzi" role="doc-biblioref">Xunzi 2015, 175</a>)</span>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Galileo’s last book, <em>Two New Sciences</em> <span class="citation" data-cites="galilei1914discourses">(<a href="../../data/references.html#ref-galilei1914discourses" role="doc-biblioref">1914</a>)</span>, treats the motion of all falling bodies by one mathematics. Kepler states that his third law holds for “any two planets” <span class="citation" data-cites="kepler2021harmonies">(<a href="../../data/references.html#ref-kepler2021harmonies" role="doc-biblioref">2021</a>)</span>. Newton, in the preface to the <em>Principia</em>, hoped to “derive the rest of the phænomena of nature by the same kind of reasoning from mechanical principles” <span class="citation" data-cites="newton1846principia">(<a href="../../data/references.html#ref-newton1846principia" role="doc-biblioref">1846</a>)</span>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>It is hard, perhaps impossible, to date this naturalistic turn. Most histories start Western science with the natural philosophy of ancient Greece, if not Egypt and Mesopotamia; see <span class="citation" data-cites="lindberg2010beginnings">Lindberg (<a href="../../data/references.html#ref-lindberg2010beginnings" role="doc-biblioref">2010</a>)</span> or <span class="citation" data-cites="mcclellan2015science">McClellan iii and Dorn (<a href="../../data/references.html#ref-mcclellan2015science" role="doc-biblioref">2015</a>)</span>. Nor did the turn remove God from science; see <span class="citation" data-cites="harrison2019science">Harrison and Roberts (<a href="../../data/references.html#ref-harrison2019science" role="doc-biblioref">2019</a>)</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Philosophers still disagree. Mill treated it as an empirical truth; Russell as a postulate we cannot do without. See <span class="citation" data-cites="Salmon1953-SALTUO">Salmon (<a href="../../data/references.html#ref-Salmon1953-SALTUO" role="doc-biblioref">1953</a>)</span>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p><span class="citation" data-cites="einstein1936physics">Einstein (<a href="../../data/references.html#ref-einstein1936physics" role="doc-biblioref">1936</a>)</span>. The line usually quoted, “The most incomprehensible thing about the universe is that it is comprehensible,” is a paraphrase.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Joule, on the paddle-wheel experiment (1840s). <a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Galileo, <em>Two New Sciences</em> (1638); also the <em>Dialogue</em> (1632). <a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>Published after his death, in <em>Ars Conjectandi</em> (<em>The Art of Conjecturing</em>), 1713 <span class="citation" data-cites="bernoulli2006art">(<a href="../../data/references.html#ref-bernoulli2006art" role="doc-biblioref">2006</a>)</span>.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn11"><p>Read more in <em>Emmy Noether’s Wonderful Theorem</em> <span class="citation" data-cites="neuenschwander2017emmy">(<a href="../../data/references.html#ref-neuenschwander2017emmy" role="doc-biblioref">Neuenschwander 2017</a>)</span>, <em>Symmetry and the Beautiful Universe</em> <span class="citation" data-cites="lederman2011symmetry">(<a href="../../data/references.html#ref-lederman2011symmetry" role="doc-biblioref">Lederman and Hill 2011</a>)</span>, and a recent biography <em>Proving It Her Way</em> <span class="citation" data-cites="RoweKoreuber2020">(<a href="../../data/references.html#ref-RoweKoreuber2020" role="doc-biblioref">Rowe and Koreuber 2020</a>)</span>.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn12"><p><em>Fearful Symmetry</em> by <span class="citation" data-cites="zee2015fearful">Zee (<a href="../../data/references.html#ref-zee2015fearful" role="doc-biblioref">2015, 36</a>)</span>.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn13"><p><em>Symmetry and the Beautiful Universe</em> by <span class="citation" data-cites="lederman2011symmetry">Lederman and Hill (<a href="../../data/references.html#ref-lederman2011symmetry" role="doc-biblioref">2011, 108</a>)</span>.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -914,6 +819,50 @@ document.addEventListener('DOMContentLoaded', () => {
   p.firstChild.textContent = t.slice(i + words.length);
   p.insertBefore(span, p.firstChild);
 });
+</script>
+<!-- Quiet page (Dan, 2026-11-21: "Let the page breathe").
+     1. Phones and upright tablets: each margin note folds into a small ⊕ at the end of its paragraph; tap to open it.
+     2. Wide screens: the contents panel is hidden behind a "Contents" button and slides out over the page. -->
+<script>
+(function () {
+  var narrow = window.matchMedia('(max-width: 991.98px)');   // where Quarto puts margin notes inline
+
+  // ---- 1. margin notes fold to ⊕ on narrow screens
+  var n = 0;
+  document.querySelectorAll('main .column-margin').forEach(function (note) {
+    if (note.querySelector('.ul-widget, figure, .quarto-float')) return;   // widget captions stay as they are
+    var id = 'mn-' + (++n), host = note.previousElementSibling;
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'mn-toggle'; btn.textContent = '⊕';
+    btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', id);
+    btn.setAttribute('aria-label', 'Show the note');
+    note.id = note.id || id; note.classList.add('mn-folded');
+    btn.addEventListener('click', function () {
+      var open = note.classList.toggle('mn-open');
+      btn.setAttribute('aria-expanded', open); btn.setAttribute('aria-label', open ? 'Hide the note' : 'Show the note');
+      btn.textContent = open ? '⊖' : '⊕';
+    });
+    if (host && host.tagName === 'P') host.appendChild(btn); else note.parentNode.insertBefore(btn, note);
+  });
+
+  // ---- 2. contents panel behind a button on wide screens
+  var side = document.getElementById('quarto-sidebar');
+  if (side) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'contents-toggle'; b.textContent = 'Contents';
+    b.setAttribute('aria-controls', 'quarto-sidebar'); b.setAttribute('aria-expanded', 'false');
+    var setOpen = function (open) {
+      document.body.classList.toggle('contents-open', open);
+      b.setAttribute('aria-expanded', open); b.textContent = open ? 'Close' : 'Contents';
+    };
+    b.addEventListener('click', function () { setOpen(!document.body.classList.contains('contents-open')); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+    document.addEventListener('click', function (e) {
+      if (document.body.classList.contains('contents-open') && !side.contains(e.target) && e.target !== b) setOpen(false);
+    });
+    document.body.appendChild(b);
+  }
+})();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

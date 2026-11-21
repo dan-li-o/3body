@@ -52,9 +52,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-8ca7f75baa859426d0e1549a7c4b1aa8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-c2e46c359b09cbc25be525ae5646576c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-8ca7f75baa859426d0e1549a7c4b1aa8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-c6ebba9ea8c930a947dec6ce3353ea19.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-d4c5c6c97940099aa9adadf022195f7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-c6ebba9ea8c930a947dec6ce3353ea19.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -460,6 +460,50 @@ document.addEventListener('DOMContentLoaded', () => {
   p.firstChild.textContent = t.slice(i + words.length);
   p.insertBefore(span, p.firstChild);
 });
+</script>
+<!-- Quiet page (Dan, 2026-11-21: "Let the page breathe").
+     1. Phones and upright tablets: each margin note folds into a small ⊕ at the end of its paragraph; tap to open it.
+     2. Wide screens: the contents panel is hidden behind a "Contents" button and slides out over the page. -->
+<script>
+(function () {
+  var narrow = window.matchMedia('(max-width: 991.98px)');   // where Quarto puts margin notes inline
+
+  // ---- 1. margin notes fold to ⊕ on narrow screens
+  var n = 0;
+  document.querySelectorAll('main .column-margin').forEach(function (note) {
+    if (note.querySelector('.ul-widget, figure, .quarto-float')) return;   // widget captions stay as they are
+    var id = 'mn-' + (++n), host = note.previousElementSibling;
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'mn-toggle'; btn.textContent = '⊕';
+    btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', id);
+    btn.setAttribute('aria-label', 'Show the note');
+    note.id = note.id || id; note.classList.add('mn-folded');
+    btn.addEventListener('click', function () {
+      var open = note.classList.toggle('mn-open');
+      btn.setAttribute('aria-expanded', open); btn.setAttribute('aria-label', open ? 'Hide the note' : 'Show the note');
+      btn.textContent = open ? '⊖' : '⊕';
+    });
+    if (host && host.tagName === 'P') host.appendChild(btn); else note.parentNode.insertBefore(btn, note);
+  });
+
+  // ---- 2. contents panel behind a button on wide screens
+  var side = document.getElementById('quarto-sidebar');
+  if (side) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'contents-toggle'; b.textContent = 'Contents';
+    b.setAttribute('aria-controls', 'quarto-sidebar'); b.setAttribute('aria-expanded', 'false');
+    var setOpen = function (open) {
+      document.body.classList.toggle('contents-open', open);
+      b.setAttribute('aria-expanded', open); b.textContent = open ? 'Close' : 'Contents';
+    };
+    b.addEventListener('click', function () { setOpen(!document.body.classList.contains('contents-open')); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+    document.addEventListener('click', function (e) {
+      if (document.body.classList.contains('contents-open') && !side.contains(e.target) && e.target !== b) setOpen(false);
+    });
+    document.body.appendChild(b);
+  }
+})();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
