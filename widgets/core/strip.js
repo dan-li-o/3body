@@ -42,6 +42,7 @@ export class Zoom {
 //   mean      f of the ghost reference line
 //   bands     (n) => ({ inner: [lo, hi], outer: [lo, hi] })  or null;  bandFade 0..1
 //   valueName / countName / meanLabel      words for the axes
+//   ticks     [[f, label], …] marks above the chart (for an instrument without its own scale)
 export function drawStrip(ctx, c, w, h, o) {
   const { axis: { V }, xMax } = o, top = 26, bottom = h - 34;
   const Y = (n) => top + (n - 1) / Math.max(1, xMax - 1) * (bottom - top);
@@ -72,9 +73,10 @@ export function drawStrip(ctx, c, w, h, o) {
   ctx.fillText(Math.round(xMax / 2).toLocaleString('en'), lx, (top + bottom) / 2);
   ctx.fillText(Math.round(xMax).toLocaleString('en'), lx, bottom);
   ctx.textBaseline = 'alphabetic';
-  ctx.fillText(o.countName, lx, bottom + 22);
+  ctx.textAlign = 'right'; ctx.fillText(o.countName, w - 2, bottom + 22); ctx.textAlign = 'left';
   ctx.fillText(`${o.valueName} →`, V(0), h - 6);
   if (o.meanLabel) { ctx.textAlign = 'center'; ctx.fillText(o.meanLabel, V(o.mean), top - 10); }
+  if (o.ticks) { ctx.textAlign = 'center'; for (const [f, t] of o.ticks) ctx.fillText(t, V(f), top - 15); }
 
   // the record
   ctx.save(); ctx.beginPath(); ctx.rect(V(0) - 4, top - 2, V(1) - V(0) + 8, bottom - top + 4); ctx.clip();
@@ -97,7 +99,7 @@ export function drawStrip(ctx, c, w, h, o) {
   // the pointer: on the chart's top edge, under the instrument's accent part
   if (o.pointer != null) {
     const x = V(o.pointer); ctx.fillStyle = c.accent; ctx.beginPath();
-    ctx.moveTo(x, top - 1); ctx.lineTo(x - 5, top - 11); ctx.lineTo(x + 5, top - 11); ctx.closePath(); ctx.fill();
+    ctx.moveTo(x, top - 1); ctx.lineTo(x - 4.5, top - 9); ctx.lineTo(x + 4.5, top - 9); ctx.closePath(); ctx.fill();
   }
 }
 
