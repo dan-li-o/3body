@@ -56,7 +56,7 @@ blockquote, .blockquote { border-left: none; padding-left: 1.5rem; font-size: .9
 // Paragraphs: indented, no blank line; no indent after a heading, list, figure or widget.
 main p { margin-bottom: 0; }
 main p + p, main p + .page-columns > p:first-child { text-indent: 1.4em; }
-main .page-columns + p { text-indent: 1.4em; }
+main .page-columns + p, main .column-margin + p { text-indent: 1.4em; }   // a margin note doesn't break the paragraph flow
 main ul, main ol, main figure, main .callout, main blockquote, main .quarto-figure { margin-top: 1em; margin-bottom: 1em; }
 main .column-margin p + p, main .callout p + p, main .footnotes p + p { text-indent: 0; margin-top: .5em; }
 // Justified with hyphenation on wide screens; ragged-right on phones (narrow columns leave gaps).
