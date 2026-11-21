@@ -86,3 +86,13 @@ hr::after { content: "\2766"; font-size: 1.1em; }
 // Callouts: a quiet rule and paper, no coloured header band
 .callout { border-width: 0 0 0 3px !important; border-radius: 0 !important; background: transparent !important; }
 .callout .callout-header { background: transparent !important; }
+
+// Two accents in the text (Dan, 2026-11-21). Same weight and style as the text around them.
+//   [the uniformity of nature]{.term}  teal: a philosophy or science term, marked at its first, defining use
+//   [the one thing to remember]{.key}  orange: an important highlight or emphasis (use sparingly)
+.term { color: $ul-contrast; }
+.key  { color: $ul-accent; }
+// TODOs are hidden on the site (filters/hide-todo.lua); in the draft profile they show like this.
+.todo-visible { color: $ul-accent; font-family: $font-family-sans-serif; font-size: .8em;
+  border: 1px dashed $ul-accent; border-radius: 3px; padding: 0 .25em; }
+div.todo-visible { display: block; padding: .4em .6em; margin: .6em 0; }

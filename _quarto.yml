@@ -79,6 +79,10 @@ format:
           <!-- Site-wide utils only; page widgets load per-chapter -->
           <script src="/js/widgets-core.js"></script>
 
+# TODOs stay in the files but not on the site (filters/hide-todo.lua; --profile draft shows them)
+filters:
+  - filters/hide-todo.lua
+
 # Citations
 bibliography: data/references.bib
 # To get footnote-style citations, add a note-based CSL, e.g.:
