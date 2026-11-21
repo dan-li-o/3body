@@ -193,7 +193,7 @@ function drawModel(){const W=mc._w,H=mc._h,ink=css('--ul-ink'),grey=css('--ul-gr
   const left=6,top=24,bot=H-6,post=W-6,wall=A.v0,pp=Math.max(wall,V(dispV));
   mx.strokeStyle=rule;mx.lineWidth=1.75;mx.beginPath();mx.moveTo(wall,top);mx.lineTo(left,top);mx.lineTo(left,bot);mx.lineTo(wall,bot);mx.stroke();
   mx.lineWidth=1;mx.beginPath();mx.moveTo(wall,top);mx.lineTo(Math.min(post-30,A.v1+12),top);mx.moveTo(wall,bot);mx.lineTo(Math.min(post-30,A.v1+12),bot);mx.stroke();
-  const s=(wall-left-4)/g.x0,hs=(bot-top)/g.H;mx.fillStyle=ink;
+  const s=(pp-left-4)/g.x0,hs=(bot-top)/g.H;mx.fillStyle=ink;   // the gas fills the chamber up to the piston
   for(let i=0;i<g.n;i++){mx.beginPath();mx.arc(left+2+Math.min(g.x[i],g.x0)*s,bot-g.y[i]*hs,r,0,7);mx.fill();}
   const c=(top+bot)/2;spring(pp,c,post,c,grey,rule);
   mx.strokeStyle=acc;mx.lineWidth=3;mx.beginPath();mx.moveTo(pp,top+2);mx.lineTo(pp,bot-2);mx.stroke();
