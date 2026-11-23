@@ -139,12 +139,16 @@ export function useStyles(url) {
   link.rel = 'stylesheet'; link.href = href; link.dataset.ulCss = href;
   // Canvas widgets read colours from the tokens; if they mounted before this
   // stylesheet arrived, let them re-read.
-  link.addEventListener('load', () => {
-    document.querySelectorAll('.ul-widget').forEach((w) => w._mounted && w._guard(() => w.retune?.()));
-  });
+  link.addEventListener('load', retuneAll);
   document.head.appendChild(link);
 }
 useStyles(new URL('./tokens.css', import.meta.url));
+// Canvas text does not redraw by itself when a web font arrives: a widget that drew before
+// EB Garamond loaded would keep the fallback font. Redraw when fonts finish loading.
+document.fonts?.addEventListener?.('loadingdone', retuneAll);
+function retuneAll() {
+  document.querySelectorAll('.ul-widget').forEach((w) => w._mounted && !w._failed && w._guard(() => w.retune?.()));
+}
 
 export function token(name, el = document.body) {
   return getComputedStyle(el).getPropertyValue(name).trim();

@@ -1,7 +1,8 @@
 /*-- scss:defaults --*/
 // Book typography: old-style book text (EB Garamond) on a Tufte page;
 // Source Sans 3 for navigation, controls and small print. See widgets/design.md.
-@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;600&display=swap");
+// The fonts are self-hosted: assets/fonts/fonts.css (listed in _quarto.yml). No Google Fonts request.
+$web-font-path: false;   // stop the Cosmo/Darkly themes from importing their own Google font (Source Sans Pro)
 
 $font-family-sans-serif: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
 $font-family-serif: "EB Garamond", Garamond, Georgia, serif;

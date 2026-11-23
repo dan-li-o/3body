@@ -6,7 +6,7 @@
    Accents: orange = the one thing to notice; teal = philosophy and science terms
    (Dan, 2026-11-19 and 2026-11-21). If you change --ul-accent,
    also change assets/icons/favicon.svg and theme/*.scss ($ul-accent). */
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;600&display=swap');
+/* Fonts: assets/fonts/fonts.css (self-hosted). The book loads it site-wide; the gallery links it. */
 
 :root {
   --ul-paper: #faf9f5;        /* page: ivory book paper (theme/light.scss, Dan 2026-11-20) */
