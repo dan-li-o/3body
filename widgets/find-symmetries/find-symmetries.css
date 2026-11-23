@@ -1,0 +1,10 @@
+/* Find the Symmetries: the round/tally line above the figure, and the strip of results found below it. */
+ul-find-symmetries .fs-head { display: flex; justify-content: space-between; gap: 1rem; }
+ul-find-symmetries .fs-head b { color: var(--ul-ink); font-weight: 600; }
+ul-find-symmetries .ul-stage { touch-action: none; }
+ul-find-symmetries .ul-stage canvas { cursor: grab; }
+ul-find-symmetries .fs-found { display: flex; gap: 3px; min-height: 76px; margin-top: .75rem; overflow: hidden; }
+ul-find-symmetries .fs-found figure { margin: 0; width: 50px; flex: none; text-align: center; }
+ul-find-symmetries .fs-found canvas { width: 42px; height: 42px; display: block; margin: 0 auto; }
+ul-find-symmetries .fs-found figcaption { font-family: var(--ul-sans); font-size: 10.5px; line-height: 1.2; color: var(--ul-grey); }
+ul-find-symmetries .fs-more { font-family: var(--ul-sans); font-size: 12px; color: var(--ul-grey); align-self: center; }
