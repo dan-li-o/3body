@@ -6,6 +6,7 @@ $primary: #e8e6de;
 // Callouts in the book's colours: ink and grey, orange only for warnings.
 $ul-accent: #f08a4b;
 $ul-contrast: #6cc2c9;   // teal: philosophy and science terms, at first use (Dan, 2026-11-21)
+$text-muted: #a9aeb4;    // muted text (footer links, Contents button, breadcrumb): 7.7:1 on the page; Bootstrap's #6c757d was 3.7:1
 $callout-color-note: #a9aeb4;
 $callout-color-tip: #a9aeb4;
 $callout-color-important: $body-color;
