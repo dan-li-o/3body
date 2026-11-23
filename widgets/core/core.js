@@ -105,6 +105,9 @@ export class ULWidget extends HTMLElement {
     console.error(`[${this.localName}]`, err);
     cancelAnimationFrame(this._raf);
     this._raf = 0; this._running = false; this._failed = true;
+    // Stop the observers too: otherwise a resize or a theme toggle calls resize()/retune()
+    // on the fallback, which throws and logs the error again.
+    this._ro?.disconnect(); this._mo?.disconnect();
     const note = document.createElement('p');
     note.className = 'ul-fallback';
     note.textContent = 'This interactive figure could not start in your browser. The text around it still makes the point.';
@@ -139,12 +142,16 @@ export function useStyles(url) {
   link.rel = 'stylesheet'; link.href = href; link.dataset.ulCss = href;
   // Canvas widgets read colours from the tokens; if they mounted before this
   // stylesheet arrived, let them re-read.
-  link.addEventListener('load', () => {
-    document.querySelectorAll('.ul-widget').forEach((w) => w._mounted && w._guard(() => w.retune?.()));
-  });
+  link.addEventListener('load', retuneAll);
   document.head.appendChild(link);
 }
 useStyles(new URL('./tokens.css', import.meta.url));
+// Canvas text does not redraw by itself when a web font arrives: a widget that drew before
+// EB Garamond loaded would keep the fallback font. Redraw when fonts finish loading.
+document.fonts?.addEventListener?.('loadingdone', retuneAll);
+function retuneAll() {
+  document.querySelectorAll('.ul-widget').forEach((w) => w._mounted && !w._failed && w._guard(() => w.retune?.()));
+}
 
 export function token(name, el = document.body) {
   return getComputedStyle(el).getPropertyValue(name).trim();

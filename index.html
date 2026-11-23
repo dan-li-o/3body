@@ -52,9 +52,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b0f042fc70a454b01f2a9d7e08745f29.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-fb397455f9f4c87a10d54f3b557d7072.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-b0f042fc70a454b01f2a9d7e08745f29.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-284307af3e94e63e205a998dd2c4c2e7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-2e4e4993406df96ef0630a8b976a29fb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-284307af3e94e63e205a998dd2c4c2e7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -82,13 +82,15 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<link rel="icon" href="./3body/assets/icons/favicon.ico" sizes="32x32">
-<link rel="apple-touch-icon" href="./3body/assets/icons/apple-touch-icon.png">
+<!-- Paths start at the project root; Quarto rewrites them per page (so never prefix /3body). -->
+<link rel="icon" href="./assets/icons/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+<link rel="preload" href="./assets/fonts/eb-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin="">
 <meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
 
 
-<link rel="stylesheet" href="css/widgets.css">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="css/paper.css">
 <meta property="og:title" content="Unlawful Laws">
 <meta property="og:description" content="How to Live with Scientific Uncertainties">
@@ -253,7 +255,8 @@ ul.task-list li input[type="checkbox"] {
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -267,6 +270,15 @@ ul.task-list li input[type="checkbox"] {
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      refreshSafariScrollbar();
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -467,7 +479,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="no-row-height column-margin column-container"><div class="widget-name">
 <p><strong>Tame the Trisolaran sky.</strong> Three suns pull on one another. Almost every start ends in a tangle; a rare few repeat.</p>
-</div></div><ul-trisolaran-sky id="trisolaran-sky"><img class="ul-poster ul-poster-light" src="./widgets/trisolaran-sky/poster-light.png" alt="Left: a third sun pushed into a calm pair of suns, and the tangle of paths that follows. Right: three suns chasing each other around a figure-eight, which repeats." loading="lazy"><img class="ul-poster ul-poster-dark" src="./widgets/trisolaran-sky/poster-dark.png" alt="Left: a third sun pushed into a calm pair of suns, and the tangle of paths that follows. Right: three suns chasing each other around a figure-eight, which repeats." loading="lazy"></ul-trisolaran-sky>
+</div></div><ul-trisolaran-sky id="trisolaran-sky"><img class="ul-poster ul-poster-light" src="./widgets/trisolaran-sky/poster-light.png" alt="Left: a third sun pushed into a calm pair of suns, and the tangle of paths that follows. Right: three suns chasing each other around a figure-eight, which repeats." loading="lazy" decoding="async" fetchpriority="low"><img class="ul-poster ul-poster-dark" src="./widgets/trisolaran-sky/poster-dark.png" alt="Left: a third sun pushed into a calm pair of suns, and the tangle of paths that follows. Right: three suns chasing each other around a figure-eight, which repeats." loading="lazy" decoding="async" fetchpriority="low"></ul-trisolaran-sky>
 <script type="module" src="./widgets/trisolaran-sky/trisolaran-sky.js"></script>
 <p>Throughout the book, you run the experiments yourself instead of being told how they turn out.</p>
 <p><a href="./intro.html" class="btn btn-primary">Start reading →</a></p>
@@ -486,7 +498,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const p = document.querySelector('main > p, main > section > p');
   if (!p || !p.firstChild || p.firstChild.nodeType !== 3) return;
   const t = p.firstChild.textContent;
-  const m = t.match(/^\s*((?:\S+\s+){0,5}?\S+?)([.,;:!?\u2014]|\s(?=\S)|$)/);
   let words = t.trimStart().split(/\s+/).slice(0, 6).join(' ');
   const stop = words.search(/[.,;:!?\u2014]/);
   if (stop > 0) words = words.slice(0, stop);
@@ -504,7 +515,6 @@ document.addEventListener('DOMContentLoaded', () => {
      2. Wide screens: the contents panel is hidden behind a "Contents" button and slides out over the page. -->
 <script>
 (function () {
-  var narrow = window.matchMedia('(max-width: 991.98px)');   // where Quarto puts margin notes inline
 
   // ---- 1. margin notes fold to ⊕ on narrow screens
   var n = 0;
@@ -541,6 +551,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.body.appendChild(b);
   }
+})();
+</script>
+<!-- Hypothes.is on demand (2026-11-23). The annotation client is a third-party script that every
+     reader used to download on every page (and that is blocked in mainland China). Now a quiet
+     "Annotate" button loads it. A reader who has used it once gets it on every page after
+     that (remembered in this browser), so annotators keep their sidebar. -->
+<script>
+(function () {
+  var KEY = 'ul-annotate';
+  function load() {
+    if (document.querySelector('script[data-ul-hypothesis]')) return;
+    var s = document.createElement('script');
+    s.async = true; s.src = 'https://hypothes.is/embed.js'; s.setAttribute('data-ul-hypothesis', '');
+    document.body.appendChild(s);
+    var b = document.querySelector('.annotate-toggle'); if (b) b.remove();
+  }
+  var remembered = false;
+  try { remembered = localStorage.getItem(KEY) === '1'; } catch (e) { /* storage off: ask each page */ }
+  if (remembered) { load(); return; }
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'annotate-toggle'; b.textContent = 'Annotate';
+  b.title = 'Open the Hypothes.is annotation sidebar (loads a script from hypothes.is)';
+  b.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, '1'); } catch (e) { /* fine: this page only */ }
+    load();
+  });
+  document.body.appendChild(b);
 })();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1077,10 +1114,6 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </nav>
 </div> <!-- /content -->
-<!-- Hypothes.is annotation client -->
-<script async="" src="https://hypothes.is/embed.js"></script>
-<!-- Site-wide utils only; page widgets load per-chapter -->
-<script src="./js/widgets-core.js"></script>
 
 
 

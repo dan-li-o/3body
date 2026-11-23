@@ -52,9 +52,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b0f042fc70a454b01f2a9d7e08745f29.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fb397455f9f4c87a10d54f3b557d7072.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-b0f042fc70a454b01f2a9d7e08745f29.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-284307af3e94e63e205a998dd2c4c2e7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-2e4e4993406df96ef0630a8b976a29fb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-284307af3e94e63e205a998dd2c4c2e7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -82,13 +82,15 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<link rel="icon" href="../../3body/assets/icons/favicon.ico" sizes="32x32">
-<link rel="apple-touch-icon" href="../../3body/assets/icons/apple-touch-icon.png">
+<!-- Paths start at the project root; Quarto rewrites them per page (so never prefix /3body). -->
+<link rel="icon" href="../../assets/icons/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+<link rel="preload" href="../../assets/fonts/eb-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin="">
 <meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
 
 
-<link rel="stylesheet" href="../../css/widgets.css">
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../../css/paper.css">
 <meta property="og:title" content="2&nbsp; Induction on edge – Unlawful Laws">
 <meta property="og:description" content="How to Live with Scientific Uncertainties">
@@ -103,7 +105,7 @@ ul.task-list li input[type="checkbox"] {
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-sidebar floating slimcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating fullcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -253,7 +255,8 @@ ul.task-list li input[type="checkbox"] {
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -267,6 +270,15 @@ ul.task-list li input[type="checkbox"] {
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      refreshSafariScrollbar();
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -412,10 +424,9 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-    </div>
+    
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content" tabindex="-1">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/part1/ch1_physics-never-existed.html">Part I - When Laws Fail</a></li><li class="breadcrumb-item"><a href="../../chapters/part1/ch2_induction-at-the-edge.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Induction on edge</span></a></li></ol></nav>
@@ -459,205 +470,30 @@ ul.task-list li input[type="checkbox"] {
 <p>To believe in science is to place such a bet. That symmetry is not a trick and gives us conservation—Noether’s Theorem. That invariance will endure beneath noise—Uniformity Principle. That regularity outruns randomness—the law of large numbers. It is faith disguised as laws. Philosopher C. D. Broad concludes, induction is “the glory of science and the scandal of philosophy.”</p>
 <p>Uniformity of nature is the invisible credit card science swipes every day, with no guarantee the bank won’t suddenly decline. In the end, we are no different from the turkey scientist, and we might very well get our necks wrung when nature ceases behaving uniformly. This is why Wang Miao staggered—he glimpsed that science rests not on proof, but on habit, or worse, on faith, as fragile as a turkey’s routine.</p>
 </section>
-<section id="the-flatland-perspective" class="level2 page-columns page-full" data-number="2.3">
+<section id="the-flatland-perspective" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="the-flatland-perspective"><span class="header-section-number">2.3</span> The Flatland Perspective</h2>
 <p>If uniformity is not a law but a bet, what abyss does that open? The farmer hypothesis includes a farmer, a powerful being who can change any laws in turkey science at a whim. But at least, turkey scientists, if they survive, can observe the farmer’s axe and learn that their “laws of nature” were conditional all along.</p>
 <p>The shooter hypothesis suggests a worse possibility—the imperceptibility of such an omnipotent being.</p>
 <p>When the shooter casually changes his shots, all that 2D scientists can observe is that the distance between “holes” changes. What are these observations like?</p>
-<p>Now try it yourself. What do you see? A line? An ellipse? Science is built on such shadows.</p>
-<div id="wid-flat-rotate" class="widget quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-wid figure page-columns page-full">
-<div aria-describedby="wid-flat-rotate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<link rel="stylesheet" href="../../css/widgets.css">
-<script src="../../js/widgets-core.js" defer=""></script>
-
-<div class="wgt wgt--flat-rotate" data-widget="flat-rotate">
-  <!-- Canvas (top row) -->
-  <div class="wgt__canvas">
-    <canvas data-role="canvas" width="640" height="360" aria-label="2D shape rotation canvas"></canvas>
-    <div class="gesture-hint" data-role="gesture-hint" aria-hidden="true">
-      <div class="gesture-hint__arrow"><span></span></div>
-      <div class="gesture-hint__hand" aria-hidden="true">
-        <svg viewbox="0 0 1024 1024" role="presentation">
-          <path d="M870.4 204.8c-18.6368 0-36.1472 5.0176-51.2 13.7728V153.6a102.5024 102.5024 0 0 0-159.3856-85.0432C645.7856 28.672 607.7952 0 563.2 0S480.5632 28.672 466.5856 68.5568A102.5024 102.5024 0 0 0 307.2 153.6v377.4976L238.2848 411.648a99.6864 99.6864 0 0 0-61.3888-48.7936 95.5392 95.5392 0 0 0-74.8544 10.3424c-46.4384 27.8528-64.1536 90.8288-39.424 140.3904 1.536 3.1232 34.2016 70.0416 136.192 273.92 48.0256 96 100.7104 164.6592 156.6208 203.9808 43.8784 30.8736 74.1888 32.4608 79.8208 32.4608h256c43.5712 0 84.0704-14.1824 120.4224-42.0864 34.1504-26.2656 63.7952-64.256 88.064-112.8448 47.8208-95.6416 73.1136-227.9424 73.1136-382.6688v-179.2c0-56.4736-45.9264-102.4-102.4-102.4z m51.2 281.6c0 146.7904-23.3984 271.1552-67.6864 359.7312C825.0368 903.8848 773.3248 972.8 691.2 972.8H435.712c-1.9968-0.1536-23.552-2.56-56.064-26.88-32.4096-24.2688-82.176-75.3664-135.0656-181.248-103.7824-207.5648-135.68-272.9472-135.9872-273.5616l-0.1024-0.2048c-12.8512-25.7536-3.7376-59.4944 19.9168-73.6768a44.8512 44.8512 0 0 1 35.072-4.864 48.9472 48.9472 0 0 1 30.0544 24.1664l0.3072 0.512 79.9232 138.496c16.3328 29.8496 34.7136 42.3936 54.6304 37.3248 19.968-5.0688 30.0544-25.0368 30.0544-59.2384V153.6c0-28.2112 22.9888-51.2 51.2-51.2s51.2 22.9888 51.2 51.2v332.8a25.6 25.6 0 0 0 51.2 0V102.4c0-28.2112 22.9888-51.2 51.2-51.2s51.2 22.9888 51.2 51.2v384a25.6 25.6 0 0 0 51.2 0V153.6c0-28.2112 22.9888-51.2 51.2-51.2s51.2 22.9888 51.2 51.2v384a25.6 25.6 0 0 0 51.2 0V307.2c0-28.2112 22.9888-51.2 51.2-51.2s51.2 22.9888 51.2 51.2v179.2z" fill="currentColor" fill-opacity="0.55"></path>
-        </svg>
-      </div>
-    </div>
-  </div>
-
-  <!-- Controls (bottom-left) -->
-  <div class="wgt__panel wgt__controls">
-    <div class="wgt__title">Controls</div>
-    <div class="wgt__field" role="group" aria-label="Guess the hidden shape">
-      <div class="wgt__hint">From this line, what flat shape do you think you are seeing edge-on?</div>
-      <div class="wgt__row wgt__row--spread" data-role="choices">
-        <button type="button" class="wgt__choice" data-choice="circle">Circle</button>
-        <button type="button" class="wgt__choice" data-choice="square">Square</button>
-        <button type="button" class="wgt__choice" data-choice="triangle">Triangle</button>
-      </div>
-    </div>
-    <div class="wgt__field">
-      <label for="rot-range">Rotate</label>
-      <input type="range" id="rot-range" data-role="rotate-range" min="0" max="90" step="1" value="0">
-      <div class="wgt__hint">Drag the slider or the line itself to tilt the shape out of Flatland.</div>
-    </div>
-    <div class="wgt__field">
-      <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
-      <button type="button" data-role="reveal">Reveal shape</button>
-    </div>
-  </div>
-
-  <!-- Output (bottom-right) -->
-  <div class="wgt__panel wgt__output" aria-live="polite">
-    <div class="wgt__title">What we learn</div>
-    <div class="wgt__field">
-      <div data-role="feedback" class="wgt__hint">A thick line is all a Flatlander can see—pick a shape to test your law of sight.</div>
-    </div>
-    <div class="wgt__field" data-role="note-wrap" hidden="">
-      <strong>Perspective note</strong>
-      <div data-role="note" class="wgt__hint"></div>
-    </div>
-  </div>
-</div>
-
-<script src="../../js/flat-rotate.js" defer=""></script>
-
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-wid margin-caption" id="wid-flat-rotate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Widget&nbsp;2.1: Imagine you are a Flatland scientist.
-</figcaption>
-</figure>
-</div>
 <p>Edwin Abbott made the point in his <em>Flatland</em> (1885): a coin becomes a circle from above, an oval at an angle, a line at the edge. Flatlanders see only the line, never the circle.</p>
 <p>Flatland scientists lack words for circles or holes. Those are three‑dimensional luxuries. To them, a shooter’s hole is not a circle but an edge—an irregular boundary where things vanish. A line that swallows matter and light.</p>
 <p>Observation is tethered to perspectives.</p>
 </section>
-<section id="plane-vs.-sphere" class="level2 page-columns page-full" data-number="2.4">
+<section id="plane-vs.-sphere" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="plane-vs.-sphere"><span class="header-section-number">2.4</span> Plane vs.&nbsp;Sphere</h2>
 <p>For the flatlanders, geometry isn’t a system of axioms—it’s instinct. They live in the flat, breathe it, never question it. Every triangle they draw closes perfectly; every straight line feels honest. To them, flatness isn’t an assumption—it’s the air they breathe, the rhythm of their universe. Only from above would anyone suspect the ground itself might be curved.</p>
 <p>They might picture themselves living in what we call a <strong>Euclidean</strong> plane, an infinite marble floor—smooth, predictable, obedient. Draw two straight lines and they will never meet, no matter how far they run. Triangles close neatly—their angles always summing to 180°; the world behaves. It’s the geometry we inherit without knowing, the quiet default of our thinking—even in middle school, we learned it without question: parallel lines never meet, and space feels obediently flat, both on paper and in our three‑dimensional imagination.</p>
 <p>From the shooter’s perch, things might look completely different. What the flatlander calls straight, the shooter sees as curved; what they call certainty, he calls projection. The surface itself might swell and bow, following <strong>Riemannian</strong> geometry, a curved world where straight lines bend and the rules of triangles change. On a sphere, for instance, the shortest paths (“geodesics”) curve along the surface, and the angles of a triangle can add up to more than 180°. To a flatlander, these deviations are invisible; every triangle still looks straight. To the shooter, the distortion is obvious.</p>
-<p>In the widget below, you can toggle between these two geometries—Euclidean and Riemannian—and witness how the same world appears under different assumptions. Draw a line. Make a triangle. Send Johnny the Walker on this flatland to keep going straight. See what happens from these two views respectively.</p>
 <p>What looks law‑like and straight from within may curve and warp from above.</p>
-<div id="wid-flatland" class="widget quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-wid figure page-columns page-full">
-<div aria-describedby="wid-flatland-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="wgt wgt--flatland" data-widget="flatland-explorer">
-  <!-- Combined canvas (top row) -->
-  <div class="wgt__canvas flatland__views">
-    <canvas data-role="views" width="640" height="360"></canvas>
-  </div>
-
-  <!-- Controls -->
-  <div class="wgt__panel wgt__controls">
-    <div class="wgt__title">Control</div>
-    <div class="wgt__field">
-      <div class="wgt__hint">Flip the curvature, then try the experiments below.</div>
-    </div>
-
-    <div class="wgt__field" role="radiogroup" aria-label="Geometry mode">
-      <label>
-        <input type="radio" name="flatland-mode" value="euclid" data-role="mode" checked="">
-        Euclidean: flat, infinite, triangles sum to 180 deg
-      </label>
-      <label>
-        <input type="radio" name="flatland-mode" value="sphere" data-role="mode">
-        Riemannian: sphere, triangles get fat
-      </label>
-    </div>
-
-    <div class="wgt__field" role="group" aria-label="Choose experiment">
-      <div class="wgt__row wgt__row--wrap">
-        <button type="button" data-role="tool-line" class="wgt__btn--ghost">Draw a Line</button>
-        <button type="button" data-role="tool-triangle" class="wgt__btn--ghost">Draw a Triangle</button>
-        <button type="button" data-role="tool-walker" class="wgt__btn--ghost">Send "Johnny" the Walker</button>
-      </div>
-      <div class="wgt__hint" data-role="tool-hint">Select an experiment--each click resets its setup.</div>
-    </div>
-
-    <div class="wgt__field">
-      <button type="button" data-role="reset-all" class="wgt__btn--ghost">Reset</button>
-    </div>
-  </div>
-
-  <!-- Output narratives -->
-  <div class="wgt__panel wgt__output" aria-live="polite">
-    <div class="wgt__title">Result</div>
-    <!-- Result panel: the JavaScript populates this template on demand so only
-         the active experiment's copy is surfaced. -->
-    <div class="wgt__field" data-role="result-block" hidden="">
-      <strong data-role="result-title"></strong>
-      <div class="wgt__metric" data-role="triangle-metric" hidden="">
-        <strong>Angle Sum</strong> <span data-role="triangle-sum" class="wgt__out">--</span>
-      </div>
-      <div class="wgt__hint" data-role="result-text"></div>
-    </div>
-    <div class="wgt__field" data-role="narrative-block" hidden="">
-      <strong>Philosophical Payoff</strong>
-      <div class="wgt__hint">Listen as the two perspectives narrate how geometry bends with space.</div>
-      <div data-role="narrative" class="flatland__narrative wgt__out">
-        Geometry feels like law to the Flatlander. From the shooter's perch, it's a convention tied to hidden curvature.
-      </div>
-    </div>
-  </div>
-</div>
-
-<link rel="stylesheet" href="../../css/widgets.css">
-<script src="../../js/widgets-core.js" defer=""></script>
-<script src="../../js/flatland.js" defer=""></script>
-
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-wid margin-caption" id="wid-flatland-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Widget&nbsp;2.2: Observation in different geometry from different perspectives.
-</figcaption>
-</figure>
-</div>
 </section>
-<section id="geometry-as-convention" class="level2 page-columns page-full" data-number="2.5">
+<section id="geometry-as-convention" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="geometry-as-convention"><span class="header-section-number">2.5</span> Geometry as Convention</h2>
 <p>Wang’s vertigo deepens: if geometry itself can change with perspective, what else can? Henri Poincaré once asked the same question and reached a scandalous answer—that geometry is not discovered but chosen. The shape of space is a matter of convenience, not truth.</p>
 <p>We measure, compare, and claim that rulers stay constant, yet the decision to treat space as Euclidean or curved is a convention—a bet on simplicity and convenience. The difference between straight and curved is not in nature but in our bookkeeping.&nbsp;</p>
-<p>Now try another widget. This was&nbsp;Poincaré’s thought experiment. Flatlanders now live on a disk, but with a special caveat. As one moves away from the center towards the periphery, everything—including one’s own size and the ruler in hand—shrinks.&nbsp;</p>
-<div id="wid-disk" class="widget quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-wid figure page-columns page-full">
-<div aria-describedby="wid-disk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<link rel="stylesheet" href="../../css/widgets.css">
-<script src="../../js/widgets-core.js" defer=""></script>
-
-<div class="wgt wgt--poincare" data-widget="poincare-disk">
-  <div class="wgt__canvas disk__canvas">
-    <canvas data-role="views" width="640" height="360" aria-label="Observer and Poincarite views of Johnny the Walker"></canvas>
-  </div>
-
-  <div class="wgt__panel wgt__controls">
-    <div class="wgt__title">Control</div>
-    <div class="wgt__field">
-      <button type="button" data-role="send">Send Johnny</button>
-    </div>
-    <div class="wgt__field">
-      <div class="wgt__hint">Press once: Johnny leaves the center. Left: shooter's Euclidean eye. Right: Johnny's own horizon.</div>
-    </div>
-  </div>
-
-  <div class="wgt__panel wgt__output" aria-live="polite">
-    <div class="wgt__title">Telemetry</div>
-    <div class="wgt__field" data-role="status-copy">
-      <div class="wgt__hint">Euclidean speed: -- | Intrinsic speed: 1.00. Swing between the two grammars of space.</div>
-    </div>
-  </div>
-</div>
-
-<script src="../../js/disk.js" defer=""></script>
-
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-wid margin-caption" id="wid-disk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Widget&nbsp;2.3: Poincarites that live on a disk. Everything shrinks as they move away from the center.
-</figcaption>
-</figure>
-</div>
+<p> This was&nbsp;Poincaré’s thought experiment. Flatlanders now live on a disk, but with a special caveat. As one moves away from the center towards the periphery, everything—including one’s own size and the ruler in hand—shrinks.&nbsp;</p>
 <p>In our view, flatlanders live on a disk, flat, bounded, except that things shrink as they move away from the center; In the flatlander’s view, they live in an infinite and unbounded world. Both systems work, each internally consistent. The only test of geometry is usefulness.</p>
 <p>This was Poincaré’s quiet revolution. The laws we take as fundamental are often the shorthand of creatures limited by their vantage point. Experiment does not reveal which geometry is true, only which is comfortable. As he wrote, “[Experiment] tells us not what is the truest, but what is the most convenient geometry.”</p>
-<p>Try toggling the above widgets again. What you see is not two worlds, but two grammars for describing one. Euclidean geometry tells a simple story of flat obedience; Riemannian, a more complex tale of curvature and connection. Neither owns reality—they are translations. And every science, whether physics or cosmology, writes its truths in one dialect or another.</p>
+<p> What you see is not two worlds, but two grammars for describing one. Euclidean geometry tells a simple story of flat obedience; Riemannian, a more complex tale of curvature and connection. Neither owns reality—they are translations. And every science, whether physics or cosmology, writes its truths in one dialect or another.</p>
 <p>To the shooter, the world curves; to the flatlander, it doesn’t. Both are right, and both are wrong. That is the quiet horror Poincaré handed down to modern science: even the ground beneath reason can be merely a matter of convention.</p>
 
 
@@ -672,7 +508,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const p = document.querySelector('main > p, main > section > p');
   if (!p || !p.firstChild || p.firstChild.nodeType !== 3) return;
   const t = p.firstChild.textContent;
-  const m = t.match(/^\s*((?:\S+\s+){0,5}?\S+?)([.,;:!?\u2014]|\s(?=\S)|$)/);
   let words = t.trimStart().split(/\s+/).slice(0, 6).join(' ');
   const stop = words.search(/[.,;:!?\u2014]/);
   if (stop > 0) words = words.slice(0, stop);
@@ -690,7 +525,6 @@ document.addEventListener('DOMContentLoaded', () => {
      2. Wide screens: the contents panel is hidden behind a "Contents" button and slides out over the page. -->
 <script>
 (function () {
-  var narrow = window.matchMedia('(max-width: 991.98px)');   // where Quarto puts margin notes inline
 
   // ---- 1. margin notes fold to ⊕ on narrow screens
   var n = 0;
@@ -727,6 +561,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.body.appendChild(b);
   }
+})();
+</script>
+<!-- Hypothes.is on demand (2026-11-23). The annotation client is a third-party script that every
+     reader used to download on every page (and that is blocked in mainland China). Now a quiet
+     "Annotate" button loads it. A reader who has used it once gets it on every page after
+     that (remembered in this browser), so annotators keep their sidebar. -->
+<script>
+(function () {
+  var KEY = 'ul-annotate';
+  function load() {
+    if (document.querySelector('script[data-ul-hypothesis]')) return;
+    var s = document.createElement('script');
+    s.async = true; s.src = 'https://hypothes.is/embed.js'; s.setAttribute('data-ul-hypothesis', '');
+    document.body.appendChild(s);
+    var b = document.querySelector('.annotate-toggle'); if (b) b.remove();
+  }
+  var remembered = false;
+  try { remembered = localStorage.getItem(KEY) === '1'; } catch (e) { /* storage off: ask each page */ }
+  if (remembered) { load(); return; }
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'annotate-toggle'; b.textContent = 'Annotate';
+  b.title = 'Open the Hypothes.is annotation sidebar (loads a script from hypothes.is)';
+  b.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, '1'); } catch (e) { /* fine: this page only */ }
+    load();
+  });
+  document.body.appendChild(b);
 })();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1266,10 +1127,6 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </nav>
 </div> <!-- /content -->
-<!-- Hypothes.is annotation client -->
-<script async="" src="https://hypothes.is/embed.js"></script>
-<!-- Site-wide utils only; page widgets load per-chapter -->
-<script src="../../js/widgets-core.js"></script>
 
 
 

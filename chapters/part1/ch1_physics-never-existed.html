@@ -71,9 +71,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b0f042fc70a454b01f2a9d7e08745f29.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fb397455f9f4c87a10d54f3b557d7072.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-b0f042fc70a454b01f2a9d7e08745f29.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-284307af3e94e63e205a998dd2c4c2e7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-2e4e4993406df96ef0630a8b976a29fb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-284307af3e94e63e205a998dd2c4c2e7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -101,13 +101,15 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
-<link rel="icon" href="../../3body/assets/icons/favicon.ico" sizes="32x32">
-<link rel="apple-touch-icon" href="../../3body/assets/icons/apple-touch-icon.png">
+<!-- Paths start at the project root; Quarto rewrites them per page (so never prefix /3body). -->
+<link rel="icon" href="../../assets/icons/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+<link rel="preload" href="../../assets/fonts/eb-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin="">
 <meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
 
 
-<link rel="stylesheet" href="../../css/widgets.css">
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../../css/paper.css">
 <meta property="og:title" content="1&nbsp; Physics has never existed – Unlawful Laws">
 <meta property="og:description" content="How to Live with Scientific Uncertainties">
@@ -272,7 +274,8 @@ div.csl-indent {
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -286,6 +289,15 @@ div.csl-indent {
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      refreshSafariScrollbar();
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -523,7 +535,7 @@ div.csl-indent {
 <div id="wid-break-the-law" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-wid figure page-columns page-full">
 <div aria-describedby="wid-break-the-law-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<ul-break-the-law id="break-the-law"><img class="ul-poster ul-poster-light figure-img" src="../../widgets/break-the-law/poster-light.png" alt="A pool table with one ball and a column of energy: motion, warmth in the felt, warmth in the cushions, and an orange total." loading="lazy"><img class="ul-poster ul-poster-dark figure-img" src="../../widgets/break-the-law/poster-dark.png" alt="A pool table with one ball and a column of energy: motion, warmth in the felt, warmth in the cushions, and an orange total." loading="lazy"></ul-break-the-law>
+<ul-break-the-law id="break-the-law"><img class="ul-poster ul-poster-light figure-img" src="../../widgets/break-the-law/poster-light.png" alt="A pool table with one ball and a column of energy: motion, warmth in the felt, warmth in the cushions, and an orange total." loading="lazy" decoding="async" fetchpriority="low"><img class="ul-poster ul-poster-dark figure-img" src="../../widgets/break-the-law/poster-dark.png" alt="A pool table with one ball and a column of energy: motion, warmth in the felt, warmth in the cushions, and an orange total." loading="lazy" decoding="async" fetchpriority="low"></ul-break-the-law>
 <script type="module" src="../../widgets/break-the-law/break-the-law.js"></script>
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-wid margin-caption" id="wid-break-the-law-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -551,7 +563,7 @@ Widget&nbsp;1.1: <strong>Try to break the law.</strong> Push the ball, then add 
 <div id="wid-lawful-coin" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-wid figure page-columns page-full">
 <div aria-describedby="wid-lawful-coin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<ul-lawful-coin id="lawful-coin"><img class="ul-poster ul-poster-light figure-img" src="../../widgets/lawful-coin/poster-light.png" alt="A balance beam with tails on the left pan and heads on the right; an orange fulcrum under the beam at the share of heads; below, a line of the share as coins are added, settling near one half." loading="lazy"><img class="ul-poster ul-poster-dark figure-img" src="../../widgets/lawful-coin/poster-dark.png" alt="A balance beam with tails on the left pan and heads on the right; an orange fulcrum under the beam at the share of heads; below, a line of the share as coins are added, settling near one half." loading="lazy"></ul-lawful-coin>
+<ul-lawful-coin id="lawful-coin"><img class="ul-poster ul-poster-light figure-img" src="../../widgets/lawful-coin/poster-light.png" alt="A balance beam with tails on the left pan and heads on the right; an orange fulcrum under the beam at the share of heads; below, a line of the share as coins are added, settling near one half." loading="lazy" decoding="async" fetchpriority="low"><img class="ul-poster ul-poster-dark figure-img" src="../../widgets/lawful-coin/poster-dark.png" alt="A balance beam with tails on the left pan and heads on the right; an orange fulcrum under the beam at the share of heads; below, a line of the share as coins are added, settling near one half." loading="lazy" decoding="async" fetchpriority="low"></ul-lawful-coin>
 <script type="module" src="../../widgets/lawful-coin/lawful-coin.js"></script>
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-wid margin-caption" id="wid-lawful-coin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -573,7 +585,7 @@ Widget&nbsp;1.2: <strong>The lawful coin.</strong> The beam balances at the shar
 </div></div><div id="wid-pressure-gauge" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-wid figure page-columns page-full">
 <div aria-describedby="wid-pressure-gauge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<ul-pressure-gauge id="pressure-gauge"><img class="ul-poster ul-poster-light figure-img" src="../../widgets/pressure-gauge/poster-light.png" alt="A box of gas with a piston on a spring; below, a line of the push per molecule as molecules are added, wild at first, then steady." loading="lazy"><img class="ul-poster ul-poster-dark figure-img" src="../../widgets/pressure-gauge/poster-dark.png" alt="A box of gas with a piston on a spring; below, a line of the push per molecule as molecules are added, wild at first, then steady." loading="lazy"></ul-pressure-gauge>
+<ul-pressure-gauge id="pressure-gauge"><img class="ul-poster ul-poster-light figure-img" src="../../widgets/pressure-gauge/poster-light.png" alt="A box of gas with a piston on a spring; below, a line of the push per molecule as molecules are added, wild at first, then steady." loading="lazy" decoding="async" fetchpriority="low"><img class="ul-poster ul-poster-dark figure-img" src="../../widgets/pressure-gauge/poster-dark.png" alt="A box of gas with a piston on a spring; below, a line of the push per molecule as molecules are added, wild at first, then steady." loading="lazy" decoding="async" fetchpriority="low"></ul-pressure-gauge>
 <script type="module" src="../../widgets/pressure-gauge/pressure-gauge.js"></script>
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-wid margin-caption" id="wid-pressure-gauge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -600,7 +612,7 @@ Widget&nbsp;1.3: <strong>The pressure gauge.</strong> Molecules knock on a pisto
 <div id="wid-find-symmetries" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-wid figure page-columns page-full">
 <div aria-describedby="wid-find-symmetries-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<ul-find-symmetries id="find-symmetries"><img class="ul-poster ul-poster-light figure-img" src="../../widgets/find-symmetries/poster-light.png" alt="One shape at a time: a flower in a pot, a triangle with equal sides, a circle. Each can be turned and flipped; a dashed outline shows where it started, and a ring around it records every move that fits." loading="lazy"><img class="ul-poster ul-poster-dark figure-img" src="../../widgets/find-symmetries/poster-dark.png" alt="One shape at a time: a flower in a pot, a triangle with equal sides, a circle. Each can be turned and flipped; a dashed outline shows where it started, and a ring around it records every move that fits." loading="lazy"></ul-find-symmetries>
+<ul-find-symmetries id="find-symmetries"><img class="ul-poster ul-poster-light figure-img" src="../../widgets/find-symmetries/poster-light.png" alt="One shape at a time: a flower in a pot, a triangle with equal sides, a circle. Each can be turned and flipped; a dashed outline shows where it started, and a ring around it records every move that fits." loading="lazy" decoding="async" fetchpriority="low"><img class="ul-poster ul-poster-dark figure-img" src="../../widgets/find-symmetries/poster-dark.png" alt="One shape at a time: a flower in a pot, a triangle with equal sides, a circle. Each can be turned and flipped; a dashed outline shows where it started, and a ring around it records every move that fits." loading="lazy" decoding="async" fetchpriority="low"></ul-find-symmetries>
 <script type="module" src="../../widgets/find-symmetries/find-symmetries.js"></script>
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-wid margin-caption" id="wid-find-symmetries-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -618,7 +630,7 @@ Widget&nbsp;1.4: <strong>Find the symmetries.</strong> Turn and flip each shape.
 <div id="wid-groove" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-wid figure page-columns page-full">
 <div aria-describedby="wid-groove-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<ul-groove id="groove"><img class="ul-poster ul-poster-light figure-img" src="../../widgets/groove/poster-light.png" alt="A marble running in a circular groove, seen from above, cutting thin slices of pie in equal times. A dashed perfect circle runs along the groove; a bend pushes part of the groove away from it." loading="lazy"><img class="ul-poster ul-poster-dark figure-img" src="../../widgets/groove/poster-dark.png" alt="A marble running in a circular groove, seen from above, cutting thin slices of pie in equal times. A dashed perfect circle runs along the groove; a bend pushes part of the groove away from it." loading="lazy"></ul-groove>
+<ul-groove id="groove"><img class="ul-poster ul-poster-light figure-img" src="../../widgets/groove/poster-light.png" alt="A marble running in a circular groove, seen from above, cutting thin slices of pie in equal times. A dashed perfect circle runs along the groove; a bend pushes part of the groove away from it." loading="lazy" decoding="async" fetchpriority="low"><img class="ul-poster ul-poster-dark figure-img" src="../../widgets/groove/poster-dark.png" alt="A marble running in a circular groove, seen from above, cutting thin slices of pie in equal times. A dashed perfect circle runs along the groove; a bend pushes part of the groove away from it." loading="lazy" decoding="async" fetchpriority="low"></ul-groove>
 <script type="module" src="../../widgets/groove/groove.js"></script>
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-wid margin-caption" id="wid-groove-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -718,70 +730,9 @@ Widget&nbsp;1.5: <strong>The groove.</strong> Each slice is swept in the same sh
 <p>This was the reassurance: nature might break her covenants, but she does so predictably. A broken law is still a law if its violations can be written down and repeated.</p>
 <p>Even in the ruins of symmetry, some structure endures.</p>
 </section>
-<section id="breaking-symmetry" class="level2 page-columns page-full" data-number="1.9">
+<section id="breaking-symmetry" class="level2" data-number="1.9">
 <h2 data-number="1.9" class="anchored" data-anchor-id="breaking-symmetry"><span class="header-section-number">1.9</span> Breaking Symmetry</h2>
 <p>No matter where you set the ball on the lawful pool table, the energy conserves because there is spatial symmetry. But what if we broke the spatial symmetry?</p>
-<p>Try again, but this time, on a demon’s pool table where you can choose how to break the spatial symmetry.</p>
-<div id="wid-pool-symmetry" class="widget quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-wid figure page-columns page-full">
-<div aria-describedby="wid-pool-symmetry-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="wgt wgt--pool" data-widget="pool-symmetry">
-  <!-- Canvas (top row) -->
-  <div class="wgt__canvas">
-    <canvas width="640" height="360"></canvas>
-  </div>
-
-  <!-- Controls (bottom-left) -->
-  <div class="wgt__panel wgt__controls">
-    <div class="wgt__title">Controls</div>
-    <div class="wgt__hint">No friction, perfect elasticity. Choose how to break spatial symmetry.</div>
-
-    <!-- Symmetry breakers -->
-    <div class="wgt__field">
-      <label>
-        <input type="checkbox" data-role="sizefield-on">
-        Size Field
-      </label>
-      <div class="wgt__row">
-        <label style="font-weight:600;">Strength</label>
-        <input type="number" data-role="sizefield-amp" min="0.00" max="1.50" step="0.05" value="0.60">
-      </div>
-      <div class="wgt__hint">Energy ledger treats size as mass (area ∝ mass).</div>
-    </div>
-
-    <div class="wgt__field">
-      <label>
-        <input type="checkbox" data-role="transmute-rand-on">
-        Transmutation
-      </label>
-      <div class="wgt__hint"></div>
-    </div>
-
-    <div>
-      <button type="button" data-role="reset" class="wgt__btn--ghost">Reset</button>
-    </div>
-  </div>
-
-  <!-- Output (bottom-right) -->
-  <div class="wgt__panel wgt__output" aria-live="polite">
-    <div class="wgt__title">Energy Ledger</div>
-    <div class="wgt__hint">Y-axis is fixed to the maximum possible energy under current settings; dashed line marks initial E₀.</div>
-</div>
-</div>
-
-<link rel="stylesheet" href="../../css/widgets.css">
-<script src="../../js/widgets-core.js" defer=""></script>
-<script src="../../js/pool-symmetry.js" defer=""></script>
-
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-wid margin-caption" id="wid-pool-symmetry-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Widget&nbsp;1.6: Breaking Spatial Symmetry—same table, unlawful rules.
-</figcaption>
-</figure>
-</div>
-<p>Enable the Size Field and drag the ball across the table, you’ll notice its size alters. Hit it with a cue, watch how the kinetic energy bounces up and down as the ball moves across the table from left to right and right to left—when it is supposed to stay constant. The ball doesn’t look the same anymore when moving. Spatial symmetry is broken. Energy doesn’t conserve.</p>
-<p>Enable transmutation, and even worse things happen. The concept of energy doesn’t even apply anymore. The conservation law does not break. It evaporates.</p>
-<p>Only in this case, you own the pool table and can control whether and how to break symmetry. But imagine what scientists of pool tables have to face!</p>
 </section>
 <section id="the-unlawful-table" class="level2" data-number="1.10">
 <h2 data-number="1.10" class="anchored" data-anchor-id="the-unlawful-table"><span class="header-section-number">1.10</span> The Unlawful Table</h2>
@@ -814,7 +765,7 @@ Widget&nbsp;1.6: Breaking Spatial Symmetry—same table, unlawful rules.
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-bernoulli2006art" class="csl-entry" role="listitem">
-Bernoulli, Jacob. 2006. <em>The Art of Conjecturing, Together with Letter to a Friend on Sets in Court Tennis</em>. JHU Press.
+Bernoulli, Jacob. (1713) 2006. <em>The Art of Conjecturing, Together with Letter to a Friend on Sets in Court Tennis</em>. Translated by Edith Dudley Sylla. JHU Press.
 </div>
 <div id="ref-einstein1905motion" class="csl-entry" role="listitem">
 Einstein, Albert. 1905. <span>“On the Motion of Small Particles Suspended in Liquids at Rest Required by the Molecular-Kinetic Theory of Heat.”</span> <em>Annalen Der Physik</em> 17 (549-560): 208.
@@ -823,7 +774,7 @@ Einstein, Albert. 1905. <span>“On the Motion of Small Particles Suspended in L
 Einstein, Albert. 1936. <span>“Physics and Reality.”</span> <em>Journal of the Franklin Institute</em> 221 (3): 349–82.
 </div>
 <div id="ref-galilei1914discourses" class="csl-entry" role="listitem">
-Galilei, Galileo. 1914. <span>“Discourses and Mathematical Demonstrations Relating to Two New Sciences.”</span> <em>Leiden (1638)</em>.
+Galilei, Galileo. (1638) 1914. <em>Dialogues Concerning Two New Sciences</em>. Translated by Henry Crew and Alfonso de Salvio. Macmillan.
 </div>
 <div id="ref-harrison2019science" class="csl-entry" role="listitem">
 Harrison, Peter, and Jon H Roberts. 2019. <em>Science Without God?: Rethinking the History of Scientific Naturalism</em>. Oxford University Press.
@@ -832,10 +783,10 @@ Harrison, Peter, and Jon H Roberts. 2019. <em>Science Without God?: Rethinking t
 Henderson, Leah. 2018. <em>The Problem of Induction</em>.
 </div>
 <div id="ref-hume2000treatise" class="csl-entry" role="listitem">
-Hume, David. 2000. <em>A Treatise of Human Nature</em>. Oxford University Press.
+Hume, David. (1739) 2000. <em>A Treatise of Human Nature</em>. Oxford University Press.
 </div>
 <div id="ref-kepler2021harmonies" class="csl-entry" role="listitem">
-Kepler, Johannes. 2021. <em>Harmonies of the World</em>. Phoemixx Classics Ebooks.
+Kepler, Johannes. (1619) 2021. <em>Harmonies of the World</em>. Phoemixx Classics Ebooks.
 </div>
 <div id="ref-lederman2011symmetry" class="csl-entry" role="listitem">
 Lederman, Leon M, and Christopher T Hill. 2011. <em>Symmetry and the Beautiful Universe</em>. Prometheus books.
@@ -850,7 +801,7 @@ Longino, Helen E. 1990. <em>Science as Social Knowledge: Values and Objectivity 
 Maxwell, James Clerk. 1859. <em>On the Stability of the Motion of Saturn’s Rings: An Essay, Which Obtained the Adams Prize for the Year 1856, in the University of Cambridge</em>. Macmillan; Company.
 </div>
 <div id="ref-mcclellan2015science" class="csl-entry" role="listitem">
-McClellan iii, James E, and Harold Dorn. 2015. <em>Science and Technology in World History: An Introduction</em>. JHU Press.
+McClellan, James E., III, and Harold Dorn. 2015. <em>Science and Technology in World History: An Introduction</em>. JHU Press.
 </div>
 <div id="ref-Myneni1984ParityViolation" class="csl-entry" role="listitem">
 Myneni, Krishna. 1984. <em>Symmetry Destroyed: The Failure of Parity</em>. <a href="https://www.hep.ucl.ac.uk/~nk/teaching/PH4442/parity-violation.html" class="uri">Https://www.hep.ucl.ac.uk/~nk/teaching/PH4442/parity-violation.html</a>.
@@ -859,7 +810,7 @@ Myneni, Krishna. 1984. <em>Symmetry Destroyed: The Failure of Parity</em>. <a hr
 Neuenschwander, Dwight E. 2017. <em>Emmy Noether’s Wonderful Theorem</em>. JHU Press.
 </div>
 <div id="ref-newton1846principia" class="csl-entry" role="listitem">
-Newton, Isaac. 1846. <em>The Mathematical Principles of Natural Philosophy</em>. Edited by Florian Cajori. Translated by Andrew Motte. Daniel Adee.
+Newton, Isaac. (1687) 1846. <em>The Mathematical Principles of Natural Philosophy</em>. Edited by Florian Cajori. Translated by Andrew Motte. Daniel Adee.
 </div>
 <div id="ref-RoweKoreuber2020" class="csl-entry" role="listitem">
 Rowe, David E., and Mechthild Koreuber. 2020. <em>Proving It Her Way: Emmy Noether, a Life in Mathematics</em>. Springer ‒ Cham. <a href="https://doi.org/10.1007/978-3-030-62811-6">https://doi.org/10.1007/978-3-030-62811-6</a>.
@@ -868,7 +819,7 @@ Rowe, David E., and Mechthild Koreuber. 2020. <em>Proving It Her Way: Emmy Noeth
 Salmon, Wesley C. 1953. <span>“The Uniformity of Nature.”</span> <em>Philosophy and Phenomenological Research</em> 14 (1): 39–48. <a href="https://doi.org/10.2307/2104014">https://doi.org/10.2307/2104014</a>.
 </div>
 <div id="ref-xunzi2015xunzi" class="csl-entry" role="listitem">
-Xunzi, HG. 2015. <em>Xunzi: The Complete Text</em>. Princeton University Press.
+Xunzi. 2014. <em>Xunzi: The Complete Text</em>. Translated by Eric L. Hutton. Princeton University Press.
 </div>
 <div id="ref-zee2015fearful" class="csl-entry" role="listitem">
 Zee, Anthony. 2015. <em>Fearful Symmetry: The Search for Beauty in Modern Physics</em>. Princeton university press.
@@ -879,15 +830,15 @@ Zee, Anthony. 2015. <em>Fearful Symmetry: The Search for Beauty in Modern Physic
 <hr>
 <ol>
 <li id="fn1"><p>Newton pictured light as a stream of tiny particles. Maxwell showed in 1859 that Saturn’s rings must be made of countless small bodies rather than a solid sheet <span class="citation" data-cites="maxwell1859stability">(<a href="../../data/references.html#ref-maxwell1859stability" role="doc-biblioref">1859</a>)</span>. Einstein explained in 1905 the jittering of pollen grains in water (Brownian motion) as the result of invisible molecules knocking into them <span class="citation" data-cites="einstein1905motion">(<a href="../../data/references.html#ref-einstein1905motion" role="doc-biblioref">1905</a>)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Hume never named the principle himself. In the <em>Treatise</em> he writes that reasoning from experience “would proceed upon that principle that instances, of which we have had no experience, must resemble those, of which we have had experience, and that the course of nature continues always uniformly the same” <span class="citation" data-cites="hume2000treatise">(<a href="../../data/references.html#ref-hume2000treatise" role="doc-biblioref">Hume 2000</a>)</span>. Philosophers later called it the Uniformity Principle or the Principle of the Uniformity of Nature. See <span class="citation" data-cites="henderson2018problem">Henderson (<a href="../../data/references.html#ref-henderson2018problem" role="doc-biblioref">2018</a>)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Another translation: “There is a constancy to the activities of Heaven” <span class="citation" data-cites="xunzi2015xunzi">(<a href="../../data/references.html#ref-xunzi2015xunzi" role="doc-biblioref">Xunzi 2015, 175</a>)</span>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Galileo’s last book, <em>Two New Sciences</em> <span class="citation" data-cites="galilei1914discourses">(<a href="../../data/references.html#ref-galilei1914discourses" role="doc-biblioref">1914</a>)</span>, treats the motion of all falling bodies by one mathematics. Kepler states that his third law holds for “any two planets” <span class="citation" data-cites="kepler2021harmonies">(<a href="../../data/references.html#ref-kepler2021harmonies" role="doc-biblioref">2021</a>)</span>. Newton, in the preface to the <em>Principia</em>, hoped to “derive the rest of the phænomena of nature by the same kind of reasoning from mechanical principles” <span class="citation" data-cites="newton1846principia">(<a href="../../data/references.html#ref-newton1846principia" role="doc-biblioref">1846</a>)</span>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>It is hard, perhaps impossible, to date this naturalistic turn. Most histories start Western science with the natural philosophy of ancient Greece, if not Egypt and Mesopotamia; see <span class="citation" data-cites="lindberg2010beginnings">Lindberg (<a href="../../data/references.html#ref-lindberg2010beginnings" role="doc-biblioref">2010</a>)</span> or <span class="citation" data-cites="mcclellan2015science">McClellan iii and Dorn (<a href="../../data/references.html#ref-mcclellan2015science" role="doc-biblioref">2015</a>)</span>. Nor did the turn remove God from science; see <span class="citation" data-cites="harrison2019science">Harrison and Roberts (<a href="../../data/references.html#ref-harrison2019science" role="doc-biblioref">2019</a>)</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Hume never named the principle himself. In the <em>Treatise</em> he writes that reasoning from experience “would proceed upon that principle that instances, of which we have had no experience, must resemble those, of which we have had experience, and that the course of nature continues always uniformly the same” <span class="citation" data-cites="hume2000treatise">(<a href="../../data/references.html#ref-hume2000treatise" role="doc-biblioref">Hume [1739] 2000</a>)</span>. Philosophers later called it the Uniformity Principle or the Principle of the Uniformity of Nature. See <span class="citation" data-cites="henderson2018problem">Henderson (<a href="../../data/references.html#ref-henderson2018problem" role="doc-biblioref">2018</a>)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Another translation: “There is a constancy to the activities of Heaven” <span class="citation" data-cites="xunzi2015xunzi">(<a href="../../data/references.html#ref-xunzi2015xunzi" role="doc-biblioref">Xunzi 2014, 175</a>)</span>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Galileo’s last book, <em>Two New Sciences</em> <span class="citation" data-cites="galilei1914discourses">(<a href="../../data/references.html#ref-galilei1914discourses" role="doc-biblioref">[1638] 1914</a>)</span>, treats the motion of all falling bodies by one mathematics. Kepler states that his third law holds for “any two planets” <span class="citation" data-cites="kepler2021harmonies">(<a href="../../data/references.html#ref-kepler2021harmonies" role="doc-biblioref">[1619] 2021</a>)</span>. Newton, in the preface to the <em>Principia</em>, hoped to “derive the rest of the phænomena of nature by the same kind of reasoning from mechanical principles” <span class="citation" data-cites="newton1846principia">(<a href="../../data/references.html#ref-newton1846principia" role="doc-biblioref">[1687] 1846</a>)</span>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>It is hard, perhaps impossible, to date this naturalistic turn. Most histories start Western science with the natural philosophy of ancient Greece, if not Egypt and Mesopotamia; see <span class="citation" data-cites="lindberg2010beginnings">Lindberg (<a href="../../data/references.html#ref-lindberg2010beginnings" role="doc-biblioref">2010</a>)</span> or <span class="citation" data-cites="mcclellan2015science">McClellan and Dorn (<a href="../../data/references.html#ref-mcclellan2015science" role="doc-biblioref">2015</a>)</span>. Nor did the turn remove God from science; see <span class="citation" data-cites="harrison2019science">Harrison and Roberts (<a href="../../data/references.html#ref-harrison2019science" role="doc-biblioref">2019</a>)</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p>Philosophers still disagree. Mill treated it as an empirical truth; Russell as a postulate we cannot do without. See <span class="citation" data-cites="Salmon1953-SALTUO">Salmon (<a href="../../data/references.html#ref-Salmon1953-SALTUO" role="doc-biblioref">1953</a>)</span>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7"><p><span class="citation" data-cites="einstein1936physics">Einstein (<a href="../../data/references.html#ref-einstein1936physics" role="doc-biblioref">1936</a>)</span>. The line usually quoted, “The most incomprehensible thing about the universe is that it is comprehensible,” is a paraphrase.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn8"><p>Joule, on the paddle-wheel experiment (1840s). <a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn9"><p>Galileo, <em>Two New Sciences</em> (1638); also the <em>Dialogue</em> (1632). <a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10"><p>Published after his death, in <em>Ars Conjectandi</em> (<em>The Art of Conjecturing</em>), 1713 <span class="citation" data-cites="bernoulli2006art">(<a href="../../data/references.html#ref-bernoulli2006art" role="doc-biblioref">2006</a>)</span>.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>Published after his death, in <em>Ars Conjectandi</em> (<em>The Art of Conjecturing</em>) <span class="citation" data-cites="bernoulli2006art">(<a href="../../data/references.html#ref-bernoulli2006art" role="doc-biblioref">[1713] 2006</a>)</span>.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn11"><p>In general angular momentum is mass times speed times distance from the centre, counting only the part of the speed that goes around the centre. A skater who pulls in her arms spins faster for this reason: less distance, more pace, the same total. On the bend, the marble’s distance grows while its speed stays the same, so its angular momentum changes. <a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn12"><p>Noether found the theorem in 1915 and published it in 1918. “Loosely speaking”: the theorem applies to systems whose laws can be written in a particular mathematical form, which covers the fundamental laws of physics but not, for instance, a table with friction treated on its own. The full statement, and the groove worked out properly, are in Appendix A.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn13"><p>Widely repeated, possibly apocryphal. Read more in <em>Emmy Noether’s Wonderful Theorem</em> <span class="citation" data-cites="neuenschwander2017emmy">(<a href="../../data/references.html#ref-neuenschwander2017emmy" role="doc-biblioref">Neuenschwander 2017</a>)</span>, <em>Symmetry and the Beautiful Universe</em> <span class="citation" data-cites="lederman2011symmetry">(<a href="../../data/references.html#ref-lederman2011symmetry" role="doc-biblioref">Lederman and Hill 2011</a>)</span>, and the biography <em>Proving It Her Way</em> <span class="citation" data-cites="RoweKoreuber2020">(<a href="../../data/references.html#ref-RoweKoreuber2020" role="doc-biblioref">Rowe and Koreuber 2020</a>)</span>.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -910,7 +861,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const p = document.querySelector('main > p, main > section > p');
   if (!p || !p.firstChild || p.firstChild.nodeType !== 3) return;
   const t = p.firstChild.textContent;
-  const m = t.match(/^\s*((?:\S+\s+){0,5}?\S+?)([.,;:!?\u2014]|\s(?=\S)|$)/);
   let words = t.trimStart().split(/\s+/).slice(0, 6).join(' ');
   const stop = words.search(/[.,;:!?\u2014]/);
   if (stop > 0) words = words.slice(0, stop);
@@ -928,7 +878,6 @@ document.addEventListener('DOMContentLoaded', () => {
      2. Wide screens: the contents panel is hidden behind a "Contents" button and slides out over the page. -->
 <script>
 (function () {
-  var narrow = window.matchMedia('(max-width: 991.98px)');   // where Quarto puts margin notes inline
 
   // ---- 1. margin notes fold to ⊕ on narrow screens
   var n = 0;
@@ -965,6 +914,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.body.appendChild(b);
   }
+})();
+</script>
+<!-- Hypothes.is on demand (2026-11-23). The annotation client is a third-party script that every
+     reader used to download on every page (and that is blocked in mainland China). Now a quiet
+     "Annotate" button loads it. A reader who has used it once gets it on every page after
+     that (remembered in this browser), so annotators keep their sidebar. -->
+<script>
+(function () {
+  var KEY = 'ul-annotate';
+  function load() {
+    if (document.querySelector('script[data-ul-hypothesis]')) return;
+    var s = document.createElement('script');
+    s.async = true; s.src = 'https://hypothes.is/embed.js'; s.setAttribute('data-ul-hypothesis', '');
+    document.body.appendChild(s);
+    var b = document.querySelector('.annotate-toggle'); if (b) b.remove();
+  }
+  var remembered = false;
+  try { remembered = localStorage.getItem(KEY) === '1'; } catch (e) { /* storage off: ask each page */ }
+  if (remembered) { load(); return; }
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'annotate-toggle'; b.textContent = 'Annotate';
+  b.title = 'Open the Hypothes.is annotation sidebar (loads a script from hypothes.is)';
+  b.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, '1'); } catch (e) { /* fine: this page only */ }
+    load();
+  });
+  document.body.appendChild(b);
 })();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1504,10 +1480,6 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </nav>
 </div> <!-- /content -->
-<!-- Hypothes.is annotation client -->
-<script async="" src="https://hypothes.is/embed.js"></script>
-<!-- Site-wide utils only; page widgets load per-chapter -->
-<script src="../../js/widgets-core.js"></script>
 
 
 

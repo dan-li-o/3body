@@ -16,6 +16,7 @@ const STEP_UNTIL = 3;         // molecules added by hand before Run is offered
 const YMAX = MEAN * 2.4;      // right end of the scale
 const ZOOM = [10, 100, 1000, 10000];
 const TRACE_CAP = 12000;      // points kept per line
+const IDLE_S = 6;             // with no run going, the gas rests this long after the last input (Play resumes)
 
 class PressureGauge extends ULWidget {
   // status messages (at most 80 characters each; tests/widgets/strings.test.mjs)
@@ -68,8 +69,11 @@ class PressureGauge extends ULWidget {
   // ----- hooks
   resize() { this.top.fit(); this.bottom.fit(); this.axis = valueAxis(this.top.w, { left: 0.32, right: 0.8 }); this.draw(); }
   retune() { this.c = this.colors(); this.draw(); }
-  stateChanged() { this.btn.play.hidden = this.playing || !this.N; }
-  frame(dt) { this.advance(dt); this.draw(); }
+  stateChanged() { if (this.playing) this.touched = this.time; this.btn.play.hidden = this.playing || !this.N; }
+  frame(dt) {
+    this.advance(dt); this.draw();
+    if (!this.run && this.N && this.time - this.touched > IDLE_S) this.pause();   // a settled reading needs no animation
+  }
 
   // ----- the model
   advance(dt) {
@@ -101,7 +105,7 @@ class PressureGauge extends ULWidget {
     this.zoom.reset(); this.key.hidden = true;
     this.btn.add.hidden = false; this.btn.run.hidden = true; this.btn.run.disabled = false; this.btn.run.label = this.t('run');
     this.btn.band.hidden = true;
-    this.say('start'); this.pause(); this.draw();
+    this.touched = 0; this.say('start'); this.pause(); this.draw();
   }
   addMolecule() {
     if (this.run) return;
@@ -124,10 +128,12 @@ class PressureGauge extends ULWidget {
     this.btn.run.disabled = false; this.btn.run.label = this.t('again');
     this.say(this.runs === 1 ? 'run1' : 'runN');
     if (!this.bands) this.btn.band.hidden = false;
+    this.touched = this.time;
   }
-  showBand() { this.bands = true; this.bandAt = this.time; this.btn.band.hidden = true; this.key.hidden = false; this.say('band'); this.draw(); }
-  // The gas keeps moving while it is on screen (the base class stops it off screen); reduced motion waits for Play.
-  start() { if (reducedMotion()) { for (let i = 0; i < 120; i++) this.advance(1 / 60); this.stateChanged(); } else this.play(); this.draw(); }
+  showBand() { this.bands = true; this.bandAt = this.touched = this.time; this.btn.band.hidden = true; this.key.hidden = false; this.say('band'); if (!reducedMotion()) this.play(); this.draw(); }   // play: the bands fade in
+  // The gas moves while on screen and in use (the base class stops it off screen); it rests IDLE_S after the
+  // last input unless a run is going, and Play brings it back. Reduced motion waits for Play.
+  start() { this.touched = this.time; if (reducedMotion()) { for (let i = 0; i < 120; i++) this.advance(1 / 60); this.stateChanged(); } else this.play(); this.draw(); }
   say(key) { this.status.set(this.t(key), this.time); }
 
   // ----- drawing
