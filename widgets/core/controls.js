@@ -6,9 +6,18 @@ let uid = 0;
 const nextId = (p) => `ul-${p}-${++uid}`;
 
 // A real button. kind: 'primary' (outlined) or 'quiet' (text only, kept at the
-// right end of the row: Reset, Play, Push at random).
-export function button(label, onClick, { kind = 'primary', hidden = false } = {}) {
-  const b = el('button', { type: 'button', className: kind === 'quiet' ? 'ul-btn ul-btn-quiet' : 'ul-btn', textContent: label });
+// right end of the row: Reset, Play, Show the range).
+// A button keeps one shape: pass every label it may ever show as `labels`, and
+// it is always as wide as the longest. Change its words with `b.label = '…'`
+// (never textContent, which would drop the room it keeps).
+// House rules (README): at most three buttons on show at once, labels of at
+// most 14 characters, one row at 360 px.
+export const LABEL_MAX = 14;
+export function button(label, onClick, { kind = 'primary', hidden = false, labels = [] } = {}) {
+  const b = el('button', { type: 'button', className: kind === 'quiet' ? 'ul-btn ul-btn-quiet' : 'ul-btn' });
+  const face = el('span', { className: 'ul-btn-face', textContent: label }, b);
+  for (const l of new Set([label, ...labels])) el('span', { className: 'ul-btn-room', textContent: l }, b).setAttribute('aria-hidden', 'true');
+  Object.defineProperty(b, 'label', { get: () => face.textContent, set: (v) => { face.textContent = v; } });
   b.hidden = hidden;
   b.addEventListener('click', onClick);
   return b;
@@ -41,7 +50,8 @@ export function row(...children) {
   return r;
 }
 
-// The status line: one sentence that narrates what the figure is doing,
+// The status line: one sentence (at most STATUS_MAX characters: two lines on a
+// phone, one on a desktop) that narrates what the figure is doing,
 // announced to screen readers. Two kinds of message:
 //   set(msg)     the standing state ("Drifting.")
 //   remark(msg)  a passing event ("A near collision."), shown for `hold`
@@ -53,6 +63,7 @@ export function row(...children) {
 // an invisible copy of every message it may show (pass them as `reserve`, and
 // any other message is added the first time it appears), all stacked in one
 // grid cell. The cell is as tall as the longest message at the current width.
+export const STATUS_MAX = 80;
 export class StatusLine {
   constructor({ gap = 6, hold = 1.5, reserve = [] } = {}) {
     this.el = el('div', { className: 'ul-status' });
