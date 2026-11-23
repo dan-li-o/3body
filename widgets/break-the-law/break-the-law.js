@@ -39,6 +39,7 @@ class BreakTheLaw extends ULWidget {
     const frag = document.createDocumentFragment();
     this.stage = createStage(frag, { aspect: '12 / 5', phoneAspect: '4 / 3', label: this.t('label') });
     this.status = new StatusLine({ gap: 0, hold: REMARK_S });
+    this.status.reserve(['start', 'aim', 'ideal', 'felt', 'cush', 'both', 'still', 'up', 'down', 'miss'].map((k) => this.t(k)));   // room for every message: nothing below moves
     this.btn = {
       felt: button(this.t('feltBtn'), () => this.toggle('felt')),
       soft: button(this.t('softBtn'), () => this.toggle('soft')),
