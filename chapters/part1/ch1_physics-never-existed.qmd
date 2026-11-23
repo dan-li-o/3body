@@ -134,7 +134,7 @@ Here is a way to see that share. Put the tails on one end of a ruler and the hea
 **The lawful coin.** The beam balances at the share of heads: wild with a few coins, steady near one half with thousands, inside bands predicted in advance.
 :::
 
-Watch where the beam balances as the coins pile up. This is the [law of large numbers]{.term}: the more times you repeat a chancy experiment, the closer the average comes to a fixed value. Jacob Bernoulli, who first proved it, called it his *golden theorem*.^[Published after his death, in *Ars Conjectandi* (*The Art of Conjecturing*), 1713 [-@bernoulli2006art].] Casinos thrive on it. Insurance companies rely on it. No single bet can be predicted, and the house still wins.
+Watch where the beam balances as the coins pile up. This is the [law of large numbers]{.term}: the more times you repeat a chancy experiment, the closer the average comes to a fixed value. Jacob Bernoulli, who first proved it, called it his *golden theorem*.^[Published after his death, in *Ars Conjectandi* (*The Art of Conjecturing*) [-@bernoulli2006art].] Casinos thrive on it. Insurance companies rely on it. No single bet can be predicted, and the house still wins.
 
 But hidden in the proof is an often overlooked clause: every toss must be a fair copy of every other. Your previous toss must not interfere with the next; a toss here or there, today or tomorrow, makes no difference, as if all these tosses were drawn from the same deck. Swap in a bent coin halfway through, or let the coin wear down a little with each toss, and the average has nothing to settle on.
 
@@ -344,20 +344,18 @@ Even in the ruins of symmetry, some structure endures.
 
 No matter where you set the ball on the lawful pool table, the energy conserves because there is spatial symmetry. But what if we broke the spatial symmetry?
 
-Try again, but this time, on a demon’s pool table where you can choose how to break the spatial symmetry. 
+::: {.todo}
+Old widget removed (2026-11-23): `pool-symmetry` (the demon's pool table: size field, transmutation). Rebuild it on the new widget core, then restore a `wid` block and the paragraphs below.
+Caption was: "Breaking Spatial Symmetry---same table, unlawful rules."
 
-::: {.widget #wid-pool-symmetry}
-```{=html}
-{{< include /partials/pool-symmetry.html >}}
-```
-Breaking Spatial Symmetry---same table, unlawful rules.
-:::
+Try again, but this time, on a demon’s pool table where you can choose how to break the spatial symmetry. 
 
 Enable the Size Field and drag the ball across the table, you’ll notice its size alters. Hit it with a cue, watch how the kinetic energy bounces up and down as the ball moves across the table from left to right and right to left---when it is supposed to stay constant. The ball doesn’t look the same anymore when moving. Spatial symmetry is broken. Energy doesn’t conserve. 
 
 Enable transmutation, and even worse things happen. The concept of energy doesn’t even apply anymore. The conservation law does not break. It evaporates.  
 
 Only in this case, you own the pool table and can control whether and how to break symmetry. But imagine what scientists of pool tables have to face!
+:::
 
 
 ## The Unlawful Table

@@ -50,7 +50,7 @@ class FindSymmetries extends ULWidget {
     this.roundEl = el('span', {}, this.head);
     this.tally = el('span', {}, this.head); this.tally.setAttribute('aria-live', 'polite');
     const frag = document.createDocumentFragment();
-    this.stage = createStage(frag, { aspect: '16 / 10', phoneAspect: '10 / 9', label: this.t('label') });
+    this.stage = createStage(frag, { aspect: '16 / 10', phoneAspect: '10 / 9', label: this.t('label'), focusable: true });
     this.status = new StatusLine({ gap: 0, hold: 0 });
     const nouns = ORDER.map((n) => this.t(n + 'Noun'));
     this.status.reserve(this.constructor.status.flatMap((k) => (/\{noun\}/.test(this.t(k)) ? nouns.map((n) => this.t(k).replace('{noun}', n)) : [this.t(k)])));

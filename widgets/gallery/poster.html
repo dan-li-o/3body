@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <title>Poster renderer</title>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../core/tokens.css">
-<!-- Used by tools/posters.mjs: poster.html?widget=trisolaran-sky&theme=dark
+<!-- Used by tools/posters.mjs: poster.html?widget=trisolaran-sky&theme=dark&max=1600
      draws widgets/<widget>/poster.js with the design tokens of that theme. -->
 </head>
 <body>
@@ -12,15 +13,18 @@
 <script type="module">
   import { readColors } from '../core/core.js';
   const q = new URLSearchParams(location.search);
-  const name = q.get('widget'), theme = q.get('theme') || 'light';
+  const name = q.get('widget'), theme = q.get('theme') || 'light', max = Number(q.get('max')) || Infinity;
   document.body.className = theme === 'dark' ? 'quarto-dark' : 'quarto-light';
   const mod = await import(`../${name}/poster.js`);
-  await document.fonts.ready;
-  const { width, height } = mod.size, dpr = 2, cv = document.getElementById('c');
-  cv.width = width * dpr; cv.height = height * dpr;
+  // Canvas text never asks for a web font, so document.fonts.ready alone resolves before the
+  // fonts arrive and the poster gets a fallback face. Load every face the book declares first.
+  await Promise.allSettled([...document.fonts].map((f) => f.load()));
+  const fonts = [...document.fonts].filter((f) => f.status !== 'loaded').map((f) => `${f.family} ${f.weight} ${f.style}`);
+  const { width, height } = mod.size, dpr = Math.min(2, max / width), cv = document.getElementById('c');
+  cv.width = Math.round(width * dpr); cv.height = Math.round(height * dpr);
   const ctx = cv.getContext('2d'); ctx.scale(dpr, dpr);
   mod.drawPoster(ctx, readColors(document.body), mod.size);
-  window.poster = { png: cv.toDataURL('image/png') };
+  window.poster = { png: cv.toDataURL('image/png'), fonts };
 </script>
 </body>
 </html>

@@ -1,0 +1,7 @@
+---
+title: "Page not found"
+---
+
+This page isn't in the book, or has moved.
+
+[Go to the Welcome page](/index.qmd) or open the contents.

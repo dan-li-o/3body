@@ -35,6 +35,43 @@ local function project_dir()
   return (quarto.project and quarto.project.directory) or '.'
 end
 
+-- The widget's own place in the online book: <site>/<page>.html#<id>, so a printed link
+-- opens the widget, not the home page. PDF and EPUB books render the chapters as one
+-- document, so the page is found by looking for the shortcode in the book's chapter files.
+local pages
+local function chapter_files(meta)
+  local out = {}
+  local function walk(list)
+    if type(list) ~= 'table' then return end
+    for _, item in ipairs(list) do
+      if type(item) == 'table' and item.chapters then walk(item.chapters)
+      else
+        local f = pandoc.utils.stringify(item)
+        if f:match('%.q?md$') then table.insert(out, f) end
+      end
+    end
+  end
+  walk(meta and meta.book and meta.book.chapters)
+  return out
+end
+local function page_url(site, name, id, meta)
+  if not pages then
+    pages = {}
+    for _, f in ipairs(chapter_files(meta)) do
+      local h = io.open(project_dir() .. '/' .. f, 'r')
+      if h then
+        local text = h:read('a'); h:close()
+        for w in text:gmatch('{{<%s*widget%s+([a-z][a-z0-9%-]*)') do
+          if not pages[w] then pages[w] = f:gsub('%.q?md$', '.html') end
+        end
+      end
+    end
+  end
+  local page = pages[name] or ''
+  if page == 'index.html' then page = '' end
+  return site:gsub('/$', '') .. '/' .. page .. '#' .. id
+end
+
 return {
   ['widget'] = function(args, kwargs, meta)
     local name = pandoc.utils.stringify(args[1] or '')
@@ -46,16 +83,21 @@ return {
     local dir = project_dir() .. '/widgets/' .. name .. '/'
     local has_poster = exists(dir .. 'poster-light.png')
 
-    if not quarto.doc.is_format('html') then
+    -- EPUB is an HTML format too, but e-readers don't run the widgets' modules (and
+    -- EPUB must be XHTML), so it gets the print figure like PDF and Word.
+    if quarto.doc.is_format('epub') or not quarto.doc.is_format('html') then
       local site = meta and meta.book and meta.book['site-url'] and pandoc.utils.stringify(meta.book['site-url']) or ''
+      local id = pandoc.utils.stringify(kwargs['id'] or '')
+      if id == '' then id = name end
       local blocks = {}
       if has_poster then
         table.insert(blocks, pandoc.Para({ pandoc.Image({ pandoc.Str(alt) }, 'widgets/' .. name .. '/poster-light.png') }))
       end
       local note = { pandoc.Emph({ pandoc.Str('Interactive figure: try it yourself in the online edition') }) }
       if site ~= '' then
+        local url = page_url(site, name, id, meta)
         table.insert(note, pandoc.Str(': '))
-        table.insert(note, pandoc.Link(site, site))
+        table.insert(note, pandoc.Link(url, url))
       end
       table.insert(blocks, pandoc.Para(note))
       return blocks
@@ -75,8 +117,8 @@ return {
     local poster = ''
     if has_poster then
       poster = string.format(
-        '<img class="ul-poster ul-poster-light" src="%sposter-light.png" alt="%s" loading="lazy">' ..
-        '<img class="ul-poster ul-poster-dark" src="%sposter-dark.png" alt="%s" loading="lazy">',
+        '<img class="ul-poster ul-poster-light" src="%sposter-light.png" alt="%s" loading="lazy" decoding="async" fetchpriority="low">' ..
+        '<img class="ul-poster ul-poster-dark" src="%sposter-dark.png" alt="%s" loading="lazy" decoding="async" fetchpriority="low">',
         src, esc(alt), src, esc(alt))
     end
     local html = string.format('<ul-%s%s>%s</ul-%s>\n<script type="module" src="%s%s.js"></script>',

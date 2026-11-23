@@ -51,6 +51,16 @@ The book is structured into three parts:
 
 ## 🎮 Interactive Features
 
+Built so far (each has a spec, a poster and engine tests; see [`widgets/README.md`](widgets/README.md)):
+
+- 🪐 *Tame the Trisolaran sky*: three-body chaos and the figure-eight (Welcome page)
+- 🎱 *Try to break the law*: energy on a pool table, with felt and soft cushions (Ch1)
+- ⚖️ *The lawful coin*: the law of large numbers on a balance beam (Ch1)
+- 🫧 *The pressure gauge*: molecules on a piston, from knocks to a steady push (Ch1)
+- 🔷 *Find the symmetries* and 🌀 *The groove* (Ch1)
+
+Planned:
+
 - 🎲 Coin-flip simulator (with drifting probabilities)  
 - 🎯 Induction paradox visualizations  
 - 🤖 ML classifier toggle  
@@ -59,13 +69,14 @@ The book is structured into three parts:
 - 🧬 Replication fragility simulator  
 - ⚖️ Feyerabend’s “debate toggle”  
 
-All built with Quarto and custom JavaScript widgets.
+All built with Quarto and plain JavaScript widgets (no runtime dependencies). Try every widget outside the book in the gallery: serve the repo and open `/widgets/gallery/`.
 
 ---
 
 ## 🛠️ Tech Requirements
 
-- [Quarto](https://quarto.org/) v1.7 or newer
+- [Quarto](https://quarto.org/) 1.11.9 (the version CI uses)
+- Node.js 22 for the widget tests and tools (`npm test`; `npm install` for posters and smoke tests)
 - Git
 
 > **Note:** If you don’t have Quarto, [see installation guide](https://quarto.org/docs/get-started/).
@@ -80,22 +91,28 @@ cd 3body
 quarto render
 ```
 
-The site will be built in the `docs/` folder.  
+The site is built in `_book/` (not committed). Merging into `main` publishes it: GitHub Actions renders the book and pushes it to the `gh-pages` branch.  
 To preview locally:
 
 ```bash
-quarto preview
+quarto preview                  # the site as readers see it
+quarto preview --profile draft  # also shows the TODO notes (orange)
+npm test                        # widget engine tests
 ```
 
 ---
 
 ## 📂 Project Structure
 
-- `index.qmd`: Homepage
+- `index.qmd`, `intro.qmd`: Welcome page and Preface
 - `chapters/`: Book chapters
+- `widgets/`: interactive figures (shared core, physics engines, one folder per widget, gallery)
+- `_extensions/widget/`: the `{{< widget >}}` shortcode
+- `theme/`, `css/`, `assets/`: typography, colours, self-hosted fonts, icons
+- `filters/hide-todo.lua`: keeps `.todo` notes off the site
+- `tests/`, `tools/`: widget tests; poster and smoke-test scripts
 - `data/`: References and bibliography
-- `docs/`: Rendered website for GitHub Pages
-- `_quarto.yml`: Book configuration 
+- `_quarto.yml`: Book configuration
 
 ---
 

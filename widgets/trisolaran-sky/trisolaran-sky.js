@@ -38,7 +38,7 @@ class TrisolaranSky extends ULWidget {
   mount() {
     this.random = rng(this.num('seed', Date.now() % 1e9));
     const invite = el('p', { className: 'ul-invite', textContent: this.t('invite') });
-    this.stage = createStage(document.createDocumentFragment(), { aspect: '16 / 9', phoneAspect: '1 / 1', label: this.t('label') });
+    this.stage = createStage(document.createDocumentFragment(), { aspect: '16 / 9', phoneAspect: '1 / 1', label: this.t('label'), focusable: true });
     this.status = new StatusLine({ gap: 6, hold: 1.5 });
     this.status.reserve(this.constructor.status.map((k) => this.t(k)));   // room for every message: nothing below moves
     this.btn = {
