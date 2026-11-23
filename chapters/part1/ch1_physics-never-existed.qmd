@@ -134,7 +134,7 @@ Here is a way to see that share. Put the tails on one end of a ruler and the hea
 **The lawful coin.** The beam balances at the share of heads: wild with a few coins, steady near one half with thousands, inside bands predicted in advance.
 :::
 
-Watch where the beam balances as the coins pile up. This is the [law of large numbers]{.term}: the more times you repeat a chancy experiment, the closer the average comes to a fixed value. Jacob Bernoulli, who first proved it, called it his *golden theorem*.^[Published after his death, in *Ars Conjectandi* (*The Art of Conjecturing*), 1713 [-@bernoulli2006art].] Casinos thrive on it. Insurance companies rely on it. No single bet can be predicted, and the house still wins.
+Watch where the beam balances as the coins pile up. This is the [law of large numbers]{.term}: the more times you repeat a chancy experiment, the closer the average comes to a fixed value. Jacob Bernoulli, who first proved it, called it his *golden theorem*.^[Published after his death, in *Ars Conjectandi* (*The Art of Conjecturing*) [-@bernoulli2006art].] Casinos thrive on it. Insurance companies rely on it. No single bet can be predicted, and the house still wins.
 
 But hidden in the proof is an often overlooked clause: every toss must be a fair copy of every other. Your previous toss must not interfere with the next; a toss here or there, today or tomorrow, makes no difference, as if all these tosses were drawn from the same deck. Swap in a bent coin halfway through, or let the coin wear down a little with each toss, and the average has nothing to settle on.
 
