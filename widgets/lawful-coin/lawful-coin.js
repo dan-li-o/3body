@@ -18,21 +18,24 @@ const STEP_UNTIL = 5;     // hand flips before Run is offered
 const ZOOM = [10, 100, 1000, 10000];
 
 class LawfulCoin extends ULWidget {
+  // status messages (at most 80 characters each; tests/widgets/strings.test.mjs)
+  static status = ['start', 'one', 'two', 'more', 'ready', 'running', 'run1', 'runN', 'band'];
+  static buttons = ['flipOne', 'addFlip', 'run', 'again', 'showBand', 'reset'];
   static strings = { en: {
     invite: 'Flip coins. Watch where the beam balances.',
     label: 'A balance: tails on the left end of the beam, heads on the right. An orange fulcrum slides to where the beam balances, which is the share of heads.',
     chart: 'The share of heads traced as coins are added: {n} coins so far, latest share {s}.',
     start: 'One coin. Flip it.',
-    one: 'One coin: all heads or all tails, so the beam balances at one end. The fulcrum slides to where the beam balances, like balancing a ruler on your finger: that point is the share of heads. Add a coin.',
-    two: 'The line traces the balance point: across for the share of heads, down for how many coins. Add another.',
+    one: 'One coin: all heads or all tails, so the beam balances at one end. Add a coin.',
+    two: 'The line traces the balance point as coins are added. Add another.',
     more: 'One more coin, one more flip.',
     ready: 'You get the idea. Add coins one at a time, or let it run.',
-    running: 'More and more coins, flipped again and again. Watch the fulcrum and the pen: they swing, then settle on one half.',
-    run1: 'Few coins: the split swings wildly. Thousands: it holds near one half. Does the math predict this shape?',
+    running: 'More and more coins. The fulcrum and the pen swing, then settle on one half.',
+    run1: 'A few coins swing wildly; thousands hold near one half. Can math predict this?',
     runN: 'A new run, the same shape. Each flip is random; the split is lawful.',
-    band: 'The bands are what the math predicts, before any coin is flipped: about 68 of every 100 flips land in the inner band, about 95 in the outer. Both narrow as coins are added.',
-    flipOne: 'Flip one coin', addFlip: 'Add a coin and flip', run: 'Run: up to 10,000 coins', again: 'Run again',
-    showBand: 'Show the expected range', reset: 'Reset',
+    band: 'The math drew these bands before any flip. Both narrow as coins are added.',
+    flipOne: 'Flip a coin', addFlip: 'Add a coin', run: 'Run', again: 'Run again',
+    showBand: 'Show the range', reset: 'Reset',
     inner: 'inner band: about 68 of every 100 flips', outer: 'outer band: about 95 of every 100',
     share: 'share of heads', coinsAxis: 'coins', heads: 'heads', tails: 'tails', coin: 'coin', coins: 'coins', none: 'no coins yet',
   } };
@@ -47,11 +50,11 @@ class LawfulCoin extends ULWidget {
     el('span', { className: 'ul-key-inner', textContent: this.t('inner') }, this.key);
     el('span', { className: 'ul-key-outer', textContent: this.t('outer') }, this.key);
     this.status = new StatusLine({ gap: 0, hold: 0 });
-    this.status.reserve(['start', 'one', 'two', 'more', 'ready', 'running', 'run1', 'runN', 'band'].map((k) => this.t(k)));   // room for every message: nothing below moves
+    this.status.reserve(this.constructor.status.map((k) => this.t(k)));   // room for every message: nothing below moves
     this.btn = {
-      add: button(this.t('flipOne'), () => this.addCoin()),
-      run: button(this.t('run'), () => this.startRun(), { hidden: true }),
-      band: button(this.t('showBand'), () => this.showBand(), { hidden: true }),
+      add: button(this.t('flipOne'), () => this.addCoin(), { labels: [this.t('addFlip')] }),
+      run: button(this.t('run'), () => this.startRun(), { hidden: true, labels: [this.t('again')] }),
+      band: button(this.t('showBand'), () => this.showBand(), { kind: 'quiet', hidden: true }),
       reset: button(this.t('reset'), () => this.reset(), { kind: 'quiet' }),
     };
     const b = this.btn;
@@ -85,8 +88,8 @@ class LawfulCoin extends ULWidget {
     this.N = 0; this.heads = 0; this.share = 0.5; this.time = 0; this.flipAt = -9; this.bandAt = -9;
     this.trace = []; this.old = []; this.runs = 0; this.run = null; this.bands = false;
     this.zoom.reset(); this.key.hidden = true;
-    Object.assign(this.btn.add, { hidden: false, textContent: this.t('flipOne') });
-    this.btn.run.hidden = true; this.btn.band.hidden = true; this.btn.run.textContent = this.t('run'); this.btn.run.disabled = false;
+    this.btn.add.hidden = false; this.btn.add.label = this.t('flipOne');
+    this.btn.run.hidden = true; this.btn.band.hidden = true; this.btn.run.label = this.t('run'); this.btn.run.disabled = false;
     this.fx = this.axis ? this.axis.V(0.5) : 0;
     this.say('start'); this.pause(); this.draw();
   }
@@ -100,7 +103,7 @@ class LawfulCoin extends ULWidget {
     if (this.run) return;
     this.flipAll(this.N + 1);
     this.flipAt = reducedMotion() ? -9 : this.time;
-    this.btn.add.textContent = this.t('addFlip');
+    this.btn.add.label = this.t('addFlip');
     this.say(this.N === 1 ? 'one' : this.N === 2 ? 'two' : this.N < STEP_UNTIL ? 'more' : 'ready');
     if (this.N >= STEP_UNTIL) this.btn.run.hidden = false;
     this.go();
@@ -119,7 +122,7 @@ class LawfulCoin extends ULWidget {
   }
   endRun() {
     this.run = null; this.runs++;
-    this.btn.run.disabled = false; this.btn.run.textContent = this.t('again');
+    this.btn.run.disabled = false; this.btn.run.label = this.t('again');
     this.say(this.runs === 1 ? 'run1' : 'runN');
     if (!this.bands) this.btn.band.hidden = false;
   }

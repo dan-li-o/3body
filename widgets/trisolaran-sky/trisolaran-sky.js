@@ -17,6 +17,9 @@ const MAX_PUSH = 1.2;       // cap on launch speed (world units)
 const NUDGE = 0.01;         // tested in tests/engines/nbody.test.mjs
 
 class TrisolaranSky extends ULWidget {
+  // status messages (at most 80 characters each; tests/widgets/strings.test.mjs)
+  static status = ['calm', 'aiming', 'notYet', 'drifting', 'chaotic', 'ejected', 'looksGone', 'orNot', 'near', 'bounced', 'repeats', 'nudged'];
+  static buttons = ['works', 'reset', 'random', 'nudge', 'play'];
   static strings = { en: {
     invite: 'Two suns circle each other. Place a third and give it a push. Can you make the system repeat itself?',
     label: 'Animated diagram of three suns moving under each other’s gravity, drawn with their trails.',
@@ -27,8 +30,8 @@ class TrisolaranSky extends ULWidget {
     looksGone: 'That sun looks gone for good.', orNot: '…Or not.',
     near: 'A near collision.', bounced: 'Two suns bounced off each other.',
     repeats: 'This one repeats. Solutions like it are rare.',
-    nudged: 'Nudged by a hair. It wobbles and slowly turns, but holds. A slightly bigger push would break it.',
-    works: 'Show me one that works', reset: 'Reset', random: 'Try a random placement', nudge: 'Nudge', play: 'Play',
+    nudged: 'Nudged by a hair: it wobbles, but holds. A bigger push would break it.',
+    works: 'One that works', reset: 'Reset', random: 'Random launch', nudge: 'Nudge it', play: 'Play',
     closing: 'Scientists have been trying since Newton.',
   } };
 
@@ -37,18 +40,18 @@ class TrisolaranSky extends ULWidget {
     const invite = el('p', { className: 'ul-invite', textContent: this.t('invite') });
     this.stage = createStage(document.createDocumentFragment(), { aspect: '16 / 9', phoneAspect: '1 / 1', label: this.t('label') });
     this.status = new StatusLine({ gap: 6, hold: 1.5 });
-    this.status.reserve(['calm', 'aiming', 'notYet', 'drifting', 'chaotic', 'ejected', 'looksGone', 'orNot', 'near', 'bounced', 'repeats', 'nudged'].map((k) => this.t(k)));   // room for every message: nothing below moves
+    this.status.reserve(this.constructor.status.map((k) => this.t(k)));   // room for every message: nothing below moves
     this.btn = {
       works: button(this.t('works'), () => this.showWorking()),
-      reset: button(this.t('reset'), () => this.calm()),
-      nudge: button(this.t('nudge'), () => this.nudge(), { kind: 'quiet', hidden: true }),
+      nudge: button(this.t('nudge'), () => this.nudge(), { hidden: true }),
+      reset: button(this.t('reset'), () => this.calm(), { kind: 'quiet' }),
       random: button(this.t('random'), () => this.randomLaunch(), { kind: 'quiet' }),
       play: button(this.t('play'), () => this.play(), { kind: 'quiet', hidden: true }),
     };
     this.closing = el('p', { className: 'ul-closing', textContent: this.t('closing') });
     this.closing.hidden = true;
     const b = this.btn;
-    this.replaceChildren(invite, this.stage.box, this.status.el, row(b.works, b.reset, b.nudge, b.random, b.play), this.closing);
+    this.replaceChildren(invite, this.stage.box, this.status.el, row(b.works, b.nudge, b.random, b.reset, b.play), this.closing);
     this.bindInput();
     this.retune();
     this.calm();
@@ -68,6 +71,7 @@ class TrisolaranSky extends ULWidget {
     this.cam = { x: 0, y: 0 };
     this.escaped = -1; this.gone = -1; this.near = {};
     this.btn.nudge.hidden = true;
+    this.btn.works.hidden = mode === 'eight';   // it is on show: Nudge takes its place (one row of buttons)
     this.status.reset();
     this.updateStatus();
     this.draw();
