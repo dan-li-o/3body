@@ -4,6 +4,9 @@ project:
 resources: 
   - widgets/**
   - "!widgets/**/*.md"      # specs and README stay in the repo, not on the site
+  - "!widgets/gallery/**"   # development pages (gallery, poster renderer, design dials)
+  - "!widgets/**/poster.js" # draws the committed poster PNGs; not needed by readers
+  - "!widgets/core/tuner.js"
   - css/**
   - assets/**
 
