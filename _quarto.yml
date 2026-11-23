@@ -66,8 +66,9 @@ format:
       - css/paper.css
     include-in-header:
       - text: |
-          <link rel="icon" href="/3body/assets/icons/favicon.ico" sizes="32x32">
-          <link rel="apple-touch-icon" href="/3body/assets/icons/apple-touch-icon.png">
+          <!-- Paths start at the project root; Quarto rewrites them per page (so never prefix /3body). -->
+          <link rel="icon" href="/assets/icons/favicon.ico" sizes="32x32">
+          <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
           <meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)">
           <meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
     include-after-body:
