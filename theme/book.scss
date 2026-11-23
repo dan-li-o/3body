@@ -36,7 +36,7 @@ blockquote, .blockquote { border-left: none; padding-left: 1.5rem; font-size: .9
 // Small print, navigation and controls in Source Sans 3
 #quarto-sidebar, #TOC, .sidebar, nav, .quarto-title-meta, .quarto-title-meta-heading,
 .quarto-title-meta-contents, .btn, .nav-footer, .figure-caption, figcaption, .margin-caption, .widget-name,
-.callout, .quarto-appendix-contents, .sidebar-title, .breadcrumb, .citation, .csl-entry {
+.callout, .quarto-appendix-contents, .sidebar-title, .breadcrumb {
   font-family: $font-family-sans-serif; }
 #quarto-sidebar, #TOC { font-size: .78rem; }
 .sidebar-title { font-family: $font-family-serif; font-size: 1.1rem; }
@@ -62,6 +62,18 @@ main ul, main ol, main figure, main .callout, main blockquote, main .quarto-figu
 main .column-margin p + p, main .callout p + p, main .footnotes p + p { text-indent: 0; margin-top: .5em; }
 // Justified with hyphenation on wide screens; ragged-right on phones (narrow columns leave gaps).
 @media (min-width: 768px) { main p { text-align: justify; } }
+// ...except short lines that justify badly: quotations and the words inside a widget (invitation, status).
+main blockquote p, main .ul-widget p { text-align: left; }
+// No indent after a widget (a numbered wid- float, or a bare <ul-*> on the Welcome page), even when
+// margin notes (and their folded toggles, theme/quiet-page.html) sit between the widget and the text.
+main .quarto-float + p,
+main .quarto-float + .column-margin + p,
+main .quarto-float + .mn-toggle + .column-margin + p,
+main .quarto-float + .mn-toggle + .column-margin + .mn-toggle + .column-margin + p,
+main .quarto-float + .mn-toggle + .column-margin + .mn-toggle + .column-margin + .mn-toggle + .column-margin + p,
+main .ul-widget + p { text-indent: 0; }
+// A paragraph that is only a button (Start reading) is not a paragraph of text: no indent, nor for the line after it.
+main p:has(> .btn:only-child), main p:has(> .btn:only-child) + p { text-indent: 0; }
 // Chapter lead-in: the opening words in small caps (wrapped by theme/lead-in.html).
 .lead-in { font-variant-caps: all-small-caps; letter-spacing: .05em; }
 // Abbreviations in small caps: write [NASA]{.sc}
