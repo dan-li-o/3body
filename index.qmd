@@ -27,6 +27,8 @@ Science is not as absolute as one might think, even though it is taught as absol
 
 Throughout the book, you run the experiments yourself instead of being told how they turn out.
 
+::: {.content-visible when-format="html" unless-format="epub"}
 [Start reading →](intro.qmd){.btn .btn-primary}
+:::
 
 *Free to read and share ([CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)). A work in progress.*
