@@ -122,9 +122,12 @@ book: every merge publishes it.
   standard above (including "Fits one screen"); new widgets build on the
   shared core (`ULWidget`, `StatusLine`, `button`, `row`) and get a spec,
   posters and a gallery entry.
-- **Shared files affect every widget:** `core/` (especially `controls.js` and
-  `tokens.css`), `theme/`, `_quarto.yml`. Change them only when needed, and
-  say so in the PR.
+- **Improvements to widgets, layout and the site's look are welcome**,
+  including the shared files: `core/` (especially `controls.js` and
+  `tokens.css`), `theme/`, `_quarto.yml`. Since these change every widget or
+  every page, say so in the PR, and check all widgets in the gallery (light
+  and dark, phone and desktop) before opening it. If a change replaces a
+  house rule above, update the rule in the same PR.
 - **Book text comes from the writing project.** A PR that changes a chapter's
   prose (not just a widget block) says so, so Dan can check it with the authors.
 - **Dan merges.** The checks (tests and a full render) must pass first.
