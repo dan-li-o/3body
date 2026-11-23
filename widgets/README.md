@@ -106,6 +106,32 @@ per page (no global IDs).
 **Checked** — `npm test` and `npm run smoke` pass; gallery screenshots
 reviewed in light and dark, phone and desktop; poster generated.
 
+## Working together
+
+Several people (and Claude) send pull requests to this repo. `main` is the live
+book: every merge publishes it.
+
+- **One branch per task, then a pull request into `main`.** Never push to
+  `main`. Name branches by task, e.g. `widgets/groove-keys` or `text/ch2-flatland`.
+- **Start from the latest `main`**, and update your branch from it again just
+  before opening the PR. Check the open PRs first so two people don't build
+  the same thing.
+- **Keep PRs small:** one widget, one fix or one section each. Say in plain
+  words what changes for the reader, and add screenshots for visual changes.
+- **Before the PR:** `npm test` and `npm run smoke` pass; the widget meets the
+  standard above (including "Fits one screen"); new widgets build on the
+  shared core (`ULWidget`, `StatusLine`, `button`, `row`) and get a spec,
+  posters and a gallery entry.
+- **Improvements to widgets, layout and the site's look are welcome**,
+  including the shared files: `core/` (especially `controls.js` and
+  `tokens.css`), `theme/`, `_quarto.yml`. Since these change every widget or
+  every page, say so in the PR, and check all widgets in the gallery (light
+  and dark, phone and desktop) before opening it. If a change replaces a
+  house rule above, update the rule in the same PR.
+- **Book text comes from the writing project.** A PR that changes a chapter's
+  prose (not just a widget block) says so, so Dan can check it with the authors.
+- **Dan merges.** The checks (tests and a full render) must pass first.
+
 ## Commands
 
 ```
