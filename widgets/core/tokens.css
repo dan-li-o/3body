@@ -35,8 +35,12 @@ body.quarto-dark {
 /* ----- figure grammar: invitation above, the figure, status + controls below */
 .ul-widget { display: block; text-align: left; margin: 1.75rem 0; font-family: var(--ul-serif); color: var(--ul-ink); }
 .ul-invite { font-style: italic; margin: 0 0 .5rem; }
-.ul-status { font-style: italic; min-height: 1.5em; margin: .5rem 0 .25rem; }
+.ul-status { display: grid; font-style: italic; min-height: 1.5em; margin: .5rem 0 .25rem; }
+/* every message sits in the same cell; the invisible ones hold the height (controls.js, StatusLine) */
+.ul-status > p { grid-area: 1 / 1; margin: 0; }
+.ul-status-room { visibility: hidden; }
 .ul-closing { font-size: .85em; color: var(--ul-grey); margin: .75rem 0 0; }
+.ul-closing[hidden] { display: block; visibility: hidden; }   /* keeps its room: nothing below moves */
 .ul-fallback { font-style: italic; color: var(--ul-grey); }
 
 /* Canvas stage: space reserved before load (no layout shift). */
@@ -50,7 +54,7 @@ body.quarto-dark {
 body.quarto-dark .ul-poster-light, body:not(.quarto-dark) .ul-poster-dark { display: none; }
 
 /* ----- controls: quiet, but they look like controls */
-.ul-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin-top: .5rem;
+.ul-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: .75rem;
   font-family: var(--ul-sans); font-size: 1rem; }
 .ul-field { display: flex; align-items: center; gap: .75rem; flex: 1 1 14rem; min-width: 0; }
 .ul-field label { font-family: var(--ul-serif); font-style: italic; font-size: 1.05rem; color: var(--ul-grey); white-space: nowrap; }
@@ -60,19 +64,31 @@ body.quarto-dark .ul-poster-light, body:not(.quarto-dark) .ul-poster-dark { disp
 .ul-range::-moz-range-track { height: 2px; background: var(--ul-rule); border-radius: 1px; }
 .ul-range::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; margin-top: -8px; border-radius: 50%; background: var(--ul-ink); border: 0; }
 .ul-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--ul-ink); border: 0; }
-.ul-btn { min-height: 44px; min-width: 44px; padding: 0 1rem; font: inherit; font-family: var(--ul-sans);
-  color: var(--ul-ink); background: transparent; border: 1.5px solid currentColor; border-radius: 6px; cursor: pointer; }
-.ul-btn:hover { background: color-mix(in srgb, var(--ul-ink) 7%, transparent); }
-.ul-btn[aria-pressed="true"] { background: var(--ul-ink); color: var(--ul-paper); }
-.ul-btn-quiet { border-color: transparent; text-decoration: underline; text-underline-offset: .2em; padding: 0 .5rem; }
-.ul-btn-quiet:hover { background: transparent; text-decoration-thickness: 2px; }
+/* Buttons: one height, one shape, one type size. Outlined buttons are the
+   actions; quiet ones (Reset, Play, Push at random) are text only and sit at
+   the right end of the row, so the actions always start at the column edge. */
+.ul-btn { display: inline-flex; align-items: center; justify-content: center; gap: .4em;
+  min-height: 44px; min-width: 44px; padding: 0 .95rem; margin: 0;
+  font-family: var(--ul-sans); font-size: .95rem; font-weight: 600; letter-spacing: .01em; line-height: 1;
+  color: var(--ul-ink); background: transparent; white-space: nowrap;
+  border: 1px solid color-mix(in srgb, var(--ul-ink) 32%, transparent); border-radius: 4px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; transition: border-color .15s, background-color .15s; }
+.ul-btn:hover { border-color: var(--ul-ink); }
+.ul-btn:active { background: color-mix(in srgb, var(--ul-ink) 8%, transparent); }
+.ul-btn:disabled { color: var(--ul-grey); border-color: var(--ul-rule); cursor: default; }
+.ul-btn[aria-pressed="true"] { background: color-mix(in srgb, var(--ul-ink) 11%, transparent); border-color: var(--ul-ink); }
+.ul-btn[aria-pressed="true"]::before { content: "✓"; font-weight: 600; }
+.ul-btn-quiet { border-color: transparent; color: var(--ul-grey); font-weight: 400; padding: 0 .6rem; }
+.ul-btn-quiet:hover { border-color: transparent; color: var(--ul-ink); text-decoration: underline; text-underline-offset: .25em; }
+.ul-controls-quiet { display: flex; flex-wrap: wrap; gap: .25rem; margin-left: auto; margin-right: -.6rem; }
 .ul-btn[hidden] { display: none; }
-.ul-btn:focus-visible, .ul-range:focus-visible { outline: 2px solid var(--ul-accent); outline-offset: 3px; }
+.ul-btn:focus-visible, .ul-range:focus-visible { outline: 2px solid var(--ul-accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .ul-btn { transition: none; } }
 .ul-readout { font-family: var(--ul-sans); font-size: .9rem; color: var(--ul-grey); font-variant-numeric: tabular-nums; }
 
 /* Key for shaded bands on a chart (strip.js): small sans, swatches in the ghost colour. */
 .ul-key { display: flex; flex-wrap: wrap; gap: .2rem 1.2rem; margin: .2rem 0 0 14%; font-family: var(--ul-sans); font-size: .7rem; color: var(--ul-grey); }
-.ul-key[hidden] { display: none; }
+.ul-key[hidden] { visibility: hidden; }   /* keeps its room: the controls below never move */
 .ul-key span::before { content: ""; display: inline-block; width: 14px; height: 10px; margin-right: .4rem; vertical-align: -1px; }
 .ul-key-inner::before { background: color-mix(in srgb, var(--ul-ghost) 40%, var(--ul-paper)); }
 .ul-key-outer::before { background: color-mix(in srgb, var(--ul-ghost) 22%, var(--ul-paper)); }

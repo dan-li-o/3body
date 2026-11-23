@@ -47,10 +47,11 @@ class LawfulCoin extends ULWidget {
     el('span', { className: 'ul-key-inner', textContent: this.t('inner') }, this.key);
     el('span', { className: 'ul-key-outer', textContent: this.t('outer') }, this.key);
     this.status = new StatusLine({ gap: 0, hold: 0 });
+    this.status.reserve(['start', 'one', 'two', 'more', 'ready', 'running', 'run1', 'runN', 'band'].map((k) => this.t(k)));   // room for every message: nothing below moves
     this.btn = {
       add: button(this.t('flipOne'), () => this.addCoin()),
       run: button(this.t('run'), () => this.startRun(), { hidden: true }),
-      band: button(this.t('showBand'), () => this.showBand(), { kind: 'quiet', hidden: true }),
+      band: button(this.t('showBand'), () => this.showBand(), { hidden: true }),
       reset: button(this.t('reset'), () => this.reset(), { kind: 'quiet' }),
     };
     const b = this.btn;
