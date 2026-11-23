@@ -136,7 +136,8 @@ book: every merge publishes it.
 
 ```
 npm test              engine unit tests (no install needed; runs in CI)
-npm run posters       regenerate posters (needs playwright-core: npm install)
+npm run posters       regenerate posters (needs playwright-core and sharp: npm install)
+npm run posters:check fail if a committed poster no longer matches its poster.js
 npm run smoke         browser smoke test + screenshots (same)
 ```
 

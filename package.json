@@ -2,13 +2,15 @@
   "name": "unlawful-laws-widgets",
   "private": true,
   "type": "module",
-  "description": "Interactive widgets for the online book Unlawful Laws. No runtime dependencies; engine tests use Node's built-in runner; dev tools (posters, smoke tests) use playwright-core.",
+  "description": "Interactive widgets for the online book Unlawful Laws. No runtime dependencies; engine tests use Node's built-in runner; dev tools (posters, smoke tests) use playwright-core; posters are compressed with sharp.",
   "scripts": {
     "test": "node --test \"tests/**/*.test.mjs\"",
     "posters": "node tools/posters.mjs",
-    "smoke": "node tools/smoke.mjs"
+    "smoke": "node tools/smoke.mjs",
+    "posters:check": "node tools/posters.mjs --check"
   },
   "devDependencies": {
-    "playwright-core": "^1.65.1"
+    "playwright-core": "^1.65.1",
+    "sharp": "^0.35.5"
   }
 }

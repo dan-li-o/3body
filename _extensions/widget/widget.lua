@@ -75,8 +75,8 @@ return {
     local poster = ''
     if has_poster then
       poster = string.format(
-        '<img class="ul-poster ul-poster-light" src="%sposter-light.png" alt="%s" loading="lazy">' ..
-        '<img class="ul-poster ul-poster-dark" src="%sposter-dark.png" alt="%s" loading="lazy">',
+        '<img class="ul-poster ul-poster-light" src="%sposter-light.png" alt="%s" loading="lazy" decoding="async" fetchpriority="low">' ..
+        '<img class="ul-poster ul-poster-dark" src="%sposter-dark.png" alt="%s" loading="lazy" decoding="async" fetchpriority="low">',
         src, esc(alt), src, esc(alt))
     end
     local html = string.format('<ul-%s%s>%s</ul-%s>\n<script type="module" src="%s%s.js"></script>',
