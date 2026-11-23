@@ -1,0 +1,27 @@
+<!-- Hypothes.is on demand (2026-11-23). The annotation client is a third-party script that every
+     reader used to download on every page (and that is blocked in mainland China). Now a quiet
+     "Annotate" button loads it. A reader who has used it once gets it on every page after
+     that (remembered in this browser), so annotators keep their sidebar. -->
+<script>
+(function () {
+  var KEY = 'ul-annotate';
+  function load() {
+    if (document.querySelector('script[data-ul-hypothesis]')) return;
+    var s = document.createElement('script');
+    s.async = true; s.src = 'https://hypothes.is/embed.js'; s.setAttribute('data-ul-hypothesis', '');
+    document.body.appendChild(s);
+    var b = document.querySelector('.annotate-toggle'); if (b) b.remove();
+  }
+  var remembered = false;
+  try { remembered = localStorage.getItem(KEY) === '1'; } catch (e) { /* storage off: ask each page */ }
+  if (remembered) { load(); return; }
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'annotate-toggle'; b.textContent = 'Annotate';
+  b.title = 'Open the Hypothes.is annotation sidebar (loads a script from hypothes.is)';
+  b.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, '1'); } catch (e) { /* fine: this page only */ }
+    load();
+  });
+  document.body.appendChild(b);
+})();
+</script>
