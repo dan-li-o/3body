@@ -131,7 +131,7 @@ Here is a way to see that share. Put the tails on one end of a ruler and the hea
 ::: {#wid-lawful-coin}
 {{< widget lawful-coin alt="A balance beam with tails on the left pan and heads on the right; an orange fulcrum under the beam at the share of heads; below, a line of the share as coins are added, settling near one half." >}}
 
-**The lawful coin.** Flip more and more coins. The beam balances at the share of heads: wild with a few coins, steady near one half with thousands. The bands were predicted before any coin was flipped.
+**The lawful coin.** The beam balances at the share of heads: wild with a few coins, steady near one half with thousands, inside bands predicted in advance.
 :::
 
 Watch where the beam balances as the coins pile up. This is the [law of large numbers]{.term}: the more times you repeat a chancy experiment, the closer the average comes to a fixed value. Jacob Bernoulli, who first proved it, called it his *golden theorem*.^[Published after his death, in *Ars Conjectandi* (*The Art of Conjecturing*), 1713 [-@bernoulli2006art].] Casinos thrive on it. Insurance companies rely on it. No single bet can be predicted, and the house still wins.
@@ -155,7 +155,7 @@ That steady push has a name: [pressure]{.term}. The air around you is a box like
 ::: {#wid-pressure-gauge}
 {{< widget pressure-gauge alt="A box of gas with a piston on a spring; below, a line of the push per molecule as molecules are added, wild at first, then steady." >}}
 
-**A gas chamber.** The dots are molecules; the right wall is a piston on a spring. Piston, pointer and pen show the push per molecule: knocks with a few molecules, a steady hum (pressure) with thousands. The piston's motion is exaggerated.
+**The pressure gauge.** Molecules knock on a piston held by a spring: a few give knocks, thousands a steady push, which is pressure. Piston motion exaggerated.
 :::
 
 ::: {.column-margin}

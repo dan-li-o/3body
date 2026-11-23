@@ -18,19 +18,22 @@ const ZOOM = [10, 100, 1000, 10000];
 const TRACE_CAP = 12000;      // points kept per line
 
 class PressureGauge extends ULWidget {
+  // status messages (at most 80 characters each; tests/widgets/strings.test.mjs)
+  static status = ['start', 'one', 'two', 'ready', 'running', 'run1', 'runN', 'band'];
+  static buttons = ['add', 'run', 'again', 'showBand', 'reset', 'play'];
   static strings = { en: {
     invite: 'Add molecules. Watch the piston, the pointer and the pen.',
     label: 'A box of gas. Molecules fly inside; the right wall is a piston held by a spring. The piston’s position shows the push per molecule.',
     chart: 'The push per molecule traced as molecules are added: {n} molecules, reading {v} against an average of {m}.',
     start: 'An empty chamber. Add a molecule.',
-    one: 'One molecule. Each time it hits the piston, the pointer jumps; between hits it falls back to zero. A knock, then nothing.',
-    two: 'The line traces the pointer: across for the push per molecule, down for how many molecules. Add another.',
+    one: 'One molecule. Each hit makes the pointer jump, then fall: a knock, then nothing.',
+    two: 'The line traces the pointer as molecules are added. Add another.',
     ready: 'You get the idea. Add molecules one at a time, or let it run.',
-    running: 'More and more molecules. Watch the piston, the pointer and the pen: the knocks become a hum. That hum is pressure.',
-    run1: 'Few molecules: the push comes in knocks. Thousands: one steady push. That steady push is pressure. Does the math predict this shape?',
+    running: 'More and more molecules. The knocks become a hum. That hum is pressure.',
+    run1: 'A few molecules knock; thousands push steadily. Can math predict this?',
     runN: 'A new run, the same shape. Each knock is random; the hum is lawful.',
-    band: 'The pressure was predictable all along. The bands were worked out in advance, from long simulations at each count: the pointer spends about 68% of the time in the inner band, about 95% in the outer. Both narrow as molecules are added.',
-    add: 'Add a molecule', run: 'Run: up to 10,000 molecules', again: 'Run again', showBand: 'Show the expected range', reset: 'Reset', play: 'Play',
+    band: 'These bands were worked out in advance. Both narrow as molecules are added.',
+    add: 'Add a molecule', run: 'Run', again: 'Run again', showBand: 'Show the range', reset: 'Reset', play: 'Play',
     inner: 'inner band: the pointer is here about 68% of the time', outer: 'outer band: about 95%',
     value: 'push per molecule', count: 'molecules', zero: '0', avg: 'avg',
     molecule: 'molecule', molecules: 'molecules', drawn: 'drawn', empty: 'an empty chamber',
@@ -46,11 +49,11 @@ class PressureGauge extends ULWidget {
     el('span', { className: 'ul-key-inner', textContent: this.t('inner') }, this.key);
     el('span', { className: 'ul-key-outer', textContent: this.t('outer') }, this.key);
     this.status = new StatusLine({ gap: 0, hold: 0 });
-    this.status.reserve(['start', 'one', 'two', 'ready', 'running', 'run1', 'runN', 'band'].map((k) => this.t(k)));   // room for every message: nothing below moves
+    this.status.reserve(this.constructor.status.map((k) => this.t(k)));   // room for every message: nothing below moves
     this.btn = {
       add: button(this.t('add'), () => this.addMolecule()),
-      run: button(this.t('run'), () => this.startRun(), { hidden: true }),
-      band: button(this.t('showBand'), () => this.showBand(), { hidden: true }),
+      run: button(this.t('run'), () => this.startRun(), { hidden: true, labels: [this.t('again')] }),
+      band: button(this.t('showBand'), () => this.showBand(), { kind: 'quiet', hidden: true }),
       reset: button(this.t('reset'), () => this.reset(), { kind: 'quiet' }),
       play: button(this.t('play'), () => this.play(), { kind: 'quiet', hidden: true }),
     };
@@ -96,7 +99,7 @@ class PressureGauge extends ULWidget {
     this.g = createGas({ cap: SIM }); this.N = 0; this.time = 0; this.disp = 0; this.vel = 0; this.dial.reset();
     this.trace = []; this.old = []; this.runs = 0; this.run = null; this.bands = false; this.bandAt = -9;
     this.zoom.reset(); this.key.hidden = true;
-    this.btn.add.hidden = false; this.btn.run.hidden = true; this.btn.run.disabled = false; this.btn.run.textContent = this.t('run');
+    this.btn.add.hidden = false; this.btn.run.hidden = true; this.btn.run.disabled = false; this.btn.run.label = this.t('run');
     this.btn.band.hidden = true;
     this.say('start'); this.pause(); this.draw();
   }
@@ -118,7 +121,7 @@ class PressureGauge extends ULWidget {
   }
   endRun() {
     this.run = null; this.runs++;
-    this.btn.run.disabled = false; this.btn.run.textContent = this.t('again');
+    this.btn.run.disabled = false; this.btn.run.label = this.t('again');
     this.say(this.runs === 1 ? 'run1' : 'runN');
     if (!this.bands) this.btn.band.hidden = false;
   }

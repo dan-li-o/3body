@@ -67,7 +67,7 @@ body.quarto-dark .ul-poster-light, body:not(.quarto-dark) .ul-poster-dark { disp
 /* Buttons: one height, one shape, one type size. Outlined buttons are the
    actions; quiet ones (Reset, Play, Push at random) are text only and sit at
    the right end of the row, so the actions always start at the column edge. */
-.ul-btn { display: inline-flex; align-items: center; justify-content: center; gap: .4em;
+.ul-btn { display: inline-grid; align-items: center; justify-items: center;
   min-height: 44px; min-width: 44px; padding: 0 .95rem; margin: 0;
   font-family: var(--ul-sans); font-size: .95rem; font-weight: 600; letter-spacing: .01em; line-height: 1;
   color: var(--ul-ink); background: transparent; white-space: nowrap;
@@ -76,8 +76,10 @@ body.quarto-dark .ul-poster-light, body:not(.quarto-dark) .ul-poster-dark { disp
 .ul-btn:hover { border-color: var(--ul-ink); }
 .ul-btn:active { background: color-mix(in srgb, var(--ul-ink) 8%, transparent); }
 .ul-btn:disabled { color: var(--ul-grey); border-color: var(--ul-rule); cursor: default; }
-.ul-btn[aria-pressed="true"] { background: color-mix(in srgb, var(--ul-ink) 11%, transparent); border-color: var(--ul-ink); }
-.ul-btn[aria-pressed="true"]::before { content: "✓"; font-weight: 600; }
+.ul-btn[aria-pressed="true"] { background: var(--ul-ink); border-color: var(--ul-ink); color: var(--ul-paper); }   /* a switch that is on */
+/* the label and invisible copies of every label it may show share one cell: the button never changes width */
+.ul-btn > span { grid-area: 1 / 1; }
+.ul-btn-room { visibility: hidden; }
 .ul-btn-quiet { border-color: transparent; color: var(--ul-grey); font-weight: 400; padding: 0 .6rem; }
 .ul-btn-quiet:hover { border-color: transparent; color: var(--ul-ink); text-decoration: underline; text-underline-offset: .25em; }
 .ul-controls-quiet { display: flex; flex-wrap: wrap; gap: .25rem; margin-left: auto; margin-right: -.6rem; }

@@ -16,21 +16,24 @@ const SCALE0 = 0.5 * MAXV * MAXV * 1.3;  // the column fits the hardest push, so
 const REMARK_S = 4;                      // seconds a remark stays up
 
 class BreakTheLaw extends ULWidget {
+  // status messages (at most 80 characters each; tests/widgets/strings.test.mjs)
+  static status = ['start', 'aim', 'ideal', 'felt', 'cush', 'both', 'still', 'up', 'down', 'miss'];
+  static buttons = ['feltBtn', 'softBtn', 'reset', 'play'];
   static strings = { en: {
     invite: 'Push the ball. Push it hard, or gently.',
     label: 'A pool table with one ball, and a column showing its energy: motion, warmth in the felt, warmth in the cushions, and the total.',
     reading: 'Motion {k}, warmth in the felt {f}, in the cushions {c}, total {t}.',
-    start: 'Press on the ball and drag the way you want it to go. The longer the drag, the harder the push.',
+    start: 'Press on the ball and drag the way it should go. Longer drag, harder push.',
     aim: 'Let go to push.',
-    ideal: 'No table is this smooth. But this is the law with nothing in the way: the ball keeps going forever.',
-    felt: 'The ball warms the felt as it rolls; the faint track is energy the ball has lost. Total unchanged.',
-    cush: 'Each bounce dents a soft cushion; the dent is energy the ball has lost. Total unchanged.',
-    both: 'Felt and cushions are taking the motion as warmth. Total unchanged.',
-    still: 'The ball has stopped. Its energy is all in the felt and the cushions now. Total unchanged.',
-    up: 'That push came from outside the table, and it added energy. The total went up.',
-    down: 'That push came from outside the table, and it took energy away. The total went down.',
+    ideal: 'No table is this smooth. With nothing in the way, the ball goes on forever.',
+    felt: 'The ball warms the felt; the faint track is energy it lost. Total unchanged.',
+    cush: 'Each bounce dents a soft cushion: energy the ball lost. Total unchanged.',
+    both: 'Felt and cushions turn the motion into warmth. Total unchanged.',
+    still: 'The ball has stopped. Its energy is all warmth now. Total unchanged.',
+    up: 'That push came from outside the table. It added energy: the total went up.',
+    down: 'That push came from outside the table. It took energy: the total went down.',
     miss: 'Press on the ball itself.',
-    feltBtn: 'Felt', softBtn: 'Soft cushions', random: 'Push at random', reset: 'Reset', play: 'Play',
+    feltBtn: 'Felt', softBtn: 'Soft cushions', reset: 'Reset', play: 'Play',
     motion: 'motion', feltWord: 'felt', cushions: 'cushions', total: 'total', energy: 'energy',
   } };
 
@@ -39,16 +42,15 @@ class BreakTheLaw extends ULWidget {
     const frag = document.createDocumentFragment();
     this.stage = createStage(frag, { aspect: '12 / 5', phoneAspect: '4 / 3', label: this.t('label') });
     this.status = new StatusLine({ gap: 0, hold: REMARK_S });
-    this.status.reserve(['start', 'aim', 'ideal', 'felt', 'cush', 'both', 'still', 'up', 'down', 'miss'].map((k) => this.t(k)));   // room for every message: nothing below moves
+    this.status.reserve(this.constructor.status.map((k) => this.t(k)));   // room for every message: nothing below moves
     this.btn = {
       felt: button(this.t('feltBtn'), () => this.toggle('felt')),
       soft: button(this.t('softBtn'), () => this.toggle('soft')),
-      random: button(this.t('random'), () => this.pushRandom(), { kind: 'quiet' }),
       reset: button(this.t('reset'), () => this.reset(), { kind: 'quiet' }),
       play: button(this.t('play'), () => this.play(), { kind: 'quiet', hidden: true }),
     };
     const b = this.btn;
-    this.replaceChildren(invite, this.stage.box, this.status.el, row(b.felt, b.soft, b.random, b.reset, b.play));
+    this.replaceChildren(invite, this.stage.box, this.status.el, row(b.felt, b.soft, b.reset, b.play));
     this.words = { motion: this.t('motion'), felt: this.t('feltWord'), cushions: this.t('cushions'), total: this.t('total'), energy: this.t('energy') };
     this.gesture(this.stage.canvas);
     this.c = this.colors();
@@ -114,6 +116,8 @@ class BreakTheLaw extends ULWidget {
     });
     cv.addEventListener('pointercancel', () => { this.aim = null; this.draw(); });
     cv.style.touchAction = 'none';
+    // keyboard: Enter or Space on the table pushes the ball at random
+    cv.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.pushRandom(); } });
   }
   aimVel(a) {
     let dx = (a.ex - a.sx) / this.L.s * PER, dy = (a.ey - a.sy) / this.L.s * PER;

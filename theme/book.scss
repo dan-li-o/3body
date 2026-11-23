@@ -34,7 +34,7 @@ blockquote, .blockquote { border-left: none; padding-left: 1.5rem; font-size: .9
 
 // Small print, navigation and controls in Source Sans 3
 #quarto-sidebar, #TOC, .sidebar, nav, .quarto-title-meta, .quarto-title-meta-heading,
-.quarto-title-meta-contents, .btn, .nav-footer, .figure-caption, figcaption, .margin-caption,
+.quarto-title-meta-contents, .btn, .nav-footer, .figure-caption, figcaption, .margin-caption, .widget-name,
 .callout, .quarto-appendix-contents, .sidebar-title, .breadcrumb, .citation, .csl-entry {
   font-family: $font-family-sans-serif; }
 #quarto-sidebar, #TOC { font-size: .78rem; }

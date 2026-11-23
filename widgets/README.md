@@ -78,6 +78,22 @@ real, 44 px touch areas, visible focus.
 words (`StatusLine`: standing state + passing remarks, never flickering);
 one closing line. Dry wit is welcome where it makes the argument.
 
+**Fits one screen** (Dan, 2026-11-23) — invitation, figure, status line and
+buttons fit one phone screen (about 700 px tall at 390 px wide); the caption
+may fall just below.
+- Status messages: at most **80 characters** (two lines on a phone). List
+  their keys in `static status`; the line keeps the height of the longest, so
+  nothing below it moves. Anything longer goes into the caption or the prose.
+- Buttons: at most **three on show at once**, in **one row** at 360 px, labels
+  of at most **14 characters** (keys in `static buttons`). A button keeps one
+  width: give `button()` every label it may show (`labels`) and change it with
+  `b.label`. Switches fill with ink when on. Reset, Play and other side
+  actions are quiet and sit at the right.
+- Caption: the widget's **name in bold**, then one sentence; at most
+  **160 characters** in all. Every widget has a name, numbered or not, so it
+  can be shared.
+- `npm test` checks the status and label limits (`tests/widgets/strings.test.mjs`).
+
 **Honest** — our own engines, checked against published values; a test for
 each sentence the widget says. If the physics doesn't support a sentence,
 change the sentence, and flag it to the writing project.
