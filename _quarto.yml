@@ -2,7 +2,6 @@ project:
   type: book
 
 resources: 
-  - js/**
   - widgets/**
   - "!widgets/**/*.md"      # specs and README stay in the repo, not on the site
   - css/**
@@ -62,7 +61,6 @@ format:
     number-sections: true
     code-copy: true
     css: 
-      - css/widgets.css
       - css/paper.css
     include-in-header:
       - text: |
@@ -77,9 +75,6 @@ format:
       - text: |
           <!-- Hypothes.is annotation client -->
           <script async src="https://hypothes.is/embed.js"></script>
-      - text: |
-          <!-- Site-wide utils only; page widgets load per-chapter -->
-          <script src="/js/widgets-core.js"></script>
 
 # TODOs stay in the files but not on the site (filters/hide-todo.lua; --profile draft shows them)
 filters:
