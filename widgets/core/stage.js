@@ -4,12 +4,14 @@
 // Draw in CSS pixels: stage.w, stage.h; the transform is set for you.
 import { el } from './core.js';
 
-export function createStage(parent, { aspect = '16 / 9', phoneAspect = '1 / 1', label = '' } = {}) {
+// focusable: make the canvas a tab stop. Only for a canvas that answers keys (it has a keydown
+// handler); a display-only canvas stays out of the tab order but keeps its label for screen readers.
+export function createStage(parent, { aspect = '16 / 9', phoneAspect = '1 / 1', label = '', focusable = false } = {}) {
   const box = el('div', { className: 'ul-stage' }, parent);
   box.style.setProperty('--ul-aspect', aspect);
   box.style.setProperty('--ul-aspect-phone', phoneAspect);
   const canvas = el('canvas', {}, box);
-  canvas.tabIndex = 0;
+  if (focusable) canvas.tabIndex = 0;
   canvas.setAttribute('role', 'img');
   if (label) canvas.setAttribute('aria-label', label);
   const ctx = canvas.getContext('2d');

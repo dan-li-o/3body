@@ -34,7 +34,7 @@ class Groove extends ULWidget {
 
   mount() {
     const invite = el('p', { className: 'ul-invite', textContent: this.t('invite') });
-    this.stage = createStage(document.createDocumentFragment(), { aspect: '16 / 10', phoneAspect: '1 / 1', label: `${this.t('label')} ${this.t('keys')}` });
+    this.stage = createStage(document.createDocumentFragment(), { aspect: '16 / 10', phoneAspect: '1 / 1', label: `${this.t('label')} ${this.t('keys')}`, focusable: true });
     this.status = new StatusLine({ gap: 0, hold: AGAIN_S });
     this.status.reserve(this.constructor.status.map((k) => this.t(k)));
     this.sr = el('p', { className: 'ul-sr' }); this.sr.setAttribute('aria-live', 'polite');

@@ -105,6 +105,9 @@ export class ULWidget extends HTMLElement {
     console.error(`[${this.localName}]`, err);
     cancelAnimationFrame(this._raf);
     this._raf = 0; this._running = false; this._failed = true;
+    // Stop the observers too: otherwise a resize or a theme toggle calls resize()/retune()
+    // on the fallback, which throws and logs the error again.
+    this._ro?.disconnect(); this._mo?.disconnect();
     const note = document.createElement('p');
     note.className = 'ul-fallback';
     note.textContent = 'This interactive figure could not start in your browser. The text around it still makes the point.';

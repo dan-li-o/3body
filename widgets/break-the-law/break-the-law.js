@@ -40,7 +40,7 @@ class BreakTheLaw extends ULWidget {
   mount() {
     const invite = el('p', { className: 'ul-invite', textContent: this.t('invite') });
     const frag = document.createDocumentFragment();
-    this.stage = createStage(frag, { aspect: '12 / 5', phoneAspect: '4 / 3', label: this.t('label') });
+    this.stage = createStage(frag, { aspect: '12 / 5', phoneAspect: '4 / 3', label: this.t('label'), focusable: true });
     this.status = new StatusLine({ gap: 0, hold: REMARK_S });
     this.status.reserve(this.constructor.status.map((k) => this.t(k)));   // room for every message: nothing below moves
     this.btn = {
