@@ -36,7 +36,7 @@ export const EVENTS = [
   { id: 'caught', y: 1956.5, date: '1955–56', hunt: true, short: 'Caught',
     title: 'Caught',
     text: 'The team moves to a stronger, better-shielded reactor at Savannah River, South Carolina. In 1956 they detect the neutrino; *Science* publishes it on 20 July.',
-    photo: null, photoAlt: 'Reines (left) and Cowan at the controls of the Savannah River experiment, 1956.', credit: 'Los Alamos National Laboratory' },
+    photo: 'controls', photoAlt: 'Reines (left, reading) and Cowan at the controls of the Savannah River experiment, 1956.', credit: 'Los Alamos National Laboratory' },
 ];
 
 // The three dates the folded (phone) strip names.

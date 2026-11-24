@@ -24,7 +24,7 @@ The conservation law was saved by a bet, not a measurement. Drawn to scale, the 
 - `herr-auge.jpg`: the prototype detector "Herr Auge." Source: LANL, cdn.lanl.gov/418da5c2-54af-460d-a752-1c14772ccdf2.jpg (same page).
 - Both converted to greyscale, resized to 1400 px, and cut to 360 px thumbnails.
 - **Licence:** LANL's public-use notice (lanl.gov/misc/copyright.html, "For All Information"), reproduced word for word in the §7 margin note (pasted by Dan, 2026-11-24). Not covered by the book's CC BY-NC licence; credited under each photo too.
-- **Wanted:** Reines and Cowan at the controls, Savannah River, 1956 (Wikimedia Commons, `File:Clyde_Cowan.jpg`, LANL). Not added yet: Wikimedia's image host was unreachable from the build session. The "Caught" card shows text until then.
+- `controls.jpg`: Reines (left) and Cowan at the controls of the Savannah River experiment, 1956. Source: Wikimedia Commons, `File:Clyde_Cowan.jpg` (upload.wikimedia.org/wikipedia/commons/5/53/Clyde_Cowan.jpg), from LANL, under the same LANL notice. 800 px original; thumbnail cropped to the two men.
 
 ## Decisions
 - A widget (numbered, poster, gallery) rather than a plain figure, so it follows the house standard and folds on phones.
