@@ -270,29 +270,59 @@ What if it is?
 TODO, §6 (v6 + final pass, 2026-11-23). Still open: the closing either-or (Claude's suggestion: accept, cut or rewrite); the Hilbert line; the uniform-stage margin note here or in Ch2; Ryan's full re-read. To verify (rows #126–#130 in the writing project's `notes/ch1.md`): Noether 1915 vs. 1918; unpaid lecturing; Hilbert's remark; the square has 8 symmetries; groove physics (round frictionless groove keeps pace; a bend keeps speed but changes pace and angular momentum; straight groove keeps momentum); energy conservation in an expanding universe. Widgets: The groove now bends the groove itself (Dan, 2026-11-23, "option 1"); Ryan's dip version is kept as a test page.
 :::
 
+## The Ghost Particle {#sec-ghost-particle}
+
+Now, imagine you are a particle detective on a cosmic crime scene. When a radioactive nucleus undergoes [beta decay]{.term}, a neutron turns into a proton and emits an electron, much as firewood turns into ash and warmth. Burn a log, and if you could weigh and measure everything left, the ash, the smoke, the heat, nothing would be missing. The nucleus should be the same. It always gives up the same amount of energy, so every electron should fly out with the same energy.
+
+::: {.column-margin}
+Only an analogy: burning rearranges atoms, while decay changes the particles themselves. What carries over is the bookkeeping. Before and after must balance.
+:::
+
+Something doesn't add up. The emitted electrons don't carry the expected amount of energy. They come out with a spread, some fast, some slow, nearly all of them short of the total, as if the cake is cut and served but the calories are lost. And when physicists later checked, some momentum was missing too. What do you conclude?^[The spread was first reported by James Chadwick in 1914 and settled in 1927 by Charles Ellis and William Wooster, who caught all the heat from decaying radium E. The missing momentum was measured only later, from the recoil of the decaying nucleus. [TODO (Dan): verify the recoil experiments and their dates (Claude: Leipunski 1936; Crane and Halpern 1938–39) before adding names or dates. Sources for 1914/1927: Franklin, neutrino-history conference proceedings 2018, apc.u-paris.fr; neutrino-history.in2p3.fr.]{.todo}]
+
+This was a profound crisis for physicists in the 1920s and 1930s, and it is exactly the fork at the end of the last section. By Noether's theorem, one of two things must be true. One possibility is that, somehow, for beta decay, the continuous symmetries of space and time don't hold. The stage itself is not the same from one moment to the next, at least down here, inside the atom. Niels Bohr was ready to consider it: perhaps energy was kept only on average.^[Bohr floated the idea around 1929–30, among other places in his Faraday Lecture to the Chemical Society on 8 May 1930. [TODO (Dan): verify against Jensen, *Controversy and Consensus: Nuclear Beta Decay 1911–1934* (2000), or Bromberg 1971; the lecture date is from Stuewer's notes (Springer, *Science Networks* 24).]{.todo}] The other possibility is that something is missing.
+
+::: {.column-margin}
+For beta decay alone, space and time could be discrete, forming a kind of lattice, as if particles are jumping on an infinite chessboard from one grid to another. A chessboard has no in-between: you can move a whole square, but not a hair. The smooth symmetry is gone, and with it the conservation law that Noether guarantees.
+:::
+
+The second was Wolfgang Pauli's proposal in 1930: an unknown particle carries away the missing energy and momentum, like a thief who had made off with some of the loot.
+
+But the second possibility is equally mysterious. To have gone unseen, the thief had to slip past everything. This unknown particle would have to escape detection, meaning that it almost never interacts with an electron or a nucleus that it meets. Like a ghost, it could pass through the entire Earth.
+
+Pauli knew how this sounded. He did not publish it. He put it in a letter to colleagues gathered at a meeting in Tübingen, addressed to the "radioactive ladies and gentlemen," and called it a "desperate remedy."^[The letter is dated 4 December 1930; Pauli called his particle a "neutron." The original is in the Pauli Archive at CERN; an English translation is widely reprinted. He first spoke of the idea in public in 1931 and let it into print only after the 1933 Solvay conference. [TODO (Dan): verify "spoke in public in 1931" (Pasadena, June 1931?) and the Solvay proceedings (1934); cite Pais, *Inward Bound* (1986), or Brown, "The idea of the neutrino," *Physics Today* (1978).]{.todo}] To a friend, he is said to have confessed that he had done a terrible thing: he had proposed a particle that could never be detected.^[The friend is usually named as the astronomer Walter Baade; the remark is reported secondhand, not in Pauli's letters. [TODO (Dan): find the earliest source; @zee2015fearful [p. 36] tells it.]{.todo}] Pauli was among the boldest physicists alive. That he called his own idea desperate shows how much was at stake. Giving up a symmetry of space and time was unthinkable; inventing an invisible particle was barely better. Physicists do not just use their symmetries. They lean on them, the way Yang Dong did.
+
+For a quarter century, the ghost particle remained a phantom. By then it had a name, [neutrino]{.term}, Italian for "little neutral one." Neutrinos, ghostlike as they are, do leave traces. There is a very small, but non-zero chance that one strikes a nucleus. So the detectives became ghost hunters. They piled an enormous number of nuclei in front of a stream of neutrinos, and waited, listening for the faintest creak of the floorboards in a vast haunted house. In 1956, beside a nuclear reactor in South Carolina, Clyde Cowan and Frederick Reines heard it. Pauli had been wrong about one thing: his ghost could be caught.^[C. L. Cowan Jr., F. Reines, F. B. Harrison, H. W. Kruse and A. D. McGuire, "Detection of the Free Neutrino: a Confirmation," *Science* 124 (20 July 1956): 103–104. [TODO (Dan): add to references.bib.]{.todo}]
+
+::: {.column-margin}
+The name is Enrico Fermi's, who built Pauli's guess into a working theory of beta decay in 1933–34. The reactor was at the Savannah River Plant, near Aiken.
+:::
+
+Noether's theorem, and with it the architecture of physics---symmetry---was saved. And the rescue became a habit. Today, when a particle collision comes up short on energy, physicists do not doubt the conservation laws. They go looking for a new particle. As the Nobel laureate Leon Lederman and the theoretical physicist Christopher Hill put it, their "faith, or should we say confidence" in the symmetries of space and time "would, at this point, be very hard to shake."^[@lederman2011symmetry [p. 109].]
+
+Notice what saved the law. Not a measurement: for twenty-six years, no one could see the thief. What saved it was the bet. Physicists trusted the symmetry of the stage more than their own count, and they invented a ghost to keep it.
+
+::: {#wid-ghost-hunt}
+{{< widget ghost-hunt alt="A timeline from 1910 to 1960, drawn to scale. The beta-decay puzzle (1914, 1927), Bohr and Pauli around 1930, Fermi in 1933–34, then a long empty stretch until the hunt and the detection in 1953–56." >}}
+
+**The ghost hunt.** Drawn to scale: Pauli proposed the particle in 1930, and for twenty-six years no one saw it.
+:::
+
+::: {.column-margin}
+For the whole story, from Pauli's letter to today's detectors, see *[The History of the Neutrino](https://neutrino-history.in2p3.fr/)*.
+
+Photographs in the timeline: Los Alamos National Laboratory. They are not covered by this book's licence; they are reproduced under the Laboratory's [notice](https://www.lanl.gov/misc/copyright.html), which reads: "Unless otherwise indicated, this information has been authored by an employee or employees of the Triad National Security, LLC, operator of the Los Alamos National Laboratory with the U.S. Department of Energy. The U.S. Government has rights to use, reproduce, and distribute this information. The public may copy and use this information without charge, provided that this Notice and any statement of authorship are reproduced on all copies. Neither the Government nor Triad makes any warranty, express or implied, or assumes any liability or responsibility for the use of this information."
+:::
+
+Even one bet on a ghost is hard to make. Yang Dong's world is crueler. In the novel, no experiment repeats, not even as a statistical pattern. We won our bet. We don't live in her world. Or do we?
+
+::: {.todo}
+TODO, §7 (2026-11-24, from the widgets session). Facts checked by Claude against: neutrino-history.in2p3.fr; Franklin (2018 history conference); Wikipedia "Cowan–Reines neutrino experiment"; LANL news "The neutrino turns 70" (lanl.gov); APS "Savannah River Site" historic site; CERN Pauli Archive; Lederman & Hill p. 109 (quote as in the earlier draft). Confirmed: Chadwick 1914; Ellis & Wooster 1927 (radium E); Pauli's letter 4 Dec 1930, to Tübingen, "neutron," "desperate remedy" (translation of *verzweifelten Ausweg*); Fermi's theory 1933–34 and the name; Hanford 1953 ("probable" result); move to Savannah River 1955; *Science* 20 July 1956; 1930 → 1956 = 26 years. Open, for Dan: the footnote TODOs above; whether "He did not publish it" needs "at first"; the momentum line was softened (Dan, 2026-11-24). Photo credits: see the widget's spec (`widgets/ghost-hunt/spec.md`).
+:::
+
 ::: {.callout-note appearance="minimal"}
 *The sections from here to the end of the chapter are from an earlier draft. They are being revised.*
 :::
-
-## The Ghost Particle {#sec-ghost-particle}
-
-Now, imagine you are a particle detective on a cosmic crime scene: when a radioactive nucleus undergoes beta decay, transforming a neutron into a proton and emitting an electron, something doesn’t add up. The emitted electrons don’t always carry the expected amount of energy and their trajectories don’t always align with the conservation of momentum. What do you conclude?
-
-This was a profound crisis for physicists in the 1930s. By Noether’s theorem, it implies one of the following two possibilities. One possibility is that, somehow for beta decay reactions, the continuous spatial and time symmetries don’t hold. In other words, for beta decay alone, space and time are discrete, forming a kind of lattice, as if particles are jumping on an infinite chessboard from one grid to another. The other possibility is that something is missing. This was indeed physicist Wolfgang Pauli’s proposal: an unknown particle carries away the missing energy and momentum like a thief who had made off with some of the loot. 
-
-Yet the second possibility is equally mysterious. This unknown particle would have to be able to escape detection, meaning that it doesn’t interact with an electron or a nucleus that it encounters. Pauli concluded, this particle, like a ghost, can pass through the entire earth without interacting. 
-
-Pauli himself was troubled by his own untestable hypothesis, acknowledging that he had committed the worst mistake a physicist could commit: postulating a particle that cannot be subjected to experimental scrutiny.^[*Fearful Symmetry* by @zee2015fearful [p. 36].] He wrote in a letter in 1930, “I agree that my remedy could seem incredible because one should have seen these particles much earlier if they really exist. But only the ones who dares can win and the difficult situation, due to the continuous structure of the beta spectrum, is lighted by a remark of my honoured predecessor, Mr Debye, who told me recently in Brussels: ‘Oh, it’s well better not to think about this at all, like new taxes.’ From now on, every solution to the issue must be discussed. Thus, dear radioactive people, look and judge.”^[*Symmetry and the Beautiful Universe* by @lederman2011symmetry [p. 108].]
-
-For decades, the ghost particle remained a phantom. It was finally confirmed via experiments in 1956 by Clyde Cowan and Fredrick Reines, and gained the name *neutrino*. It turns out that neutrinos, ghostlike as they are, indeed have traces. There is a very small, but non-zero chance that neutrinos interact with a nucleus. So physicists pile an enormous amount of nuclei in front of a beam of neutrinos, and wait, listening to that faintest creak of the floor boards in vast haunted houses. 
-
-Noether’s Theorem, and with it, the beautiful architecture of physics, was saved. Nobel Laureate, physicist Leon Lederman, and theoretical physicist Christopher Hill wrote, 
-
-> We should add that experimentalists still often look for missing energy and momentum in their detectors in particle collisions, but this is always interpreted nowadays as evidence for a new particle, never as evidence for the breakdown of the conservation laws of energy and momentum. Our faith, or should we say confidence (as science is not faith-based), in the symmetries of the structure of space and time, and Noether’s theorem would, at this point, be very hard to shake.^[*Symmetry and the Beautiful Universe* by @lederman2011symmetry [p. 109]]
-
-Even though the universe sometimes presents us with puzzles that seem to defy our most cherished laws, the answer often lies not in the breakdown of those laws, but in a deeper, more complete understanding of the underlying reality. *Symmetry is the premise; conservation the promise.*
-
-The universe, though mysterious, ultimately plays fair. 
 
 ## Through the Looking-Glass, and What Alice Found There
 
