@@ -23,7 +23,7 @@ The conservation law was saved by a bet, not a measurement. Drawn to scale, the 
 - `poltergeist.jpg`: Cowan (far left), Reines (far right) and the Project Poltergeist team. Source: LANL, cdn.lanl.gov/a6ab8cc7-7466-4a7f-8781-12e222e2abc4.jpg (on "The neutrino turns 70").
 - `herr-auge.jpg`: the prototype detector "Herr Auge." Source: LANL, cdn.lanl.gov/418da5c2-54af-460d-a752-1c14772ccdf2.jpg (same page).
 - Both converted to greyscale, resized to 1400 px, and cut to 360 px thumbnails.
-- **Licence:** LANL's public-use notice (lanl.gov/misc/copyright.html): the public may copy and use without charge, provided the notice and any statement of authorship are reproduced. Not covered by the book's CC BY-NC licence; credited under each photo and in a §7 margin note.
+- **Licence:** LANL's public-use notice (lanl.gov/misc/copyright.html, "For All Information"), reproduced word for word in the §7 margin note (pasted by Dan, 2026-11-24). Not covered by the book's CC BY-NC licence; credited under each photo too.
 - **Wanted:** Reines and Cowan at the controls, Savannah River, 1956 (Wikimedia Commons, `File:Clyde_Cowan.jpg`, LANL). Not added yet: Wikimedia's image host was unreachable from the build session. The "Caught" card shows text until then.
 
 ## Decisions

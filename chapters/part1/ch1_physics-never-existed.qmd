@@ -311,7 +311,7 @@ Notice what saved the law. Not a measurement: for twenty-six years, no one could
 ::: {.column-margin}
 For the whole story, from Pauli's letter to today's detectors, see *[The History of the Neutrino](https://neutrino-history.in2p3.fr/)*.
 
-Photographs in the timeline: Los Alamos National Laboratory. They are not covered by this book's licence. Their notice says: "The public may copy and use this information without charge," as long as the [notice](https://www.lanl.gov/misc/copyright.html) and any statement of authorship travel with every copy. [TODO (Dan): paste Los Alamos's full notice here word for word (Claude's tools could not copy it whole), or move it to an image-credits page later.]{.todo}
+Photographs in the timeline: Los Alamos National Laboratory. They are not covered by this book's licence; they are reproduced under the Laboratory's [notice](https://www.lanl.gov/misc/copyright.html), which reads: "Unless otherwise indicated, this information has been authored by an employee or employees of the Triad National Security, LLC, operator of the Los Alamos National Laboratory with the U.S. Department of Energy. The U.S. Government has rights to use, reproduce, and distribute this information. The public may copy and use this information without charge, provided that this Notice and any statement of authorship are reproduced on all copies. Neither the Government nor Triad makes any warranty, express or implied, or assumes any liability or responsibility for the use of this information."
 :::
 
 Even one bet on a ghost is hard to make. Yang Dong's world is crueler. In the novel, no experiment repeats, not even as a statistical pattern. We won our bet. We don't live in her world. Or do we?
