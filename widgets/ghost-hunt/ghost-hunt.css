@@ -1,0 +1,63 @@
+/* The ghost hunt: a to-scale timeline (wide) that folds to one line on phones, and a photo viewer. */
+ul-ghost-hunt svg { display: block; width: 100%; overflow: visible; }
+ul-ghost-hunt .gh-axis { stroke: var(--ul-grey); stroke-width: 1.5; }
+ul-ghost-hunt .gh-tick { font: 13px var(--ul-sans); fill: var(--ul-grey); }
+ul-ghost-hunt .gh-stamp { font: 12px var(--ul-sans); fill: var(--ul-grey); }
+ul-ghost-hunt .gh-gap { fill: color-mix(in srgb, var(--ul-accent) 16%, transparent); }
+ul-ghost-hunt .gh-gaplab { font: italic 17px var(--ul-serif); fill: var(--ul-accent); }
+ul-ghost-hunt .gh-stem { stroke: var(--ul-grey); stroke-width: 1; fill: none; }
+ul-ghost-hunt .gh-dot { fill: var(--ul-ink); stroke: var(--ul-paper); stroke-width: 2; }
+ul-ghost-hunt .gh-lab { font: italic 17px var(--ul-serif); fill: var(--ul-ink); }
+ul-ghost-hunt .gh-hitbox { fill: transparent; }
+ul-ghost-hunt .gh-chip { fill: color-mix(in srgb, var(--ul-ink) 5%, transparent); stroke: var(--ul-rule); stroke-width: 1.5; }
+ul-ghost-hunt .gh-chiplab { font: italic 16px var(--ul-serif); fill: var(--ul-ink); }
+ul-ghost-hunt .gh-frame { fill: none; stroke: var(--ul-rule); stroke-width: 1.5; }
+ul-ghost-hunt .gh-hit { cursor: pointer; outline: none; }
+ul-ghost-hunt .gh-hit:focus-visible .gh-ring { stroke: var(--ul-accent); stroke-width: 2.5; }
+ul-ghost-hunt .gh-sel .gh-dot { r: 6.5; }
+ul-ghost-hunt .gh-sel .gh-lab, ul-ghost-hunt .gh-sel .gh-chiplab { font-weight: 600; }
+ul-ghost-hunt .gh-sel .gh-chip, ul-ghost-hunt .gh-sel .gh-frame { stroke: var(--ul-ink); }
+
+/* the card under the plate: one date at a time; keeps its height so nothing below jumps */
+ul-ghost-hunt .gh-card { border-top: 1px solid var(--ul-rule); padding-top: .6rem; min-height: 9.5rem; }
+ul-ghost-hunt .gh-date { font: 600 13px var(--ul-sans); color: var(--ul-grey); letter-spacing: .02em; }
+ul-ghost-hunt .gh-title { margin: .1rem 0 .15rem; font: italic 500 1.15rem/1.25 var(--ul-serif); color: var(--ul-ink); }
+ul-ghost-hunt .gh-text { margin: 0; font-size: 1rem; line-height: 1.45; text-indent: 0; }
+ul-ghost-hunt .gh-card .ul-btn { margin-top: .6rem; }
+
+/* wide vs folded */
+ul-ghost-hunt:not(.gh-wide) .gh-plate, ul-ghost-hunt:not(.gh-wide) .gh-card { display: none; }
+ul-ghost-hunt.gh-wide .gh-mini, ul-ghost-hunt.gh-wide .gh-toggle, ul-ghost-hunt.gh-wide .gh-list { display: none; }
+ul-ghost-hunt .gh-toggle { margin-top: .25rem; }
+
+/* the whole story, as a list (phones) */
+ul-ghost-hunt .gh-list { position: relative; list-style: none; margin: 1rem 0 0; padding: 0 0 0 3.4rem; }
+ul-ghost-hunt .gh-list::before { content: ""; position: absolute; left: 2.6rem; top: .4rem; bottom: .4rem; width: 1.5px; background: var(--ul-rule); }
+ul-ghost-hunt .gh-band { position: absolute; left: calc(2.6rem - 3px); width: 8px; border-radius: 4px; background: color-mix(in srgb, var(--ul-accent) 16%, transparent); }
+ul-ghost-hunt .gh-list > li { position: relative; }
+ul-ghost-hunt .gh-list > li:not(.gh-li-gap)::before { content: ""; position: absolute; left: -1.05rem; top: .5rem; width: 9px; height: 9px; border-radius: 50%; background: var(--ul-ink); z-index: 1; }
+ul-ghost-hunt .gh-yr { position: absolute; left: -3.4rem; width: 2.2rem; top: .2rem; text-align: right; font: 12px/1.2 var(--ul-sans); color: var(--ul-grey); }
+ul-ghost-hunt .gh-li-gap { display: flex; align-items: center; font-style: italic; color: var(--ul-accent); }
+ul-ghost-hunt .gh-row { display: flex; flex-direction: column; gap: .4rem; }
+ul-ghost-hunt .gh-thumb { flex: none; width: 160px; aspect-ratio: 4 / 3; padding: 0; border: 1.5px solid var(--ul-rule); border-radius: 2px; background: none; cursor: pointer; overflow: hidden; }
+ul-ghost-hunt .gh-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+ul-ghost-hunt .gh-thumb:focus-visible { outline: 2px solid var(--ul-accent); outline-offset: 2px; }
+
+/* the photo viewer */
+html.gh-noscroll { overflow: hidden; }
+ul-ghost-hunt .gh-lb { position: fixed; inset: 0; z-index: 2000; display: flex; flex-direction: column; background: var(--ul-paper); }
+ul-ghost-hunt .gh-lb[hidden] { display: none; }
+ul-ghost-hunt .gh-lb-bar { display: flex; justify-content: space-between; align-items: center; padding: .4rem .75rem; font: 14px var(--ul-sans); color: var(--ul-grey); }
+ul-ghost-hunt .gh-track { flex: 1; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+ul-ghost-hunt .gh-track::-webkit-scrollbar { display: none; }
+ul-ghost-hunt .gh-track.gh-lock { overflow: hidden; }
+ul-ghost-hunt .gh-slide { flex: 0 0 100%; min-width: 0; margin: 0; scroll-snap-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: .5rem 1rem 1rem; }
+ul-ghost-hunt .gh-frame-big { width: min(100%, 900px); max-height: calc(100vh - 16rem); overflow: hidden; cursor: zoom-in; }
+ul-ghost-hunt .gh-frame-big img { display: block; width: 100%; height: 100%; max-height: calc(100vh - 16rem); object-fit: contain; transition: transform .25s ease; }
+ul-ghost-hunt .gh-frame-big.gh-zoom img { transform: scale(2.2); cursor: zoom-out; }
+ul-ghost-hunt .gh-slide figcaption { max-width: 38rem; width: 100%; margin-top: .75rem; padding: 0; font-family: var(--ul-serif); color: var(--ul-ink); text-align: left; }
+ul-ghost-hunt .gh-credit { text-indent: 0; margin: .3rem 0 0; font: 12px var(--ul-sans); color: var(--ul-grey); }
+ul-ghost-hunt .gh-lb-nav { justify-content: center; padding-bottom: 1rem; }
+ul-ghost-hunt .gh-lb-nav .ul-controls-quiet { display: none; }
+ul-ghost-hunt .gh-text, ul-ghost-hunt .gh-title { hyphens: manual; text-align: left; }
+@media (prefers-reduced-motion: reduce) { ul-ghost-hunt .gh-frame-big img { transition: none; } }
