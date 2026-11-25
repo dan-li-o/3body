@@ -1,0 +1,74 @@
+// Every claim Widget 1.7 (Wu's cobalt) makes, checked against its model.
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { PARAMS, tempAt, sliderFor, isCold, jiggle, alignTarget, ranks, linedUp, pDownOne, pDown, verdict, warmStep } from '../../widgets/engines/cobalt.js';
+import { rng } from './rng.mjs';
+
+test('the slider runs from room temperature to 0.003 K, and its far end counts as cold', () => {
+  assert.equal(Math.round(tempAt(0)), 300);
+  assert.ok(Math.abs(tempAt(100) - 0.003) < 1e-12);
+  assert.ok(isCold(tempAt(100)));
+  assert.ok(!isCold(tempAt(99)));
+  for (const v of [0, 37, 81, 100]) assert.equal(sliderFor(tempAt(v)), v);
+});
+
+test('warm nuclei jiggle; at 0.003 K they are still', () => {
+  assert.equal(jiggle(300), 1);
+  assert.equal(jiggle(tempAt(100)), 0);
+});
+
+test('no magnet, no lining up; nothing lines up above 0.1 K; at most about 60% at 0.003 K', () => {
+  for (const T of [300, 1, 0.003]) assert.equal(alignTarget(T, false), 0);
+  for (const T of [300, 5, 1, 0.1]) assert.equal(alignTarget(T, true), 0);
+  assert.ok(Math.abs(alignTarget(tempAt(100), true) - 0.6) < 1e-9);
+  assert.ok(alignTarget(0.01, true) < 0.6);
+});
+
+test('"most of the nuclei" line up: 11 of the 18 drawn, at full alignment', () => {
+  const r = ranks(18, rng(3));
+  const n = r.filter((u) => linedUp(u, PARAMS.maxAlign)).length;
+  assert.equal(n, 11);
+  assert.ok(n / 18 > 0.5 && Math.abs(n / 18 - 0.6) < 0.03);
+  assert.equal(r.filter((u) => linedUp(u, 0)).length, 0);
+});
+
+test('per nucleus and on average, the lean agrees', () => {
+  const r = ranks(18, rng(5)), a = PARAMS.maxAlign;
+  const avg = r.reduce((s, u) => s + pDownOne(linedUp(u, a)), 0) / r.length;
+  assert.ok(Math.abs(avg - pDown(11 / 18)) < 1e-12);
+  assert.equal(pDown(0), 0.5);
+  assert.equal(pDownOne(false), 0.5);
+});
+
+// One run of n electrons from a crystal with the given fraction lined up.
+function run(random, n, align) {
+  const r = ranks(18, random); let up = 0, down = 0;
+  for (let i = 0; i < n; i++) {
+    const u = r[Math.floor(random() * r.length)];
+    random() < pDownOne(linedUp(u, align)) ? down++ : up++;
+  }
+  return verdict(up, down);
+}
+
+test('too few electrons: no verdict', () => {
+  assert.equal(verdict(15, 20), null);
+});
+
+test('disordered nuclei: "even" in at least 93% of runs, and almost never "more fly down"', () => {
+  const random = rng(11); let even = 0, lean = 0; const N = 4000;
+  for (let i = 0; i < N; i++) { const v = run(random, 60 + (i % 200), 0); if (v === 'even') even++; if (v === 'lean') lean++; }
+  assert.ok(even / N > 0.93, `even ${even / N}`);
+  assert.ok(lean / N < 0.035, `lean ${lean / N}`);
+});
+
+test('lined up: the detector (18 per second) shows "more fly down" within ten seconds in 95% of runs', () => {
+  const random = rng(13); let lean = 0; const N = 4000, n = 10 * PARAMS.detectorRate * 0.95;
+  for (let i = 0; i < N; i++) if (run(random, Math.round(n), PARAMS.maxAlign) === 'lean') lean++;
+  assert.ok(lean / N > 0.95, `lean ${lean / N}`);
+});
+
+test('the cold window is 12 seconds (Dan, 2026-11-25); the crystal warms back within 5 s', () => {
+  assert.equal(PARAMS.coldSeconds, 12);
+  let T = tempAt(100), t = 0; while (T < PARAMS.rewarmK) { T = warmStep(T, 1 / 60); t += 1 / 60; }
+  assert.ok(t > 2 && t < 5, `${t} s`);
+});
