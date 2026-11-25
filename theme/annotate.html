@@ -1,4 +1,4 @@
-<!-- Hypothes.is on demand (2026-11-23). The annotation client is a third-party script that every
+<!-- Hypothes.is on demand (2026-11-23; moved to the top right 2026-11-25). The annotation client is a third-party script that every
      reader used to download on every page (and that is blocked in mainland China). Now a quiet
      "Annotate" button loads it. A reader who has used it once gets it on every page after
      that (remembered in this browser), so annotators keep their sidebar. -->
@@ -22,6 +22,19 @@
     try { localStorage.setItem(KEY, '1'); } catch (e) { /* fine: this page only */ }
     load();
   });
-  document.body.appendChild(b);
+  // Where it sits (Dan, 2026-11-25: "move it to top right corner"; it used to sit bottom right, over text).
+  // Phones: in the top bar, just left of search, so it hides and returns with the bar and never covers
+  // the page. Wide screens (no top bar): fixed at the top right, mirroring Contents at the top left.
+  var wide = window.matchMedia('(min-width: 992px)');
+  // In the phone's top bar it is an icon, like its neighbours (contents, search), so the title keeps its room.
+  function place() {
+    var search = document.querySelector('.quarto-secondary-nav .quarto-search-button');
+    if (!wide.matches && search) {
+      b.textContent = ''; var i = document.createElement('i'); i.className = 'bi bi-pencil'; i.setAttribute('aria-hidden', 'true'); b.appendChild(i);
+      b.setAttribute('aria-label', 'Annotate'); search.parentNode.insertBefore(b, search);
+    } else { b.textContent = 'Annotate'; b.removeAttribute('aria-label'); document.body.appendChild(b); }
+  }
+  place();
+  if (wide.addEventListener) wide.addEventListener('change', place);
 })();
 </script>
