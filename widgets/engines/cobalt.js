@@ -2,8 +2,8 @@
 // Real anchors (NIST SP 958; Wu et al., Phys. Rev. 105, 1413, 1957):
 //   - the crystal was cooled to about 0.003 K, and held that cold only about fifteen minutes;
 //   - at most about 60% of the nuclei lined up;
-//   - the electrons came out more often opposite to the nuclei's spin (drawn here: spin up,
-//     so more electrons fly down).
+//   - the electrons came out more often opposite to the nuclei's spin (drawn here: the spins lie
+//     along the left-right line; reversing the magnet reverses them, and the lean with them).
 // Illustrative, not measured: the size of the lean (LEAN), the temperature at which lining up
 // begins (alignK), and the time scales (compressed for play, Dan 2026-11-25).
 const clamp01 = (x) => Math.max(0, Math.min(1, x));
@@ -20,6 +20,7 @@ export const PARAMS = {
   detectorRate: 18,    // electrons per second once the detector counts
   flightHand: 1.4,     // seconds an electron takes to cross the open sky, while the reader taps
   flightDetector: 0.35,// the same, once the detector counts
+  runCount: 200,       // a Run counts this many electrons (or until the crystal warms)
   minCount: 40,        // the widget passes no verdict on fewer electrons than this
   sigmas: 2,           // how far from even counts as "more fly down" (in coin-flip standard deviations)
 };
@@ -50,11 +51,15 @@ export function ranks(n, random) {
 }
 export const linedUp = (rank, align) => rank < align;
 
-// Chance that one nucleus's electron flies down: a lined-up nucleus (spin up) leans down;
-// a nucleus pointing every which way sends as many up as down.
-export const pDownOne = (lined) => (lined ? 0.5 + 0.5 * PARAMS.LEAN : 0.5);
+// Chance that one nucleus's electron flies away from the end its spin points to: a lined-up
+// nucleus leans that way; a nucleus pointing every which way sends as many each way.
+export const pAwayOne = (lined) => (lined ? 0.5 + 0.5 * PARAMS.LEAN : 0.5);
 // The same, averaged over the crystal, given the fraction lined up.
-export const pDown = (align) => 0.5 + 0.5 * PARAMS.LEAN * clamp01(align);
+export const pAway = (align) => 0.5 + 0.5 * PARAMS.LEAN * clamp01(align);
+
+// The magnet's field: +1 lines the spins up pointing left, -1 (reversed) pointing right.
+// Which side the electrons favour: the side away from the spin.
+export const awaySide = (field) => (field >= 0 ? 1 : -1);   // +1 = right plate, -1 = left plate
 
 // The fair-coin range for the share flying down, after n electrons: 50% ± sigmas standard deviations.
 export function fairRange(n) {
@@ -62,14 +67,14 @@ export function fairRange(n) {
   return [Math.max(0, 0.5 - half), Math.min(1, 0.5 + half)];
 }
 
-// What the counts say: null (too few to tell), 'lean' (clearly more down than up),
-// 'even' (within the spread a fair coin gives), or 'uneven' (lopsided, but not down-heavy).
-export function verdict(up, down) {
-  const n = up + down;
+// What the counts say, given how many flew toward and away from the spin's end: null (too few to
+// tell), 'lean' (clearly more away), 'even' (within the spread a fair coin gives), or 'uneven'.
+export function verdict(toward, away) {
+  const n = toward + away;
   if (n < PARAMS.minCount) return null;
   const spread = PARAMS.sigmas * Math.sqrt(n);
-  if (down - up > spread) return 'lean';
-  return Math.abs(down - up) <= spread ? 'even' : 'uneven';
+  if (away - toward > spread) return 'lean';
+  return Math.abs(away - toward) <= spread ? 'even' : 'uneven';
 }
 
 // The crystal warming once the cold window closes: from 0.003 K back past rewarmK in about 4 s.

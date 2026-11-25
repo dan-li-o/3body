@@ -1,7 +1,7 @@
 // Every claim Widget 1.7 (Wu's cobalt) makes, checked against its model.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { PARAMS, tempAt, sliderFor, isCold, jiggle, alignTarget, ranks, linedUp, pDownOne, pDown, verdict, fairRange, warmStep } from '../../widgets/engines/cobalt.js';
+import { PARAMS, awaySide, tempAt, sliderFor, isCold, jiggle, alignTarget, ranks, linedUp, pAwayOne, pAway, verdict, fairRange, warmStep } from '../../widgets/engines/cobalt.js';
 import { rng } from './rng.mjs';
 
 test('the slider runs from room temperature to 0.003 K, and its far end counts as cold', () => {
@@ -32,12 +32,16 @@ test('"most of the nuclei" line up: 11 of the 18 drawn, at full alignment', () =
   assert.equal(r.filter((u) => linedUp(u, 0)).length, 0);
 });
 
+test('the lean follows the spin: reversing the magnet swaps the favoured plate', () => {
+  assert.equal(awaySide(1), 1); assert.equal(awaySide(-1), -1);
+});
+
 test('per nucleus and on average, the lean agrees', () => {
   const r = ranks(18, rng(5)), a = PARAMS.maxAlign;
-  const avg = r.reduce((s, u) => s + pDownOne(linedUp(u, a)), 0) / r.length;
-  assert.ok(Math.abs(avg - pDown(11 / 18)) < 1e-12);
-  assert.equal(pDown(0), 0.5);
-  assert.equal(pDownOne(false), 0.5);
+  const avg = r.reduce((s, u) => s + pAwayOne(linedUp(u, a)), 0) / r.length;
+  assert.ok(Math.abs(avg - pAway(11 / 18)) < 1e-12);
+  assert.equal(pAway(0), 0.5);
+  assert.equal(pAwayOne(false), 0.5);
 });
 
 // One run of n electrons from a crystal with the given fraction lined up.
@@ -45,7 +49,7 @@ function run(random, n, align) {
   const r = ranks(18, random); let up = 0, down = 0;
   for (let i = 0; i < n; i++) {
     const u = r[Math.floor(random() * r.length)];
-    random() < pDownOne(linedUp(u, align)) ? down++ : up++;
+    random() < pAwayOne(linedUp(u, align)) ? down++ : up++;
   }
   return verdict(up, down);
 }
@@ -82,6 +86,10 @@ test('the fair-coin band on the gauge: the share down lands inside it as often a
     assert.equal(inside, verdict(100 - down, down) === 'even', `down ${down}`);
   }
   assert.ok(fairRange(400)[1] - fairRange(400)[0] < hi - lo);   // more counts, narrower band
+});
+
+test('a Run fits in one cold spell: 200 electrons at the detector rate take under 12 s', () => {
+  assert.ok(PARAMS.runCount / PARAMS.detectorRate < PARAMS.coldSeconds);
 });
 
 test('by hand, an electron stays catchable for over a second', () => {
