@@ -108,3 +108,14 @@ test('warm or jumbled, a full Run stays inside the outer band in at least 93% of
   for (let i = 0; i < N; i++) if (run(random, PARAMS.runCount, 0) === 'even') even++;
   assert.ok(even / N > 0.93, `even ${even / N}`);
 });
+
+test('warmed mid-run: the new electrons stop leaning, and the running share drifts back toward half', () => {
+  const random = rng(23), R = ranks(12, random), share = (cold, warm) => {
+    let away = 0;
+    for (let i = 0; i < cold + warm; i++) { const u = R[Math.floor(random() * 12)]; if (random() < pAwayOne(linedUp(u, i < cold ? PARAMS.maxAlign : alignTarget(5, true)))) away++; }
+    return away / (cold + warm);
+  };
+  assert.equal(alignTarget(5, true), 0);                       // warm: nothing lined up, so no lean
+  const full = share(10000, 0), half = share(5000, 5000);
+  assert.ok(full > 0.6 && half < full - 0.05 && half > 0.5);   // bent back toward half, not snapped to it
+});

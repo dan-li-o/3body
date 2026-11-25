@@ -29,7 +29,7 @@ const KEEP = 3;          // earlier records kept, faint
 
 class WuCobalt extends ULWidget {
   // status messages (at most 80 characters each; tests/widgets/strings.test.mjs)
-  static status = ['start', 'warm', 'cooler', 'quick', 'lining', 'wait', 'tap', 'keep', 'running', 'lean', 'reversed', 'crossed', 'runN', 'even', 'warmRun', 'cut', 'warming'];
+  static status = ['start', 'warm', 'cooler', 'quick', 'lining', 'wait', 'tap', 'keep', 'running', 'lean', 'reversed', 'crossed', 'runN', 'even', 'warmRun', 'faded', 'warmingRun', 'warming'];
   static buttons = ['magnet', 'reverse', 'run', 'reset'];
   static strings = { en: {
     invite: 'Cool the crystal. Line up the nuclei. Catch the electrons.',
@@ -51,7 +51,8 @@ class WuCobalt extends ULWidget {
     even: 'Inside the fair-coin range: nothing picks out an end.',
     warmRun: 'Warm: the nuclei point every which way, and it comes out like a fair coin.',
     wait: 'Wait for the magnet: the nuclei are still swinging round.',
-    cut: 'The cold ran out mid-run. Cool it again, and run again.',
+    faded: 'Warmed mid-run: the lean faded, and the share drifted back toward half.',
+    warmingRun: 'Warming up: the nuclei scatter, and new electrons stop leaning.',
     warming: 'Warming up. The nuclei scatter. Cool it again to keep counting.',
     magnet: 'Magnet', reverse: 'Reverse', run: 'Run', reset: 'Reset',
     temp: 'Temperature', cold: '{s} s of cold', counts: 'Left {left}, right {right}.',
@@ -102,7 +103,7 @@ class WuCobalt extends ULWidget {
     this.wasCold = cold;
     if (cold && !this.warming) {
       this.coldFor += dt;
-      if (this.coldFor >= PARAMS.coldSeconds) { this.warming = true; this.serial++; if (this.running) this.rec.cut = true; this.running = false; this.pending = false; }
+      if (this.coldFor >= PARAMS.coldSeconds) { this.warming = true; this.serial++; if (this.running) this.rec.warmed = true; this.pending = false; }
     }
     if (this.warming) {
       this.T = warmStep(this.T, dt); this.setSlider(sliderFor(this.T));
@@ -121,7 +122,7 @@ class WuCobalt extends ULWidget {
     // electrons: drawn ones are emitted and flown; by hand they count when caught and they reach a
     // plate. During a Run the detector counts thousands; only a few of them are drawn.
     if (this.random() < dt * (this.running ? PARAMS.drawnRate : PARAMS.handRate)) this.emit();
-    if (this.running && !this.warming) {
+    if (this.running) {   // a Run counts on through the warm-up, as Wu's did: the lean fades with the alignment
       this.owed += dt * PARAMS.detectorRate;
       for (; this.owed >= 1 && this.rec.n < PARAMS.runCount; this.owed--) this.countOne(this.electronDir(this.nuclei[Math.floor(this.random() * this.nuclei.length)]));
     }
@@ -130,7 +131,7 @@ class WuCobalt extends ULWidget {
     this.shots = this.shots.filter((s) => {
       const hx = s.x + s.d * s.l, plate = s.d > 0 ? this.L.x1 : this.L.x0;
       if ((hx - plate) * s.d < 0) return true;
-      if (!this.warming && (s.mine || this.running)) this.arrive(s);
+      if (s.mine || this.running) this.arrive(s);
       return false;
     });
     // flashes, pops, pulses; the pointer follows the pulses
@@ -198,7 +199,7 @@ class WuCobalt extends ULWidget {
   }
   countOne(d) {   // one electron counted at the plate on side d; returns the new share
     const key = this.setup();
-    if (key !== this.rec.key) this.rec = this.newRecord(key);
+    if (key !== this.rec.key && !(this.running && this.rec.run)) this.rec = this.newRecord(key);   // a Run keeps its record
     const rec = this.rec;
     d > 0 ? rec.right++ : rec.left++; rec.n++;
     const share = rec.right / rec.n;
@@ -219,7 +220,7 @@ class WuCobalt extends ULWidget {
     const b = this.top.canvas.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
     let best = null, bd = HIT;
     for (const s of this.shots) {
-      if (s.mine || this.warming) continue;
+      if (s.mine) continue;
       const dd = Math.hypot(s.x + s.d * s.l - x, s.y - y);
       if (dd < bd) { bd = dd; best = s; }
     }
@@ -227,15 +228,17 @@ class WuCobalt extends ULWidget {
   }
   catchOldest() {   // keyboard: catch the electron that has flown furthest
     const free = this.shots.filter((s) => !s.mine);
-    if (this.running || this.warming || !free.length) return this.go();
+    if (this.running || !free.length) return this.go();
     this.catchIt(free.reduce((a, s) => (s.l > a.l ? s : a)));
   }
 
   // ----- words
   standing() {
-    if (this.warming || (this.rec.cut && this.rec.key !== this.setup() && !isCold(this.T))) return this.rec.cut ? 'cut' : 'warming';
+    const rec = this.rec;
+    if (rec.warmed && rec.run && (this.running || !isCold(this.T))) return this.running ? 'warmingRun' : 'faded';   // a Run the warm-up overtook (until the next cold spell)
+    if (this.warming) return 'warming';
     if (this.pending) return 'wait';
-    const rec = this.rec, mine = rec.key === this.setup(), f = rec.field;
+    const mine = rec.key === this.setup(), f = rec.field;
     const v = mine && f ? verdict(f > 0 ? rec.left : rec.right, f > 0 ? rec.right : rec.left) : null;   // field +1: spin points left, so 'away' is right
     if (this.aligned) {
       if (mine && (rec.leaned || v === 'lean')) {
@@ -277,7 +280,7 @@ class WuCobalt extends ULWidget {
     drawInstrument(this.top.ctx, c, this.L, {
       nuclei: this.nuclei.map((n) => ({ ...this.place(n), tilt: n.base + n.wob, phase: n.phase })),
       shots: this.shots, flashes: this.flashes, pops: this.pops, pulses: this.pulses.map((p) => this.pulseAt(p)),
-      left: rec.left, right: rec.right, pointer: this.ptr, frozen: this.warming,
+      left: rec.left, right: rec.right, pointer: this.ptr, frozen: false,
       clock: cold ? this.t('cold').replace('{s}', Math.max(0, Math.ceil(PARAMS.coldSeconds - this.coldFor))) : null,
     });
     if (this.ptr != null) drawGuide(this.top.ctx, c, this.axis.V(this.ptr), this.L.scaleY + 13, this.top.h);
