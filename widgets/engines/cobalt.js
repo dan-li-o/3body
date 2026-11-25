@@ -18,6 +18,8 @@ export const PARAMS = {
   LEAN: 0.5,           // illustrative: a lined-up nucleus sends 75% of its electrons down
   handRate: 3.5,       // electrons per second while the reader taps
   detectorRate: 18,    // electrons per second once the detector counts
+  flightHand: 1.4,     // seconds an electron takes to cross the open sky, while the reader taps
+  flightDetector: 0.35,// the same, once the detector counts
   minCount: 40,        // the widget passes no verdict on fewer electrons than this
   sigmas: 2,           // how far from even counts as "more fly down" (in coin-flip standard deviations)
 };
@@ -53,6 +55,12 @@ export const linedUp = (rank, align) => rank < align;
 export const pDownOne = (lined) => (lined ? 0.5 + 0.5 * PARAMS.LEAN : 0.5);
 // The same, averaged over the crystal, given the fraction lined up.
 export const pDown = (align) => 0.5 + 0.5 * PARAMS.LEAN * clamp01(align);
+
+// The fair-coin range for the share flying down, after n electrons: 50% ± sigmas standard deviations.
+export function fairRange(n) {
+  const half = PARAMS.sigmas * 0.5 / Math.sqrt(Math.max(1, n));
+  return [Math.max(0, 0.5 - half), Math.min(1, 0.5 + half)];
+}
 
 // What the counts say: null (too few to tell), 'lean' (clearly more down than up),
 // 'even' (within the spread a fair coin gives), or 'uneven' (lopsided, but not down-heavy).

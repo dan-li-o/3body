@@ -8,10 +8,14 @@ export const COLS = 6, ROWS = 3;
 const SANS = "'Source Sans 3', system-ui, sans-serif";
 
 export function layout(w, h) {
-  const band = Math.max(28, h * 0.11), top = band, bot = h - band;
-  const gx = w / (COLS + 1), gy = (bot - top) / (ROWS + 1);
-  const r = Math.min(gx * 0.2, gy * 0.22);
-  return { w, h, band, top, bot, gx, gy, r, at: (c, k) => ({ x: (c + 1) * gx, y: top + (k + 1) * gy }) };
+  // The crystal sits in a compact block in the middle; the open sky above and below is where
+  // the electrons fly, and where the reader catches them.
+  const band = Math.max(28, h * 0.1), top = band, bot = h - band;
+  const gx = w / (COLS + 1), gy = Math.min(gx * 0.9, (bot - top) / 5.5);
+  const r = Math.min(gx * 0.2, gy * 0.3), cy = h / 2;
+  const crystalTop = cy - gy * (ROWS - 1) / 2 - r * 1.2;
+  return { w, h, band, top, bot, gx, gy, r, sky: crystalTop - top,
+    at: (c, k) => ({ x: (c + 1) * gx, y: cy + (k - (ROWS - 1) / 2) * gy }) };
 }
 
 // o: { nuclei: [{x, y, tilt}], shots: [{x, y, d, l, mine, counted}], pops: [{x, y, t}],
@@ -52,9 +56,9 @@ export function drawCobalt(ctx, c, L, o) {
     ctx.beginPath(); ctx.arc(q.x, q.y, r * (0.5 + q.t * 3), 0, 2 * Math.PI); ctx.stroke();
     ctx.globalAlpha = 1;
   }
-  // the counts, where the electrons arrive
-  const fs = Math.round(Math.max(15, Math.min(20, L.band * 0.42)));
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = c.ink;
+  // the counts, where the electrons arrive: the reader's tallies, in the accent
+  const fs = Math.round(Math.max(15, Math.min(20, L.band * 0.45)));
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = c.accent;
   ctx.font = `600 ${fs}px ${SANS}`;
   ctx.fillText(`↑ ${o.up}`, L.w / 2, L.band / 2);
   ctx.fillText(`↓ ${o.down}`, L.w / 2, L.h - L.band / 2);
@@ -63,3 +67,4 @@ export function drawCobalt(ctx, c, L, o) {
     ctx.fillText(o.clock, L.w - 4, L.band / 2);
   }
 }
+

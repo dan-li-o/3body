@@ -1,7 +1,7 @@
 // Every claim Widget 1.7 (Wu's cobalt) makes, checked against its model.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { PARAMS, tempAt, sliderFor, isCold, jiggle, alignTarget, ranks, linedUp, pDownOne, pDown, verdict, warmStep } from '../../widgets/engines/cobalt.js';
+import { PARAMS, tempAt, sliderFor, isCold, jiggle, alignTarget, ranks, linedUp, pDownOne, pDown, verdict, fairRange, warmStep } from '../../widgets/engines/cobalt.js';
 import { rng } from './rng.mjs';
 
 test('the slider runs from room temperature to 0.003 K, and its far end counts as cold', () => {
@@ -71,4 +71,19 @@ test('the cold window is 12 seconds (Dan, 2026-11-25); the crystal warms back wi
   assert.equal(PARAMS.coldSeconds, 12);
   let T = tempAt(100), t = 0; while (T < PARAMS.rewarmK) { T = warmStep(T, 1 / 60); t += 1 / 60; }
   assert.ok(t > 2 && t < 5, `${t} s`);
+});
+
+test('the fair-coin band on the gauge: the share down lands inside it as often as "even" says', () => {
+  const [lo, hi] = fairRange(100);
+  assert.ok(Math.abs(lo - 0.4) < 1e-12 && Math.abs(hi - 0.6) < 1e-12);
+  // inside the band <=> verdict "even" (same 2-sigma rule), for every split of 100
+  for (let down = 0; down <= 100; down++) {
+    const inside = down / 100 >= lo && down / 100 <= hi;
+    assert.equal(inside, verdict(100 - down, down) === 'even', `down ${down}`);
+  }
+  assert.ok(fairRange(400)[1] - fairRange(400)[0] < hi - lo);   // more counts, narrower band
+});
+
+test('by hand, an electron stays catchable for over a second', () => {
+  assert.ok(PARAMS.flightHand >= 1.2 && PARAMS.flightDetector < PARAMS.flightHand / 3);
 });

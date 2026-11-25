@@ -8,10 +8,10 @@
 import { ULWidget, define, el, rng } from '../core/core.js';
 import { button, slider, row, StatusLine } from '../core/controls.js';
 import { createStage } from '../core/stage.js';
-import { PARAMS, tempAt, sliderFor, isCold, jiggle, alignTarget, ranks, linedUp, pDownOne, verdict, warmStep } from '../engines/cobalt.js';
+import { PARAMS, tempAt, sliderFor, isCold, jiggle, alignTarget, ranks, linedUp, pDownOne, verdict, fairRange, warmStep } from '../engines/cobalt.js';
 import { COLS, ROWS, layout, drawCobalt } from './draw.js';
 
-const HIT = 30;        // px: how close a tap must land to an electron's head
+const HIT = 36;        // px: how close a tap must land to an electron's head
 const POP = 0.5;       // s: a catch's ring
 const SAY_EVERY = 3;   // s: how often screen readers hear the counts
 
@@ -21,7 +21,7 @@ class WuCobalt extends ULWidget {
   static buttons = ['magnet', 'auto', 'reset'];
   static strings = { en: {
     invite: 'Cool the crystal. Line up the nuclei. Catch the electrons.',
-    label: 'Cobalt nuclei in a crystal, drawn as small balls with a spinning ring. Electrons fly up or down out of them; the counts are at the top and the bottom.',
+    label: 'Cobalt nuclei in a crystal, drawn as small balls with a spinning ring. Electrons fly up or down out of them; the counts are at the top and the bottom, and a meter below shows the share flying down against the range a fair coin gives.',
     keys: 'Keys: Enter catches an electron.',
     start: 'Drag the slider to cool the crystal.',
     warm: 'Too warm: the nuclei jiggle every which way. Keep cooling.',
@@ -31,21 +31,23 @@ class WuCobalt extends ULWidget {
     tap: 'Most of the nuclei now spin the same way. Tap the electrons to count them.',
     keep: 'Keep tapping, or let the detector count for you.',
     detector: 'The detector never gets bored…',
-    lean: 'More fly down than up. Nature can tell the two ends apart.',
+    lean: 'More fly down than a fair coin allows. Nature can tell the two ends apart.',
     off: 'Magnet off: the nuclei drift every which way. Count again and compare.',
-    even: 'Up and down come out even: nothing picks out an end.',
+    even: 'Inside the fair-coin range: nothing picks out an end.',
     warming: 'Warming up. The nuclei scatter. Cool it again to keep counting.',
     magnet: 'Magnet', auto: 'Detector', reset: 'Reset',
+    share: 'Flying down', fair: 'fair coin',
     temp: 'Temperature', cold: '{s} s of cold', counts: 'Up {up}, down {down}.',
   } };
 
   mount() {
     this.random = rng(this.num('seed', Date.now() % 1e9));
     const invite = el('p', { className: 'ul-invite', textContent: this.t('invite') });
-    this.stage = createStage(document.createDocumentFragment(), { aspect: '3 / 2', phoneAspect: '4 / 3', label: `${this.t('label')} ${this.t('keys')}`, focusable: true });
+    this.stage = createStage(document.createDocumentFragment(), { aspect: '3 / 2', phoneAspect: '1 / 1', label: `${this.t('label')} ${this.t('keys')}`, focusable: true });
     this.temp = slider({ label: this.t('temp'), min: 0, max: 100, step: 1, value: 0, format: (v) => fmtK(tempAt(v)),
       onInput: (v) => { if (!this.warming) { this.T = tempAt(v); this.go(); } } });
     this.tempInput = this.temp.querySelector('input'); this.tempOut = this.temp.querySelector('output');
+    this.meter = shareMeter(this.t('share'), this.t('fair'));
     this.status = new StatusLine({ gap: 0, hold: 0 });
     this.status.reserve(this.constructor.status.map((k) => this.t(k)));
     this.sr = el('p', { className: 'ul-sr' }); this.sr.setAttribute('aria-live', 'polite');
@@ -58,7 +60,7 @@ class WuCobalt extends ULWidget {
     const cv = this.stage.canvas;
     cv.addEventListener('pointerdown', (e) => this.tap(e));
     cv.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.catchOldest(); } });
-    this.replaceChildren(invite, this.stage.box, this.temp, this.status.el, row(this.btn.magnet, this.btn.auto, this.btn.reset), this.sr);
+    this.replaceChildren(invite, this.stage.box, this.meter.el, this.temp, this.status.el, row(this.btn.magnet, this.btn.auto, this.btn.reset), this.sr);
     this.c = this.colors();
     this.reset();
   }
@@ -68,6 +70,7 @@ class WuCobalt extends ULWidget {
   retune() { this.c = this.colors(); this.draw(); }
   frame(dt) {
     dt = Math.max(0, dt);   // the first frame's dt can come out a hair below zero (core.js)
+    if (!this.L) return;    // not measured yet (resize() comes from a ResizeObserver)
     this.time += dt;
     // the cold window, then the warm-up
     const cold = isCold(this.T);
@@ -91,7 +94,7 @@ class WuCobalt extends ULWidget {
     }
     // electrons
     if (this.random() < dt * (this.auto ? PARAMS.detectorRate : PARAMS.handRate)) this.emit();
-    const speed = (this.auto ? 3 : 1.1) * this.stage.h;
+    const speed = this.L.sky / (this.auto ? PARAMS.flightDetector : PARAMS.flightHand);   // px per second
     for (const s of this.shots) s.l += dt * speed;
     this.shots = this.shots.filter((s) => { const y = s.y + s.d * s.l; return y > this.L.top * 0.6 && y < this.L.h - this.L.band * 0.6; });
     this.pops = this.pops.filter((p) => (p.t += dt) < POP);
@@ -198,6 +201,8 @@ class WuCobalt extends ULWidget {
     return { x: p.x + n.jx * j, y: p.y + n.jy * j };
   }
   draw() {
+    const n = this.up + this.down;
+    this.meter?.set(n ? this.down / n : null, n >= PARAMS.minCount ? fairRange(n) : null);
     if (!this.c || !this.L || !this.stage.w) return;
     this.stage.clear();
     const cold = isCold(this.T) && !this.warming;
@@ -207,6 +212,37 @@ class WuCobalt extends ULWidget {
       clock: cold ? this.t('cold').replace('{s}', Math.max(0, Math.ceil(PARAMS.coldSeconds - this.coldFor))) : null,
     });
   }
+}
+
+// The share meter: the share of electrons flying down (orange marker) on a 0–100% track, with the
+// range a fair coin gives (grey band, labelled) once there are enough counts to judge.
+// Built from house pieces: .ul-field and .ul-range's look; colours only from tokens.
+function shareMeter(label, fairLabel) {
+  const wrap = el('div', { className: 'ul-field' });
+  el('span', { className: 'ul-field-label', textContent: label }, wrap);
+  const track = el('div', {}, wrap), band = el('div', {}, track), tag = el('span', { textContent: fairLabel }, track);
+  const mid = el('div', {}, track), mark = el('div', {}, track);
+  const out = el('output', { textContent: '–' }, wrap);
+  Object.assign(wrap.style, { marginTop: '.25rem' });
+  Object.assign(wrap.firstChild.style, { fontFamily: 'var(--ul-serif)', fontStyle: 'italic', fontSize: '1.05rem', color: 'var(--ul-grey)', whiteSpace: 'nowrap' });
+  Object.assign(track.style, { position: 'relative', flex: '1 1 auto', minWidth: '6rem', height: '44px' });
+  track.setAttribute('aria-hidden', 'true');
+  const line = el('div', {}, track);
+  Object.assign(line.style, { position: 'absolute', left: 0, right: 0, top: '21px', height: '2px', background: 'var(--ul-rule)' });
+  Object.assign(band.style, { position: 'absolute', top: '15px', height: '14px', background: 'color-mix(in srgb, var(--ul-ghost) 45%, transparent)', display: 'none' });
+  Object.assign(tag.style, { position: 'absolute', top: '-1px', transform: 'translateX(-50%)', fontFamily: 'var(--ul-sans)', fontSize: '.7rem', color: 'var(--ul-grey)', whiteSpace: 'nowrap', display: 'none' });
+  Object.assign(mid.style, { position: 'absolute', left: '50%', top: '15px', width: '1.5px', height: '14px', background: 'var(--ul-grey)' });
+  Object.assign(mark.style, { position: 'absolute', top: '13px', width: '4px', height: '18px', marginLeft: '-2px', borderRadius: '1px', background: 'var(--ul-accent)', display: 'none' });
+  out.style.color = 'var(--ul-accent)'; out.style.fontWeight = '600';
+  let last = '';
+  return { el: wrap, set(share, range) {
+    const key = `${share}|${range}`; if (key === last) return; last = key;
+    mark.style.display = share == null ? 'none' : 'block';
+    if (share != null) mark.style.left = `${share * 100}%`;
+    out.textContent = share == null ? '–' : `${Math.round(share * 100)}%`;
+    band.style.display = tag.style.display = range ? 'block' : 'none';
+    if (range) { band.style.left = `${range[0] * 100}%`; band.style.width = `${(range[1] - range[0]) * 100}%`; tag.style.left = '50%'; }
+  } };
 }
 
 // a small random wander that stays near 0, with spread s (Ornstein–Uhlenbeck, relaxing in ~0.4 s)
