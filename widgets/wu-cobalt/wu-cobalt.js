@@ -35,7 +35,7 @@ class WuCobalt extends ULWidget {
     off: 'Magnet off: the nuclei drift every which way. Count again and compare.',
     even: 'Up and down come out even: nothing picks out an end.',
     warming: 'Warming up. The nuclei scatter. Cool it again to keep counting.',
-    magnet: 'Magnet', auto: 'Count for me', reset: 'Reset',
+    magnet: 'Magnet', auto: 'Detector', reset: 'Reset',
     temp: 'Temperature', cold: '{s} s of cold', counts: 'Up {up}, down {down}.',
   } };
 

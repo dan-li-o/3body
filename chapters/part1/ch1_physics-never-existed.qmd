@@ -120,7 +120,7 @@ Why should anything be kept at all? Hold that question. @sec-three-names has an 
 
 Physics hides its treasures in invariants.
 
-## The Lawful Coin
+## The Lawful Coin {#sec-lawful-coin}
 
 A curious reader might object: not all outcomes are replicable the way billiard collisions are. What about random events, like flipping a coin? Where is the invariance there?
 
@@ -320,33 +320,79 @@ Even one bet on a ghost is hard to make. Yang Dong's world is crueler. In the no
 TODO, §7 (2026-11-24, from the widgets session). Facts checked by Claude against: neutrino-history.in2p3.fr; Franklin (2018 history conference); Wikipedia "Cowan–Reines neutrino experiment"; LANL news "The neutrino turns 70" (lanl.gov); APS "Savannah River Site" historic site; CERN Pauli Archive; Lederman & Hill p. 109 (quote as in the earlier draft). Confirmed: Chadwick 1914; Ellis & Wooster 1927 (radium E); Pauli's letter 4 Dec 1930, to Tübingen, "neutron," "desperate remedy" (translation of *verzweifelten Ausweg*); Fermi's theory 1933–34 and the name; Hanford 1953 ("probable" result); move to Savannah River 1955; *Science* 20 July 1956; 1930 → 1956 = 26 years. Open, for Dan: the footnote TODOs above; whether "He did not publish it" needs "at first"; the momentum line was softened (Dan, 2026-11-24). Photo credits: see the widget's spec (`widgets/ghost-hunt/spec.md`).
 :::
 
-::: {.callout-note appearance="minimal"}
-*The sections from here to the end of the chapter are from an earlier draft. They are being revised.*
-:::
+## Through the Looking-Glass {#sec-looking-glass}
 
-## Through the Looking-Glass, and What Alice Found There
+Alice, who adventured in Wonderland, once again steps across the threshold. This time, she climbs through a looking-glass, a mirror. The world in the mirror should look the same, only reversed. The left hand becomes right, the teacup is still a teacup, the chessboard is still a chessboard. The rules stay the same.
 
-Alice who adventured in Wonderland once again steps across the threshold. This time, she climbs through a large looking-glass, a mirror. The world in the mirror should look the same, only reversed. The left hand becomes right, the teacup is still a teacup, the chessboard is still a chessboard. The mirror reassures: the rules are unchanged, only inverted. 
+Now watch Ding Yi's strikes on the pool table, but through a mirror. Nothing in the mirror looks weird. After all, the laws of physics stay invariant across space and time, at least we think. The same goes for the whole galaxy.
 
-This is the promise of **parity** in physics. Flip space like a mirror, and the equations should hold. North and south, left and right, clockwise and counterclockwise—no preferred side, no sacred orientation. Nature, impartial, does not distinguish between her reflection and herself.
+This is the promise of [parity]{.term} in physics: flip the world as a mirror does, and the laws still hold. Whatever happens, its mirror image could happen too. Nature has no favorite hand.
 
-For decades, physicists assumed this symmetry was absolute. It was not just an assumption, but an article of faith: nature’s mirror never lies. The very idea that the reflection could misbehave—that the rules inside the glass might be different—was unthinkable. Space, time, rotation, parity, charge—pillars of invariance. Break them and the temple of physics shakes. 
+Notice what kind of symmetry this is. Unlike a turn or a slide, a mirror flip cannot be done a little at a time. You have already seen this in @sec-three-names. There is no half of a mirror image. In other words, parity is discrete.
+
+So Noether's theorem cannot guarantee that it will produce a conservation. Yet physicists believed it because every time they looked, it held. For decades, they assumed this symmetry was absolute. It seemed too obvious to doubt.
 
 But then came a puzzle that cracked the mirror.
 
-In the early 1950s, physicists once again noticed something strange. Two subatomic particles, known as the tau and the theta, looked identical in every measurable way—same mass, same charge, same lifetime. They should have been the same particle. But they weren’t. The tau decayed into three pions; the theta decayed into two. Their only difference lay in parity, their mirror identity, as if Nature decides mirror images should differ.  
+In the early 1950s, physicists ran into a riddle. If a thing walks like a duck and quacks like a duck, it must be a duck. But two identical ducks lay eggs. One always lays two. The other always lays three. And by the rules of thumb of duck genetics, as everyone knew them, a duck that lays in pairs and a duck that lays in threes cannot be the same kind of duck. Either these are two entirely different ducks, or there is something wrong with our assumed rules in genetics.
 
-The resolution came in 1956—the same year when neutrino was confirmed—with the bold, yet revolutionary suggestion by Tsung-Dao Lee and Chen-Ning Yang. The young Chinese American scientists proposed that parity, the symmetry between a physical system and its mirror image, might not be conserved.^[More precisely, parity symmetry was proposed to be violoated in weak interactions. The “weak interaction” is one of the four fundamental forces of nature, alongside gravity, electromagnetism, and the strong force that binds nuclei. Unlike the others, it doesn’t push or pull in ways we can feel directly. Instead, it quietly governs certain rare processes---the slow disintegration of atomic nuclei, the burning of stars, the very fact that the Sun shines. It is called weak not because it is unimportant, but because, compared to the other forces, its grip is feeble and short-ranged.] 
+The ducks were two subatomic particles, the tau and the theta. They matched in every way physicists could measure: same mass, same charge, same lifetime. Like most subatomic particles, they don't last. After about a hundred-millionth of a second, each one falls apart on its own into lighter particles. Physicists call this [decay]{.term}; the beta decay of @sec-ghost-particle was one case. In physics the duck does not survive laying: it vanishes, and only the eggs are left. The eggs here are lighter particles called *pions*. The theta left two. The tau left three.^[[TODO: verify the lifetime (charged kaon, about 10⁻⁸ s).]{.todo}]
 
-Theory is cheap. Experiment is king. Lee and Yang talked to experimental physicist Chien-Shiung Wu, or Madame Wu, as she is universally known. She, like Alice before her, looked into the mirror by freezing cobalt nuclei in near absolute zero, aligning them, and watching them spit electrons. If parity were sacred, the spray would be symmetric. It wasn’t. The electrons came out lopsided, as if the universe had a preferred hand. 
+The rule of genetics was the mirror. Every particle carries a mirror label, plus or minus: does it come back unchanged, or flipped, when every point in space is swapped for its opposite? If nature has no favorite hand, the label cannot change when a particle decays, so you can read the parent's label off its eggs. Two pions read plus. Three read minus. So the theta was plus, the tau was minus, and one particle cannot be both.
 
-Parity symmetry is violated. Nature is left-handed, after all. 
+::: {.column-margin}
+Physicists call this flip **P**, for parity: swap left and right, up and down, front and back, all at once. Time is left alone; flipping time is a different test, and we meet it in the next section. An ordinary mirror does the same job: swapping all three is one mirror flip plus a half turn, and a half turn changes nothing (@sec-three-names).
+:::
 
-Lee and Yang won the Nobel Prize in the same year. This discovery was a seismic event in physics, challenging a deeply held "article of faith" in the scientific community. Wolfgang Pauli wrote in a letter, “Now after the first shock is over, I begin to collect myself. Yes, it was very dramatic.”^[@Myneni1984ParityViolation] Feynman who lost $50 dollars to a fellow scientist in 1956 on a bet that parity symmetry would not be violated, even in his 1985 book, still expressed disbelief and hope that “a more beautiful and, hence, more accurate understanding” of things will emerge. 
+::: {.column-margin}
+Why two pions read plus: each pion is minus, and labels multiply. Minus times minus is plus; three minuses make minus. (Appendix A.)
+:::
 
-This discovery was disturbing philosophically. Physicist A. Zee later made it clear, 
+Two different ducks, or a broken rule? Few physicists liked either answer.^[[TODO: a source for the mood, c. 1954–56.]{.todo}]
 
-> The crucial idea which came to Lee and Yang is that Nature may respect parity in many of her laws, but not in the laws governing the weak interaction between particles. Imagine that one of the fundamental principles of our legal system, that the accused is presumed innocent until proven otherwise, is decreed to hold only for certain crimes, while for other crimes the opposite is to be the case. Just as judicial philosophers would surely cringe at this notion, physicists find Nature's selective violation of parity rather discomforting philosophically.^[*Fearful Symmetry* [@zee2015fearful p. 29]]
+In 1956, two young Chinese American physicists, Tsung-Dao Lee and Chen-Ning Yang, took the second option seriously: maybe the rule of thumb was wrong. They went back through the literature on experiments with beta decay and checked: had anyone ever tested the mirror in the [weak force]{.term}, the force behind decays like the tau's and the theta's, and behind the beta decay that sent Pauli looking for his ghost? No one had. The mirror had been tested where atoms and nuclei hold together, and it held there. In the weak force, it had simply been assumed.
+
+Theory is cheap. Experiment is king. Lee and Yang talked to the experimental physicist Chien-Shiung Wu, or Madame Wu, as she is universally known, Lee's colleague at Columbia and the leading expert on beta decay.^[[TODO: verify that Yang was at the Institute for Advanced Study, Princeton, in 1956. Wu as "a colleague of Lee's at Columbia": *Nature* 385 (1997), p. 575.]{.todo}]
+
+Her plan was simple to say and very hard to do. Take cobalt-60, a radioactive cobalt whose nuclei undergo beta decay. Each nucleus spins, like a tiny top. Normally the tops point every which way. Wu cooled the cobalt to a hair above absolute zero, so cold that even atoms are almost frozen still in their crystal. Then she used a strong magnet to line the tops up, all spinning the same way, and the cold kept heat from knocking them out of line. Finally, she counted the electrons: how many flew out of each end of the tops.^[The crystal was cooled to about 0.003 kelvin, and the team could hold it that cold for only about fifteen minutes at a time. [TODO: cite NIST, "Reversal of the Parity Conservation Law in Nuclear Physics" (SP 958); verify the fifteen minutes.]{.todo}]
+
+Why would that settle anything? Picture one of the spinning tops. Look down on it from above, and it turns counterclockwise. Look up at it from below, and the very same spin looks clockwise. So the top has two ends that differ in only one way: the clockwise end and the counterclockwise end. Now hold the experiment up to a mirror standing beside it. The mirror swaps clockwise and counterclockwise, but leaves above and below where they were. In the mirror, the top seen from above turns clockwise.
+
+So which end should the electrons favor? Neither. The two ends are alike in everything except the way the spin looks from them, and telling them apart means telling clockwise from counterclockwise: left from right. If nature has no favorite hand, it has no reason to send more electrons out of one end than the other. It is the fair coin of @sec-lawful-coin again: heads and tails differ only in their pictures, so neither comes up more often. Count more on one end, and the mirror is showing you an experiment that never happens.
+
+::: {#wid-wu-cobalt}
+{{< widget wu-cobalt alt="A crystal of cobalt nuclei drawn as small spinning circles, with electrons flying up and down out of them, a temperature readout, and two counters, up and down." >}}
+
+**Wu's cobalt.** Cool the crystal, switch on the magnet, and catch the electrons before it warms up.
+:::
+
+If parity were sacred, the count would be even. It wasn't. In January 1957, Wu and her collaborators announced that more electrons flew out of one end than the other, run after run. Days later a team at Columbia, among them Leon Lederman, found the same lopsidedness with a different particle.^[[TODO: Wu, Ambler, Hayward, Hoppes and Hudson, *Physical Review* 105 (1957): 1413; Garwin, Lederman and Weinrich, *Physical Review* 105 (1957): 1415. Add both to references.bib; verify which end the electrons favored.]{.todo}] In the weak force, at least, nature can tell left from right.
+
+::: {.column-margin}
+A mirror flip is a jump, like the square's flips, not a continuous move. So Noether's theorem says nothing about it, and when Wu's experiment showed that nature can tell left from right, no conservation law of Noether's kind was broken. That made it no less of a shock.
+:::
+
+And a shock it was. On 17 January 1957, before Wu's results reached him, Pauli wrote to Victor Weisskopf: "I don't believe that the Lord is a weak left-hander, and I am ready to bet a very high sum that the experiment will give a symmetric angular distribution of electrons."^[Letter to Weisskopf, 17 January 1957, as quoted in "The Weak Force: From Fermi to Feynman," arXiv:0911.0058, §2.6; see also APS News, October 2022, "October 1956: Lee and Yang Crack the Mirror of Parity." [TODO: cite a published edition of the letter.]{.todo}] Soon after, he wrote in a letter, "Now after the first shock is over, I begin to collect myself. Yes, it was very dramatic."^[@Myneni1984ParityViolation] Feynman, who lost $50 to a fellow scientist on a bet that parity symmetry would not be violated, even in his 1985 book still expressed disbelief and hope that "a more beautiful and, hence, more accurate understanding" of things will emerge.^[The bet: APS News, December 2001, "December 27, 1956: Fall of Parity Conservation"; APS News (October 2022) quotes the historian Allan Franklin that the odds were $50 to $1. [TODO: the 1985 book (*QED*?) and page; the friend's name.]{.todo}]
+
+::: {.column-margin}
+Lee and Yang received the Nobel Prize that same year, 1957, less than a year after their paper. Wu, whose experiment made the case, was not included.
+:::
+
+This discovery was disturbing philosophically. Physicist A. Zee later made it clear:
+
+> The crucial idea which came to Lee and Yang is that Nature may respect parity in many of her laws, but not in the laws governing the weak interaction between particles. Imagine that one of the fundamental principles of our legal system, that the accused is presumed innocent until proven otherwise, is decreed to hold only for certain crimes, while for other crimes the opposite is to be the case. Just as judicial philosophers would surely cringe at this notion, physicists find Nature's selective violation of parity rather discomforting philosophically.^[*Fearful Symmetry* [@zee2015fearful, p. 29].]
+
+Set this beside the ghost particle. When beta decay seemed to lose energy, physicists could save the law by adding something to the count. Here there was nothing to add. Every electron was there, measured and accounted for; they simply favored one end. No ghost could fix that. The bet had lost, in plain view, in the one place no one had thought to look.
+
+Yet the mirror cracked the same way every time Wu ran it.
+
+::: {.todo}
+TODO, §8 (2026-11-25, reviewed in chat by Dan). Widget 1.8a (Real or Mirror?) cut. Open: verify rows in the writing project's working doc (tau/theta lifetime and parity labels; Lee & Yang 1956; Wu's team and dates; which end the electrons favored; Garwin–Lederman–Weinrich; Pauli's letters; Feynman's bet and book; Nobel 1957). Done in the widget PR: the label `{#sec-lawful-coin}` on "## The Lawful Coin". Checked in the widgets session: the electrons favored the end opposite the nuclear spin (Wu et al. 1957; NIST SP 958); *Nature* 385 (1997) p. 575 calls Wu "a colleague of Lee's at Columbia". Flagged for the writing project: the Nobel margin note ("less than a year after their paper": the paper appeared October 1956, the prize December 1957); "Days later" for Garwin–Lederman–Weinrich (the two papers may have been received the same day).
+:::
+
+::: {.callout-note appearance="minimal"}
+*The sections from here to the end of the chapter are from an earlier draft. They are being revised.*
+:::
 
 ## Beyond the Mirror: CP, T, and CPT
 

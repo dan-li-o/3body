@@ -11,7 +11,7 @@
 - A crystal of 18 cobalt nuclei, each a small ball with a ring round it like Saturn: the back of the ring passes behind the ball, and an arrowhead on the front shows the spin. Warm, they jiggle and tilt every which way.
 - **Temperature** slider, log scale, 300 K → 0.003 K. At 0.003 K a 12-second clock starts on the figure ("Quick, we can't stay near absolute zero for long!"). When it runs out, the crystal warms by itself (about 4 s), the nuclei scatter, counting stops, and the reader may cool it again.
 - **Magnet** (a switch, filled when on). Cold plus magnet: 11 of the 18 nuclei (about 60%, as in Wu's run) swing round to spin the same way, spin up; the rest stay every which way. Lining up starts only below 0.1 K.
-- **Catch electrons.** Electrons fly straight up or down out of the nuclei. Tap one to count it (it turns orange, with a small ring). Keyboard: Enter or Space catches the electron that has flown furthest. **Count for me** (a switch) hands over to a detector that counts every electron, faster.
+- **Catch electrons.** Electrons fly straight up or down out of the nuclei. Tap one to count it (it turns orange, with a small ring). Keyboard: Enter or Space catches the electron that has flown furthest. **Detector** (a switch; first named "Count for me", renamed so the three buttons fit one row at 360 px) hands the counting to a detector that counts every electron, faster.
 - Counts: ↑ at the top of the figure, ↓ at the bottom, where the electrons arrive (Dan: "It's just up or down on the screen").
 - **A count belongs to one setup.** It starts again at the first catch after the setup changes: lined up or not, and each new cold spell. So a verdict never mixes two setups.
 - Status line, in order of play: start → warm → cooler → quick → lining → tap → keep / detector → **lean** ("More fly down than up. Nature can tell the two ends apart."). Magnet off while cold: off → **even**. Warm-up: warming.
@@ -25,4 +25,4 @@
 Starts moving on view; under reduced motion it waits for the reader's first move. Canvas is a tab stop (Enter catches). Counts read to screen readers every 3 s. Fits one phone screen (about 490 px tall at 390 px).
 
 ## Dropped designs
-Real or Mirror? (1.8a) cut by Ryan ("Not needed"). The curled right hand and Mirror switch (1.8b v1) dropped: confused lay readers (Dan). "Seen from above / below" and "top / bottom" labels dropped (Dan). Magnet on/off label swap replaced by a switch (house rule).
+Real or Mirror? (1.8a) cut by Ryan ("Not needed"). The curled right hand and Mirror switch (1.8b v1) dropped: confused lay readers (Dan). "Seen from above / below" and "top / bottom" labels dropped (Dan). Magnet on/off label swap replaced by a switch (house rule). "Count for me" became "Detector": the row overflowed at 360 px.
