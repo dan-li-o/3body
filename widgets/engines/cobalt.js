@@ -17,10 +17,11 @@ export const PARAMS = {
   maxAlign: 0.6,       // at most ~60% of the nuclei line up
   LEAN: 0.5,           // illustrative: a lined-up nucleus sends 75% of its electrons down
   handRate: 3.5,       // electrons per second while the reader taps
-  detectorRate: 18,    // electrons per second once the detector counts
+  detectorRate: 1250,  // electrons per second the detector counts during a Run
+  drawnRate: 18,       // of those, electrons per second drawn (the rest are counted, not drawn)
   flightHand: 1.4,     // seconds an electron takes to cross the open sky, while the reader taps
   flightDetector: 0.35,// the same, once the detector counts
-  runCount: 200,       // a Run counts this many electrons (or until the crystal warms)
+  runCount: 10000,     // a Run counts this many electrons, about 8 s (or until the crystal warms): as many as The Lawful Coin's coins
   minCount: 40,        // the widget passes no verdict on fewer electrons than this
   sigmas: 2,           // how far from even counts as "more fly down" (in coin-flip standard deviations)
 };

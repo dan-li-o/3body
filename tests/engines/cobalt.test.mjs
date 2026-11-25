@@ -65,10 +65,16 @@ test('disordered nuclei: "even" in at least 93% of runs, and almost never "more 
   assert.ok(lean / N < 0.035, `lean ${lean / N}`);
 });
 
-test('lined up: the detector (18 per second) shows "more fly down" within ten seconds in 95% of runs', () => {
-  const random = rng(13); let lean = 0; const N = 4000, n = 10 * PARAMS.detectorRate * 0.95;
-  for (let i = 0; i < N; i++) if (run(random, Math.round(n), PARAMS.maxAlign) === 'lean') lean++;
-  assert.ok(lean / N > 0.95, `lean ${lean / N}`);
+test('lined up, a full Run (10,000 electrons) ends outside the fair coin\'s outer band every time', () => {
+  const random = rng(13); let lean = 0; const N = 60;
+  for (let i = 0; i < N; i++) if (run(random, PARAMS.runCount, PARAMS.maxAlign) === 'lean') lean++;
+  assert.equal(lean, N);
+});
+
+test('even a Run cut to 1 s by the warm-up shows the lean in at least 99% of runs', () => {
+  const random = rng(17); let lean = 0; const N = 600;
+  for (let i = 0; i < N; i++) if (run(random, PARAMS.detectorRate, PARAMS.maxAlign) === 'lean') lean++;
+  assert.ok(lean / N > 0.99, `lean ${lean / N}`);
 });
 
 test('the cold window is 12 seconds (Dan, 2026-11-25); the crystal warms back within 5 s', () => {
@@ -88,10 +94,17 @@ test('the fair-coin band on the gauge: the share down lands inside it as often a
   assert.ok(fairRange(400)[1] - fairRange(400)[0] < hi - lo);   // more counts, narrower band
 });
 
-test('a Run fits in one cold spell: 200 electrons at the detector rate take under 12 s', () => {
-  assert.ok(PARAMS.runCount / PARAMS.detectorRate < PARAMS.coldSeconds);
+test('a Run fits in one cold spell: 10,000 electrons at the detector rate take about 8 s', () => {
+  const s = PARAMS.runCount / PARAMS.detectorRate;
+  assert.ok(s < PARAMS.coldSeconds && s > 6);
 });
 
 test('by hand, an electron stays catchable for over a second', () => {
-  assert.ok(PARAMS.flightHand >= 1.2 && PARAMS.flightDetector < PARAMS.flightHand / 3);
+  assert.ok(PARAMS.flightHand >= 1.2 && PARAMS.flightDetector < PARAMS.flightHand / 3 && PARAMS.drawnRate < PARAMS.detectorRate / 10);
+});
+
+test('warm or jumbled, a full Run stays inside the outer band in at least 93% of runs (the control; a fair coin: about 95%)', () => {
+  const random = rng(19); let even = 0; const N = 1500;
+  for (let i = 0; i < N; i++) if (run(random, PARAMS.runCount, 0) === 'even') even++;
+  assert.ok(even / N > 0.93, `even ${even / N}`);
 });
