@@ -106,6 +106,17 @@ per page (no global IDs).
 **Checked** — `npm test` and `npm run smoke` pass; gallery screenshots
 reviewed in light and dark, phone and desktop; poster generated.
 
+**Seen before review** (Dan, 2026-11-25) — before a widget PR is opened, the
+author shows Dan two things:
+- a **test page** she can play on her phone: the widget as it will ship,
+  set in the paragraphs around it;
+- **four screenshots in the rendered chapter** (full `quarto render`):
+  phone (390 px) and desktop (1280 px), light and dark, taken mid-play
+  (the state that carries the point, not just the opening frame). Switch
+  themes with the book's own toggle (`quartoToggleColorScheme()`), not by
+  swapping the class on `<body>`: the dark stylesheet must load too.
+The same four go into the PR description.
+
 ## Working together
 
 Several people (and Claude) send pull requests to this repo. `main` is the live
@@ -118,7 +129,8 @@ book: every merge publishes it.
   the same thing.
 - **Keep PRs small:** one widget, one fix or one section each. Say in plain
   words what changes for the reader, and add screenshots for visual changes.
-- **Before the PR:** `npm test` and `npm run smoke` pass; the widget meets the
+- **Before the PR:** the test page and four screenshots ("Seen before
+  review" above) have been shown; `npm test` and `npm run smoke` pass; the widget meets the
   standard above (including "Fits one screen"); new widgets build on the
   shared core (`ULWidget`, `StatusLine`, `button`, `row`) and get a spec,
   posters and a gallery entry.
