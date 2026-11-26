@@ -79,6 +79,7 @@ format:
       - theme/lead-in.html
       - theme/quiet-page.html
       - theme/annotate.html           # Hypothes.is, loaded only when a reader asks for it
+      - theme/resume.html             # pick up where you left off (this browser only)
 
 # TODOs stay in the files but not on the site (filters/hide-todo.lua; --profile draft shows them)
 filters:
