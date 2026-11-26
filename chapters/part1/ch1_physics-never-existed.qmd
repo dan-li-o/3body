@@ -14,9 +14,9 @@ Wang Miao, a nano-material scientist, could not make sense of it. How could phys
 
 When Wang asked, Yang's partner, the physicist Ding Yi, did not answer with words. He answered with a pool table.
 
-## The Pool Table
+## The Pool Table {#sec-pool-table}
 
-Physicists have always loved colliding balls. Newton, Maxwell, and Einstein all reached for them, and billiards have filled physics textbooks since the nineteenth century.^[Newton pictured light as a stream of tiny particles. Maxwell showed in 1859 that Saturn's rings must be made of countless small bodies rather than a solid sheet [-@maxwell1859stability]. Einstein explained in 1905 the jittering of pollen grains in water (Brownian motion) as the result of invisible molecules knocking into them [-@einstein1905motion].] Ding Yi continued the tradition.
+Physicists have always loved colliding balls. Newton pictured light as a stream of tiny particles. Maxwell showed that Saturn's rings must be made of countless small bodies rather than a solid sheet.^[@maxwell1859stability.] Einstein explained the jittering of pollen grains in water, Brownian motion, as the work of invisible molecules knocking into them.^[@einstein1905motion.] And billiards have filled physics textbooks since the nineteenth century. Ding Yi continued the tradition.
 
 He placed the ball at one end of the table and struck it with the cue at a fixed angle and force. It hit the cushions and rebounded, just as expected. Then he placed the ball somewhere else and struck it again, with the same angle and the same force. The ball traced the same pattern. He did it again. And again.
 
@@ -26,19 +26,19 @@ Each yielded the same result.
 
 "Aren't you shocked?" Ding asked. Wang did not know what to say.
 
-"Come on, let's celebrate. We've discovered a great principle of nature: *the laws of physics are invariant across space and time*."
+"Come on, let's celebrate. We've discovered a great principle of nature: *the laws of physics are invariant across space and time*."^[@liu2016three [p. 69].]
 
 He was joking, but only half. This is no trivial statement. It is one of science's deepest articles of faith: laws are not local customs. Strike the ball here or there, today or tomorrow, and the result is the same.
 
 Imagine a sixth strike. You already know how it will go. That boredom is the signature of a law.
 
-## A World Without Repeats
+## A World Without Repeats {#sec-world-without-repeats}
 
 Boredom is what science hopes for. Run an experiment again, get the same answer, and you have learned something that will still be true tomorrow.
 
 Philosophers have a name for this hope: [the uniformity of nature]{.term}. David Hume put it plainly in the eighteenth century: the future will resemble the past; "the course of nature continues always uniformly the same."^[Hume never named the principle himself. In the *Treatise* he writes that reasoning from experience "would proceed upon that principle that instances, of which we have had no experience, must resemble those, of which we have had experience, and that the course of nature continues always uniformly the same" [@hume2000treatise]. Philosophers later called it the Uniformity Principle or the Principle of the Uniformity of Nature. See @henderson2018problem [].]
 
-Hardly anyone doubted it. Aristotle sorted nature's motions because he believed they had regular causes. In China, Xunzi wrote 天行有常: "the heavens move with constancy."^[Another translation: "There is a constancy to the activities of Heaven" [@xunzi2015xunzi, p. 175].] Galileo, Kepler, and Newton all assumed that their laws held everywhere, on Earth and in the sky.^[Galileo's last book, *Two New Sciences* [-@galilei1914discourses], treats the motion of all falling bodies by one mathematics. Kepler states that his third law holds for "any two planets" [-@kepler2021harmonies]. Newton, in the preface to the *Principia*, hoped to "derive the rest of the phænomena of nature by the same kind of reasoning from mechanical principles" [-@newton1846principia].]
+Hardly anyone doubted it. Aristotle sorted nature's motions because he believed they had regular causes. In China, Xunzi wrote 天行有常: "the heavens move with constancy."^[Another translation: "There is a constancy to the activities of Heaven" [@xunzi2015xunzi, p. 175].] Galileo, Kepler, and Newton assumed, or at least eagerly hoped, that their laws held everywhere, on Earth and in the sky.^[Galileo's last book, *Two New Sciences* [-@galilei1914discourses], treats the motion of all falling bodies by one mathematics. Kepler states that his third law holds for "any two planets" [-@kepler2021harmonies]. Newton, in the preface to the *Principia*, hoped to "derive the rest of the phænomena of nature by the same kind of reasoning from mechanical principles" [-@newton1846principia].]
 
 This trust is what keeps us from superstition. If the world follows patterns, we are not at the mercy of whimsical gods. And this is what makes science possible. Once we believe in order rather than caprice, experiments are expected to repeat, results can be shared, and knowledge can pile up, one finding on top of another.^[It is hard, perhaps impossible, to date this naturalistic turn. Most histories start Western science with the natural philosophy of ancient Greece, if not Egypt and Mesopotamia; see @lindberg2010beginnings [] or @mcclellan2015science []. Nor did the turn remove God from science; see @harrison2019science [].]
 
@@ -46,12 +46,12 @@ This trust is what keeps us from superstition. If the world follows patterns, we
 Why did people stop pleasing the gods and start predicting nature? That turn, in ancient Greece and ancient China alike, is the story of Chapter 4.
 :::
 
-What would a world without it look like? The world would just be a big lookup table, and every experiment would happen only once. Strike the ball here, write down what happened. Strike it there, write down something else. Row after row, and no row tells you anything about the next.
+What would the world look like to us without a belief in the uniformity of nature? To understand it, we would have to record everything: to make a big lookup table. Every experiment would be unique, and would happen only once. Strike the ball here, write down what happened. Strike it there, write down something else. Row after row, and no row tells you anything about the next.
 
-And actually even a lookup table won't work. An experiment in the table just happened in the past. If we don't assume it will happen again, then whatever happened in the past doesn't matter. A lookup table is worth keeping only if you expect to look things up again. Even a record of the past is a bet on the future.
+However big the lookup table, and however dedicated our efforts, it will not help us understand the future, or any part of the past we did not record. A recorded experiment happened only in the past. If we do not assume it will happen again, then whatever happened in the past does not matter. A lookup table is worth keeping only if you expect to look things up again. Even a record of the past is a bet on the future.
 
 ::: {.column-margin}
-Machine-learning researchers meet the same wall. A model that only memorizes its training examples is a gigantic lookup table, useless on any case it has not seen. Learning means generalizing, and generalizing means betting on invariance. More in Chapter 3.
+Data-driven AI rests on the same assumption: the uniformity of nature, or invariance. A model that only memorizes its training examples is a gigantic lookup table, useless on any case it has not seen. Learning means generalizing, and generalizing means betting on invariance. More in Chapter 3.
 :::
 
 This is why Ding Yi was only half joking:
@@ -66,9 +66,13 @@ Everything science knows rides on it. But can anyone prove it? Hume tried. What 
 
 ## Many Knobs, One Number {#sec-many-knobs}
 
-Physicists don't spend their lives striking the same ball the same way. Real experiments are messy. The felt is worn in places. The ball spins. The air moves. The cushions are a little soft. Each of these is a knob, and every knob can change what happens.
+Physicists do not spend their lives striking the same ball the same way over and over again. Real experiments are messy. The felt is worn in places. The ball spins. The air moves. The cushions are a little soft. Real experiments are also varied on purpose, to rule out [confounding variables]{.term}. Each of these is a knob, and every knob can change what happens.
 
-And yet, beneath the clutter, the pursuit is the same: change the knobs, keep the laws. Look for the one thing that doesn't turn when everything else does. Start with something you can hold.
+::: {.column-margin}
+The [controlled experiment]{.term} is the holy grail of scientific method. Turn one knob, hold all the others fixed, and see whether the result changes. If it does, that knob made the difference. John Stuart Mill called this the *method of difference*.^[@mill1843system, Book III, ch. 8.] A confounding variable is a knob you forgot to hold fixed: it turns along with the one you are testing, and takes the credit for its effect.
+:::
+
+And yet, beneath the clutter, the pursuit is the same: change the knobs, keep the laws. Look for the one thing that does not turn when everything else does. Start with something you can hold.
 
 Put an ice cube in a jar, screw the lid on tight, and weigh it. Leave the jar in the sun. The ice melts, the water sloshes, the glass fogs. Weigh it again. Same number. The ice is gone, but nothing was lost. It only changed form.
 
@@ -80,17 +84,17 @@ The lid matters. Leave the jar open and some water escapes as vapor, and the sca
 
 Energy is harder, because no scale can weigh it. Think of it as the ability to make something happen: to move a ball, to warm a room, to make a sound. It comes in many forms, and it can turn from one into another. What it never does is appear from nothing or vanish into nothing.
 
-Back to the pool table. The cue gives the ball energy of motion. As the ball rolls, the felt slows it down. The motion isn't lost. It turns into a little warmth in the felt and the cushions, and a little sound: the click against the cushion. Rough felt or smooth, lively cushions or dead ones: the path is different every time. Add up the motion, the warmth, and the sound, and the total is always what the cue put in.
+Back to the pool table. The cue gives the ball energy of motion. As the ball rolls, the felt slows it down. The motion is not lost. It turns into a little warmth in the felt and the cushions, and a little sound: the click against the cushion. Rough felt or smooth, lively cushions or dead ones: the path is different every time. Add up the motion, the warmth, and the sound, and the total is always what the cue put in.
 
 ::: {.column-margin}
-In the 1840s, James Joule showed that motion and heat are two forms of one thing: a falling weight that stirs a tub of water warms it by an amount you can predict.^[Joule, on the paddle-wheel experiment (1840s). [TODO: find source and bib key; verify date and set-up.]{.todo}]
+In the 1840s, James Joule showed that motion and heat are two forms of one thing: a falling weight that stirs a tub of water warms it by an amount you can predict.^[Joule first used a paddle wheel in 1845 and 1847, and gave his definitive measurements in @joule1850mechanical.]
 :::
 
 ::: {.column-margin}
 Energy is not the only thing kept. In every collision on the table, [momentum]{.term}---roughly, how hard something is to stop---is kept too. We meet it again in @sec-three-names.
 :::
 
-You already trust this law. Calories in, calories out: no one expects to lose weight while eating more cheeseburgers. But this law sometimes gives a counterintuitive result: the best bicycle helmets are built to break. The unbreakable ones pass the energy of the blow to the rider's skull; the crushable ones absorb the shock and break. A cracked helmet has done exactly what it is supposed to do. Tall buildings follow the same rule. A perfectly rigid tower would take the full force of a gale, with nowhere for the energy to go, and could crack. A tower that sways turns the wind's energy into motion, and dampers inside it turn that motion into a little heat. Energy has to go somewhere, and engineers design where it goes.
+You already trust this law. Calories in, calories out: no one expects to lose weight while eating more cheeseburgers. But this law sometimes gives a counterintuitive result: the best bicycle helmets are built to break. The unbreakable ones pass the energy of the blow to the rider's skull; the crushable ones absorb the shock and break. A cracked helmet has done exactly what it is supposed to do. Tall buildings obey the same law of conservation, and yet they are designed to sway so that they do not crack. A perfectly rigid tower would take the full force of a gale, with nowhere for the energy to go, and could crack. A tower that sways turns the wind's energy into motion, and dampers inside it turn that motion into a little heat. Energy has to go somewhere, and engineers design where it goes.
 
 ::: {.column-margin}
 A calorie is a unit of energy. The "calorie" on a food label is the energy needed to warm a liter of water by one degree Celsius.
@@ -105,7 +109,7 @@ Start with the ideal table, then add the real one: the felt, the soft cushions. 
 :::
 
 ::: {.column-margin}
-The ideal table, where nothing slows the ball, is Galileo's trick. He imagined a ball on a perfectly smooth, level plane and argued it would roll on forever. No such plane exists. But strip away the friction in your mind and the law shows itself; add the friction back and it is still there, hidden in the warmth. Idealization is not a lie about the world. It is how physics sees through the clutter. More in Chapter 4.^[Galileo, *Two New Sciences* (1638); also the *Dialogue* (1632). [TODO: verify passage and day.]{.todo}]
+The ideal table, where nothing slows the ball, is Galileo's trick. He imagined a ball on a perfectly smooth, level plane and argued it would roll on forever. No such plane exists. But strip away the friction in your mind and the law shows itself; add the friction back and it is still there, hidden in the warmth. Idealization is not a lie about the world. It is how physics sees through the clutter. More in Chapter 4.^[*Two New Sciences*, the Fourth Day: a body "projected along a horizontal plane without friction" moves "with a motion which is uniform and perpetual, provided the plane has no limits" [@galilei1914discourses, p. 244].]
 :::
 
 ::: {.column-margin}
@@ -144,7 +148,7 @@ Statisticians call this clause [independent and identically distributed]{.term},
 
 This is Hume's principle in disguise: uniformity all over again. Even chance keeps a law only if nature keeps its habits across time and space.
 
-Now trade the pool table for a box of gas. Shrink the balls to molecules, thousands of them, flying in every direction and never slowing down. Make one wall of the box a piston held back by a spring, like the plunger inside a tyre gauge. Each molecule that hits the piston knocks it back a little, and the spring pushes it home. With three molecules, the piston jerks: a knock, then nothing, then two knocks at once. With thousands, the knocks become a hum. The piston settles at one spot and only trembles there. No single hit can be predicted. Their sum can.
+Now trade the pool table for a box of gas. Shrink the balls to molecules, thousands of them, flying in every direction and never slowing down. Make one wall of the box a piston held back by a spring, like the plunger inside a tire gauge. Each molecule that hits the piston knocks it back a little, and the spring pushes it home. With three molecules, the piston jerks: a knock, then nothing, then two knocks at once. With thousands, the knocks become a hum. The piston settles at one spot and only trembles there. No single hit can be predicted. Their sum can.
 
 That steady push has a name: [pressure]{.term}. The air around you is a box like this, with countless molecules striking every surface they meet, your skin included. No one tracks them one by one. The pressure is steady anyway. It is the law of large numbers, working inside physics.
 
@@ -163,7 +167,7 @@ An honest note on the widget. A real piston would barely move; the drawing exagg
 :::
 
 ::: {.column-margin}
-Hold on to this move: what can't be predicted one by one can be predicted on average. It returns in Chapter 6, where tomorrow's weather can't be forecast a month ahead, but the climate can be studied.
+Hold on to this move: what cannot be predicted one by one can be predicted on average. It returns in Chapter 6, where the weather cannot be forecast a month ahead, but the climate a decade from now can be studied.
 :::
 
 Only when such invariance holds can statistics, probability, and the sciences built on them exist at all. Even in randomness, invariance survives, as long as every toss is a fair copy of the last.
@@ -172,11 +176,8 @@ Only when such invariance holds can statistics, probability, and the sciences bu
 
 Physics is built on a particular type of invariance, called [symmetry]{.term}. We know the idea from everyday life: my left hand mirrors my right. Hold it up to a mirror, and the image is my right hand. That mirroring is the symmetry.
 
-Mathematicians make the idea exact. A symmetry of a shape is a move that leaves it looking exactly as it did. Take a square. Turn it a quarter of the way around: still the same square. A half turn, three quarters: the same. Doing nothing at all counts too; it is the dullest symmetry, but a symmetry. Flip it over, left to right, top to bottom, or across either diagonal: the same again. Four turns and four flips. A square has eight symmetries, and no more.
+Mathematicians make the idea exact. A symmetry of a shape is a move that leaves it looking exactly as it did. Take a square. Turn it a quarter of the way around: still the same square. A half turn, three quarters: the same. Doing nothing at all counts too; it is the dullest symmetry, but a symmetry. Flip it over, left to right, top to bottom, or across either diagonal: the same again. Four turns and four flips. A square has eight symmetries, and no more.^[For the mathematician's definition, see ["Symmetry"](https://encyclopediaofmath.org/wiki/Symmetry) in the *Encyclopedia of Mathematics*: a figure is symmetric when some group of moves maps it onto itself. The square's eight moves form what mathematicians call the dihedral group of order eight.]
 
-::: {.todo}
-TODO (Ryan): verify the definition of symmetry and the square's 8 symmetries against these sources, then cite one in an endnote. (1) Encyclopedia of Mathematics, "Symmetry": a figure is symmetric when a group of transformations maps it onto itself; the circle has symmetry of infinite order. https://encyclopediaofmath.org/wiki/Symmetry (2) Cornell Math Explorers' Club, "Symmetries and Isometries": works out the square's 8 (identity, 3 rotations, 4 reflections). https://pi.math.cornell.edu/~mec/2008-2009/Victor/part1.htm (3) Hermann Weyl, *Symmetry* (Princeton UP, 1952). Also verify rows #126/#127.
-:::
 
 ::: {.column-margin}
 Why not count turning backward? A quarter turn backward lands the square exactly where three quarters forward does, so it is not a new move. And a full turn lands where doing nothing does.
@@ -190,7 +191,7 @@ Try harder shapes.
 **Find the symmetries.** Turn and flip each shape. The flower fits its outline 2 ways, the triangle 6, the circle endlessly many.
 :::
 
-Most shapes allow only jumps: a quarter turn, a flip, a sixth of a turn for a snowflake. Anything in between spoils them. The circle is different. Turn it by any amount, a half, a tenth, a hair, and it is still the same circle. Its symmetry never jumps. Mathematicians call it *continuous*, and it is the kind that physics cares about.
+Most shapes allow only jumps: a quarter turn, a flip, a sixth of a turn for a snowflake. Anything in between spoils them. The circle is different. Turn it by any amount, a half, a tenth, a hair, and it is still the same circle. Its symmetry never jumps. Mathematicians call it [continuous]{.term}, and it is the kind that physics cares about.
 
 ::: {.column-margin}
 A globe goes further: turn it about any axis, by any amount, and it looks the same.
@@ -208,12 +209,12 @@ Now bend the groove a little: push one short stretch of it outward.
 **The groove.** Each slice is swept in the same short time. Equal slices mean a steady pace around, until a bend makes the groove less than a perfect circle.
 :::
 
-With the bend, the groove is no longer a perfect circle, and the marble's world no longer looks the same all the way around. One place is different, and in that place the pace changes. Out on the bend the marble keeps its speed, but it swings wide, so its pace around the centre drops; back on the circle it picks up again. The circle's symmetry is gone, and so is the steady pace. Make the groove round again, and both come back together.
+With the bend, the groove is no longer a perfect circle, and the marble's world no longer looks the same all the way around. One place is different, and in that place the pace changes. Out on the bend the marble keeps its speed, but it swings wide, so its pace around the center drops; back on the circle it picks up again. The circle's symmetry is gone, and so is the steady pace. Make the groove round again, and both come back together.
 
 That is the whole pattern in miniature. Where the marble's world looks the same however you turn it, something about the marble's motion is kept. Break the symmetry, and you lose what was kept.
 
 ::: {.column-margin}
-Physicists call what the groove keeps [angular momentum]{.term}: roughly, how much a thing is circling. In a round groove the marble's distance from the centre never changes, so keeping its angular momentum means keeping its pace around.^[In general angular momentum is mass times speed times distance from the centre, counting only the part of the speed that goes around the centre. A skater who pulls in her arms spins faster for this reason: less distance, more pace, the same total. On the bend, the marble's distance grows while its speed stays the same, so its angular momentum changes. [TODO: Appendix A works the groove out properly; write it.]{.todo}]
+Physicists call what the groove keeps [angular momentum]{.term}: roughly, how much a thing is circling. In a round groove the marble's distance from the center never changes, so keeping its angular momentum means keeping its pace around.^[In general angular momentum is mass times speed times distance from the center, counting only the part of the speed that goes around the center. A skater who pulls in her arms spins faster for this reason: less distance, more pace, the same total. On the bend, the marble's distance grows while its speed stays the same, so its angular momentum changes. [TODO: Appendix A works the groove out properly; write it.]{.todo}]
 :::
 
 Now straighten the groove. Make it a perfectly straight line, running on forever in both directions, and give the marble one push. Every stretch of the groove looks like every other, so nothing along the way can speed the marble up or slow it down. It slides on forever, at the same speed, in the same direction.
@@ -241,13 +242,13 @@ Add time to the stage, so that what happens today would happen the same way tomo
 This is what Ding Yi was celebrating at the pool table: *the laws of physics are invariant across space and time.* His "great principle" is a claim about symmetry. Not the symmetry of any object, but of the whole world: turn all of it, move all of it, or start all of it a day later, and nothing changes.
 
 ::: {.column-margin}
-Notice the assumption inside it: that every place, every direction, and every moment is as good as any other, a uniform stage on which things happen. Newton pictured space and time this way. Einstein's space and time can bend, and in an expanding universe, the "same tomorrow as today" no longer holds everywhere. What space and time are, and how much of that is our choice of measures, is the question of Chapter 2.^[[TODO: a readable source on energy conservation in general relativity and cosmological redshift; Claude's recollection, verify (verify row #130).]{.todo}]
+Notice the assumption inside it: that every place, every direction, and every moment is as good as any other, a uniform stage on which things happen. Newton pictured space and time this way. Einstein's space and time can bend, and in an expanding universe, the "same tomorrow as today" no longer holds everywhere. What space and time are, and how much of that is our choice of measures, is the question of Chapter 2.^[For a readable account of why energy is not conserved in an expanding universe, see @carroll2010energy.]
 :::
 
-In 1915, Emmy Noether, a German mathematician lecturing at the University of Göttingen without pay---merely because she was a woman---discovered a secret mathematical architecture beneath the laws of physics. She proved that, loosely speaking, whenever a physical system behaves the same regardless of where it is, when it is, or how it is oriented, there must exist a law of conservation.^[Noether found the theorem in 1915 and published it in 1918. [TODO: cite Noether 1918 (bib key); verify 1915 vs. 1918 and the unpaid lecturing (rows #128/#129).]{.todo} "Loosely speaking": the theorem applies to systems whose laws can be written in a particular mathematical form, which covers the fundamental laws of physics but not, for instance, a table with friction treated on its own. The full statement, and the groove worked out properly, are in Appendix A.]
+In 1918, Emmy Noether, a German mathematician lecturing at the University of Göttingen without pay---merely because she was a woman---published a secret mathematical architecture beneath the laws of physics. She proved that, loosely speaking, whenever a physical system behaves the same regardless of where it is, when it is, or how it is oriented, there must exist a law of conservation.^[Hilbert and Felix Klein brought Noether to Göttingen in 1915, and she worked on the problem there for three years. Klein presented her paper to the Göttingen academy on 26 July 1918 [@noether1918invariante]. For years her lectures were advertised under Hilbert's name. "Loosely speaking": the theorem applies to systems whose laws can be written in a particular mathematical form, which covers the fundamental laws of physics but not, for instance, a table with friction treated on its own. The full statement, and the groove worked out properly, are in Appendix A.]
 
 ::: {.column-margin}
-Göttingen's faculty debated for years whether a woman could lecture. David Hilbert is said to have answered, "We are a university, not a bathhouse."^[Widely repeated, possibly apocryphal. [TODO: find a source for Hilbert's remark, or cut the line.]{.todo} Read more in *Emmy Noether's Wonderful Theorem* [@neuenschwander2017emmy], *Symmetry and the Beautiful Universe* [@lederman2011symmetry], and the biography *Proving It Her Way* [@RoweKoreuber2020].]
+Göttingen's faculty debated for years whether a woman could lecture. David Hilbert is said to have answered, "We are a university, not a bathhouse."^[Widely repeated, and possibly apocryphal; it is reported in Auguste Dick's biography [@dick1981emmy, p. 32] and by @lederman2011symmetry []. Read more in *Emmy Noether's Wonderful Theorem* [@neuenschwander2017emmy], *Symmetry and the Beautiful Universe* [@lederman2011symmetry], and the biography *Proving It Her Way* [@RoweKoreuber2020].]
 :::
 
 Every continuous symmetry guarantees a conservation law. The marble's groove was a small version of one of them. Not the objects in the world, but the world itself, the space that things are in, looks the same however it is turned. That is a picture of what the world is like: one view of how it could be. If the picture is right, the circling of things, their angular momentum, is conserved: for spinning planets and skaters alike. And the same logic works for the other ways of moving the whole world:
@@ -257,18 +258,15 @@ Every continuous symmetry guarantees a conservation law. The marble's groove was
 - The world is the same today as tomorrow, or yesterday, or the next nanosecond → energy is conserved.
 
 ::: {.column-margin}
-This answers the question from @sec-many-knobs. When you tried to break the law on the pool table and couldn't, the reason was this last line. Energy is kept *because* the laws are the same from one moment to the next.
+This answers the question from @sec-many-knobs. When you tried to break the law on the pool table and could not, the reason was this last line. Energy is kept *because* the laws are the same from one moment to the next.
 :::
 
-Notice that we have now met the same idea three times. Philosophers call it the uniformity of nature. Statisticians call it the i.i.d. assumption. Physicists call it symmetry, and conservation laws are its fingerprints. But no matter what we call it, it's about finding something that doesn't change throughout time or throughout space, so that what we learn here and now will also apply elsewhere and in the future. Three names, one bet.
+Notice that we have now met the same idea three times. Philosophers call it the uniformity of nature. Statisticians call it the i.i.d. assumption. Physicists call it symmetry, and conservation laws are its fingerprints. But no matter what we call it, it is about finding something that does not change throughout time or throughout space, so that what we learn here and now will also apply elsewhere and in the future. Three names, one bet.
 
 And Noether's theorem cuts both ways. A continuous symmetry guarantees a conservation law, so if a conservation law ever failed, a symmetry would have failed with it. Either we left something out of the count, some push or pull we never thought to count, or the world itself is not the same everywhere, in every direction, at every moment. If it is the second, then the stage we have been standing on all along was an assumption.
 
 What if it is?
 
-::: {.todo}
-TODO, §6 (v6 + final pass, 2026-11-23). Still open: the closing either-or (Claude's suggestion: accept, cut or rewrite); the Hilbert line; the uniform-stage margin note here or in Ch2; Ryan's full re-read. To verify (rows #126–#130 in the writing project's `notes/ch1.md`): Noether 1915 vs. 1918; unpaid lecturing; Hilbert's remark; the square has 8 symmetries; groove physics (round frictionless groove keeps pace; a bend keeps speed but changes pace and angular momentum; straight groove keeps momentum); energy conservation in an expanding universe. Widgets: The groove now bends the groove itself (Dan, 2026-11-23, "option 1"); Ryan's dip version is kept as a test page.
-:::
 
 ## The Ghost Particle {#sec-ghost-particle}
 
@@ -278,9 +276,9 @@ Now, imagine you are a particle detective on a cosmic crime scene. When a radioa
 Only an analogy: burning rearranges atoms, while decay changes the particles themselves. What carries over is the bookkeeping. Before and after must balance.
 :::
 
-Something doesn't add up. The emitted electrons don't carry the expected amount of energy. They come out with a spread, some fast, some slow, nearly all of them short of the total, as if the cake is cut and served but the calories are lost. And when physicists later checked, some momentum was missing too. What do you conclude?^[The spread was first reported by James Chadwick in 1914 and settled in 1927 by Charles Ellis and William Wooster, who caught all the heat from decaying radium E. The missing momentum was measured only later, from the recoil of the decaying nucleus. [TODO (Dan): verify the recoil experiments and their dates (Claude: Leipunski 1936; Crane and Halpern 1938–39) before adding names or dates. Sources for 1914/1927: Franklin, neutrino-history conference proceedings 2018, apc.u-paris.fr; neutrino-history.in2p3.fr.]{.todo}]
+Yet in this crime scene, something does not add up. The emitted electrons do not carry the expected amount of energy. They come out with a spread, some fast, some slow, nearly all of them short of the total, as if the cake is cut and served but the calories are lost. And when physicists later checked, some momentum was missing too. What do you conclude?^[The spread was first reported by James Chadwick in 1914 [@chadwick1914intensitatsverteilung] and settled in 1927 by Charles Ellis and William Wooster, who caught all the heat from decaying radium E [@ellis1927average]. The missing momentum was measured only later, from the recoil of the decaying nucleus: roughly by Alexander Leipunski in 1936 [@leipunski1936determination], then decay by decay, in a cloud chamber, by H. R. Crane and J. Halpern in 1938--39 [@crane1939further].]
 
-This was a profound crisis for physicists in the 1920s and 1930s, and it is exactly the fork at the end of the last section. By Noether's theorem, one of two things must be true. One possibility is that, somehow, for beta decay, the continuous symmetries of space and time don't hold. The stage itself is not the same from one moment to the next, at least down here, inside the atom. Niels Bohr was ready to consider it: perhaps energy was kept only on average.^[Bohr floated the idea around 1929–30, among other places in his Faraday Lecture to the Chemical Society on 8 May 1930. [TODO (Dan): verify against Jensen, *Controversy and Consensus: Nuclear Beta Decay 1911–1934* (2000), or Bromberg 1971; the lecture date is from Stuewer's notes (Springer, *Science Networks* 24).]{.todo}] The other possibility is that something is missing.
+This was a profound crisis for physicists in the 1920s and 1930s, and it is exactly the fork at the end of the last section. By Noether's theorem, one of two things must be true. One possibility is that, somehow, for beta decay, the continuous symmetries of space and time do not hold. The stage itself is not the same from one moment to the next, at least down here, inside the atom. Niels Bohr was ready to consider it: perhaps energy was kept only on average.^[Bohr floated the idea around 1929–30, among other places in his Faraday Lecture to the Chemical Society in 1930, printed two years later [@bohr1932faraday].] The other possibility is that something is missing.
 
 ::: {.column-margin}
 For beta decay alone, space and time could be discrete, forming a kind of lattice, as if particles are jumping on an infinite chessboard from one grid to another. A chessboard has no in-between: you can move a whole square, but not a hair. The smooth symmetry is gone, and with it the conservation law that Noether guarantees.
@@ -290,9 +288,9 @@ The second was Wolfgang Pauli's proposal in 1930: an unknown particle carries aw
 
 But the second possibility is equally mysterious. To have gone unseen, the thief had to slip past everything. This unknown particle would have to escape detection, meaning that it almost never interacts with an electron or a nucleus that it meets. Like a ghost, it could pass through the entire Earth.
 
-Pauli knew how this sounded. He did not publish it. He put it in a letter to colleagues gathered at a meeting in Tübingen, addressed to the "radioactive ladies and gentlemen," and called it a "desperate remedy."^[The letter is dated 4 December 1930; Pauli called his particle a "neutron." The original is in the Pauli Archive at CERN; an English translation is widely reprinted. He first spoke of the idea in public in 1931 and let it into print only after the 1933 Solvay conference. [TODO (Dan): verify "spoke in public in 1931" (Pasadena, June 1931?) and the Solvay proceedings (1934); cite Pais, *Inward Bound* (1986), or Brown, "The idea of the neutrino," *Physics Today* (1978).]{.todo}] To a friend, he is said to have confessed that he had done a terrible thing: he had proposed a particle that could never be detected.^[The friend is usually named as the astronomer Walter Baade; the remark is reported secondhand, not in Pauli's letters. [TODO (Dan): find the earliest source; @zee2015fearful [p. 36] tells it.]{.todo}] Pauli was among the boldest physicists alive. That he called his own idea desperate shows how much was at stake. Giving up a symmetry of space and time was unthinkable; inventing an invisible particle was barely better. Physicists do not just use their symmetries. They lean on them, the way Yang Dong did.
+Pauli knew how this sounded. He did not publish it. He put it in a letter to colleagues gathered at a meeting in Tübingen, addressed to the "radioactive ladies and gentlemen," and called it a "desperate remedy."^[The letter is dated 4 December 1930; Pauli called his particle a "neutron." The original is in the Pauli Archive at CERN; an English translation is widely reprinted. He first spoke of the idea in public in June 1931, at a meeting in Pasadena, and it first appeared in print in the discussion after Heisenberg's report at the 1933 Solvay conference, published in 1934. See @brown1978idea [], which includes an English translation of the letter.] To a friend, he is said to have confessed that he had done a terrible thing: he had proposed a particle that could never be detected.^[The friend is usually named as the astronomer Walter Baade; the remark is reported secondhand, not in Pauli's letters. @zee2015fearful [p. 36] tells it. [TODO (Dan): check Zee p. 36 at the desk; the earliest printed source for the Baade story is still unknown.]{.todo}] Pauli was among the boldest physicists alive. That he called his own idea desperate shows how much was at stake. Giving up a symmetry of space and time was unthinkable; inventing an invisible particle was barely better. Physicists do not just use their symmetries as working assumptions. They believe in them, the way Yang Dong and the physicists of the novel believed in their physics, with what Ding Yi calls "almost religious faith."^[@liu2016three [p. 71].]
 
-For a quarter century, the ghost particle remained a phantom. By then it had a name, [neutrino]{.term}, Italian for "little neutral one." Neutrinos, ghostlike as they are, do leave traces. There is a very small, but non-zero chance that one strikes a nucleus. So the detectives became ghost hunters. They piled an enormous number of nuclei in front of a stream of neutrinos, and waited, listening for the faintest creak of the floorboards in a vast haunted house. In 1956, beside a nuclear reactor in South Carolina, Clyde Cowan and Frederick Reines heard it. Pauli had been wrong about one thing: his ghost could be caught.^[C. L. Cowan Jr., F. Reines, F. B. Harrison, H. W. Kruse and A. D. McGuire, "Detection of the Free Neutrino: a Confirmation," *Science* 124 (20 July 1956): 103–104. [TODO (Dan): add to references.bib.]{.todo}]
+For a quarter century, the ghost particle remained a phantom. By then it had a name, [neutrino]{.term}, Italian for "little neutral one." Neutrinos, ghostlike as they are, do leave traces. There is a very small, but non-zero chance that one strikes a nucleus. So the detectives became ghost hunters. They piled an enormous number of nuclei in front of a stream of neutrinos, and waited, listening for the faintest creak of the floorboards in a vast haunted house. In 1956, beside a nuclear reactor in South Carolina, Clyde Cowan and Frederick Reines heard it. Pauli had been wrong about one thing: his ghost could be caught.^[@cowan1956detection.]
 
 ::: {.column-margin}
 The name is Enrico Fermi's, who built Pauli's guess into a working theory of beta decay in 1933–34. The reactor was at the Savannah River Plant, near Aiken.
@@ -311,50 +309,47 @@ Notice what saved the law. Not a measurement: for twenty-six years, no one could
 ::: {.column-margin}
 For the whole story, from Pauli's letter to today's detectors, see *[The History of the Neutrino](https://neutrino-history.in2p3.fr/)*.
 
-Photographs in the timeline: Los Alamos National Laboratory. They are not covered by this book's licence; they are reproduced under the Laboratory's [notice](https://www.lanl.gov/misc/copyright.html), which reads: "Unless otherwise indicated, this information has been authored by an employee or employees of the Triad National Security, LLC, operator of the Los Alamos National Laboratory with the U.S. Department of Energy. The U.S. Government has rights to use, reproduce, and distribute this information. The public may copy and use this information without charge, provided that this Notice and any statement of authorship are reproduced on all copies. Neither the Government nor Triad makes any warranty, express or implied, or assumes any liability or responsibility for the use of this information."
+Photographs in the timeline: Los Alamos National Laboratory. They are not covered by this book's license; they are reproduced under the Laboratory's [notice](https://www.lanl.gov/misc/copyright.html), which reads: "Unless otherwise indicated, this information has been authored by an employee or employees of the Triad National Security, LLC, operator of the Los Alamos National Laboratory with the U.S. Department of Energy. The U.S. Government has rights to use, reproduce, and distribute this information. The public may copy and use this information without charge, provided that this Notice and any statement of authorship are reproduced on all copies. Neither the Government nor Triad makes any warranty, express or implied, or assumes any liability or responsibility for the use of this information."
 :::
 
-Even one bet on a ghost is hard to make. Yang Dong's world is crueler. In the novel, no experiment repeats, not even as a statistical pattern. We won our bet. We don't live in her world. Or do we?
+Even one bet on a ghost is hard to make. Yang Dong's world is crueler. In the novel, no experiment repeats, not even as a statistical pattern. We won our bet. We do not live in her world. Or do we?
 
-::: {.todo}
-TODO, §7 (2026-11-24, from the widgets session). Facts checked by Claude against: neutrino-history.in2p3.fr; Franklin (2018 history conference); Wikipedia "Cowan–Reines neutrino experiment"; LANL news "The neutrino turns 70" (lanl.gov); APS "Savannah River Site" historic site; CERN Pauli Archive; Lederman & Hill p. 109 (quote as in the earlier draft). Confirmed: Chadwick 1914; Ellis & Wooster 1927 (radium E); Pauli's letter 4 Dec 1930, to Tübingen, "neutron," "desperate remedy" (translation of *verzweifelten Ausweg*); Fermi's theory 1933–34 and the name; Hanford 1953 ("probable" result); move to Savannah River 1955; *Science* 20 July 1956; 1930 → 1956 = 26 years. Open, for Dan: the footnote TODOs above; whether "He did not publish it" needs "at first"; the momentum line was softened (Dan, 2026-11-24). Photo credits: see the widget's spec (`widgets/ghost-hunt/spec.md`).
-:::
 
 ## Through the Looking-Glass {#sec-looking-glass}
 
 Alice, who adventured in Wonderland, once again steps across the threshold. This time, she climbs through a looking-glass, a mirror. The world in the mirror should look the same, only reversed. The left hand becomes right, the teacup is still a teacup, the chessboard is still a chessboard. The rules stay the same.
 
-Now watch Ding Yi's strikes on the pool table, but through a mirror. Nothing in the mirror looks weird. After all, the laws of physics stay invariant across space and time, at least we think. The same goes for the whole galaxy.
+Now watch Ding Yi's strikes on the pool table, but through a mirror. Nothing in the mirror looks out of place. After all, the laws of physics stay invariant across space and time. Surely the same holds for a mirrored galaxy.
 
 This is the promise of [parity]{.term} in physics: flip the world as a mirror does, and the laws still hold. Whatever happens, its mirror image could happen too. Nature has no favorite hand.
 
-Notice what kind of symmetry this is. Unlike a turn or a slide, a mirror flip cannot be done a little at a time. You have already seen this in @sec-three-names. There is no half of a mirror image. In other words, parity is discrete.
+Notice what kind of symmetry this is. Unlike a turn or a slide, a mirror flip cannot be done a little at a time. You have already seen this in @sec-three-names. There is no half of a mirror image. In other words, parity is [discrete]{.term}.
 
-So Noether's theorem cannot guarantee that it will produce a conservation. Yet physicists believed it because every time they looked, it held. For decades, they assumed this symmetry was absolute. It seemed too obvious to doubt.
+So Noether's theorem cannot guarantee a conservation law for it. Yet physicists believed in it, because every time they looked, it held. For decades, they assumed parity was as absolute as the other symmetries. It seemed too obvious to doubt.
 
 But then came a puzzle that cracked the mirror.
 
-In the early 1950s, physicists ran into a riddle. If a thing walks like a duck and quacks like a duck, it must be a duck. But two identical ducks lay eggs. One always lays two. The other always lays three. And by the rules of thumb of duck genetics, as everyone knew them, a duck that lays in pairs and a duck that lays in threes cannot be the same kind of duck. Either these are two entirely different ducks, or there is something wrong with our assumed rules in genetics.
+In the early 1950s, physicists ran into a riddle. If a thing walks like a duck and quacks like a duck, it must be a duck. But when two identical ducks lay eggs, one always lays two; the other always lays three. And by the rules of thumb of duck genetics, as everyone knew them, a duck that lays in pairs and a duck that lays in threes cannot be the same kind of duck. Either these are two entirely different ducks, or there is something wrong with our assumed rules in duck genetics.
 
-The ducks were two subatomic particles, the tau and the theta. They matched in every way physicists could measure: same mass, same charge, same lifetime. Like most subatomic particles, they don't last. After about a hundred-millionth of a second, each one falls apart on its own into lighter particles. Physicists call this [decay]{.term}; the beta decay of @sec-ghost-particle was one case. In physics the duck does not survive laying: it vanishes, and only the eggs are left. The eggs here are lighter particles called *pions*. The theta left two. The tau left three.^[[TODO: verify the lifetime (charged kaon, about 10⁻⁸ s).]{.todo}]
+The ducks were two subatomic particles, the tau and the theta. They matched in every way physicists could measure: same mass, same charge, same lifetime. Like most subatomic particles, they do not last. After about a hundred-millionth of a second, each one falls apart on its own into lighter particles. Physicists call this [decay]{.term}; the beta decay of @sec-ghost-particle was one case. In physics the duck does not survive laying: it vanishes, and only the eggs are left. The eggs here are lighter particles called *pions*. The theta left two. The tau left three.
 
-The rule of genetics was the mirror. Every particle carries a mirror label, plus or minus: does it come back unchanged, or flipped, when every point in space is swapped for its opposite? If nature has no favorite hand, the label cannot change when a particle decays, so you can read the parent's label off its eggs. Two pions read plus. Three read minus. So the theta was plus, the tau was minus, and one particle cannot be both.
+Every particle carries a mirror label, plus or minus: does it come back unchanged, or flipped, when every point in space is swapped for its opposite? If nature has no favorite hand, the label cannot change when a particle decays, so you can read the parent's label off its eggs. Two pions read plus. Three read minus. So the theta was plus, the tau was minus, and one particle cannot be both.
 
 ::: {.column-margin}
-Physicists call this flip **P**, for parity: swap left and right, up and down, front and back, all at once. Time is left alone; flipping time is a different test, and we meet it in the next section. An ordinary mirror does the same job: swapping all three is one mirror flip plus a half turn, and a half turn changes nothing (@sec-three-names).
+Physicists call this flip **P**, for parity: swap left and right, up and down, front and back, all at once. Time is left alone; flipping time is a different test, and we meet it in the next section.
 :::
 
 ::: {.column-margin}
 Why two pions read plus: each pion is minus, and labels multiply. Minus times minus is plus; three minuses make minus. (Appendix A.)
 :::
 
-Two different ducks, or a broken rule? Few physicists liked either answer.^[[TODO: a source for the mood, c. 1954–56.]{.todo}]
+Two different ducks, or a broken rule? Few physicists liked either answer. As with Pauli's ghost, they had to choose the lesser evil, and no one could tell which one it was. Yang later compared their situation to a man in a dark room, groping for a way out: he knows there must be a door somewhere, but not in which direction.^[@yang1957law [p. 398].]
 
 In 1956, two young Chinese American physicists, Tsung-Dao Lee and Chen-Ning Yang, took the second option seriously: maybe the rule of thumb was wrong. They went back through the literature on experiments with beta decay and checked: had anyone ever tested the mirror in the [weak force]{.term}, the force behind decays like the tau's and the theta's, and behind the beta decay that sent Pauli looking for his ghost? No one had. The mirror had been tested where atoms and nuclei hold together, and it held there. In the weak force, it had simply been assumed.
 
-Theory is cheap. Experiment is king. Lee and Yang talked to the experimental physicist Chien-Shiung Wu, or Madame Wu, as she is universally known, Lee's colleague at Columbia and the leading expert on beta decay.^[[TODO: verify that Yang was at the Institute for Advanced Study, Princeton, in 1956. Wu as "a colleague of Lee's at Columbia": *Nature* 385 (1997), p. 575.]{.todo}]
+Theory is cheap. Experiment is king. Lee and Yang talked to the experimental physicist Chien-Shiung Wu, or Madame Wu, as she is universally known, Lee's colleague at Columbia and the leading expert on beta decay.^[In 1956 Lee was at Columbia and Yang at the Institute for Advanced Study in Princeton [@hudson2001reversal]. Their paper is @lee1956question.]
 
-Her plan was simple to say and very hard to do. Take cobalt-60, a radioactive cobalt whose nuclei undergo beta decay. Each nucleus spins, like a tiny top. Normally the tops point every which way. Wu cooled the cobalt to a hair above absolute zero, so cold that even atoms are almost frozen still in their crystal. Then she used a strong magnet to line the tops up, all spinning the same way, and the cold kept heat from knocking them out of line. Finally, she counted the electrons: how many flew out of each end of the tops.^[The crystal was cooled to about 0.003 kelvin, and the team could hold it that cold for only about fifteen minutes at a time. [TODO: cite NIST, "Reversal of the Parity Conservation Law in Nuclear Physics" (SP 958); verify the fifteen minutes.]{.todo}]
+Her plan was simple to say and very hard to do. Take cobalt-60, a radioactive cobalt whose nuclei undergo beta decay. Each nucleus spins, like a tiny top. Normally the tops point every which way. Wu cooled the cobalt to a hair above absolute zero, so cold that even atoms are almost frozen still in their crystal. Then she used a strong magnet to line the tops up, all spinning the same way, and the cold kept heat from knocking them out of line. Finally, she counted the electrons: how many flew out of each end of the tops.^[The crystal was cooled to about 0.003 kelvin [@hudson2001reversal], and it stayed cold enough for only a few minutes at a time [@wu1957experimental].]
 
 Why would that settle anything? Picture one of the spinning tops. Look at it from one end, and it turns counterclockwise. Look from the other end, and the very same spin looks clockwise. So the top has two ends that differ in only one way: the clockwise end and the counterclockwise end. Now hold the experiment up to a mirror that runs along the top, parallel to its axis. The mirror swaps clockwise and counterclockwise, but leaves the two ends where they were. In the mirror, the end that turned counterclockwise now turns clockwise.
 
@@ -367,16 +362,16 @@ So which end should the electrons favor? Neither. The two ends are alike in ever
 :::
 
 ::: {.column-margin}
-Getting this right was hard. Wu's team spent about six months building the apparatus, and each run lasted only as long as the crystal stayed cold. Then it warmed, and they had to cool it again, run after run, just as in the widget. As it warmed, the lopsidedness faded with the nuclei's alignment: the check that it came from the lined-up spins, not from the apparatus.^[Wu et al. (1957): the asymmetry disappeared "with that of gamma anisotropy", warm-up about six minutes; six-month work-up: NIST SP 958. [TODO: add Wu et al. to references.bib.]{.todo}]
+Getting this right was hard. Wu's team spent about six months building the apparatus, and each run lasted only as long as the crystal stayed cold. Then it warmed, and they had to cool it again, run after run, just as in the widget. As it warmed, the lopsidedness faded with the nuclei's alignment: the check that it came from the lined-up spins, not from the apparatus.^[Wu et al. (1957): the asymmetry disappeared "with that of gamma anisotropy", warm-up about six minutes; six-month work-up: NIST SP 958. See @wu1957experimental; @hudson2001reversal.]
 :::
 
-If parity were sacred, the count would be even. It wasn't. In January 1957, Wu and her collaborators announced that more electrons flew out of one end than the other, run after run; when they turned the magnet round, the lopsidedness turned with it. At the same time a team at Columbia, among them Leon Lederman, found the same lopsidedness with a different particle; the two papers appeared side by side.^[[TODO: Wu, Ambler, Hayward, Hoppes and Hudson, *Physical Review* 105 (1957): 1413; Garwin, Lederman and Weinrich, *Physical Review* 105 (1957): 1415. Add both to references.bib. Both received 15 January 1957, published 15 February 1957 (APS). The field reversal: Wu et al., Fig. 2, polarizing field up and down.]{.todo}] In the weak force, at least, nature can tell left from right.
+If parity were sacred, the count would be even. It was not. In January 1957, Wu and her collaborators announced that more electrons flew out of one end than the other, run after run; when they turned the magnet round, the lopsidedness turned with it. At the same time a team at Columbia, among them Leon Lederman, found the same lopsidedness with a different particle; the two papers appeared side by side.^[@wu1957experimental; @garwin1957observations. Both papers were received on 15 January 1957 and printed one after the other in the same issue of *Physical Review*.] In the weak force, at least, nature can tell left from right.
 
 ::: {.column-margin}
 A mirror flip is a jump, like the square's flips, not a continuous move. So Noether's theorem says nothing about it, and when Wu's experiment showed that nature can tell left from right, no conservation law of Noether's kind was broken. That made it no less of a shock.
 :::
 
-And a shock it was. On 17 January 1957, before Wu's results reached him, Pauli wrote to Victor Weisskopf: "I don't believe that the Lord is a weak left-hander, and I am ready to bet a very high sum that the experiment will give a symmetric angular distribution of electrons."^[Letter to Weisskopf, 17 January 1957, as quoted in "The Weak Force: From Fermi to Feynman," arXiv:0911.0058, §2.6; see also APS News, October 2022, "October 1956: Lee and Yang Crack the Mirror of Parity." [TODO: cite a published edition of the letter.]{.todo}] Soon after, he wrote in a letter, "Now after the first shock is over, I begin to collect myself. Yes, it was very dramatic."^[@Myneni1984ParityViolation] Feynman, who lost $50 to a fellow scientist on a bet that parity symmetry would not be violated, even in his 1985 book still expressed disbelief and hope that "a more beautiful and, hence, more accurate understanding" of things will emerge.^[The bet: APS News, December 2001, "December 27, 1956: Fall of Parity Conservation"; APS News (October 2022) quotes the historian Allan Franklin that the odds were $50 to $1. [TODO: the 1985 book (*QED*?) and page; the friend's name.]{.todo}]
+And a shock it was. On 17 January 1957, before Wu's results reached him, Pauli wrote to Victor Weisskopf: "I don't believe that the Lord is a weak left-hander, and I am ready to bet a very high sum that the experiment will give a symmetric angular distribution of electrons."^[Letter to Weisskopf, 17 January 1957, as quoted in "The Weak Force: From Fermi to Feynman," arXiv:0911.0058, §2.6; see also APS News, October 2022, "October 1956: Lee and Yang Crack the Mirror of Parity." The handwritten original is in the Pauli Archive at CERN.] Soon after, he wrote in a letter, "Now after the first shock is over, I begin to collect myself. Yes, it was very dramatic."^[@Myneni1984ParityViolation] Feynman had bet his fellow physicist Norman Ramsey fifty dollars to one that parity would hold. He paid up.^[@franklin2005easy. The odds: APS News, October 2022, "October 1956: Lee and Yang Crack the Mirror of Parity," quoting Franklin.]
 
 ::: {.column-margin}
 Lee and Yang received the Nobel Prize that same year, 1957, just over a year after their paper appeared. Wu, whose experiment made the case, was not included.
@@ -390,90 +385,55 @@ Set this beside the ghost particle. When beta decay seemed to lose energy, physi
 
 Yet the mirror cracked the same way every time Wu ran it. Each decay was random; the lopsidedness was lawful.
 
-::: {.todo}
-TODO, §8 (2026-11-25, reviewed in chat by Dan). Widget 1.8a (Real or Mirror?) cut. Open: verify rows in the writing project's working doc (tau/theta lifetime and parity labels; Lee & Yang 1956; Wu's team and dates; which end the electrons favored; Garwin–Lederman–Weinrich; Pauli's letters; Feynman's bet and book; Nobel 1957). Done in the widget PR (Dan allowed prose and margin-note edits, 2026-11-25): the label `{#sec-lawful-coin}` on "## The Lawful Coin"; the top described from "one end / the other end" and a mirror "parallel to its axis" (the widget now lays the spins left–right); a margin note on how hard the experiment was, with the warm-up as Wu's check; "Days later" → "At the same time" (both papers received 15 January 1957, published side by side 15 February 1957); the field reversal; the Nobel note → "just over a year after their paper appeared" (October 1956 → December 1957); the closing line "Each decay was random; the lopsidedness was lawful." (leads into §9: parity breaks, but lawfully, Dan's idea). Checked: the electrons favored the end opposite the nuclear spin (Wu et al. 1957; SEP; NIST SP 958); *Nature* 385 (1997) p. 575 calls Wu "a colleague of Lee's at Columbia". Still open: Noether is mentioned twice in §8 (paragraph 5 and the margin note).
-:::
 
-::: {.callout-note appearance="minimal"}
-*The sections from here to the end of the chapter are from an earlier draft. They are being revised.*
-:::
+## Beyond the Mirror: CP, T, and CPT {#sec-beyond-mirror}
 
-## Beyond the Mirror: CP, T, and CPT
+Alice's looking-glass was one mirror. Physicists have three, and each reflects a different thing. The first flips space: that is P, the mirror of the last section, and in the weak force it cracked. Gravity, electromagnetism and the force that holds nuclei together still respect it.
 
-Parity was gone, but physicists clung to hope. Maybe if you combined a mirror with antimatter---in technical jargon, charge conjugation plus parity, or CP---the universe would be restored. A mirrored world of antiparticles should behave like ours. That was the creed of the 1960s.
+The second flips charge. Every particle has a twin with the opposite electric charge, its antiparticle. The electron's twin is the positron. Swap every particle for its twin, and you have a mirror between matter and antimatter. Physicists call it C, for charge. In the weak force, it cracked too.^[The second of the two 1957 papers already says so in its title: "the failure of conservation of parity and charge conjugation" [@garwin1957observations].]
 
-Until it wasn’t.
+Parity was gone, but physicists clung to hope. Maybe if you combined the two mirrors, flipping space and swapping matter for antimatter at once---CP---the universe would be restored. A mirrored world of antiparticles should behave like ours.
 
-In 1964, James Cronin and Val Fitch found that neutral kaons---particles flickering between matter and antimatter---sometimes decayed in ways forbidden by CP symmetry. Not often. Just rarely enough to unsettle faith. CP, too, was broken. This won them the Nobel Prize in 1980. 
+Until it was not.
 
-If CP fails, then by the structure of physics, time reversal (T) must fail too. Imagine a movie of particles colliding---play it backward. For most forces, the reversed movie looks physically possible. But in the weak interaction, it doesn’t. Time itself, at the microscopic level, is not fully reversible.
+In 1964, James Cronin and Val Fitch found that neutral kaons---particles flickering between matter and antimatter---sometimes decayed in ways forbidden by CP symmetry.^[@christenson1964evidence.] Kaons were cousins of the ducks of the last section: the tau and the theta turned out to be one particle, a charged kaon. Not often. Just rarely enough to unsettle faith. CP, too, was broken. This won them the Nobel Prize in 1980.
 
-And yet, there is one last covenant: CPT symmetry. Combine all three---charge, parity, and time---and nature holds steady. CPT means this: if you flip left and right, swap matter for antimatter, and reverse the arrow of time all at once, the world plays fair again. This is not just a guess; it is a theorem. As long as physics obeys the basic assumptions of relativity and quantum fields, CPT cannot fail. And in every experiment ever performed, CPT holds.
+The third mirror flips time. Imagine a movie of particles colliding---play it backward. That is T, for time. For most forces, the reversed movie looks physically possible. If CP fails, then by the structure of physics, time reversal must fail too. In the weak interaction, once in a rare while, the backward movie shows something that never happens.
 
-So yes, symmetry after symmetry has fallen. Parity. Charge. CP. Time. Each one, once thought sacred, turned out to be conditional. But CPT remains unbroken.
+And yet, there is one last covenant: CPT symmetry, all three mirrors at once. If you flip left and right, swap matter for antimatter, and reverse the arrow of time all at once, the world plays fair again. This is not just a guess; it is a theorem. As long as physics obeys the basic assumptions of relativity and quantum fields, CPT cannot fail. And in every experiment so far, CPT holds.
 
-That survival is not trivial. It is what gives us hope that the laws of physics are still coherent. It is why matter and antimatter have the same mass, why conservation still feels real, why the edifice of physics hasn’t collapsed into Yang Dong’s despair.
+So at certain levels the laws hold, and at certain levels they do not. But holding or breaking is still repeatable. Wu's cobalt electrons always favor the end opposite the spin. Kaons always betray CP at the same tiny fraction. The mirror lies, but it lies consistently. The breaking of a symmetry is itself a law that holds.
 
-Just as important: these violations are *reproducible*. Wu’s cobalt electrons *always* shoot left. Kaons *always* betray CP at the same tiny fraction. The movie of time reversal *always* fails in the same way. Scandalous, yes---but scandal written into law. The mirror lies, but it lies consistently.
+Remember the three names: uniformity of nature, the fair-copy clause of the lawful coin, symmetry. Each was a bet that something stays the same across space and time. Physics lost some of those bets. Yet the invariance of the variances is still a kind of invariance. The bet still pays, one level up.
 
-This was the reassurance: nature might break her covenants, but she does so predictably. A broken law is still a law if its violations can be written down and repeated.
-
-Even in the ruins of symmetry, some structure endures.
-
-## Breaking Symmetry 
-
-No matter where you set the ball on the lawful pool table, the energy conserves because there is spatial symmetry. But what if we broke the spatial symmetry?
+So physics in our world has not broken the way it broke for Yang Dong. In our world, the mirrors crack but do not shatter.
 
 ::: {.todo}
-Old widget removed (2026-11-23): `pool-symmetry` (the demon's pool table: size field, transmutation). Rebuild it on the new widget core, then restore a `wid` block and the paragraphs below.
-Caption was: "Breaking Spatial Symmetry---same table, unlawful rules."
-
-Try again, but this time, on a demon’s pool table where you can choose how to break the spatial symmetry. 
-
-Enable the Size Field and drag the ball across the table, you’ll notice its size alters. Hit it with a cue, watch how the kinetic energy bounces up and down as the ball moves across the table from left to right and right to left---when it is supposed to stay constant. The ball doesn’t look the same anymore when moving. Spatial symmetry is broken. Energy doesn’t conserve. 
-
-Enable transmutation, and even worse things happen. The concept of energy doesn’t even apply anymore. The conservation law does not break. It evaporates.  
-
-Only in this case, you own the pool table and can control whether and how to break symmetry. But imagine what scientists of pool tables have to face!
+TODO, §9 (2026-11-26). Why CP failing means T fails too (the CPT theorem), and the theorem's assumptions, go to Appendix A.
 :::
 
+## The Demon's Table {#sec-demons-table}
 
-## The Unlawful Table
+"I still don't understand what you're getting at," Wang asked. How is the pool table relevant to Yang's suicide?
 
-“I still don’t understand what you’re getting at,” Wang asked. How is the pool table relevant to Yang’s suicide?
+Ding lit a cigarette. "Imagine another set of results. The first time, the white ball drove the black ball into the pocket. The second time, the black ball bounced away. The third time, the black ball flew onto the ceiling. The fourth time, the black ball shot around the room like a frightened sparrow, finally taking refuge in your jacket pocket. The fifth time, the black ball flew away at nearly the speed of light, breaking the edge of the pool table, shooting through the wall, and leaving the Earth and Solar system, just like Asimov once described. What would you think then?"
 
-Ding lit a cigarette, “Imagine another set of results. The first time, the white ball drove the black ball into the pocket. The second time, the black ball bounced away. The third time, the black ball flew onto the ceiling. The fourth time, the black ball shot around the room like a frighted sparrow, finally taking refuge in your jacket pocket. The fifth time, the black ball flew away at nearly the speed of light, breaking the edge of the pool table, shooting through the wall, and leaving the Earth and Solar system, just like Asimov once described. What would you think then?”
+Indeed, a demon's pool table. After a long silence, Ding explained that physicists' expensive "pool tables"---high-energy particle accelerators---constructed on different continents, have been consistently failing to yield the same results with the same experimental setup.
 
-Indeed, a demon's pool table. 
+But one could argue: there must be missing variables. Add more knobs, strike thousands upon thousands of times, and count how many times each outcome occurs under each setting of the knobs. If the counts stabilize with enough experiments, and with particular settings of the knobs, like the lawful coin, then we actually have some kind of statistical pattern, or should we say statistical law, similar to the actual history of physics: Wu's cobalt, the kaons. The pool table would look strange, but nonetheless lawful one level up.
 
-After a long silence, Ding explained that physicists' expensive “pool tables”---high-energy particle accelerators—constructed on different continents, have been consistently failing to yield the same results with the same experimental setup. If this were the case for all these physical experiments described earlier, we would not have been able to discover neutrino or symmetry violations. 
+It is probably not that simple.
 
-Now imagine a similarly unlawful coin. When you flipped it, the first time, it gave you heads; the second time, it flew outside of the room; the third time, it hovered in midair humming like a hive of bees; the fourth time, it spun forever without landing, defying gravity’s grasp; the fifth time, it burst into flame and fizzled into ash, leaving only a scorch mark on the table. 
+Wang Miao met something worse. The numbers began to appear in his photographs, and then in his own eyes: a countdown, ticking toward some unknown end. It is weird to see a countdown in places it is not supposed to show up. And a countdown is no lack of pattern. Ten, nine, eight: it is more orderly than any coin. What is wrong is its kind. It is not noise to be averaged. It is a message, out of place, aimed at one man, as if someone were talking to him. It is not something that can be captured by a statistical pattern. It is so beyond human comprehension that a phenomenon like this could exist at all.
 
-> ... there seemed to be no pattern.
+So the question is not whether laws break. In our world they do, and they break the same way every time. Ding Yi's great principle still stands one level up: whether a law holds or breaks is itself the same across space and time. Imagine a world in which the laws do not repeat. But at what level? At the level of single results, our physics already lives there. At the level of statistics, we would still have the lawful coin. At the level where the world answers you back, there is nothing left to count.
 
-In the story, the leap from a lack of pattern to Yang Dong’s last words that “physics has never existed” is too quick. In reality, physicists are never afraid of “no obvious patterns” because they know they are dealing with complex situations with many knobs and with worlds governed by probabilities, not certainties, as exemplified by quantum physics.
+This is where Yang's world begins to differ from ours. We design experiments so they can be replicated. We build theories so they can predict. We subject hypotheses to conditions where they might be falsified. We measure, so results can be compared; we use statistics, so noisy samples yield stable generalizations; we expose findings to peer scrutiny, so knowledge accumulates. All of these methods presuppose that the world itself is stable enough for yesterday's data to apply tomorrow. Even failures to replicate should be invariant. That is what won Lee and Yang the Nobel Prize: Wu's result was replicated by other physicists as well. It withstood the scrutiny of testing, so a negative result was still a positive result in the meta sense. A good scientist like Yang can live with error and with noise; she cannot live with the treachery that makes her methods useless.
 
-In experiments with cobalt and kaons that support parity and CP violation above, at least physicists were able to repeatedly get the same result over and over again. Anomalies are still invariant on the lawful pool table. Invariant anomalies can still be written as laws. 
+What Yang Dong saw was against everything that she knew about the natural world. If someone, or something, can write on the particles, then every experiment is a sentence in its hand, and physics was never ours to begin with.
 
-Yang’s true crisis arises not from “no pattern” nor is it from simple replication failures, but from a fundamental betrayal of both scientific methods and their underlying principles.
+> Physics has never existed, and will never exist.
 
-## Betrayal of Scientific Methods
-
-Scientific method is not a single recipe but a set of practices.^[This is, of course, when we adopt views in Longino's *Science as Social Knowledge* [-@longino1990science].] We design experiments so they can be replicated. We build theories so they can predict. We subject hypotheses to conditions where they might be falsified. We rely on measurement and quantification so that results can be communicated and compared. We use statistical inference so that from noisy samples we can draw stable generalizations. And we expose findings to peer scrutiny so that knowledge accumulates collectively, not privately. All these are parts of scientific methods that allow scientists to verify findings, build consensus, and gradually construct a towering edifice of knowledge about the universe, from the smallest particles to the largest galaxies. 
-
-However, all of these methods presuppose that the world itself is stable enough for yesterday’s data to apply tomorrow---uniformity of nature. Even failures to replicate previous results should be invariant. Without invariance, replication is meaningless, prediction impossible, falsification incoherent.
-
-Yet, what Yang Dong and her peers were facing was a *complete lack of patterns*: identical setups yielded wildly different outcomes, so wild that even our best statistical tools could not capture the slight hint of invariance as if it were the demon's coin. 
-
-Yang’s despair was not about complexity or chance---it was about the collapse of this scaffolding. A scientist can live with error and with noise; she cannot live with the treachery that makes her methods useless. 
-
-## Apostasy of Symmetry
-
-In our world, the mirrors crack but do not shatter. Even when symmetry fails, the failure repeats. Physicists can write down the fractions, build new theories, and live with scandal made consistent. In Yang Dong’s world, there is no such mercy. The experiment does not only violate symmetry—it refuses to give the same answer twice. Not scandal, but madness. Not law, but caprice. That is why she despaired.
-
-For Yang, who had as much faith as any serious scientist does, this was the final betrayal. Symmetry was not just a mathematical trick but the deep covenant of nature. It was the bridge between invariance and conservation, the silent guarantor that science could still speak a coherent language. 
-
-From Yang Dong's view, everything that we ever know from physics, from quarks to quasars, was an illusion. To see symmetry dissolve was to see the pillars of the temple collapse.
-
-*Physics has never existed, and will never exist.*
+::: {.todo}
+TODO, §10 (2026-11-26). Check Ding's speech, including "just like Asimov once described," against the Tor trade paperback (around pp. 69–70) and cite the page.
+:::
