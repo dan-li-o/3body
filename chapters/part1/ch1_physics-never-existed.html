@@ -71,9 +71,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-284307af3e94e63e205a998dd2c4c2e7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-2e4e4993406df96ef0630a8b976a29fb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-284307af3e94e63e205a998dd2c4c2e7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-f488b985e6a38a488686fee6da51973c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-76f40737438642f33585c8e9d4a496e8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-f488b985e6a38a488686fee6da51973c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -981,7 +981,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 })();
 </script>
-<!-- Hypothes.is on demand (2026-11-23). The annotation client is a third-party script that every
+<!-- Hypothes.is on demand (2026-11-23; moved to the top right 2026-11-25). The annotation client is a third-party script that every
      reader used to download on every page (and that is blocked in mainland China). Now a quiet
      "Annotate" button loads it. A reader who has used it once gets it on every page after
      that (remembered in this browser), so annotators keep their sidebar. -->
@@ -1005,7 +1005,104 @@ document.addEventListener('DOMContentLoaded', () => {
     try { localStorage.setItem(KEY, '1'); } catch (e) { /* fine: this page only */ }
     load();
   });
-  document.body.appendChild(b);
+  // Where it sits (Dan, 2026-11-25: "move it to top right corner"; it used to sit bottom right, over text).
+  // Phones: in the top bar, just left of search, so it hides and returns with the bar and never covers
+  // the page. Wide screens (no top bar): fixed at the top right, mirroring Contents at the top left.
+  var wide = window.matchMedia('(min-width: 992px)');
+  // In the phone's top bar it is an icon, like its neighbours (contents, search), so the title keeps its room.
+  function place() {
+    var search = document.querySelector('.quarto-secondary-nav .quarto-search-button');
+    if (!wide.matches && search) {
+      b.textContent = ''; var i = document.createElement('i'); i.className = 'bi bi-pencil'; i.setAttribute('aria-hidden', 'true'); b.appendChild(i);
+      b.setAttribute('aria-label', 'Annotate'); search.parentNode.insertBefore(b, search);
+    } else { b.textContent = 'Annotate'; b.removeAttribute('aria-label'); document.body.appendChild(b); }
+  }
+  place();
+  if (wide.addEventListener) wide.addEventListener('change', place);
+})();
+</script>
+<!-- Pick up where you left off (Dan, 2026-11-25: "some kind of book mark function so that users can get
+     back to where they were reading next time. This is especially helpful on phone screens").
+     The book remembers, in this browser only (localStorage; nothing is sent anywhere), the paragraph
+     you were last reading on each page, and the last page you read. Coming back, a quiet line at the
+     bottom offers to take you there; on the front page it offers the page you were reading. It never
+     jumps by itself, and it goes away as soon as you scroll on, tap it, or close it. -->
+<script>
+(function () {
+  var KEY = 'ul-place', MAX_PAGES = 40, store;
+  try { store = window.localStorage; store.getItem(KEY); } catch (e) { return; }   // storage off: no bookmark
+  var main = document.querySelector('main#quarto-document-content') || document.querySelector('main');
+  if (!main) return;
+  var path = location.pathname.replace(/index\.html$/, '');
+  var front = !!document.querySelector('meta[name="ul-front"]') || /\/(3body\/)?$/.test(path);
+  var BLOCKS = 'p, li, blockquote, h2, h3, .ul-widget, figure, .callout';
+
+  function read() { try { return JSON.parse(store.getItem(KEY)) || { pages: {} }; } catch (e) { return { pages: {} }; } }
+  function write(d) { try { store.setItem(KEY, JSON.stringify(d)); } catch (e) { /* full or off: fine */ } }
+  var clean = function (t) { return (t || '').replace(/\s+/g, ' ').trim(); };
+
+  // The place: the section (Quarto wraps each in <section id>) and the k-th block in it.
+  function sectionOf(el) { return el.closest('section[id]'); }
+  function heading(sec) { var h = sec && sec.querySelector('h2, h3'); return h ? clean(h.textContent) : ''; }
+  function here() {
+    var top = 70, blocks = main.querySelectorAll(BLOCKS);
+    for (var i = 0; i < blocks.length; i++) {
+      var r = blocks[i].getBoundingClientRect();
+      if (r.bottom > top && r.height > 0) {
+        var sec = sectionOf(blocks[i]);
+        var inSec = sec ? Array.prototype.indexOf.call(sec.querySelectorAll(BLOCKS), blocks[i]) : i;
+        return { sec: sec ? sec.id : '', k: inSec, label: heading(sec), y: window.scrollY };
+      }
+    }
+    return null;
+  }
+  function save() {
+    var p = here(); if (!p) return;
+    var d = read(); d.pages = d.pages || {};
+    if (p.y < 200) { delete d.pages[path]; } else { p.title = clean(document.title.split('–')[0]); p.at = Date.now(); d.pages[path] = p; d.last = path; }
+    var keys = Object.keys(d.pages);
+    if (keys.length > MAX_PAGES) keys.sort(function (a, b) { return d.pages[a].at - d.pages[b].at; }).slice(0, keys.length - MAX_PAGES).forEach(function (k) { delete d.pages[k]; });
+    write(d);
+  }
+  function go(p) {
+    var sec = p.sec && document.getElementById(p.sec), el = sec ? sec.querySelectorAll(BLOCKS)[p.k] || sec : null;
+    if (!el) { window.scrollTo(0, p.y); return; }
+    // Jump, then hold the place for a moment: widgets and images above it may still be settling to
+    // their final height, which would push the paragraph away. Stop as soon as the reader scrolls.
+    var stop = false, quit = function () { stop = true; };
+    ['wheel', 'touchstart', 'keydown'].forEach(function (e) { window.addEventListener(e, quit, { once: true, passive: true }); });
+    var fix = function () { if (!stop) { var off = el.getBoundingClientRect().top - 70; if (Math.abs(off) > 4) window.scrollTo(0, window.scrollY + off); } };
+    fix(); [150, 400, 800, 1400, 2200].forEach(function (t) { setTimeout(fix, t); });
+  }
+
+  // The offer: one quiet line, bottom centre.
+  function offer(text, onGo) {
+    var bar = document.createElement('div'); bar.className = 'ul-resume'; bar.setAttribute('role', 'status');
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'ul-resume-go'; b.textContent = text;
+    var x = document.createElement('button'); x.type = 'button'; x.className = 'ul-resume-x'; x.textContent = '×'; x.setAttribute('aria-label', 'Close');
+    bar.append(b, x); document.body.appendChild(bar);
+    var start = window.scrollY;
+    function close() { bar.remove(); window.removeEventListener('scroll', onScroll); }
+    function onScroll() { if (Math.abs(window.scrollY - start) > 400) close(); }
+    b.addEventListener('click', function () { close(); onGo(); });
+    x.addEventListener('click', close);
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  function init() {
+    var d = read(), mine = d.pages && d.pages[path];
+    if (location.hash === '#ul-resume' && mine) { history.replaceState(null, '', location.pathname); setTimeout(function () { go(mine); }, 50); }
+    else if (!location.hash && mine && mine.y > window.innerHeight) offer(mine.label ? 'Continue: ' + mine.label : 'Continue where you left off', function () { go(mine); });
+    else if (front && d.last && d.last !== path && d.pages[d.last]) {
+      var p = d.pages[d.last];
+      offer('Continue: ' + (p.label || p.title), function () { location.href = d.last + '#ul-resume'; });
+    }
+    var t = 0;
+    window.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(save, 800); }, { passive: true });
+    document.addEventListener('visibilitychange', function () { if (document.hidden) save(); });
+    window.addEventListener('pagehide', save);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
