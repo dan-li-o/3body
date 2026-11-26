@@ -107,6 +107,49 @@ div.csl-indent {
 <meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../css/paper.css">
@@ -472,6 +515,43 @@ Bernoulli, Jacob. (1713) 2006. <em>The Art of Conjecturing, Together
 with Letter to a Friend on Sets in Court Tennis</em>. Translated by
 Edith Dudley Sylla. JHU Press.
 </div>
+<div id="ref-bohr1932faraday" class="csl-entry" role="listitem">
+Bohr, Niels. 1932. <span>“Faraday Lecture: Chemistry and the Quantum
+Theory of Atomic Constitution.”</span> <em>Journal of the Chemical
+Society</em>, 349–84. <a href="https://doi.org/10.1039/JR9320000349">https://doi.org/10.1039/JR9320000349</a>.
+</div>
+<div id="ref-brown1978idea" class="csl-entry" role="listitem">
+Brown, Laurie M. 1978. <span>“The Idea of the Neutrino.”</span>
+<em>Physics Today</em> 31 (9): 23.
+</div>
+<div id="ref-carroll2010energy" class="csl-entry" role="listitem">
+Carroll, Sean. 2010. <em>Energy Is Not Conserved</em>. <a href="https://www.preposterousuniverse.com/blog/2010/02/22/energy-is-not-conserved/" class="uri">Https://www.preposterousuniverse.com/blog/2010/02/22/energy-is-not-conserved/</a>.
+</div>
+<div id="ref-chadwick1914intensitatsverteilung" class="csl-entry" role="listitem">
+Chadwick, James. 1914. <span>“Intensit<span>ä</span>tsverteilung Im
+Magnetischen Spektrum Der <span><span class="math inline"><em>β</em></span></span>-Strahlen von Radium
+<span>B</span>+<span>C</span>.”</span> <em>Verhandlungen Der Deutschen
+Physikalischen Gesellschaft</em> 16: 383.
+</div>
+<div id="ref-christenson1964evidence" class="csl-entry" role="listitem">
+Christenson, J. H., J. W. Cronin, V. L. Fitch, and R. Turlay. 1964.
+<span>“Evidence for the 2<span><span class="math inline"><em>π</em></span></span> Decay of the <span><span class="math inline"><em>K</em><sub>2</sub><sup>0</sup></span></span>
+Meson.”</span> <em>Physical Review Letters</em> 13 (4): 138–40. <a href="https://doi.org/10.1103/PhysRevLett.13.138">https://doi.org/10.1103/PhysRevLett.13.138</a>.
+</div>
+<div id="ref-cowan1956detection" class="csl-entry" role="listitem">
+Cowan, C. L., Jr., F. Reines, F. B. Harrison, H. W. Kruse, and A. D.
+McGuire. 1956. <span>“Detection of the Free Neutrino: A
+Confirmation.”</span> <em>Science</em> 124 (3212): 103–4. <a href="https://doi.org/10.1126/science.124.3212.103">https://doi.org/10.1126/science.124.3212.103</a>.
+</div>
+<div id="ref-crane1939further" class="csl-entry" role="listitem">
+Crane, H. R., and J. Halpern. 1939. <span>“Further Experiments on the
+Recoil of the Nucleus in Beta-Decay.”</span> <em>Physical Review</em> 56
+(3): 232–37. <a href="https://doi.org/10.1103/PhysRev.56.232">https://doi.org/10.1103/PhysRev.56.232</a>.
+</div>
+<div id="ref-dick1981emmy" class="csl-entry" role="listitem">
+Dick, Auguste. 1981. <em>Emmy Noether, 1882–1935</em>. Translated by H.
+I. Blocher. Birkh<span>ä</span>user.
+</div>
 <div id="ref-einstein1905motion" class="csl-entry" role="listitem">
 Einstein, Albert. 1905. <span>“On the Motion of Small Particles
 Suspended in Liquids at Rest Required by the Molecular-Kinetic Theory of
@@ -481,10 +561,25 @@ Heat.”</span> <em>Annalen Der Physik</em> 17 (549-560): 208.
 Einstein, Albert. 1936. <span>“Physics and Reality.”</span> <em>Journal
 of the Franklin Institute</em> 221 (3): 349–82.
 </div>
+<div id="ref-ellis1927average" class="csl-entry" role="listitem">
+Ellis, C. D., and W. A. Wooster. 1927. <span>“The Average Energy of
+Disintegration of Radium <span>E</span>.”</span> <em>Proceedings of the
+Royal Society of London. Series A</em> 117: 109.
+</div>
+<div id="ref-franklin2005easy" class="csl-entry" role="listitem">
+Franklin, Allan. 2005. <em>No Easy Answers: Science and the Pursuit of
+Knowledge</em>. University of Pittsburgh Press.
+</div>
 <div id="ref-galilei1914discourses" class="csl-entry" role="listitem">
 Galilei, Galileo. (1638) 1914. <em>Dialogues Concerning Two New
 Sciences</em>. Translated by Henry Crew and Alfonso de Salvio.
 Macmillan.
+</div>
+<div id="ref-garwin1957observations" class="csl-entry" role="listitem">
+Garwin, Richard L., Leon M. Lederman, and Marcel Weinrich. 1957.
+<span>“Observations of the Failure of Conservation of Parity and Charge
+Conjugation in Meson Decays: The Magnetic Moment of the Free
+Muon.”</span> <em>Physical Review</em> 105 (4): 1415–17. <a href="https://doi.org/10.1103/PhysRev.105.1415">https://doi.org/10.1103/PhysRev.105.1415</a>.
 </div>
 <div id="ref-harrison2019science" class="csl-entry" role="listitem">
 Harrison, Peter, and Jon H Roberts. 2019. <em>Science Without God?:
@@ -494,9 +589,20 @@ Press.
 <div id="ref-henderson2018problem" class="csl-entry" role="listitem">
 Henderson, Leah. 2018. <em>The Problem of Induction</em>.
 </div>
+<div id="ref-hudson2001reversal" class="csl-entry" role="listitem">
+Hudson, Ralph P. 2001. <span>“Reversal of the Parity Conservation Law in
+Nuclear Physics.”</span> In <em>A Century of Excellence in Measurements,
+Standards, and Technology</em>, edited by David R. Lide. NIST Special
+Publication 958. National Institute of Standards; Technology. <a href="https://nvlpubs.nist.gov/nistpubs/sp958-lide/html/111-115.html">https://nvlpubs.nist.gov/nistpubs/sp958-lide/html/111-115.html</a>.
+</div>
 <div id="ref-hume2000treatise" class="csl-entry" role="listitem">
 Hume, David. (1739) 2000. <em>A Treatise of Human Nature</em>. Oxford
 University Press.
+</div>
+<div id="ref-joule1850mechanical" class="csl-entry" role="listitem">
+Joule, James Prescott. 1850. <span>“On the Mechanical Equivalent of
+Heat.”</span> <em>Philosophical Transactions of the Royal Society of
+London</em> 140: 61–82.
 </div>
 <div id="ref-kepler2021harmonies" class="csl-entry" role="listitem">
 Kepler, Johannes. (1619) 2021. <em>Harmonies of the World</em>. Phoemixx
@@ -506,15 +612,26 @@ Classics Ebooks.
 Lederman, Leon M, and Christopher T Hill. 2011. <em>Symmetry and the
 Beautiful Universe</em>. Prometheus books.
 </div>
+<div id="ref-lee1956question" class="csl-entry" role="listitem">
+Lee, T. D., and C. N. Yang. 1956. <span>“Question of Parity Conservation
+in Weak Interactions.”</span> <em>Physical Review</em> 104 (1): 254–58.
+<a href="https://doi.org/10.1103/PhysRev.104.254">https://doi.org/10.1103/PhysRev.104.254</a>.
+</div>
+<div id="ref-leipunski1936determination" class="csl-entry" role="listitem">
+Leipunski, A. I. 1936. <span>“Determination of the Energy Distribution
+of Recoil Atoms During <span><span class="math inline"><em>β</em></span></span> Decay and the Existence of
+the Neutrino.”</span> <em>Mathematical Proceedings of the Cambridge
+Philosophical Society</em> 32 (2): 301–3.
+</div>
 <div id="ref-lindberg2010beginnings" class="csl-entry" role="listitem">
 Lindberg, David C. 2010. <em>The Beginnings of Western Science: The
 European Scientific Tradition in Philosophical, Religious, and
 Institutional Context, Prehistory to AD 1450</em>. University of Chicago
 Press.
 </div>
-<div id="ref-longino1990science" class="csl-entry" role="listitem">
-Longino, Helen E. 1990. <em>Science as Social Knowledge: Values and
-Objectivity in Scientific Inquiry</em>. Princeton University Press.
+<div id="ref-liu2016three" class="csl-entry" role="listitem">
+Liu, Cixin. (2008) 2016. <em>The Three-Body Problem</em>. Translated by
+Ken Liu. Tor Books.
 </div>
 <div id="ref-maxwell1859stability" class="csl-entry" role="listitem">
 Maxwell, James Clerk. 1859. <em>On the Stability of the Motion of
@@ -524,6 +641,10 @@ Saturn’s Rings: An Essay, Which Obtained the Adams Prize for the Year
 <div id="ref-mcclellan2015science" class="csl-entry" role="listitem">
 McClellan, James E., III, and Harold Dorn. 2015. <em>Science and
 Technology in World History: An Introduction</em>. JHU Press.
+</div>
+<div id="ref-mill1843system" class="csl-entry" role="listitem">
+Mill, John Stuart. 1843. <em>A System of Logic, Ratiocinative and
+Inductive</em>. John W. Parker.
 </div>
 <div id="ref-Myneni1984ParityViolation" class="csl-entry" role="listitem">
 Myneni, Krishna. 1984. <em>Symmetry Destroyed: The Failure of
@@ -538,6 +659,11 @@ Newton, Isaac. (1687) 1846. <em>The Mathematical Principles of Natural
 Philosophy</em>. Edited by Florian Cajori. Translated by Andrew Motte.
 Daniel Adee.
 </div>
+<div id="ref-noether1918invariante" class="csl-entry" role="listitem">
+Noether, Emmy. 1918. <span>“Invariante Variationsprobleme.”</span>
+<em>Nachrichten von Der Gesellschaft Der Wissenschaften Zu
+G<span>ö</span>ttingen, Mathematisch-Physikalische Klasse</em>, 235–57.
+</div>
 <div id="ref-RoweKoreuber2020" class="csl-entry" role="listitem">
 Rowe, David E., and Mechthild Koreuber. 2020. <em>Proving It Her Way:
 Emmy Noether, a Life in Mathematics</em>. Springer ‒ Cham. <a href="https://doi.org/10.1007/978-3-030-62811-6">https://doi.org/10.1007/978-3-030-62811-6</a>.
@@ -546,9 +672,19 @@ Emmy Noether, a Life in Mathematics</em>. Springer ‒ Cham. <a href="https://do
 Salmon, Wesley C. 1953. <span>“The Uniformity of Nature.”</span>
 <em>Philosophy and Phenomenological Research</em> 14 (1): 39–48. <a href="https://doi.org/10.2307/2104014">https://doi.org/10.2307/2104014</a>.
 </div>
+<div id="ref-wu1957experimental" class="csl-entry" role="listitem">
+Wu, C. S., E. Ambler, R. W. Hayward, D. D. Hoppes, and R. P. Hudson.
+1957. <span>“Experimental Test of Parity Conservation in Beta
+Decay.”</span> <em>Physical Review</em> 105 (4): 1413–15. <a href="https://doi.org/10.1103/PhysRev.105.1413">https://doi.org/10.1103/PhysRev.105.1413</a>.
+</div>
 <div id="ref-xunzi2015xunzi" class="csl-entry" role="listitem">
 Xunzi. 2014. <em>Xunzi: The Complete Text</em>. Translated by Eric L.
 Hutton. Princeton University Press.
+</div>
+<div id="ref-yang1957law" class="csl-entry" role="listitem">
+Yang, Chen Ning. 1964. <span>“The Law of Parity Conservation and Other
+Symmetry Laws of Physics.”</span> In <em>Nobel Lectures, Physics
+1942–1962</em>. Elsevier. <a href="https://www.nobelprize.org/prizes/physics/1957/yang/lecture/">https://www.nobelprize.org/prizes/physics/1957/yang/lecture/</a>.
 </div>
 <div id="ref-zee2015fearful" class="csl-entry" role="listitem">
 Zee, Anthony. 2015. <em>Fearful Symmetry: The Search for Beauty in
